@@ -1,6 +1,7 @@
 // src/app/services/researchApi.ts
 
-const BASE_URL = 'http://localhost:8000/api/v1';
+// Use environment variable if set, otherwise fallback to relative path for reverse proxy setups
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '/api/v1';
 let cachedToken: string | null = null;
 let tokenPromise: Promise<string> | null = null;
 

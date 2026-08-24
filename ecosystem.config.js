@@ -1,0 +1,1 @@
+module.exports = { apps: [ { name: 'apcotex-backend', script: 'uvicorn', args: 'app.main:app --host 0.0.0.0 --port 8000', cwd: './backend', interpreter: 'none' }, { name: 'apcotex-frontend', script: 'npm', args: 'run preview', cwd: './frontend' } ] };
