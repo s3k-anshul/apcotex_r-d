@@ -5,32 +5,14 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_U
 let cachedToken: string | null = null;
 let tokenPromise: Promise<string> | null = null;
 
-// Helper to auto-login as admin for development purposes
 export async function getToken(): Promise<string> {
   if (cachedToken) return cachedToken;
-  if (tokenPromise) return tokenPromise;
-  
-  tokenPromise = (async () => {
-    try {
-      const res = await fetch(`${BASE_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: 'admin', password: 'Admin@123!' })
-      });
-      
-      if (!res.ok) throw new Error("Auto-login failed");
-      
-      const data = await res.json();
-      cachedToken = data.data.access_token;
-      return cachedToken as string;
-    } catch (error) {
-      console.error("Auth error:", error);
-      tokenPromise = null;
-      throw error;
-    }
-  })();
-  
-  return tokenPromise;
+  const token = localStorage.getItem('access_token');
+  if (token) {
+    cachedToken = token;
+    return token;
+  }
+  throw new Error("No access token available. User must log in.");
 }
 
 export async function authFetch(endpoint: string, options: RequestInit = {}) {

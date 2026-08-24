@@ -11,6 +11,7 @@ import {
   History,
   Activity,
 } from "lucide-react";
+import { useAuth } from "../../contexts/AuthContext";
 
 const BLUE = "#1F5FA8";
 const TEAL = "#1FB7B5";
@@ -60,6 +61,7 @@ export function Sidebar({
 }: SidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { isAdmin } = useAuth();
 
   const isActive = (item: {
     path: string;
@@ -193,7 +195,7 @@ export function Sidebar({
           );
         })}
 
-        {userRole === "admin" && (
+        {userRole === "ADMIN" && (
           <>
             <button
               key="/audit-trail"
@@ -306,34 +308,36 @@ export function Sidebar({
           flexShrink: 0,
         }}
       >
-        <button
-          onClick={() => navigate("/settings")}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            width: "100%",
-            padding: "8px 20px",
-            background: "transparent",
-            border: "none",
-            borderLeft: "3px solid transparent",
-            color: "#6B7280",
-            cursor: "pointer",
-            fontSize: "0.875rem",
-          }}
-        >
-          <Settings size={17} strokeWidth={1.5} />
-          Settings
-          <span
+        {isAdmin && (
+          <button
+            onClick={() => navigate("/settings")}
             style={{
-              marginLeft: "auto",
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "rgba(217,58,47,0.7)",
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              width: "100%",
+              padding: "8px 20px",
+              background: "transparent",
+              border: "none",
+              borderLeft: "3px solid transparent",
+              color: "#6B7280",
+              cursor: "pointer",
+              fontSize: "0.875rem",
             }}
-          />
-        </button>
+          >
+            <Settings size={17} strokeWidth={1.5} />
+            Settings
+            <span
+              style={{
+                marginLeft: "auto",
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: "rgba(217,58,47,0.7)",
+              }}
+            />
+          </button>
+        )}
 
         <button
           onClick={onLogout}

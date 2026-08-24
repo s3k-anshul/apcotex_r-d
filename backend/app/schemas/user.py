@@ -41,3 +41,7 @@ class UserCreate(BaseModel):
     password: str = Field(..., min_length=8)
     full_name: str = Field(..., min_length=1, max_length=255)
     role: UserRole = UserRole.SCIENTIST
+
+
+class UserUpdatePassword(BaseModel):
+    password: str = Field(..., min_length=8)

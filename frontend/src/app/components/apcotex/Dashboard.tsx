@@ -65,7 +65,7 @@ export function Dashboard() {
   const visibleModules = MODULES.filter(
     (m) => {
       if (m.path === "/audit-trail" || m.path === "/token-dashboard") {
-        return userRole === "admin";
+        return userRole === "ADMIN";
       }
       return true;
     }

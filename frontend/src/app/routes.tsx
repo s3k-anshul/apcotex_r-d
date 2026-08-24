@@ -47,7 +47,7 @@ function LayoutWrapper() {
 
 function AdminRoute({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
-  if (user?.role !== 'admin') {
+  if (user?.role !== 'ADMIN') {
     return <Navigate to="/dashboard" replace />;
   }
   return <>{children}</>;

@@ -9,6 +9,8 @@ import {
   Save, 
   Settings as SettingsIcon 
 } from 'lucide-react';
+import { UserManagement } from './UserManagement';
+import { PasswordInput } from './PasswordInput';
 
 export const SettingsPage: React.FC = () => {
   const { user } = useAuth();
@@ -58,6 +60,18 @@ export const SettingsPage: React.FC = () => {
       <div className="flex h-full items-center justify-center">
         <div className="animate-spin text-blue-500">
           <SettingsIcon size={32} />
+        </div>
+      </div>
+    );
+  }
+
+  if (user && user.role !== 'ADMIN') {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <div className="text-center p-8 bg-white rounded-xl shadow border border-red-200">
+          <AlertTriangle size={48} className="mx-auto text-red-500 mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h2>
+          <p className="text-gray-600">You do not have permission to view this page.</p>
         </div>
       </div>
     );
@@ -163,8 +177,7 @@ export const SettingsPage: React.FC = () => {
                 <div className="sm:col-span-2">
                   <dt className="text-sm font-medium text-gray-500">API Key</dt>
                   <dd className="mt-1">
-                    <input
-                      type="password"
+                    <PasswordInput
                       placeholder="sk-..."
                       className="block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border"
                       onChange={(e) => {
@@ -217,6 +230,7 @@ export const SettingsPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <UserManagement />
     </div>
   );
 };

@@ -53,3 +53,20 @@ class UserRepository:
         """Soft-delete: mark user as inactive instead of hard-deleting."""
         user.is_active = False
         return await self.update(user)
+
+    async def get_all(self, skip: int = 0, limit: int = 100) -> list[User]:
+        result = await self._session.execute(
+            select(User).order_by(User.created_at.desc()).offset(skip).limit(limit)
+        )
+        return list(result.scalars().all())
+
+    async def count_active_admins(self) -> int:
+        from app.models.user import UserRole
+        from sqlalchemy import func
+        result = await self._session.execute(
+            select(func.count(User.id)).where(
+                User.role == UserRole.ADMIN,
+                User.is_active == True
+            )
+        )
+        return result.scalar_one_or_none() or 0

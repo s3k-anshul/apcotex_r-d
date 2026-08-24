@@ -102,6 +102,17 @@ def create_app() -> FastAPI:
     app.include_router(telemetry.router, prefix="/api/v1/research", tags=["Telemetry"])
     app.include_router(recipe.router, prefix="/api/v1")
 
+    @app.on_event("startup")
+    async def startup_event():
+        try:
+            from app.db.session import AsyncSessionLocal
+            from app.db.seed import ensure_default_users
+            
+            async with AsyncSessionLocal() as session:
+                await ensure_default_users(session)
+        except Exception as e:
+            logger.error(f"Failed to seed default users: {e}")
+
     logger.info("Application startup complete — %s v%s", settings.APP_NAME, settings.APP_VERSION)
     return app
 
