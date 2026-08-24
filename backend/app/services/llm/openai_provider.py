@@ -101,12 +101,16 @@ class OpenAIProvider(BaseLLMProvider):
                 logger.error("LLM Schema Mode: FAILED. Validation error extracting structured data via OpenAI: %s", ve)
                 return None, {}
             except Exception as e:
+                import openai
                 try:
                     self._handle_error(e)
                 except LLMRateLimitError as rle:
                     logger.warning("[LLM] OpenAI rate limit detected: %s", rle)
                     raise rle
                 except Exception as ex:
+                    if isinstance(ex, openai.BadRequestError):
+                        logger.error("[LLM] OpenAI 400 Bad Request detected (Schema likely invalid): %s", ex)
+                        raise ex
                     if attempt < retries:
                         logger.warning("[LLM] OpenAI error (Attempt %d): %s. Retrying in %.1f sec...", attempt+1, ex, delay)
                         await asyncio.sleep(delay)

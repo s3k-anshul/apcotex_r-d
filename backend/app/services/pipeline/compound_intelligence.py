@@ -24,71 +24,27 @@ class CompoundIntelligenceService:
         """Maps the compact LLM profile to the full deterministic pipeline profile safely."""
         profile = CompoundSearchProfile()
         
-        # 1. Direct string mappings with defaults
+        # Direct string mappings
         profile.original_input = str(original_input) if original_input else ""
-        profile.compound = str(original_input) if original_input else ""
-        profile.compound_name = str(llm_profile.compound_name) if llm_profile.compound_name else ""
-        profile.base_chemistry = str(llm_profile.base_chemistry) if llm_profile.base_chemistry else ""
-        profile.research_intent = str(llm_profile.manufacturing_intent) if llm_profile.manufacturing_intent else ""
+        profile.compound_name = str(llm_profile.target_material) if getattr(llm_profile, 'target_material', None) else ""
+        profile.target_material = str(llm_profile.target_material) if getattr(llm_profile, 'target_material', None) else ""
+        profile.normalized_material = str(llm_profile.normalized_material) if getattr(llm_profile, 'normalized_material', None) else ""
         
-        # 2. List mappings with type safety
-        profile.target_attributes = list(llm_profile.target_attributes) if llm_profile.target_attributes else []
-        profile.synonyms = list(llm_profile.synonyms) if llm_profile.synonyms else []
-        profile.material_aliases = list(llm_profile.material_aliases) if getattr(llm_profile, 'material_aliases', None) else []
-        profile.precursor_terms = list(llm_profile.precursor_terms) if getattr(llm_profile, 'precursor_terms', None) else []
-        profile.transformation_terms = list(llm_profile.transformation_terms) if getattr(llm_profile, 'transformation_terms', None) else []
+        # List mappings
+        profile.material_synonyms = list(llm_profile.material_synonyms) if getattr(llm_profile, 'material_synonyms', None) else []
+        profile.chemical_synonyms = list(llm_profile.chemical_synonyms) if getattr(llm_profile, 'chemical_synonyms', None) else []
+        profile.requested_attributes = list(llm_profile.requested_attributes) if getattr(llm_profile, 'requested_attributes', None) else []
+        profile.material_variants = list(llm_profile.material_variants) if getattr(llm_profile, 'material_variants', None) else []
+        profile.excluded_variants = list(llm_profile.excluded_variants) if getattr(llm_profile, 'excluded_variants', None) else []
         profile.synthesis_terms = list(llm_profile.synthesis_terms) if getattr(llm_profile, 'synthesis_terms', None) else []
-        profile.downstream_application_terms = list(llm_profile.downstream_application_terms) if getattr(llm_profile, 'downstream_application_terms', None) else []
-        profile.relevant_parameter_categories = list(llm_profile.relevant_parameter_categories) if getattr(llm_profile, 'relevant_parameter_categories', None) else []
-        profile.derivative_exclusion_terms = list(llm_profile.derivative_exclusion_terms) if getattr(llm_profile, 'derivative_exclusion_terms', None) else []
+        profile.process_terms = list(llm_profile.process_terms) if getattr(llm_profile, 'process_terms', None) else []
+        profile.downstream_terms = list(llm_profile.downstream_terms) if getattr(llm_profile, 'downstream_terms', None) else []
         
-        # 3. Object transformations
-        from app.services.pipeline.schemas import SearchQuery, SearchField, SearchCategory, SearchPriority
-        if llm_profile.search_queries:
-            profile.search_queries = [
-                SearchQuery(query=str(q), field=SearchField.TITLE, category=SearchCategory.POLYMERIZATION, priority=SearchPriority.PRIMARY) 
-                for q in llm_profile.search_queries if q
-            ]
+        # Object transformations
+        if getattr(llm_profile, 'search_queries', None):
+            profile.search_queries = [str(q) for q in llm_profile.search_queries if q]
         else:
             profile.search_queries = []
-        
-        # 4. Derived properties
-        profile.chemical_family = profile.base_chemistry
-        profile.abbreviations = [str(s) for s in profile.synonyms if isinstance(s, str) and len(s) <= 5 and s.isupper()]
-        
-        # Extract monomers safely without hardcoding
-        profile.major_monomers = []
-        # If the LLM generated specific parameter categories that look like monomers, we could map them here in the future
-        # For now, rely purely on dynamic parameter extraction downstream
-        
-        # Map target attribute constraints safely
-        profile.important_constraints = [str(attr.name) for attr in profile.target_attributes if hasattr(attr, 'name')]
-        
-        # Derive generic synthesis/manufacturing fields dynamically
-        profile.typical_polymerization_routes = profile.synthesis_terms if profile.synthesis_terms else ["synthesis", "preparation", "manufacturing"]
-        
-        # Safety mappings to prevent completely empty matches
-        base_manufacturing = [
-            "method for manufacturing", "process for producing", 
-            "method for producing", "process for preparing"
-        ]
-        profile.typical_manufacturing_keywords = (profile.synthesis_terms if profile.synthesis_terms else []) + base_manufacturing
-        profile.manufacturing_keywords = profile.typical_manufacturing_keywords
-        
-        # Derive negative/exclusion fields
-        profile.application_keywords = [
-            "hose", "tire", "glove", "seal", "coating", "adhesive", 
-            "battery", "electrode", "film", "sheet", "pipe", "tube", "belt"
-        ]
-        
-        # Derive parameter/composition keywords
-        if profile.important_constraints:
-            profile.target_composition_keywords = list(profile.important_constraints)
-        else:
-            profile.target_composition_keywords = []
-            
-        if not profile.relevant_parameter_categories:
-            raise ValueError("PROFILE CONTRACT VALIDATION FAILED: Missing fields: relevant_parameter_categories")
             
         return profile
 
@@ -137,6 +93,7 @@ class CompoundIntelligenceService:
         # Derive the full internal profile
         try:
             full_profile = self._derive_full_profile(compound_input, result)
+            full_profile.llm_usage = usage
         except Exception as e:
             logger.error(f"Internal Profile mapping failed: {str(e)}")
             raise

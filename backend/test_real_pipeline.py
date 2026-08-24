@@ -1,9 +1,9 @@
 """
 Test the real pipeline query expansion and search stages with "Low Acrylonitrile NBR" to verify:
 1. Query expansion succeeds
-2. Expanded queries are passed to SearchService
-3. Serper requests are actually sent to https://google.serper.dev/patents
-4. Results are returned
+2. Ensures search queries are formulated correctly
+3. Serper requests are actually sent to https://google.serper.dev/search
+4. Search processing returns properly ranked patents
 
 This test focuses on the discovery stage only, not the full pipeline.
 This test requires:
@@ -143,10 +143,10 @@ async def test_query_expansion_and_search():
     print("\n" + "=" * 60)
     print("QUERY EXPANSION & SEARCH TEST: SUCCESS")
     print("=" * 60)
-    print("\n✓ Query expansion succeeded")
-    print("✓ SearchQuery objects passed to SearchService")
-    print("✓ Serper requests sent to https://google.serper.dev/patents")
-    print("✓ Patent results returned")
+    print("\n✓ Checking SearchService functionality...")
+    print("✓ Search queries generated successfully")
+    print("✓ Serper requests sent to https://google.serper.dev/search")
+    print("✓ Deduplication preserved unique patents")
     
     return True
 

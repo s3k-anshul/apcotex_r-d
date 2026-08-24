@@ -2,17 +2,20 @@
 app/services/pipeline/search_service.py
 
 Uses Gemini to generate a search strategy, then uses Serper API to find patent links.
+Restored to use /search endpoint instead of /patents.
 """
 import json
 import logging
+import re
 from typing import List, Dict, Any
 
 import httpx
 
 from app.core.config import settings
-from app.services.pipeline.schemas import CompoundSearchProfile
+from app.services.pipeline.schemas import LLMCompoundSearchProfile, GeneratedQuery
+from app.services.llm import llm_client
 from app.services.usage_logger import UsageLogger
-import time
+from app.services.prompts.patent_prompts import PATENT_QUERY_EXPANSION_PROMPT
 
 logger = logging.getLogger(__name__)
 
@@ -20,427 +23,428 @@ class SerperCreditsExhaustedError(Exception):
     """Raised when Serper API returns 'Not enough credits' error."""
     pass
 
+
 class SearchService:
     def __init__(self):
         self.serper_api_key = settings.SERPER_API_KEY
 
-    def validate_query(self, query_str: str, field: str) -> tuple[bool, str]:
-        """
-        Basic query validation before sending to Serper.
-        Returns (is_valid, reason) tuple.
-        """
-        if not query_str or not query_str.strip():
-            return False, "Empty query"
-        
-        query_str = query_str.strip()
-        
-        # Check for obviously malformed parentheses
-        open_parens = query_str.count('(')
-        close_parens = query_str.count(')')
-        if open_parens != close_parens:
-            return False, f"Mismatched parentheses: {open_parens} open, {close_parens} close"
-        
-        # Check for unsupported field syntax if known
-        # For now, we accept TI= and TAC= prefixes as they will be stripped
-        # But warn about other unsupported prefixes
-        if '=' in query_str and not any(query_str.upper().startswith(prefix) for prefix in ['TI=', 'TAC=']):
-            return False, f"Unsupported field syntax: {query_str.split('=')[0]}="
-        
-        return True, ""
-
-    def _enforce_phrase_anchoring(self, query: str, profile: CompoundSearchProfile) -> str:
-        """
-        Wrap the longest matching material term in the query in double-quotes
-        so that Google Patents (via Serper) treats it as a phrase match.
-
-        Without this, a query like "low acrylonitrile nitrile rubber" is treated
-        as an independent keyword search for [low] [acrylonitrile] [nitrile] [rubber]
-        and Serper returns battery/electrode patents because "acrylonitrile" is a
-        common electrode binder ingredient.
-
-        With this, the query becomes: low acrylonitrile "nitrile rubber"
-        which forces Google Patents to return only patents that literally contain
-        the phrase "nitrile rubber" in their indexed fields.
-        """
-        import re as _re
-
-        # Build ordered list of material terms (longest first) to match and quote
-        def _norm(s):
-            return _re.sub(r'[-\s]+', ' ', s.lower().strip()) if s else ""
-
-        material_terms = sorted(set(
-            [_norm(profile.base_chemistry), _norm(profile.compound_name)]
-            + [_norm(s) for s in profile.synonyms]
-            + [_norm(a) for a in getattr(profile, "abbreviations", [])]
-        ), key=len, reverse=True)
-
-        # Remove terms that are <= 3 chars (too short to phrase-quote safely)
-        material_terms = [t for t in material_terms if len(t) > 3]
-
-        query_lower = query.lower()
-
-        for term in material_terms:
-            if term in query_lower and f'"{term}"' not in query_lower:
-                # Find the original-case version in the query and wrap in quotes
-                # Use case-insensitive replacement, preserving original casing
-                pattern = _re.compile(_re.escape(term), _re.IGNORECASE)
-                quoted = pattern.sub(f'"{term}"', query, count=1)
-                logger.debug("PHRASE ANCHOR: '%s' -> '%s'", query, quoted)
-                return quoted
-
-        return query
-
-    def build_queries(self, profile: CompoundSearchProfile) -> List[Dict[str, Any]]:
-        """Deterministically generate raw queries from the profile's search strategy."""
-        queries = []
-        seen_queries = set()
-        
-        # Helper to add a query if it's unique
-        def add_query(raw_query: str, tier: str, priority: str, field: str = "TITLE"):
-            import re
-            # Strip legacy TI= or TAC= prefixes if they somehow exist
-            raw_query = re.sub(r'^(?:TI|TAC)=\((.*)\)$', r'\1', raw_query.strip(), flags=re.IGNORECASE)
-
-            # Sanitize mismatched quotes and parentheses
-            if raw_query.count('"') % 2 != 0:
-                raw_query = raw_query.replace('"', '')
-            if raw_query.count('(') != raw_query.count(')'):
-                raw_query = raw_query.replace('(', '').replace(')', '')
-
-            # Additional sanity check: if the query is just empty or too short
-            if len(raw_query.strip()) < 3:
-                return
-
-            # Enforce phrase-anchoring so Serper returns material-specific results
-            raw_query = self._enforce_phrase_anchoring(raw_query, profile)
-
-            # Deduplicate semantically identical queries
-            norm_query = re.sub(r'[^a-zA-Z0-9\s]', '', raw_query.lower()).strip()
-            # Collapse multiple spaces
-            norm_query = re.sub(r'\s+', ' ', norm_query)
-            if norm_query in seen_queries:
-                return
-            seen_queries.add(norm_query)
-
-            queries.append({
-                "query": raw_query,
-                "tier": tier,
-                "priority": priority,
-                "search_field": field
-            })
-
-        # 1. Base material and synonyms
-        material_terms = [profile.compound_name] + getattr(profile, "material_aliases", []) + profile.synonyms
-        material_terms = [t for t in material_terms if t]
-        
-        if not material_terms:
-            material_terms = [profile.compound]
-            
-        primary_material = material_terms[0]
-        
-        # Intent 1: Direct target material (Primary)
-        add_query(primary_material, "PRIMARY", "PRIMARY")
-        
-        # Helper to safely get the first N terms from a list
-        def get_top_terms(term_list, n=2):
-            return [t for t in (term_list or []) if t][:n]
-            
-        synthesis_terms = get_top_terms(getattr(profile, "synthesis_terms", []) or profile.manufacturing_keywords, 3)
-        transformation_terms = get_top_terms(getattr(profile, "transformation_terms", []), 2)
-        attributes = get_top_terms(getattr(profile, "target_attributes", []), 2)
-        if not attributes and hasattr(profile, "target_composition_keywords"):
-            attributes = get_top_terms(profile.target_composition_keywords, 2)
-            
-        precursors = get_top_terms(getattr(profile, "precursor_terms", []), 2)
-        parameters = get_top_terms(getattr(profile, "relevant_parameter_categories", []), 2)
-
-        # Intents 2, 3, 4: Target material + synthesis/preparation/transformation
-        for syn_term in synthesis_terms + transformation_terms:
-            if syn_term:
-                add_query(f"{primary_material} {syn_term}", "SYNTHESIS", "PRIMARY")
-                
-                # Try with a synonym if available
-                if len(material_terms) > 1:
-                    add_query(f"{material_terms[1]} {syn_term}", "SYNTHESIS", "SECONDARY")
-
-        # Intent 5: Target material + target attribute
-        for attr in attributes:
-            if attr:
-                attr_name = getattr(attr, "name", str(attr))
-                add_query(f"{attr_name} {primary_material}", "ATTRIBUTE", "PRIMARY")
-                
-                # Combine attribute with synthesis
-                if synthesis_terms:
-                    add_query(f"{attr_name} {primary_material} {synthesis_terms[0]}", "ATTRIBUTE_SYNTHESIS", "SECONDARY")
-
-        # Intent 6: Precursor + transformation
-        if precursors and transformation_terms:
-            add_query(f"{precursors[0]} {transformation_terms[0]}", "PRECURSOR", "SECONDARY")
-            if len(precursors) > 1:
-                add_query(f"{precursors[0]} {precursors[1]} {transformation_terms[0]}", "PRECURSOR", "SECONDARY")
-
-        # Intent 7: Target material + relevant parameter categories
-        for param in parameters:
-            if param:
-                add_query(f"{primary_material} {param}", "PARAMETER", "SECONDARY")
-
-        # Fallback: Process any LLM queries that weren't caught
-        for sq in profile.search_queries:
-            q_str = sq.query if hasattr(sq, "query") else str(sq)
-            tier = sq.category.value if hasattr(sq, "category") and hasattr(sq.category, "value") else str(getattr(sq, "category", "LLM_GENERATED"))
-            priority = sq.priority.value if hasattr(sq, "priority") and hasattr(sq.priority, "value") else str(getattr(sq, "priority", "SECONDARY"))
-            add_query(q_str, tier, priority)
-
-        logger.debug("Backend generated %d universal raw search queries for %s.", len(queries), profile.compound_name)
-        return queries
-
-    async def search_patents_page(
+    async def generate_strategy(
         self, 
-        query_str: str, 
-        field: str, 
-        page: int, 
+        compound_name: str, 
+        competitors: List[str] = None,
+        websites: List[str] = None,
         jurisdictions: List[str] = None,
-        date_start: str = None, 
-        date_end: str = None
-    ) -> tuple[List[Dict[str, Any]], bool]:
-        """
-        Hit the Serper API for a single page.
-        Returns (results, success) tuple where success indicates if the API call succeeded.
-        Applies jurisdiction and date filters directly to the search query if possible.
-        """
-        if not self.serper_api_key:
-            logger.warning("SERPER_API_KEY is not set. Returning empty list.")
-            return [], False
-            
-        formatted_query = query_str
-        # Serper free tier blocks advanced operators like TI=() and TAC=() with complex AND/OR.
-        # We will pass the raw keywords instead.
-            
-        # DO NOT inject jurisdiction or date modifiers into the Serper query string.
-        # Serper Google Patents integration frequently fails to parse complex OR/date logic 
-        # and returns 0 organic results. All filtering must be done deterministically in Python.
+        publication_filter: dict = None
+    ) -> LLMCompoundSearchProfile:
+        """Use Gemini to create the search strategy."""
+        logger.info("Generating search strategy for %s...", compound_name)
+        comp_str = ", ".join(competitors) if competitors else "None"
+        web_str = ", ".join(websites) if websites else "None"
+        jur_str = ", ".join(jurisdictions) if jurisdictions else "None"
+        pub_str = str(publication_filter) if publication_filter else "None"
+        
+        prompt = PATENT_QUERY_EXPANSION_PROMPT.format(
+            compound_name=compound_name, 
+            competitors=comp_str,
+            websites=web_str,
+            jurisdictions=jur_str,
+            publication_filter=pub_str
+        )
 
-        payload = {
-            "q": formatted_query,
-            "page": page,
-            "num": 20 # 20 results per page
-        }
-        
-        # Diagnostic logging
-        logger.debug(f"  Serper Query: {formatted_query}")
-        logger.debug(f"  Endpoint: https://google.serper.dev/patents")
-        logger.debug(f"  Page: {page}")
-        
-        headers = {
-            'X-API-KEY': self.serper_api_key,
-            'Content-Type': 'application/json'
-        }
+        try:
+            result, provider, usage = await llm_client.generate_structured(
+                prompt=prompt,
+                system_prompt="You are a JSON generator. Do not include markdown blocks.",
+                schema=LLMCompoundSearchProfile,
+                temperature=0.3
+            )
+            if not result:
+                raise Exception("LLM Client returned None for structured extraction.")
+            
+            logger.info("[QUERY_EXPANSION] Target compound: %s", compound_name)
+            logger.info("[QUERY_EXPANSION] Base material: %s", getattr(result, "base_material", ""))
+            logger.info("[QUERY_EXPANSION] Target modification: %s", getattr(result, "target_modifications", ""))
+            
+            validated_queries = []
+            rejected_queries = 0
+            
+            # The A-G Validation rules
+            for i, generated_query in enumerate(result.search_queries):
+                q = generated_query.query
+                q_lower = q.lower()
+                logger.info("[QUERY_EXPANSION] Query %02d:", i + 1)
+                logger.info("  Expression: %s", q)
+                logger.info("  Scope: %s", generated_query.scope)
+                logger.info("  Required: %s", generated_query.required_concepts)
+                logger.info("  Alternatives: %s", generated_query.alternative_concepts)
+                
+                # Validation checks
+                # A. Contains target/base-material concept
+                has_base_in_query = False
+                for base in result.base_material:
+                    if base.lower() in q_lower:
+                        has_base_in_query = True
+                        break
+                
+                # B. Contains target modification/attribute when required.
+                # Two-pass: (i) literal substring match of any target_modification phrase
+                # in the query string; (ii) concept-overlap: any token from the query's
+                # own required_concepts or alternative_concepts overlaps with the tokens
+                # of the LLM's target_modification phrases for this run.
+                # This avoids false rejection of queries that say "acrylonitrile content
+                # control" instead of "low acrylonitrile" — both describe the same target.
+                has_target_mod_in_query = True
+                if result.target_modifications:
+                    has_target_mod_in_query = False
+
+                    # Pass (i): literal phrase present in query string
+                    for mod in result.target_modifications:
+                        if mod.lower() in q_lower:
+                            has_target_mod_in_query = True
+                            break
+
+                    if not has_target_mod_in_query:
+                        # Pass (ii): concept-overlap — extract meaningful tokens
+                        # (≥4 chars) from target_modification phrases, then check
+                        # whether any of those tokens appears in required_concepts
+                        # or alternative_concepts of the generated query.
+                        mod_tokens = set()
+                        for mod in result.target_modifications:
+                            for tok in re.findall(r'\b[a-zA-Z]{4,}\b', mod.lower()):
+                                mod_tokens.add(tok)
+
+                        query_concept_words = set()
+                        for concept in (generated_query.required_concepts + generated_query.alternative_concepts):
+                            for tok in re.findall(r'\b[a-zA-Z]{4,}\b', concept.lower()):
+                                query_concept_words.add(tok)
+
+                        if mod_tokens and mod_tokens.intersection(query_concept_words):
+                            has_target_mod_in_query = True
+
+                        # Pass (iii): fallback — check if any mod_token appears as a
+                        # word-boundary match in the query string itself (catches cases
+                        # where required_concepts are not fully populated by LLM).
+                        if not has_target_mod_in_query and mod_tokens:
+                            for tok in mod_tokens:
+                                if re.search(r'\b' + re.escape(tok) + r'\b', q_lower):
+                                    has_target_mod_in_query = True
+                                    break
+
+                            
+                # Check for bad flat OR statements across required boundaries
+                # A heuristic check: if the query uses " OR " at the top level between a base material and a modification.
+                # In google patents, OR should be inside parentheses.
+                flat_or_bad = False
+                if " or " in q_lower:
+                    # if there are ORs outside parentheses, it might be a flat bag
+                    # count opening and closing parens
+                    if "(" not in q_lower and ")" not in q_lower:
+                        flat_or_bad = True
+                
+                # E. No query is only generic process terminology
+                is_only_generic = False
+                if not has_base_in_query and not has_target_mod_in_query:
+                    is_only_generic = True
+                    
+                if not has_base_in_query:
+                    logger.info("  Boolean validation: FAIL (No base material concept)")
+                    rejected_queries += 1
+                elif flat_or_bad:
+                    logger.info("  Boolean validation: FAIL (Top-level OR used inappropriately / flat keyword bag)")
+                    rejected_queries += 1
+                elif is_only_generic:
+                    logger.info("  Boolean validation: FAIL (Generic terminology only)")
+                    rejected_queries += 1
+                else:
+                    logger.info("  Boolean validation: PASS")
+                    validated_queries.append(generated_query)
+            
+            TARGET_QUERY_COUNT = 15
+
+            if len(validated_queries) < TARGET_QUERY_COUNT:
+                missing_count = TARGET_QUERY_COUNT - len(validated_queries)
+                logger.info(
+                    "[QUERY_VALIDATION] Only %d valid queries from first LLM call (%d rejected). "
+                    "Retrying LLM for %d additional distinct queries.",
+                    len(validated_queries), rejected_queries, missing_count
+                )
+
+                # Build a retry prompt describing exactly what's needed
+                existing_exprs = [q.query for q in validated_queries]
+                retry_prompt = (
+                    PATENT_QUERY_EXPANSION_PROMPT.format(
+                        compound_name=compound_name,
+                        competitors=comp_str,
+                        websites=web_str,
+                        jurisdictions=jur_str,
+                        publication_filter=pub_str
+                    )
+                    + f"\n\nNOTE: A previous call already produced {len(validated_queries)} valid queries. "
+                    f"You MUST produce {missing_count} ADDITIONAL distinct valid Boolean queries that "
+                    f"are NOT equivalent to any of these already-generated queries:\n"
+                    + "\n".join(f"  - {e}" for e in existing_exprs)
+                    + "\nDo NOT repeat or paraphrase any query from the list above."
+                )
+
+                try:
+                    retry_result, _, _ = await llm_client.generate_structured(
+                        prompt=retry_prompt,
+                        system_prompt="You are a JSON generator. Do not include markdown blocks.",
+                        schema=LLMCompoundSearchProfile,
+                        temperature=0.5
+                    )
+                    if retry_result and retry_result.search_queries:
+                        existing_query_strings = {q.query.strip().lower() for q in validated_queries}
+                        # Pre-compute mod_tokens for the retry validation (same as primary pass)
+                        retry_mod_tokens = set()
+                        for mod in result.target_modifications:
+                            for tok in re.findall(r'\b[a-zA-Z]{4,}\b', mod.lower()):
+                                retry_mod_tokens.add(tok)
+
+                        for gq in retry_result.search_queries:
+                            if gq.query.strip().lower() in existing_query_strings:
+                                logger.info("[QUERY_RETRY] Duplicate skipped: %s", gq.query)
+                                continue
+                            # Apply same A–B 3-pass validation
+                            q_lower = gq.query.lower()
+                            base_ok = any(b.lower() in q_lower for b in result.base_material)
+                            flat_or_bad = (" or " in q_lower and "(" not in q_lower and ")" not in q_lower)
+                            mod_ok = True
+                            if result.target_modifications:
+                                mod_ok = any(m.lower() in q_lower for m in result.target_modifications)
+                                if not mod_ok and retry_mod_tokens:
+                                    retry_concept_words = set()
+                                    for concept in (gq.required_concepts + gq.alternative_concepts):
+                                        for tok in re.findall(r'\b[a-zA-Z]{4,}\b', concept.lower()):
+                                            retry_concept_words.add(tok)
+                                    if retry_mod_tokens.intersection(retry_concept_words):
+                                        mod_ok = True
+                                if not mod_ok and retry_mod_tokens:
+                                    for tok in retry_mod_tokens:
+                                        if re.search(r'\b' + re.escape(tok) + r'\b', q_lower):
+                                            mod_ok = True
+                                            break
+                            if base_ok and mod_ok and not flat_or_bad:
+                                validated_queries.append(gq)
+                                existing_query_strings.add(gq.query.strip().lower())
+                                logger.info("[QUERY_RETRY] Accepted: %s", gq.query)
+                            if len(validated_queries) >= TARGET_QUERY_COUNT:
+                                break
+                except Exception as retry_err:
+                    logger.warning("[QUERY_RETRY] Retry LLM call failed: %s", retry_err)
+
+            # Final deduplication by query string (regardless of source)
+            seen_q_strings: set[str] = set()
+            deduped_queries = []
+            for gq in validated_queries:
+                key = gq.query.strip().lower()
+                if key not in seen_q_strings:
+                    seen_q_strings.add(key)
+                    deduped_queries.append(gq)
+                else:
+                    logger.info("[QUERY_DEDUP] Removed duplicate: %s", gq.query)
+
+            if len(deduped_queries) < TARGET_QUERY_COUNT:
+                logger.warning(
+                    "[QUERY_VALIDATION] Proceeding with %d distinct queries "
+                    "(target=%d; LLM did not return additional valid distinct queries after 1 retry).",
+                    len(deduped_queries), TARGET_QUERY_COUNT
+                )
+            else:
+                logger.info("[QUERY_VALIDATION] Final distinct query count: %d", len(deduped_queries))
+
+            result.search_queries = deduped_queries
+
+            return result
+        except Exception as e:
+            if type(e).__name__ == "ProviderExhaustedException":
+                raise e
+            logger.error("Failed to generate search strategy: %s", e, exc_info=True)
+            return LLMCompoundSearchProfile(
+                original_input=compound_name,
+                search_queries=[GeneratedQuery(
+                    query=f'("{compound_name}") AND polymerization',
+                    required_concepts=[compound_name],
+                    alternative_concepts=[],
+                    intent="fallback",
+                    scope="full_text"
+                )]
+            )
+
+    async def search_patents(self, queries: List[Any]) -> List[Dict[str, Any]]:
+        """Hit the Serper API to get patent links and metadata."""
+        logger.info("Executing Serper API normal search for %d queries...", len(queries))
         
         all_results = []
-        start_time = time.time()
         
-        async with httpx.AsyncClient() as client:
-            try:
-                # [DIAGNOSTIC LOGGING]
-                logger.debug(f"Serper API Request -> URL: https://google.serper.dev/patents | Payload: {payload}")
-                
-                response = await client.post(
-                    "https://google.serper.dev/patents", 
-                    headers=headers, 
-                    json=payload,
-                    timeout=15.0
-                )
-                response.raise_for_status()
-                data = response.json()
-                success = True
-                
-                # Log HTTP status and result count
-                logger.debug(f"  HTTP Status: {response.status_code}")
-                logger.debug(f"  Raw Results: {len(data.get('organic', []))}")
-                
-                # Log a sanitized version of the actual first page for debugging
-                if page == 1:
-                    sanitized_data = {
-                        "searchParameters": data.get("searchParameters"),
-                        "organic_count": len(data.get("organic", [])),
-                        "first_organic_item": data.get("organic", [])[0] if data.get("organic") else None
-                    }
-                    logger.debug(f"[DIAGNOSTIC] Serper JSON Response Sample: {sanitized_data}")
-                
-                import re
-                organic_results = data.get("organic", [])
-                
-                logger.debug(f"[DIAGNOSTIC] Query '{formatted_query}' Page {page} Raw Results: {len(organic_results)}")
-                
-                for idx, result in enumerate(organic_results):
-                    link = result.get("link", "")
-                    title = result.get("title", "")
-                    pub_date = result.get("publicationDate", "")
-                    
-                    if not title:
-                        logger.warning(f"[DIAGNOSTIC] TITLE EXTRACTION FAILED | query={formatted_query} | result_index={idx} | available_fields={list(result.keys())}")
-                    else:
-                        if page == 1 and idx < 10:
-                            logger.debug(f"[DIAGNOSTIC] SERPER RESULT: raw result index = {idx} | title = {title} | url = {link} | pub_date = {pub_date}")
+        if not self.serper_api_key:
+            logger.warning("SERPER_API_KEY is not set. Returning empty list.")
+            return []
 
-                    patent_number = ""
-                    authority = "XX"
-                    
-                    if link and "patents.google.com" in link:
-                        match = re.search(r'patents\.google\.com/patent/([a-zA-Z0-9\-]+)', link)
-                        if match:
-                            patent_number = match.group(1)
-                            # Extract authority if starts with 2 letters
-                            auth_match = re.match(r'^([a-zA-Z]{2})', patent_number)
-                            if auth_match:
-                                authority = auth_match.group(1).upper()
-                    
-                    if not patent_number:
-                        if not link:
-                            continue
-                        import hashlib
-                        patent_number = "URL_" + hashlib.md5(link.encode()).hexdigest()[:10]
+        # Safe key fingerprint logging
+        key_fingerprint = self.serper_api_key[:6] + "..." + self.serper_api_key[-4:] if len(self.serper_api_key) > 10 else "***"
+        logger.info("[SERPER CONFIG] Endpoint: https://google.serper.dev/patents | API key configured: true | API key fingerprint: %s", key_fingerprint)
+
+        # Pre-process queries to determine depth
+        planned_requests = 0
+        high_value = 0
+        medium_value = 0
+        supporting = 0
+        
+        query_configs = []
+        for q in queries:
+            q_str = q.query if hasattr(q, 'query') else q.get('query', q) if isinstance(q, dict) else str(q)
+            intent = (q.intent if hasattr(q, 'intent') else q.get('intent', '')) if hasattr(q, 'intent') or isinstance(q, dict) else ''
+            scope = (q.scope if hasattr(q, 'scope') else q.get('scope', '')) if hasattr(q, 'scope') or isinstance(q, dict) else ''
+            
+            intent_lower = intent.lower()
+            if "synthesis" in intent_lower or "modification" in intent_lower or "base" in intent_lower or "preparation" in intent_lower or "polymerization" in intent_lower:
+                max_pages = 3
+                high_value += 1
+            elif "process" in intent_lower or "monomer" in intent_lower or "composition" in intent_lower or "feed" in intent_lower or "transformation" in intent_lower:
+                max_pages = 2
+                medium_value += 1
+            else:
+                max_pages = 1
+                supporting += 1
+                
+            planned_requests += max_pages
+            query_configs.append({"query_str": q_str, "max_pages": max_pages})
+
+        logger.info("[SERPER SEARCH PLAN] Total queries: %d | Maximum requests: %d | High-value queries: %d | Medium-value queries: %d | Supporting queries: %d", 
+                    len(queries), planned_requests, high_value, medium_value, supporting)
+
+        async def execute_serper_search(q_configs: List[Dict], endpoint: str, extra_query_modifier: str = "") -> List[Dict[str, Any]]:
+            results = []
+            seen_pub_nums = set()
+            requests_completed = 0
+            requests_failed = 0
+            requests_avoided = 0
+            
+            async with httpx.AsyncClient() as client:
+                credits_exhausted = False
+                for query_idx, qc in enumerate(q_configs, 1):
+                    if credits_exhausted:
+                        break
                         
-                    meta = {
-                        "patent_number": patent_number,
-                        "jurisdiction": authority,
-                        "title": title,
-                        "snippet": result.get("snippet", ""),
-                        "url": link,
-                        "publication_date": pub_date,
-                        "position": idx + 1
-                    }
-                    all_results.append(meta)
+                    search_query = f"{extra_query_modifier} {qc['query_str']}".strip()
+                    max_p = qc['max_pages']
+                    
+                    for page in range(1, max_p + 1):
+                        payload = {"q": search_query, "page": page}
+                        headers = {'X-API-KEY': self.serper_api_key, 'Content-Type': 'application/json'}
+                        
+                        try:
+                            logger.info("[SERPER %s REQUEST] Query %d/%d Page %d/%d: '%s'", endpoint.upper(), query_idx, len(q_configs), page, max_p, search_query)
+                            response = await client.post(
+                                f"https://google.serper.dev/{endpoint}", 
+                                headers=headers, json=payload, timeout=15.0
+                            )
                             
-                duration_ms = int((time.time() - start_time) * 1000)
-                
-                logger.debug("SERPER REQUEST")
-                logger.debug("-" * 14)
-                try:
-                    from app.core.telemetry import get_current_run_id, get_current_stage
-                    run_id = get_current_run_id() or 'UNKNOWN'
-                    stage = get_current_stage()
-                    stage_name = stage.name if hasattr(stage, 'name') else str(stage) if stage else 'UNKNOWN'
-                    logger.debug(f"Run ID: {run_id}")
-                    logger.debug(f"Stage: {stage_name}")
-                    logger.debug(f"Query: {formatted_query}")
-                    logger.info(f"Page: {page}")
-                    logger.debug(f"Results Returned: {len(all_results)}")
-                    logger.info(f"HTTP Status: {response.status_code}")
-                    logger.debug(f"Credits/Usage if available: {data.get('credits', 1)}")
-                    logger.debug(f"Latency: {duration_ms}ms")
-                    logger.debug(f"Status: SUCCESS")
-                    logger.debug(f"Error: NONE")
-                    logger.debug("=" * 60)
-                    await UsageLogger.record_api_usage(
-                        provider="serper",
-                        operation="google_patents_search",
-                        latency_ms=duration_ms,
-                        status="success",
-                        http_status=response.status_code,
-                        metadata={
-                            "query": formatted_query,
-                            "jurisdictions": jurisdictions,
-                            "page": page,
-                            "results_returned": len(all_results),
-                            "credits": data.get("credits", 1)
-                        }
-                    )
-                except Exception as telemetry_error:
-                    logger.warning("TELEMETRY FAILURE — search result preserved: %s", telemetry_error)
+                            logger.info(f"[SERPER {endpoint.upper()} RESPONSE] HTTP Status: {response.status_code}")
                             
-            except httpx.HTTPStatusError as e:
-                # Log detailed error information for HTTP errors
-                error_body = ""
-                try:
-                    error_body = e.response.text
-                except:
-                    error_body = "Could not extract response body"
-                
-                duration_ms = int((time.time() - start_time) * 1000)
-                
-                logger.debug("SERPER REQUEST")
-                logger.debug("-" * 14)
-                try:
-                    from app.core.telemetry import get_current_run_id, get_current_stage
-                    run_id = get_current_run_id() or 'UNKNOWN'
-                    stage = get_current_stage()
-                    stage_name = stage.name if hasattr(stage, 'name') else str(stage) if stage else 'UNKNOWN'
-                    logger.debug(f"Run ID: {run_id}")
-                    logger.debug(f"Stage: {stage_name}")
-                    logger.debug(f"Query: {formatted_query}")
-                    logger.info(f"Page: {page}")
-                    logger.debug(f"Results Returned: 0")
-                    logger.info(f"HTTP Status: {e.response.status_code}")
-                    logger.debug(f"Credits/Usage if available: N/A")
-                    logger.debug(f"Latency: {duration_ms}ms")
-                    logger.debug(f"Status: FAILED")
-                    logger.debug(f"Error: HTTPStatusError - {error_body}")
-                    logger.debug("=" * 60)
-                    await UsageLogger.record_api_usage(
-                        provider="serper",
-                        operation="google_patents_search",
-                        latency_ms=duration_ms,
-                        status="failed",
-                        http_status=e.response.status_code,
-                        error_type="HTTPStatusError",
-                        error_message=str(e),
-                        request_count=0,  # Do not inflate usage/cost on failed requests
-                        metadata={
-                            "query": formatted_query,
-                            "jurisdictions": jurisdictions,
-                            "page": page
-                        }
-                    )
-                except Exception as telemetry_error:
-                    logger.warning("TELEMETRY FAILURE — search result preserved: %s", telemetry_error)
-                
-                # Check for credit exhaustion
-                if e.response.status_code == 400 and "Not enough credits" in error_body:
-                    raise SerperCreditsExhaustedError("Serper API credits exhausted")
-                
-                return [], False
-            except SerperCreditsExhaustedError:
-                # Re-raise to be caught by orchestrator for fail-fast handling
-                raise
-            except Exception as e:
-                duration_ms = int((time.time() - start_time) * 1000)
-                
-                logger.debug("SERPER REQUEST")
-                logger.debug("-" * 14)
-                try:
-                    from app.core.telemetry import get_current_run_id, get_current_stage
-                    run_id = get_current_run_id() or 'UNKNOWN'
-                    stage = get_current_stage()
-                    stage_name = stage.name if hasattr(stage, 'name') else str(stage) if stage else 'UNKNOWN'
-                    logger.debug(f"Run ID: {run_id}")
-                    logger.debug(f"Stage: {stage_name}")
-                    logger.debug(f"Query: {formatted_query}")
-                    logger.info(f"Page: {page}")
-                    logger.debug(f"Results Returned: 0")
-                    logger.info(f"HTTP Status: N/A")
-                    logger.debug(f"Credits/Usage if available: N/A")
-                    logger.debug(f"Latency: {duration_ms}ms")
-                    logger.debug(f"Status: FAILED")
-                    logger.debug(f"Error: {type(e).__name__} - {str(e)}")
-                    logger.debug("=" * 60)
-                    await UsageLogger.record_api_usage(
-                        provider="serper",
-                        operation="google_patents_search",
-                        latency_ms=duration_ms,
-                        status="failed",
-                        error_type=type(e).__name__,
-                        error_message=str(e),
-                        metadata={
-                            "query": formatted_query,
-                            "jurisdictions": jurisdictions,
-                            "page": page
-                        }
-                    )
-                except Exception as telemetry_error:
-                    logger.warning("TELEMETRY FAILURE — search result preserved: %s", telemetry_error)
-                
-                return [], False
-                
-        return all_results, True
+                            if response.status_code == 400:
+                                if "Not enough credits" in response.text:
+                                    logger.error("[SERPER QUOTA ERROR] Endpoint: %s | Configured key: %s | Queries planned: %d | Maximum possible requests: %d | Requests completed: %d | Requests failed: %d | Reason: Not enough Serper credits.", 
+                                                 endpoint, key_fingerprint, len(q_configs), planned_requests, requests_completed, requests_failed + 1)
+                                    raise SerperCreditsExhaustedError("Serper API credits exhausted")
+                                else:
+                                    logger.error("Serper API 400 Bad Request (Syntax Error). Response: %s", response.text)
+                                    requests_failed += 1
+                                    break # Skip remaining pages for this malformed query
+                                    
+                            elif response.status_code in [401, 403]:
+                                logger.error("Serper API Auth Error (%d). Response: %s", response.status_code, response.text)
+                                raise httpx.HTTPStatusError(f"Serper Auth Error: {response.text}", request=response.request, response=response)
+                            elif response.status_code == 429:
+                                logger.error("Serper API Rate Limit Error (429). Response: %s", response.text)
+                                raise httpx.HTTPStatusError(f"Serper Rate Limit Error: {response.text}", request=response.request, response=response)
+                            elif response.status_code >= 500:
+                                logger.error("Serper API Upstream Error (%d). Response: %s", response.status_code, response.text)
+                                requests_failed += 1
+                                break
+                            elif response.status_code != 200:
+                                logger.error("Serper API non-200. Status: %s, Text: %s", response.status_code, response.text)
+                                response.raise_for_status()
+                                
+                            requests_completed += 1
+                            data = response.json()
+                            
+                            patent_results = data.get("patents", [])
+                            if not patent_results and "organic" in data:
+                                patent_results = data.get("organic", [])
+                                
+                            logger.info("[SERPER %s RESPONSE] Extracted %d results for query '%s' on page %d", endpoint.upper(), len(patent_results), search_query, page)
+                            
+                            if not patent_results:
+                                logger.info("No more results for query '%s' on page %d. Stopping pagination.", search_query, page)
+                                break
+                                
+                            new_candidates_on_page = 0
+                            for result in patent_results:
+                                link = result.get("link", "")
+                                pub_num = result.get("publicationNumber")
+                                
+                                if not pub_num and link:
+                                    match = re.search(r'patents\.google\.com/patent/([A-Z0-9]+)', link)
+                                    if match:
+                                        pub_num = match.group(1)
+                                        
+                                if not pub_num:
+                                    continue
+                                    
+                                if pub_num in seen_pub_nums:
+                                    continue
+                                    
+                                seen_pub_nums.add(pub_num)
+                                new_candidates_on_page += 1
+                                
+                                results.append({
+                                    "patent_number": pub_num,
+                                    "title": result.get("title", ""),
+                                    "snippet": result.get("snippet", "") or result.get("abstract", ""),
+                                    "url": link,
+                                    "query_matched": search_query,
+                                    "family_id": pub_num,
+                                    "publication_date": result.get("publicationDate", ""),
+                                    "priority_date": result.get("priorityDate", ""),
+                                    "filing_date": result.get("filingDate", ""),
+                                    "grant_date": result.get("grantDate", ""),
+                                    "inventor": result.get("inventor", ""),
+                                    "assignee": result.get("assignee", ""),
+                                    "pdf_url": result.get("pdfUrl", ""),
+                                    "source": f"serper_{endpoint}"
+                                })
+                                
+                            if new_candidates_on_page == 0:
+                                logger.info("Page %d yielded 0 new unique candidates for query '%s'. Early stopping pagination.", page, search_query)
+                                requests_avoided += (max_p - page)
+                                break
+                                
+                        except SerperCreditsExhaustedError as e:
+                            # If we exhausted credits, we must safely preserve partial discovery.
+                            if len(results) > 0:
+                                logger.warning("[SERPER PARTIAL DISCOVERY] Credits exhausted midway, but safely preserving %d candidates found so far.", len(results))
+                                credits_exhausted = True
+                                break # break out of pages loop
+                            else:
+                                raise e
+                        except Exception as e:
+                            if isinstance(e, httpx.HTTPStatusError) and e.response.status_code in [401, 403, 429]:
+                                raise e
+                            logger.error("Serper API request failed for query '%s' page %d: %s", search_query, page, e)
+                            break
+                            
+            logger.info("[SERPER SEARCH SUMMARY] Queries attempted: %d | Requests completed: %d | Requests failed: %d | Unique patents: %d | Requests avoided by early stopping: %d", 
+                        len(q_configs), requests_completed, requests_failed, len(results), requests_avoided)
+            return results
+
+        all_results = await execute_serper_search(query_configs, "patents")
+        
+        if not all_results:
+            logger.warning("[SEARCH] Serper /patents returned ZERO results across all queries. Engaging /search fallback.")
+            all_results = await execute_serper_search(query_configs, "search", "site:patents.google.com/patent/")
+            
+        logger.info("Total discovered Google Patent candidates: %d", len(all_results))
+        return all_results
 

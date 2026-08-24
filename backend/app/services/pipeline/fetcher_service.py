@@ -70,6 +70,9 @@ class FetcherService:
                 logger.debug("=" * 60)
                 
                 return parsed
+        except httpx.HTTPStatusError as e:
+            logger.error("HTTP error fetching patent from %s: %s", url, e)
+            raise e
         except Exception as e:
             duration_ms = int((time.time() - start_time) * 1000)
             logger.debug("PATENT FETCH")

@@ -38,8 +38,8 @@ class ValidationService:
     ):
         """
         Deterministic patent content validation.
-        Patents that pass title screening are accepted unconditionally here.
-        The title scorer (TitleScorer / CandidateScorer) already applied the relevance gate;
+        Patents that pass preliminary screening are accepted unconditionally here.
+        The preliminary screening (via orchestrator _deterministic_rank) already applied the relevance gate;
         patents that pass it are suitable for evidence extraction.
 
         Returns a PatentValidationDecision-compatible dict for downstream compatibility.
@@ -59,7 +59,7 @@ class ValidationService:
     ) -> list:
         """
         Stub — LLM title ranking removed.
-        Title scorer already produces a deterministic relevance score.
+        Preliminary ranking already produces a deterministic relevance score in the orchestrator.
         This method returns candidates unchanged for interface compatibility.
         LLM calls = 0.
         """

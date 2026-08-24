@@ -51,16 +51,21 @@ class ResearchService:
         compound_name: str,
         selected_sources: list[str],
         publication_filter: dict | None,
+        competitors: list[str],
+        mentioned_websites: list[str],
+        jurisdictions: list[str]
     ) -> str:
         """
         Produce a deterministic 32-char hex cache key from the run's
-        significant parameters. Two runs with the same compound / sources /
-        filter produce the same key and can be de-duplicated.
+        significant parameters.
         """
         canonical = {
             "compound": compound_name.strip().lower(),
-            "sources": sorted(selected_sources),
+            "sources": sorted(selected_sources) if selected_sources else [],
             "filter": publication_filter or {},
+            "competitors": sorted([c.lower() for c in competitors]) if competitors else [],
+            "websites": sorted([w.lower() for w in mentioned_websites]) if mentioned_websites else [],
+            "jurisdictions": sorted([j.upper() for j in jurisdictions]) if jurisdictions else [],
         }
         raw = json.dumps(canonical, sort_keys=True, separators=(",", ":"))
         return hashlib.sha256(raw.encode()).hexdigest()[:32]
@@ -82,6 +87,9 @@ class ResearchService:
                 data.compound_name,
                 data.selected_sources,
                 data.publication_filter,
+                data.competitors,
+                data.mentioned_websites,
+                data.jurisdictions,
             )
             logger.info("[RESEARCH REQUEST] Cache key generated: %s", cache_key)
 
@@ -94,6 +102,11 @@ class ResearchService:
             #     )
             #     return existing
 
+            logger.info(
+                "[RESEARCH REQUEST] Payload details - Compound: %s | Jurisdictions: %s | DateFilter: %s | Competitors: %s | Websites: %s",
+                data.compound_name, data.jurisdictions, data.publication_filter, data.competitors, data.mentioned_websites
+            )
+
             logger.info("[RESEARCH REQUEST] Creating ResearchRun object")
             run = ResearchRun(
                 compound_name=data.compound_name,
@@ -101,6 +114,7 @@ class ResearchService:
                 mentioned_websites=data.mentioned_websites,
                 publication_filter=data.publication_filter,
                 selected_sources=data.selected_sources,
+                jurisdictions=data.jurisdictions,
                 status=RunStatus.PENDING,
                 cache_key=cache_key,
                 report_version=1,
@@ -143,7 +157,12 @@ class ResearchService:
             def task_done_callback(t):
                 try:
                     result = t.result()
-                    logger.info("[RESEARCH REQUEST] Pipeline task completed successfully")
+                    if result == RunStatus.COMPLETED:
+                        logger.info("[RESEARCH REQUEST] Pipeline task completed successfully")
+                    else:
+                        logger.error("[RESEARCH REQUEST] TASK EXECUTION COMPLETED - PIPELINE FAILED")
+                except asyncio.CancelledError:
+                    logger.warning("[RESEARCH REQUEST] Pipeline task was CANCELLED")
                 except Exception as e:
                     logger.error("[RESEARCH REQUEST] Pipeline task failed: %s", e)
                 finally:
@@ -292,7 +311,12 @@ class ResearchService:
         run.status = RunStatus.PENDING
         run.report_version += 1
         run.cache_key = self.generate_cache_key(
-            run.compound_name, run.selected_sources or [], run.publication_filter
+            run.compound_name, 
+            run.selected_sources or [], 
+            run.publication_filter,
+            run.competitors or [],
+            run.mentioned_websites or [],
+            run.jurisdictions or []
         )
 
         run = await self._repo.update(run)

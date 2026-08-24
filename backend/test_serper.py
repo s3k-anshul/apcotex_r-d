@@ -11,8 +11,9 @@ async def main():
         'Content-Type': 'application/json'
     }
     async with httpx.AsyncClient() as client:
-        response = await client.post("https://google.serper.dev/patents", headers=headers, data=payload)
+        response = await client.post("https://google.serper.dev/search", headers=headers, data=payload)
         print(json.dumps(response.json(), indent=2))
+
 
 if __name__ == "__main__":
     asyncio.run(main())

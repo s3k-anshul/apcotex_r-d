@@ -101,6 +101,11 @@ async def create_research_run(
         svc = ResearchService(session)
         logger.info("[RESEARCH REQUEST] Request validation successful")
         logger.info("[RESEARCH REQUEST] Calling ResearchService.create_run()")
+        import sys
+        from app.services.pipeline import search_service
+        logger.info("SEARCH SERVICE PATH: %s", search_service.__file__)
+        
+        # 2. Create the run via the service.create_run(body, current_user)
         run = await svc.create_run(body, current_user)
         logger.info("[RESEARCH REQUEST] ResearchRun created: %s", run.id)
         return SuccessResponse(data=ResearchRunResponse.model_validate(run))

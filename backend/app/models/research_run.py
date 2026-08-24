@@ -36,13 +36,15 @@ class RunStatus(str, Enum):
     COMPLETED_PARTIAL = "COMPLETED_PARTIAL"
     FAILED = "FAILED"
     LLM_PROVIDER_EXHAUSTED = "LLM_PROVIDER_EXHAUSTED"
+    SEARCH_PROVIDER_UNAVAILABLE = "SEARCH_PROVIDER_UNAVAILABLE"
+    NO_RELEVANT_PATENTS = "NO_RELEVANT_PATENTS"
     CANCELLED = "CANCELLED"
     PAUSED = "PAUSED"
 
     # Convenience helpers
     @classmethod
     def terminal_states(cls) -> set["RunStatus"]:
-        return {cls.COMPLETED, cls.COMPLETED_PARTIAL, cls.FAILED, cls.CANCELLED, cls.LLM_PROVIDER_EXHAUSTED}
+        return {cls.COMPLETED, cls.COMPLETED_PARTIAL, cls.FAILED, cls.CANCELLED, cls.LLM_PROVIDER_EXHAUSTED, cls.SEARCH_PROVIDER_UNAVAILABLE, cls.NO_RELEVANT_PATENTS}
 
     @classmethod
     def active_states(cls) -> set["RunStatus"]:

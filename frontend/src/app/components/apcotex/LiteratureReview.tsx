@@ -11,7 +11,7 @@ import {
   FileText
 } from "lucide-react";
 import { usePatentResearch } from "../../contexts/PatentResearchContext";
-import { LowAcnPatentReportViewer } from "./LowAcnPatentReportViewer";
+import { PatentReportViewer } from "./PatentReportViewer";
 import { PreviousReports } from "./PreviousReports";
 import { 
   createResearchRun, 
@@ -257,7 +257,8 @@ export function LiteratureReview() {
             reportHtml: content.html, 
             reportMarkdown: content.markdown,
             recipeData: content.extractions,
-            extractions: content.extractions
+            extractions: content.extractions,
+            structuredReport: content.structuredReport
           });
         } catch (err) {
           setState({ error: "Failed to load cached report content." });
@@ -560,7 +561,7 @@ export function LiteratureReview() {
 
       {isResults && (
         <div>
-          <LowAcnPatentReportViewer />
+          <PatentReportViewer />
 
           <div style={{ maxWidth: 816, margin: "24px auto 0", display: "flex", gap: 12, flexWrap: "wrap" }}>
             <button

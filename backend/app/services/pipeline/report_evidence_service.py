@@ -13,7 +13,7 @@ Key design decisions:
   source_text (abstract + keyword-matched passages) provides the fallback.
 - Parameters are priority-sorted by chemical significance, not just confidence.
 - Examples are always included (even 0-param examples) — they carry source text context.
-- The evidence budget (88K) is large enough to pass rich data for all 15 patents.
+- The evidence budget (150K) is large enough to pass rich data for all 15 patents.
 """
 import logging
 import re
@@ -23,6 +23,7 @@ import tiktoken
 
 from app.services.pipeline.schemas import (
     PatentExtraction, ReportPatentEvidence, ReportExampleEvidence,
+    SynthesisSectionEvidence,
     ExtractedParameterSchema, BatchAnalysisResult, PatentBatchFindings
 )
 # Note: llm_client is NOT imported here — this service is deterministic only.
@@ -39,7 +40,7 @@ MAX_SOURCE_SENTENCE_CHARS = 200   # increased to preserve provenance
 # Max source_text per patent (chars) — abstract + claims + relevant passages
 _MAX_SOURCE_TEXT_CHARS = 15000
 
-# Compaction settings (initial — only tightened if total exceeds 88K budget)
+# Compaction settings (initial — only tightened if total exceeds 150K budget)
 _MAX_EXAMPLES_PER_PATENT = 20      # was 10
 _MAX_PARAMS_PER_PATENT = 100        # was 60
 _MAX_PARAMS_PER_PATENT_TIGHT = 50  # compaction pass 2
@@ -97,7 +98,7 @@ class ReportEvidenceService:
 
     def _get_evidence_budget(self) -> int:
         from app.core.config import settings
-        safe_budget = getattr(settings, 'REPORT_SAFE_EVIDENCE_BUDGET', 88000)
+        safe_budget = getattr(settings, 'REPORT_SAFE_EVIDENCE_BUDGET', 150000)
         provider_limit = getattr(settings, 'REPORT_PROVIDER_SAFE_LIMIT', 100000)
         overhead = getattr(settings, 'REPORT_EVIDENCE_OVERHEAD_TOKENS', 4000)
         derived_budget = max(1000, provider_limit - overhead)
@@ -295,6 +296,7 @@ class ReportEvidenceService:
             competitor_name=competitor_name,
             overall_patent_parameters=[],
             examples=[],
+            synthesis_sections=[],
             technical_findings=[],
             limitations_or_missing_data=[],
             relevance_tier=relevance_tier,
@@ -320,7 +322,11 @@ class ReportEvidenceService:
         scored_examples = []
         for ex in extraction.examples:
             ex_evidence = ReportExampleEvidence(
-                example_id=f"{ex.type} {ex.number}".strip(),
+                # Use example_id directly — it already contains the full, correctly-cased label
+                # from the source patent (e.g. "Comparative Example 1", "EXAMPLE 8",
+                # "Synthesis Example 2"). Do not prepend example_type or any other prefix.
+                example_id=(getattr(ex, 'example_id', '') or getattr(ex, 'example_type', 'Example')).strip(),
+                raw_text=getattr(ex, 'raw_text', ''),
                 extracted_parameters=[]
             )
             for param in ex.extracted_parameters:
@@ -337,6 +343,12 @@ class ReportEvidenceService:
         for _, ex_ev in scored_examples[:_MAX_EXAMPLES_PER_PATENT]:
             # ALWAYS append — no gate on ex_ev.extracted_parameters
             evidence.examples.append(ex_ev)
+            
+        for sec in getattr(extraction, 'synthesis_sections', []):
+            evidence.synthesis_sections.append(SynthesisSectionEvidence(
+                section_title=sec.section_title,
+                raw_text=sec.raw_text
+            ))
 
         # Source text: deterministic passage extraction
         if parsed_patent is not None:
@@ -382,6 +394,8 @@ class ReportEvidenceService:
                 parts.append("\nExamples:")
                 for ex in ev.examples:
                     parts.append(f"  [{ex.example_id}]:")
+                    if ex.raw_text:
+                        parts.append(f"    Raw Text: {ex.raw_text[:3000]}")
                     if ex.extracted_parameters:
                         for param in ex.extracted_parameters:
                             unit_str = f" {param.unit}" if param.unit else ""
@@ -391,6 +405,12 @@ class ReportEvidenceService:
                         parts.append("    (No structured parameters extracted from this example)")
             else:
                 parts.append("\nExamples: None detected by parser.")
+                
+            if getattr(ev, 'synthesis_sections', None):
+                parts.append("\nSynthesis Sections:")
+                for sec in ev.synthesis_sections:
+                    parts.append(f"  [{sec.section_title}]:")
+                    parts.append(f"    {sec.raw_text[:5000]}")
 
             if ev.source_text:
                 parts.append("\nSource Text (Relevant Passages):")

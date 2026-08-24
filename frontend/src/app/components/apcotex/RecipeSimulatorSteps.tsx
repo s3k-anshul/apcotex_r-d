@@ -37,7 +37,7 @@ import {
   type TransferredSpecData,
   type SpecRowTemplate,
 } from "./recipeSimulatorDemoData";
-import { LowAcnPatentReportViewer } from "./LowAcnPatentReportViewer";
+import { PatentReportViewer } from "./PatentReportViewer";
 import { useProperties } from "../../contexts/PropertyContext";
 import { CustomerFeedbackProvider, useCustomerFeedbackProperties } from "../../contexts/CustomerFeedbackContext";
 import { usePatentResearch } from "../../contexts/PatentResearchContext";
@@ -1414,7 +1414,7 @@ export function Step1TargetSpec({
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
           <div style={{ backgroundColor: '#F7FAFC', borderRadius: 8, padding: '24px', maxWidth: '900px', width: '100%', maxHeight: '90vh', overflowY: 'auto', position: 'relative' }}>
             <button onClick={() => setShowPatentReport(false)} style={{ position: 'absolute', top: 16, right: 16, background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.5rem', lineHeight: 1 }}>&times;</button>
-            <LowAcnPatentReportViewer />
+            <PatentReportViewer />
           </div>
         </div>
       )}

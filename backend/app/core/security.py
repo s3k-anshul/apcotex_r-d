@@ -8,22 +8,50 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from jose import JWTError, jwt
-from passlib.context import CryptContext
+import bcrypt
+from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError, InvalidHashError
+import logging
 
 from app.core.config import settings
 
+logger = logging.getLogger(__name__)
+
 # ── Password hashing ──────────────────────────────────────────────────────────
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+ph = PasswordHasher()
 
 
 def hash_password(plain_password: str) -> str:
-    """Return bcrypt hash of a plaintext password."""
-    return pwd_context.hash(plain_password)
+    """Return Argon2id hash of a plaintext password."""
+    return ph.hash(plain_password)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Return True if plain_password matches the stored bcrypt hash."""
-    return pwd_context.verify(plain_password, hashed_password)
+    """Return True if plain_password matches the stored bcrypt or Argon2id hash."""
+    try:
+        if hashed_password.startswith("$2"):
+            return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
+        elif hashed_password.startswith("$argon2"):
+            return ph.verify(hashed_password, plain_password)
+        else:
+            logger.warning("password_hash_scheme=unknown")
+            return False
+    except (VerifyMismatchError, InvalidHashError, ValueError):
+        return False
+    except Exception as e:
+        logger.error(f"Error verifying password: {type(e).__name__}")
+        return False
+
+def needs_upgrade(hashed_password: str) -> bool:
+    """Return True if the hash should be upgraded (bcrypt or outdated Argon2 config)."""
+    if hashed_password.startswith("$2"):
+        return True
+    if hashed_password.startswith("$argon2"):
+        try:
+            return ph.check_needs_rehash(hashed_password)
+        except InvalidHashError:
+            return False
+    return False
 
 
 # ── JWT helpers ───────────────────────────────────────────────────────────────

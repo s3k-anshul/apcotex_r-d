@@ -34,7 +34,9 @@ class ReportService:
     async def generate_structured_report(
         self, compound_name: str, extractions: List[ReportPatentEvidence],
         patent_manifest: List[str] = None,
-        secondary_candidates: list = None  # list[SearchResult] or similar objects
+        secondary_candidates: list = None,
+        original_input: str = "",
+        research_profile: str = ""
     ) -> tuple:
         """Generate the structured report via LLM using the aggregated extractions."""
         import time
@@ -55,6 +57,8 @@ class ReportService:
         base_tokens = svc.estimate_tokens(
             REPORT_GENERATION_USER_TEMPLATE.format(
                 compound_name=compound_name,
+                original_input="dummy",
+                research_profile="dummy",
                 extractions_data="",
                 patent_manifest="",
                 secondary_manifest="None",
@@ -104,6 +108,8 @@ class ReportService:
 
         prompt = REPORT_GENERATION_USER_TEMPLATE.format(
             compound_name=compound_name,
+            original_input=original_input,
+            research_profile=research_profile,
             extractions_data=extractions_data,
             patent_manifest=manifest_str,
             primary_count=primary_count,
@@ -135,7 +141,14 @@ class ReportService:
                 )
                 raise ValueError("Report generation failed: LLM returned None instead of structured object")
 
-            # Deterministically map extracted patent evidence to the final report
+            # Map LLM per-patent analysis to methodology section.
+            # per_patent_analysis is keyed by patent_number.
+            llm_analysis_by_pn = {}
+            for pa in getattr(report_obj, 'per_patent_analysis', []):
+                pn = getattr(pa, 'patent_number', '')
+                if pn:
+                    llm_analysis_by_pn[pn] = pa
+
             methodology_patents = []
             for ext in extractions:
                 details = ReportPatentDetails(
@@ -149,27 +162,49 @@ class ReportService:
                     relevance_to_target="Automatically extracted candidate",
                     relevance_tier="PRIMARY"
                 )
-                
+
+                llm_pa = llm_analysis_by_pn.get(ext.patent_number)
+
+                # OPTION A: use LLM's per-patent analysis when available
                 params = []
-                for p in ext.overall_patent_parameters:
-                    s = f"{p.name}: {p.value} {p.unit}".strip()
-                    if p.context:
-                        s += f" ({p.context})"
-                    params.append(s)
-                    
+                if llm_pa:
+                    # synthesis_method as first bullet
+                    if getattr(llm_pa, 'synthesis_method', ''):
+                        params.append(f"Synthesis method: {llm_pa.synthesis_method}")
+                    # disclosed parameters from LLM evidence reading
+                    for dp in getattr(llm_pa, 'disclosed_parameters', []):
+                        if dp:
+                            params.append(dp)
+                else:
+                    # Fallback: use deterministic overall_patent_parameters if LLM produced nothing
+                    for p in ext.overall_patent_parameters:
+                        s = f"{p.name}: {p.value} {p.unit}".strip()
+                        if p.context:
+                            s += f" ({p.context})"
+                        params.append(s)
+
                 methodology = ReportPatentMethodology(dynamic_parameters=params)
-                
+
+                # Experimental evidence: use LLM example_highlights, fall back to deterministic examples
                 evidence = []
-                for findings in ext.technical_findings:
-                    evidence.append(findings)
-                for ex in ext.examples:
-                    evidence.append(f"Example {ex.example_id}: " + ", ".join([f"{p.name}: {p.value} {p.unit}" for p in ex.extracted_parameters]))
-                    
+                if llm_pa and getattr(llm_pa, 'example_highlights', []):
+                    evidence = list(llm_pa.example_highlights)
+                else:
+                    # Deterministic fallback: technical_findings first, then example params
+                    for findings in ext.technical_findings:
+                        evidence.append(findings)
+                    for ex in ext.examples:
+                        param_strs = ", ".join(
+                            f"{p.name}: {p.value} {p.unit}" for p in ex.extracted_parameters
+                        )
+                        if param_strs:
+                            evidence.append(f"{ex.example_id}: {param_strs}")
+
                 methodology_patents.append(ReportPatent(
                     patent_details=details,
                     polymerization_method=methodology,
-                    experimental_evidence=evidence if evidence else ["No specific experimental examples disclosed."],
-                    technical_relevance="Selected via deterministic pipeline scoring."
+                    experimental_evidence=evidence if evidence else ["No experimental evidence extracted from available evidence."],
+                    technical_relevance=getattr(llm_pa, 'technical_relevance', '') or "Selected via deterministic pipeline scoring."
                 ))
             
             final_report = PatentResearchReport(

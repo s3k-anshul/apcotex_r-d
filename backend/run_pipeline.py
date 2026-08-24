@@ -14,7 +14,7 @@ async def main():
         user_id = result.scalar_one_or_none()
         
         run = ResearchRun(
-            compound_name="Low Acrylonitrile NBR",
+            compound_name="Hydrogenated NBR",
             jurisdictions=["US", "EP"],
             publication_filter={"year_from": "2010", "year_to": "2024"},
             created_by=user_id if user_id else uuid.uuid4()

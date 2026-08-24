@@ -16,6 +16,8 @@ from app.core.security import (
     create_refresh_token,
     decode_token,
     verify_password,
+    hash_password,
+    needs_upgrade,
 )
 from app.repositories.user_repository import UserRepository
 from app.schemas.auth import AccessTokenResponse, LoginRequest, TokenResponse
@@ -62,6 +64,11 @@ class AuthService:
                 detail={"username": credentials.username, "reason": "account_disabled"},
             )
             raise InvalidCredentialsError(message="Account is disabled. Contact an administrator.")
+
+        if needs_upgrade(user.hashed_password):
+            user.hashed_password = hash_password(credentials.password)
+            await self._repo.update(user)
+            logger.info("Upgraded password hash for user %r", user.username)
 
         access_token = create_access_token(
             subject=str(user.id),

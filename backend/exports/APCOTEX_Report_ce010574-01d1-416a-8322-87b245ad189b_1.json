@@ -1,0 +1,78 @@
+{
+  "title": "Chloroprene Rubber: Mercaptan-Modified Latex Microstructure Control and Carbon-Black-Reinforced Heat-Resistant Compositions",
+  "abstract": "This report synthesizes two patents addressing chloroprene rubber from complementary angles: synthesis of a mercaptan-modified polychloroprene latex with controlled microstructure, and formulation of chloroprene rubber compositions for improved heat resistance. EP3650478B1 focuses on emulsion polymerization of chloroprene with 2,3-dichloro-1,3-butadiene and an alkyl mercaptan chain-transfer agent to produce a latex suitable for dip-molded films with balanced flexibility and mechanical strength. The key target definition is unusually specific: the freeze-dried polymer should show a solid-state 13C NMR area ratio A/(B-C) between 4.0/100 and 5.8/100, the copolymerized 2,3-dichloro-1,3-butadiene content should be 4 to 35 mass%, and the polychloroprene toluene-insoluble fraction should be 50 to 100 mass%. The disclosed process uses emulsion polymerization at 10 to 25°C, with 0.01 to 0.08 parts by mass of alkyl mercaptan per 100 parts monomer and conversion of 60 to 95%, and emphasizes that latex stability and film formability are improved by limiting anionic surfactant excluding rosin acid to 0.2 to 1.0 mass%.\n\nUS8530547B2 addresses downstream compounding rather than polymer microstructure. It claims a chloroprene rubber composition containing 100 parts by mass of a mercaptan-modified or xanthogen-modified chloroprene rubber and 15 to 200 parts by mass of carbon black with a number-average particle size of 70 to 600 nm and DBP oil absorption of 15 to 60 ml/100 g. Optional imidazole compounds at 0.1 to 3 parts by mass are used to improve fatigue resistance. The patent describes conventional chloroprene emulsion polymerization with common initiators, rosin-acid-type emulsifiers, polymerization temperatures of 0 to 50°C, and final conversions of 50 to 95 mass%, followed by steam stripping and standard isolation. Overall, the landscape shows a progression from polymer-structure control for flexible, strong latex films to formulation optimization for heat resistance, compression set, and tension fatigue in vulcanized articles.",
+  "methodology_patents": [
+    {
+      "patent_details": {
+        "patent_number": "EP3650478B1",
+        "patent_title": "Mercaptane-modified polychloroprene latex and production method therefor",
+        "assignee": "Not disclosed",
+        "jurisdiction": "EP",
+        "publication_year": "2021-04-14",
+        "priority_date": null,
+        "legal_status": "Unknown",
+        "polymer_type": "Not disclosed",
+        "relevance_to_target": "Automatically extracted candidate",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Temperature: 10 °C (temperature ... 10 °C)",
+          "Temperature: 25 °C (temperature ... 25 °C)",
+          "Conversion: 60 % (conversion ... 60 %)",
+          "Conversion: 95 % (conversion ... 95 %)",
+          "Elongation: 300 % (300 % of Elongation)",
+          "Elongation: 500 % (500 % of Elongation)",
+          "Elongation: 300 % (300 % of Elongation)",
+          "Elongation: 500 % (500 % of Elongation)",
+          "Using: 25 °C (25 °C of Using)"
+        ]
+      },
+      "experimental_evidence": [
+        "Example COMPARATIVE EXAMPLE 1: Elongation: 300 %, Elongation: 500 %, Temperature: 10 °C, Temperature: 25 °C, Conversion: 60 %, Using: 25 °C, Conversion: 95 %",
+        "Example EXAMPLE 1: Elongation: 300 %, Elongation: 500 %"
+      ],
+      "technical_relevance": "Selected via deterministic pipeline scoring."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US8530547B2",
+        "patent_title": "Chloroprene rubber composition and its application",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2013-09-10",
+        "priority_date": null,
+        "legal_status": "Unknown",
+        "polymer_type": "Not disclosed",
+        "relevance_to_target": "Automatically extracted candidate",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Tension: 100 % (100 % of Tension)",
+          "Tension: 100 % (100 % of Tension)"
+        ]
+      },
+      "experimental_evidence": [
+        "Example COMPARATIVE EXAMPLE 1: Tension: 100 %",
+        "Example EXAMPLE 1: Tension: 100 %"
+      ],
+      "technical_relevance": "Selected via deterministic pipeline scoring."
+    }
+  ],
+  "cross_patent_comparison": [
+    "EP3650478B1 defines a narrow polymer microstructure window via solid-state 13C NMR A/(B-C) = 4.0/100 to 5.8/100; US8530547B2 does not specify a polymer microstructure target and instead focuses on compounding of existing mercaptan- or xanthogen-modified chloroprene rubber.",
+    "EP3650478B1 requires chloroprene copolymerization with 2,3-dichloro-1,3-butadiene at 4 to 35 mass% copolymerized content; US8530547B2 allows chloroprene homopolymer or copolymer with several comonomers, including 2,3-dichloro-1,3-butadiene, but does not constrain comonomer content in the claims excerpt provided.",
+    "EP3650478B1 uses alkyl mercaptan chain transfer agent at 0.01 to 0.08 parts by mass per 100 parts monomer; US8530547B2 identifies mercaptan-modified and xanthogen-modified rubbers as starting materials but does not provide a specific modifier dosage.",
+    "EP3650478B1 specifies emulsion polymerization at 10 to 25°C and conversion of 60 to 95%; US8530547B2 describes broader conventional chloroprene emulsion polymerization at 0 to 50°C with preferred conversion of 50 to 95 mass%.",
+    "EP3650478B1 emphasizes latex stability and dip-forming performance, including anionic surfactant excluding rosin acid at 0.2 to 1.0 mass%; US8530547B2 emphasizes vulcanizate heat resistance, compression set, and tension fatigue through carbon black selection and optional imidazole addition.",
+    "EP3650478B1 highlights rosin-acid-related emulsifier effects and coagulation/isolation by standard latex handling; US8530547B2 mentions conventional emulsifiers such as alkali metal salts of rosin acid or disproportionated rosin acid and standard steam stripping/freezing/washing/drying isolation.",
+    "Historically, US8530547B2 reflects a formulation-centric approach using known chloroprene rubber grades and fillers; EP3650478B1 is more structure-driven, using NMR-defined microstructure and comonomer incorporation to tune film properties.",
+    "Both patents rely on mercaptan-modified chloroprene rubber as a key platform, but EP3650478B1 couples it with 2,3-dichloro-1,3-butadiene copolymerization, whereas US8530547B2 couples it with carbon black reinforcement and optional imidazole for service durability."
+  ],
+  "conclusion": "The evidence indicates two complementary development paths for chloroprene rubber. EP3650478B1 shows that flexible yet mechanically robust dip-molded latex films can be obtained by tightly controlling emulsion polymerization temperature, mercaptan level, 2,3-dichloro-1,3-butadiene incorporation, and the resulting 13C NMR microstructure window. US8530547B2 shows that heat resistance and fatigue performance of vulcanized chloroprene rubber can be improved through formulation design, especially by selecting appropriate carbon black and optionally adding an imidazole compound. Based on the combined evidence, the most defensible synthesis strategy is mercaptan-modified chloroprene emulsion polymerization in the 10 to 25°C range, with 0.01 to 0.08 parts by mass alkyl mercaptan per 100 parts monomer, 4 to 35 mass% 2,3-dichloro-1,3-butadiene incorporation, and conversion of 60 to 95%, followed by compounding with carbon black in the 70 to 600 nm particle-size range when heat resistance and fatigue durability are required.",
+  "references": [
+    "EP3650478B1 | Mercaptane-modified polychloroprene latex and production method therefor | Not disclosed | EP | 2021 | https://patents.google.com/patent/EP3650478B1/en",
+    "US8530547B2 | Chloroprene rubber composition and its application | Not disclosed | US | 2013 | https://patents.google.com/patent/US8530547B2/en"
+  ]
+}
