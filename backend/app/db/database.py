@@ -11,14 +11,22 @@ from app.core.config import settings
 
 
 # ── Async engine ──────────────────────────────────────────────────────────────
-engine: AsyncEngine = create_async_engine(
-    settings.DATABASE_URL,
-    echo=settings.DEBUG,          # log SQL only in DEBUG mode
-    pool_size=10,
-    max_overflow=20,
-    pool_pre_ping=True,           # recycle stale connections
-    pool_recycle=3600,            # recycle connections every 1 h
-)
+# NOTE: pool_size / max_overflow are QueuePool-only options and are invalid
+# for SQLite's default pool (used by the test suite via an in-memory
+# sqlite+aiosqlite:// URL). Only pass them for non-SQLite (i.e. real
+# Postgres) URLs so production behavior is unchanged.
+_is_sqlite = settings.DATABASE_URL.startswith("sqlite")
+
+_engine_kwargs: dict = {
+    "echo": settings.DEBUG,       # log SQL only in DEBUG mode
+    "pool_pre_ping": not _is_sqlite,   # recycle stale connections
+    "pool_recycle": 3600,          # recycle connections every 1 h
+}
+if not _is_sqlite:
+    _engine_kwargs["pool_size"] = 10
+    _engine_kwargs["max_overflow"] = 20
+
+engine: AsyncEngine = create_async_engine(settings.DATABASE_URL, **_engine_kwargs)
 
 
 # ── Declarative Base ──────────────────────────────────────────────────────────
