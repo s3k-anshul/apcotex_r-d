@@ -114,8 +114,7 @@ def normalize_gemini_schema(schema: Dict[str, Any]) -> Dict[str, Any]:
                     logger.debug("Preserving required for RankedCandidate at %s", path)
                 elif has_compound and has_compound_name and has_synonyms:
                     logger.debug("Preserving required for CompoundSearchProfile at %s", path)
-                elif is_report_type:
-                    logger.debug("Preserving required for Report schema at %s", path)
+                
                 else:
                     del node["required"]
 
@@ -129,3 +128,4 @@ def normalize_gemini_schema(schema: Dict[str, Any]) -> Dict[str, Any]:
 
     resolved_schema = remove_required_selective(resolved_schema)
     return resolved_schema
+
