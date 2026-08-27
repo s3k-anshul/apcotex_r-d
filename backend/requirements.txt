@@ -33,4 +33,4 @@ anthropic>=0.30.0
 # --- Testing ---
 aiosqlite
 pytest-asyncio
-tiktoken
+tiktoken==0.12.0
