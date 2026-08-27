@@ -9,6 +9,12 @@ import pytest
 
 pytestmark = pytest.mark.asyncio
 
+@pytest.fixture(autouse=True)
+def reset_rate_limits():
+    from app.api.v1.auth import _rate_limits
+    _rate_limits.clear()
+
+
 
 async def test_auth_001_valid_login_returns_tokens(client, make_user):
     """AUTH-001: valid credentials return an access + refresh token."""
@@ -95,9 +101,8 @@ async def test_auth_006_brute_force_login_is_not_rate_limited(client, make_user)
         )
         statuses.append(resp.status_code)
 
-    # TODO: once rate limiting is added, change this to
-    # `assert 429 in statuses`
-    assert all(s == 401 for s in statuses), (
+    
+    assert 429 in statuses, (
         "If this assertion fails because a 429 appeared, that's GOOD NEWS — "
         "rate limiting has been implemented. Update this test to require it."
     )
@@ -134,3 +139,5 @@ async def test_auth_008_inactive_account_cannot_log_in(client, make_user):
         json={"username": "frank", "password": password},
     )
     assert resp.status_code == 401
+
+
