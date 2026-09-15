@@ -41,7 +41,7 @@ class ExtractorService:
             extraction.metadata.url = url
             extraction.metadata.patent_number = parsed_patent.patent_number or "Not disclosed"
             extraction.metadata.patent_title = parsed_patent.title or "Not disclosed"
-            extraction.metadata.assignee = parsed_patent.assignee or "Not disclosed"
+            extraction.metadata.assignee = (parsed_patent.assignee or "").strip() or "Not disclosed"
             extraction.metadata.jurisdiction = parsed_patent.jurisdiction or "Not disclosed"
             extraction.metadata.publication_year = parsed_patent.publication_date[:4] if parsed_patent.publication_date else "Not disclosed"
             
@@ -53,67 +53,78 @@ class ExtractorService:
                 excluded_variants = [v.lower() for v in profile.excluded_variants]
                 
             from app.services.pipeline.schemas import PatentExample, SynthesisSection
+            from app.services.pipeline.example_boundaries import split_example_sections
             
             # Structural Example Extraction
             examples_found = 0
-            if parsed_patent.examples:
-                # Fix: only split on Example headers that appear at the START of a line or paragraph.
-                # This prevents mid-sentence cross-references ("as described in Example 1",
-                # "shown in Example 3") from being treated as new section boundaries.
-                example_pattern = (
-                    r"(?:(?<=\n)|(?<=\r\n)|^)"
-                    r"(?:Example|Comparative Example|Preparation Example|Experimental Example|Synthesis Example)"
-                    r"\s+(?:\d+[a-zA-Z]?|[a-zA-Z])\b[\.\:]?"
-                )
-                blocks = re.split(f"({example_pattern})", parsed_patent.examples, flags=re.IGNORECASE | re.MULTILINE)
-                
-                before_count = sum(1 for b in blocks[1::2] if b.strip())
-                logger.info("Example sections found (line-start split count): %d", before_count)
-                
-                if len(blocks) <= 1:
-                    # No clear example boundaries found. Preserve as synthesis_section.
-                    ex_text = parsed_patent.examples
+            examples_source_text = parsed_patent.examples or ""
+            sections = split_example_sections(examples_source_text)
+
+            # If the dedicated examples field has no section headings, try the
+            # full description (same patterns — formatting gap, not jurisdiction).
+            if not sections and parsed_patent.detailed_description:
+                sections = split_example_sections(parsed_patent.detailed_description)
+                if sections:
+                    examples_source_text = parsed_patent.detailed_description
+
+            logger.info(
+                "Example sections found (line-start split count): %d",
+                len(sections),
+            )
+
+            if not sections:
+                # No clear example boundaries. Preserve available text as synthesis context.
+                if examples_source_text.strip():
+                    ex_text = examples_source_text
                     if len(ex_text) > 40000:
                         ex_text = ex_text[:40000] + "\n[... TRUNCATED ...]"
-                    extraction.synthesis_sections.append(SynthesisSection(section_title="Examples Block", raw_text=ex_text))
+                    extraction.synthesis_sections.append(
+                        SynthesisSection(
+                            section_title="Examples Block (unsegmented)",
+                            raw_text=ex_text,
+                        )
+                    )
+                    extraction.examples_detection_note = (
+                        "No numbered/worked-example section headings were detected; "
+                        "unsegmented process text retained for report evidence."
+                    )
                 else:
-                    # Dedup: normalize header for comparison (lowercase + collapse whitespace)
-                    # but preserve original casing in the stored example_id.
-                    seen_normalized: dict[str, int] = {}  # normalized_key -> index in extraction.examples
-                    for i in range(1, len(blocks), 2):
-                        header = blocks[i].strip()
-                        body = blocks[i+1].strip() if i+1 < len(blocks) else ""
-                        full_example_text = header + "\n" + body
-
-                        if len(full_example_text) > 15000:
-                            full_example_text = full_example_text[:15000] + "\n[... TRUNCATED DUE TO LENGTH ...]"
-
-                        # Normalized key for dedup (case-insensitive, whitespace-collapsed)
-                        norm_key = " ".join(header.lower().split())
-
-                        if norm_key in seen_normalized:
-                            # Merge body into the existing example (same section, different case)
-                            existing_idx = seen_normalized[norm_key]
-                            existing = extraction.examples[existing_idx]
-                            merged = existing.raw_text.rstrip() + "\n" + body
-                            if len(merged) > 15000:
-                                merged = merged[:15000] + "\n[... TRUNCATED DUE TO LENGTH ...]"
-                            extraction.examples[existing_idx] = PatentExample(
-                                example_id=existing.example_id,
-                                example_type=existing.example_type,
-                                title=existing.title,
-                                raw_text=merged
-                            )
-                        else:
-                            ex = PatentExample(
-                                example_id=header,
-                                example_type="Extracted Example",
-                                title=header,
-                                raw_text=full_example_text
-                            )
-                            seen_normalized[norm_key] = len(extraction.examples)
-                            extraction.examples.append(ex)
-                            examples_found += 1
+                    extraction.examples_detection_note = (
+                        "No worked-example sections were present in the patent text; "
+                        "report evidence falls back to claims/description."
+                    )
+            else:
+                seen_normalized: dict[str, int] = {}
+                for header, body in sections:
+                    full_example_text = header + "\n" + body
+                    if len(full_example_text) > 15000:
+                        full_example_text = (
+                            full_example_text[:15000]
+                            + "\n[... TRUNCATED DUE TO LENGTH ...]"
+                        )
+                    norm_key = " ".join(header.lower().split())
+                    if norm_key in seen_normalized:
+                        existing_idx = seen_normalized[norm_key]
+                        existing = extraction.examples[existing_idx]
+                        merged = existing.raw_text.rstrip() + "\n" + body
+                        if len(merged) > 15000:
+                            merged = merged[:15000] + "\n[... TRUNCATED DUE TO LENGTH ...]"
+                        extraction.examples[existing_idx] = PatentExample(
+                            example_id=existing.example_id,
+                            example_type=existing.example_type,
+                            title=existing.title,
+                            raw_text=merged,
+                        )
+                    else:
+                        ex = PatentExample(
+                            example_id=header,
+                            example_type="Extracted Example",
+                            title=header,
+                            raw_text=full_example_text,
+                        )
+                        seen_normalized[norm_key] = len(extraction.examples)
+                        extraction.examples.append(ex)
+                        examples_found += 1
             
             # Description Fallback (if no examples or very few)
             if examples_found == 0 and parsed_patent.detailed_description:

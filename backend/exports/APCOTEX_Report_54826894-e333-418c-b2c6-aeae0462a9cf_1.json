@@ -1,0 +1,828 @@
+{
+  "title": "PATENT RESEARCH REPORT",
+  "abstract": "This technical report synthesizes patent evidence for the preparation, polymerization, and copolymerization of Polycarbonate. Analyzing 15 primary patents, the report identifies key technical approaches including continuous melt polymerization, transition-metal-catalyzed copolymerization of carbon dioxide with epoxides (using cobalt-salen and bimetallic zinc catalysts), metal-free anionic copolymerization using phosphazene bases, and the synthesis of functional polycarbonates containing azido groups for biomedical hydrogels. Key process trends highlight a shift toward highly regioselective catalysts, metal-free systems for color-free solids, and precise control of end-group functionality (achieving up to 99% OH end groups) for polyol applications.",
+  "research_type": "Polymerization",
+  "primary_patents": [
+    {
+      "patent_details": {
+        "patent_number": "EP2052009",
+        "patent_title": "Method of preparing polycarbonate",
+        "assignee": "Not disclosed",
+        "jurisdiction": "EP",
+        "publication_year": "2012",
+        "material_type": "Polycarbonate Terpolymer",
+        "relevance_to_target": "Discloses a method of preparing polycarbonate terpolymers using monomers like BPA, hydroquinone, and methyl hydroquinone with PCP chainstoppers."
+      },
+      "technical_method": {
+        "section_title": "Preparation Method",
+        "parameters": [
+          {
+            "name": "BPA",
+            "value": "33",
+            "unit": "%",
+            "context": "Monomer ratio in terpolymer",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Hydroquinone",
+            "value": "34",
+            "unit": "%",
+            "context": "Monomer ratio in terpolymer",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Methyl hydroquinone",
+            "value": "33",
+            "unit": "%",
+            "context": "Monomer ratio in terpolymer",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "PCP",
+            "value": "70",
+            "unit": "mol%",
+            "context": "Chainstopper end groups",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Temperature Zone 1",
+            "value": "280",
+            "unit": "°C",
+            "context": "Zone 1 Temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Temperature Zone 2",
+            "value": "290",
+            "unit": "°C",
+            "context": "Zone 2 Temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Temperature Zone 3",
+            "value": "300",
+            "unit": "°C",
+            "context": "Zone 3 Temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Ultrasonic Treatment",
+            "value": "15",
+            "unit": "min",
+            "context": "Ultrasonic bath treatment time",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Terpolymer synthesis with 33% BPA, 34% hydroquinone, and 33% methyl hydroquinone.",
+        "Addition of para-cumyl phenol (PCP) chainstopper to yield 30, 50, or 70 mol% end groups at a target molecular weight of 30,000 g/mol.",
+        "Thermal processing zones set at 280°C, 290°C, and 300°C.",
+        "Ultrasonic treatment of the terpolymer for 15 minutes followed by shaking for 2 hours."
+      ],
+      "technical_relevance": "Discloses a method of preparing polycarbonate terpolymers using monomers like BPA, hydroquinone, and methyl hydroquinone with PCP chainstoppers."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US8445624",
+        "patent_title": "Processes for producing polycarbonate",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2013",
+        "material_type": "Polycarbonate Copolymer",
+        "relevance_to_target": "Discloses continuous polymerization processes using vertical and horizontal stirring reactors to produce polycarbonates from isosorbide, tricyclodecanedimethanol, and diphenyl carbonate."
+      },
+      "technical_method": {
+        "section_title": "Polymerization Method",
+        "parameters": [
+          {
+            "name": "Residence Time",
+            "value": "60",
+            "unit": "minutes",
+            "context": "Average residence time in reactor",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Isosorbide",
+            "value": "26.6",
+            "unit": "parts by weight",
+            "context": "Isosorbide monomer loading",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Tricyclodecanedimethanol",
+            "value": "15.3",
+            "unit": "parts by weight",
+            "context": "Tricyclodecanedimethanol monomer loading",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Diphenyl Carbonate",
+            "value": "58.0",
+            "unit": "parts by weight",
+            "context": "Diphenyl carbonate monomer loading",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Cesium Carbonate Catalyst",
+            "value": "0.2",
+            "unit": "%",
+            "context": "Cesium carbonate catalyst concentration",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Pressure",
+            "value": "13.3",
+            "unit": "kPa",
+            "context": "Pressure reduction target",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Reaction Time",
+            "value": "4",
+            "unit": "hours",
+            "context": "Total reaction time",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Continuous feed of molten starting materials through a pipe heated to 140°C into a vertical stirring reactor.",
+        "Polymerization initiated using cesium carbonate catalyst (0.2% aqueous solution).",
+        "Average residence time maintained at 60 minutes by regulating the polymer discharge line valve.",
+        "Resulting polycarbonates exhibit reduced viscosities of 0.55-0.60, Tg of 129°C, and 5% weight loss temperatures of 337-350°C."
+      ],
+      "technical_relevance": "Discloses continuous polymerization processes using vertical and horizontal stirring reactors to produce polycarbonates from isosorbide, tricyclodecanedimethanol, and diphenyl carbonate."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US9771453",
+        "patent_title": "Process of producing polycarbonate by copolymerization of carbon dioxide and …",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2017",
+        "material_type": "Aliphatic Polycarbonate",
+        "relevance_to_target": "Discloses copolymerization of carbon dioxide and epoxides (like propylene oxide) using cobalt-salen complexes to produce polycarbonates."
+      },
+      "technical_method": {
+        "section_title": "Copolymerization Method",
+        "parameters": [
+          {
+            "name": "CO2 Pressure",
+            "value": "18",
+            "unit": "bar",
+            "context": "Initial carbon dioxide pressure",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Propylene Oxide",
+            "value": "10.0",
+            "unit": "g",
+            "context": "Propylene oxide monomer loading",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Temperature",
+            "value": "70-75",
+            "unit": "°C",
+            "context": "Polymerization temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Reaction Time",
+            "value": "60",
+            "unit": "minutes",
+            "context": "Polymerization reaction time",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Monomer/Catalyst Ratio",
+            "value": "100,000",
+            "unit": "ratio",
+            "context": "Monomer to catalyst ratio",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Copolymerization of carbon dioxide and propylene oxide in a 50 mL bomb reactor.",
+        "Catalyst complexes prepared using cobalt acetate and various salen ligands with high yields (up to 100%).",
+        "Continuous injection of carbon dioxide at 20 bar for 1 hour at 70-75°C.",
+        "Induction times vary significantly from 1 hour (dry winter conditions) to 12 hours (high-temperature, high-humidity summer conditions)."
+      ],
+      "technical_relevance": "Discloses copolymerization of carbon dioxide and epoxides (like propylene oxide) using cobalt-salen complexes to produce polycarbonates."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US9006347",
+        "patent_title": "Method of synthesising polycarbonates in the presence of a bimetallic catalyst …",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2015",
+        "material_type": "Polycarbonate Polyol",
+        "relevance_to_target": "Discloses synthesis of polycarbonates by copolymerizing carbon dioxide and cyclohexene oxide (CHO) using bimetallic zinc catalysts and chain transfer agents."
+      },
+      "technical_method": {
+        "section_title": "Synthesis Method",
+        "parameters": [
+          {
+            "name": "Catalyst Loading",
+            "value": "0.1",
+            "unit": "mol %",
+            "context": "Zinc catalyst loading",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Temperature",
+            "value": "80",
+            "unit": "°C",
+            "context": "Reaction temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Stirring Speed",
+            "value": "700",
+            "unit": "rpm",
+            "context": "Stirring speed",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Chain Transfer Agent",
+            "value": "0.4",
+            "unit": "mol %",
+            "context": "Chain transfer agent loading",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Cyclohexene Oxide",
+            "value": "5",
+            "unit": "ml",
+            "context": "Cyclohexene oxide volume",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "CO2 Pressure",
+            "value": "1",
+            "unit": "atm",
+            "context": "Carbon dioxide pressure",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Reaction Time",
+            "value": "1-24",
+            "unit": "hours",
+            "context": "Process duration",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Copolymerization of CO2 and cyclohexene oxide (CHO) using bimetallic zinc catalysts ([L1Zn2(OAc)2] or [L1Zn2(CF3COO)2]).",
+        "Addition of chain transfer agents (A through Q) or water to produce polycyclohexene oxide carbonate polyols and diols.",
+        "High selectivity for copolymer formation (>99% carbonate linkages) maintained even in the presence of excess water.",
+        "Reaction mixtures quenched using a 5% solution of HCl/MeOH in dichloromethane."
+      ],
+      "technical_relevance": "Discloses synthesis of polycarbonates by copolymerizing carbon dioxide and cyclohexene oxide (CHO) using bimetallic zinc catalysts and chain transfer agents."
+    },
+    {
+      "patent_details": {
+        "patent_number": "EP2305734",
+        "patent_title": "Polycarbonate copolymer and method of producing the same",
+        "assignee": "Not disclosed",
+        "jurisdiction": "EP",
+        "publication_year": "2013",
+        "material_type": "Polycarbonate Copolymer",
+        "relevance_to_target": "Discloses polycarbonate copolymers containing isosorbide, 1,4-CHDM, TCDDM, and other dihydroxy compounds with high thermal stability."
+      },
+      "technical_method": {
+        "section_title": "Preparation Method",
+        "parameters": [
+          {
+            "name": "5% Weight Reduction Temp",
+            "value": "30-56",
+            "unit": "°C",
+            "context": "Temperature at 5% weight loss",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Synthesis of polycarbonate copolymers using isosorbide, tricyclodecanedimethanol (TCDDM), and other dihydroxy compounds.",
+        "Evaluation of thermal properties, including 5% weight reduction temperatures.",
+        "Comparison with commercial homopolymers (e.g., Iupilon H4000) and specific ternary copolymer compositions."
+      ],
+      "technical_relevance": "Discloses polycarbonate copolymers containing isosorbide, 1,4-CHDM, TCDDM, and other dihydroxy compounds with high thermal stability."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US10865275",
+        "patent_title": "Copolymerization of carbon dioxide and cyclic monomers to form polycarbonates",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2020",
+        "material_type": "Aliphatic Polycarbonate",
+        "relevance_to_target": "Discloses metal-free anionic copolymerization of carbon dioxide and cyclic monomers (epoxides) using phosphazene bases (t-BuP4) and diols."
+      },
+      "technical_method": {
+        "section_title": "Copolymerization Method",
+        "parameters": [
+          {
+            "name": "CO2 Pressure",
+            "value": "10",
+            "unit": "bar",
+            "context": "Carbon dioxide pressure",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Reaction Time",
+            "value": "10",
+            "unit": "hr",
+            "context": "Polymerization reaction time",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Reactor Volume",
+            "value": "50",
+            "unit": "mL",
+            "context": "Parr reactor volume",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "THF Volume",
+            "value": "1.0",
+            "unit": "mL",
+            "context": "Tetrahydrofuran solvent volume",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Metal-free anionic copolymerization of epoxides (propylene oxide, cyclohexene oxide, etc.) with CO2.",
+        "Use of 1,4-benzyldimethanol (BDM) and t-BuP4 base to initiate perfectly alternating copolymerization.",
+        "Achieved molar masses up to 250,000 g/mol with narrow molecular weight distributions (Mw/Mn < 1.3).",
+        "Reactions quenched using HCl in methanol (1 mol/L) or 10% HCl."
+      ],
+      "technical_relevance": "Discloses metal-free anionic copolymerization of carbon dioxide and cyclic monomers (epoxides) using phosphazene bases (t-BuP4) and diols."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US12240978",
+        "patent_title": "Methods for producing polycarbonate copolymer and polysiloxane compound, …",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2025",
+        "material_type": "Polycarbonate-Polysiloxane Copolymer",
+        "relevance_to_target": "Discloses preparation of polycarbonate-polysiloxane copolymers and polyarylene siloxanes."
+      },
+      "technical_method": {
+        "section_title": "Preparation Method",
+        "parameters": [
+          {
+            "name": "Heptane",
+            "value": "20",
+            "unit": "g",
+            "context": "Heptane added to reaction mixture",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Temperature",
+            "value": "90",
+            "unit": "°C",
+            "context": "Hot filtration temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Pressure Reduction Time",
+            "value": "45",
+            "unit": "hours",
+            "context": "Pressure reduction duration",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Molar Yield",
+            "value": "81.1",
+            "unit": "%",
+            "context": "Molar yield of white powders",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Solidified reaction mixture treated with 20 g heptane, heated to 90°C, and subjected to hot filtration.",
+        "Crystals washed with cold heptane (5°C) and dried under reduced pressure (1 hPa) for 45 hours to yield white powders.",
+        "Colorless and transparent polyarylene siloxane obtained by heating under normal pressure over 1.5 hours."
+      ],
+      "technical_relevance": "Discloses preparation of polycarbonate-polysiloxane copolymers and polyarylene siloxanes."
+    },
+    {
+      "patent_details": {
+        "patent_number": "EP4011934",
+        "patent_title": "Polyether polycarbonate diol and method for producing same",
+        "assignee": "Not disclosed",
+        "jurisdiction": "EP",
+        "publication_year": "2025",
+        "material_type": "Polyether Polycarbonate Diol",
+        "relevance_to_target": "Discloses polyether polycarbonate diols and methods for their production."
+      },
+      "technical_method": {
+        "section_title": "Technical Method",
+        "parameters": []
+      },
+      "experimental_evidence": [
+        "Discloses synthesis and characterization of polyether polycarbonate diols.",
+        "Focuses on achieving specific diol structures for polyurethane applications."
+      ],
+      "technical_relevance": "Discloses polyether polycarbonate diols and methods for their production."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US10597498",
+        "patent_title": "Method of producing crystalline polycarbonate powders",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2020",
+        "material_type": "Crystalline Polycarbonate Powder",
+        "relevance_to_target": "Discloses a method for preparing partially crystalline polycarbonate powders with controlled particle size via precipitation."
+      },
+      "technical_method": {
+        "section_title": "Preparation Method",
+        "parameters": [
+          {
+            "name": "Polycarbonate Concentration",
+            "value": "20",
+            "unit": "wt %",
+            "context": "Polycarbonate concentration in DCM",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Acetone Volume",
+            "value": "400",
+            "unit": "ml",
+            "context": "Acetone non-solvent volume",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Stirring Speed",
+            "value": "6000",
+            "unit": "rpm",
+            "context": "High shear mixing speed",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Crystallinity",
+            "value": "20-35",
+            "unit": "%",
+            "context": "Resulting powder crystallinity",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "GPC Flow Rate",
+            "value": "1.5",
+            "unit": "ml/min",
+            "context": "GPC flow rate",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Amorphous polycarbonate dissolved in dichloromethane (20 wt%) and gradually added to acetone (non-solvent) under high shear mixing (6000 rpm).",
+        "Resulting powder consists of ~93% particles with an average size of less than 150 μm.",
+        "Precipitated polycarbonate exhibits crystallinity between 20% and 35%."
+      ],
+      "technical_relevance": "Discloses a method for preparing partially crystalline polycarbonate powders with controlled particle size via precipitation."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US7723256",
+        "patent_title": "Polycarbonates made using highly selective catalysts",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2010",
+        "material_type": "Aliphatic Polycarbonate",
+        "relevance_to_target": "Discloses highly regioselective copolymerization of carbon dioxide and propylene oxide using cobalt-salen catalysts."
+      },
+      "technical_method": {
+        "section_title": "Copolymerization Method",
+        "parameters": [
+          {
+            "name": "CO2 Pressure",
+            "value": "10-850",
+            "unit": "psi",
+            "context": "Carbon dioxide pressure range",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Reaction Temperature",
+            "value": "20-25",
+            "unit": "°C",
+            "context": "Reaction temperature range",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Reaction Time",
+            "value": "0.5-4",
+            "unit": "hours",
+            "context": "Reaction time range",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Catalyst Ratio",
+            "value": "400:1 to 600:1",
+            "unit": "ratio",
+            "context": "Alkylene oxide to catalyst ratio",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Carbonate Linkages",
+            "value": "98",
+            "unit": "%",
+            "context": "Carbonate linkages in product",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Copolymerization of neat propylene oxide and CO2 in a Parr autoclave using [(R,R)-(salen)CoOAc] or [(R,R)-(salen)CoBr] catalysts.",
+        "Achieved high carbonate linkages (>=98%) and high regioselectivity (80-85% head-to-tail).",
+        "Precipitation of yellow crude complex by adding water (150 mL) to the reaction mixture."
+      ],
+      "technical_relevance": "Discloses highly regioselective copolymerization of carbon dioxide and propylene oxide using cobalt-salen catalysts."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US9868816",
+        "patent_title": "Aliphatic polycarbonate quench method",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2018",
+        "material_type": "Aliphatic Polycarbonate",
+        "relevance_to_target": "Discloses a method for quenching polymerization reactions of aliphatic polycarbonates using specific solvent mixtures."
+      },
+      "technical_method": {
+        "section_title": "Technical Method",
+        "parameters": [
+          {
+            "name": "Propyl Acetate",
+            "value": "50",
+            "unit": "wt %",
+            "context": "Propyl acetate in dope",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Propylene Oxide",
+            "value": "30",
+            "unit": "wt %",
+            "context": "Propylene oxide in dope",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "PPC Polymer",
+            "value": "20",
+            "unit": "wt %",
+            "context": "PPC polymer in dope",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Preparation of poly(propylene carbonate) (PPC) polymer in a pressurized reactor.",
+        "Dilution of the reaction mixture (dope) with propyl acetate to yield a composition of 50 wt% propyl acetate, 30 wt% propylene oxide, and 20 wt% PPC polymer.",
+        "Quenching process designed to stabilize the polymer and prevent degradation."
+      ],
+      "technical_relevance": "Discloses a method for quenching polymerization reactions of aliphatic polycarbonates using specific solvent mixtures."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US10752614",
+        "patent_title": "Monomers and polymers for functional polycarbonates and poly(ester-carbonates) …",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2020",
+        "material_type": "Functional Polycarbonate",
+        "relevance_to_target": "Discloses functional cyclic carbonate monomers (like AzDXO) and their ring-opening polymerization to form functional polycarbonates."
+      },
+      "technical_method": {
+        "section_title": "Polymerization Method",
+        "parameters": [
+          {
+            "name": "Monomer Conversion",
+            "value": "99",
+            "unit": "%",
+            "context": "Monomer conversion rate",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Overall Yield",
+            "value": "45.6",
+            "unit": "%",
+            "context": "Overall yield of AzDXO",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Gellation Time",
+            "value": "1",
+            "unit": "min",
+            "context": "Gellation time of hydrogel",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "FBS Concentration",
+            "value": "20",
+            "unit": "%",
+            "context": "FBS in expansion media",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Synthesis of azido-functionalized cyclic carbonate monomer (AzDXO) in two steps with 45.6% overall yield.",
+        "Ring-opening polymerization of AzDXO and copolymerization with L-lactide using DBU catalyst.",
+        "Rapid gellation (<1 min) of cell-hydrogel constructs via strain-promoted azide-alkyne cycloaddition (SPAAC) click reaction."
+      ],
+      "technical_relevance": "Discloses functional cyclic carbonate monomers (like AzDXO) and their ring-opening polymerization to form functional polycarbonates."
+    },
+    {
+      "patent_details": {
+        "patent_number": "EP2678326",
+        "patent_title": "Monomers and polymers for functional polycarbonates and poly (ester-carbonates) …",
+        "assignee": "Not disclosed",
+        "jurisdiction": "EP",
+        "publication_year": "2017",
+        "material_type": "Functional Polycarbonate",
+        "relevance_to_target": "Discloses functional cyclic carbonate monomers (AzDXO) and polycarbonates for biomedical applications, detailing ROP kinetics."
+      },
+      "technical_method": {
+        "section_title": "Polymerization Method",
+        "parameters": [
+          {
+            "name": "ROP Rate Constant (AzDXO)",
+            "value": "0.084",
+            "unit": "min -1",
+            "context": "ROP rate constant of AzDXO",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "ROP Rate Constant (L-LA)",
+            "value": "0.116",
+            "unit": "min -1",
+            "context": "ROP rate constant of L-LA",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Melting Point",
+            "value": "86.31 to 98.43",
+            "unit": "°C",
+            "context": "Melting point range of polymer",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Thermal Stability",
+            "value": "130",
+            "unit": "°C",
+            "context": "Thermal stability limit",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Determination of ring-opening polymerization (ROP) rate constants for AzDXO (0.084 min^-1) and L-lactide (0.116 min^-1).",
+        "Synthesis of PEG-P(AzDXO) macromers with >95% overall yield.",
+        "Characterization of polymer crystallinity and glass transitions using differential scanning calorimetry (DSC)."
+      ],
+      "technical_relevance": "Discloses functional cyclic carbonate monomers (AzDXO) and polycarbonates for biomedical applications, detailing ROP kinetics."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US11535706",
+        "patent_title": "Polycarbonate polyol compositions and methods",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2022",
+        "material_type": "Polycarbonate Polyol",
+        "relevance_to_target": "Discloses polycarbonate polyols with high OH end-group content prepared using cobalt catalysts and chain transfer agents."
+      },
+      "technical_method": {
+        "section_title": "Synthesis Method",
+        "parameters": [
+          {
+            "name": "Catalyst Loading",
+            "value": "11.5",
+            "unit": "mg",
+            "context": "Cobalt catalyst loading",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "PPN+Cl- Loading",
+            "value": "9.2",
+            "unit": "mg",
+            "context": "PPN+Cl- co-catalyst loading",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Propylene Oxide",
+            "value": "20",
+            "unit": "ml",
+            "context": "Propylene oxide volume",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "OH End Groups",
+            "value": "99",
+            "unit": "%",
+            "context": "OH end groups in polyol",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Synthesis of polycarbonate polyols in a Fisher-Potter bottle or glass vessel under vacuum.",
+        "Copolymerization of propylene oxide and CO2 using cobalt catalysts (E1 or E2) and PPN+Cl- co-catalyst.",
+        "Use of chain transfer agents like 1,4-cyclohexanedimethanol, propoxylated pentaerythritol, succinic acid, or adipic acid to control molecular weight.",
+        "Resulting polyols contain 97% to 99% OH end groups."
+      ],
+      "technical_relevance": "Discloses polycarbonate polyols with high OH end-group content prepared using cobalt catalysts and chain transfer agents."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US9809678",
+        "patent_title": "Polycarbonate polyol compositions and methods",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2017",
+        "material_type": "Polycarbonate Polyol",
+        "relevance_to_target": "Discloses polycarbonate polyols with high OH end-group content prepared using cobalt catalysts and chain transfer agents (similar to US11535706)."
+      },
+      "technical_method": {
+        "section_title": "Synthesis Method",
+        "parameters": [
+          {
+            "name": "Catalyst Loading",
+            "value": "11.5",
+            "unit": "mg",
+            "context": "Cobalt catalyst loading",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "PPN+Cl- Loading",
+            "value": "9.2",
+            "unit": "mg",
+            "context": "PPN+Cl- co-catalyst loading",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Propylene Oxide",
+            "value": "20",
+            "unit": "ml",
+            "context": "Propylene oxide volume",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "OH End Groups",
+            "value": "99",
+            "unit": "%",
+            "context": "OH end groups in polyol",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Copolymerization of propylene oxide and CO2 using cobalt catalysts (E1 or E2) and PPN+Cl- co-catalyst.",
+        "Incorporation of starter diols/triols (e.g., 1,4-cyclohexanedimethanol, propoxylated pentaerythritol) to yield polyols with 97-99% OH end groups.",
+        "Reactions quenched with acid, diluted with acetone, and concentrated to yield crude polymer."
+      ],
+      "technical_relevance": "Discloses polycarbonate polyols with high OH end-group content prepared using cobalt catalysts and chain transfer agents (similar to US11535706)."
+    }
+  ],
+  "competitor_patents": [],
+  "website_sources": [],
+  "cross_patent_comparison": [
+    "Transition-metal catalysts (cobalt-salen and bimetallic zinc) enable highly selective CO2/epoxide copolymerization at moderate temperatures (20-80 °C) but leave metal residues.",
+    "Metal-free anionic systems utilizing phosphazene bases (t-BuP4) or PPNCl/triethylborane complexes offer a clean alternative, yielding color-free solid polycarbonates with narrow molecular weight distributions.",
+    "Melt transesterification processes require high temperatures (up to 140 °C and above) and vacuum to drive the reaction, whereas copolymerization reactions run under elevated CO2 pressures (1 to 55 bar).",
+    "Functional polycarbonates prepared via ring-opening polymerization of azido-functionalized monomers (AzDXO) provide unique post-polymerization modification capabilities, stable up to 130 °C."
+  ],
+  "comparison_dimensions": [
+    {
+      "parameter_name": "CO2 Pressure",
+      "values": {}
+    }
+  ],
+  "conclusion": "The analyzed patent landscape for Polycarbonate reveals three dominant technical paradigms: high-temperature continuous melt transesterification for engineering thermoplastics, transition-metal or metal-free copolymerization of CO2 with cyclic ethers for aliphatic polycarbonates, and ring-opening polymerization of functional cyclic carbonates for biomedical applications. Key process trends emphasize the optimization of catalyst selectivity (achieving >99% carbonate linkages and high regioselectivity), the elimination of metal residues to produce color-free polymers, and the precise control of molecular weight and end-group functionality (97-99% OH end groups) for polyurethane prepolymers. Gaps in the patent evidence include detailed long-term aging and mechanical performance data for the resulting copolymers.",
+  "references": [
+    "EP2052009, Method of preparing polycarbonate, Published 2012-12-19, [Google Patents](https://patents.google.com/patent/EP2052009A1)",
+    "US8445624, Processes for producing polycarbonate, Published 2013-05-21, [Google Patents](https://patents.google.com/patent/US8445624B2)",
+    "US9771453, Process of producing polycarbonate by copolymerization of carbon dioxide and …, Published 2017-09-26, [Google Patents](https://patents.google.com/patent/US9771453B2)",
+    "US9006347, Method of synthesising polycarbonates in the presence of a bimetallic catalyst …, Published 2015-04-14, [Google Patents](https://patents.google.com/patent/US9006347B2)",
+    "EP2305734, Polycarbonate copolymer and method of producing the same, Published 2013-08-28, [Google Patents](https://patents.google.com/patent/EP2305734A1)",
+    "US10865275, Copolymerization of carbon dioxide and cyclic monomers to form polycarbonates, Published 2020-12-15, [Google Patents](https://patents.google.com/patent/US10865275B2)",
+    "US12240978, Methods for producing polycarbonate copolymer and polysiloxane compound, …, Published 2025-03-04, [Google Patents](https://patents.google.com/patent/US12240978B2)",
+    "EP4011934, Polyether polycarbonate diol and method for producing same, Published 2025-11-26, [Google Patents](https://patents.google.com/patent/EP4011934A1)",
+    "US10597498, Method of producing crystalline polycarbonate powders, Published 2020-03-24, [Google Patents](https://patents.google.com/patent/US10597498B2)",
+    "US7723256, Polycarbonates made using highly selective catalysts, Published 2010-05-25, [Google Patents](https://patents.google.com/patent/US7723256B2)",
+    "US9868816, Aliphatic polycarbonate quench method, Published 2018-01-16, [Google Patents](https://patents.google.com/patent/US9868816B2)",
+    "US10752614, Monomers and polymers for functional polycarbonates and poly(ester-carbonates) …, Published 2020-08-25, [Google Patents](https://patents.google.com/patent/US10752614B2)",
+    "EP2678326, Monomers and polymers for functional polycarbonates and poly (ester-carbonates) …, Published 2017-08-02, [Google Patents](https://patents.google.com/patent/EP2678326A1)",
+    "US11535706, Polycarbonate polyol compositions and methods, Published 2022-12-27, [Google Patents](https://patents.google.com/patent/US11535706B2)",
+    "US9809678, Polycarbonate polyol compositions and methods, Published 2017-11-07, [Google Patents](https://patents.google.com/patent/US9809678B2)"
+  ]
+}

@@ -19,14 +19,14 @@ from app.db.database import engine
 from app.models.research_run import ResearchRun, RunStatus
 from app.models.report_metadata import ReportMetadata
 from app.models.report_file import ReportFile
-from app.services.pipeline.schemas import PatentExtraction, TitleTriageResult
+from app.services.pipeline.schemas import PatentExtraction, PatentSelectionResult
 from app.services.pipeline.search_service import SearchService
 from app.services.pipeline.fetcher_service import FetcherService
 from app.services.pipeline.extractor_service import ExtractorService
 from app.services.pipeline.report_service import ReportService
 from app.core.telemetry import set_current_run_id, set_current_stage, TelemetryStage
 from app.services.llm import llm_client
-from app.services.prompts.patent_prompts import TITLE_TRIAGE_PROMPT
+from app.services.prompts.patent_prompts import PATENT_SELECTION_PROMPT
 
 logger = logging.getLogger(__name__)
 
@@ -68,11 +68,10 @@ class PipelineOrchestrator:
         Alias expansion is DISABLED.
 
         Rationale: first-letter acronym generation produces degenerate short
-        tokens (e.g. 'nr' from 'nitrile rubber', 'hn' from 'hydrogenated nbr')
-        that cause false-positive material-evidence matches in unrelated patents.
-        The LLM already provides a complete synonym/abbreviation set in
-        base_material (e.g. 'NBR', 'HNBR', 'ACN'), so no additional expansion
-        is needed. Return an empty list so callers continue to work unchanged.
+        tokens that cause false-positive material-evidence matches in unrelated
+        patents. The LLM already provides a complete synonym/abbreviation set in
+        base_material for the current compound, so no additional expansion is
+        needed. Return an empty list so callers continue to work unchanged.
         """
         return []
 
@@ -86,1006 +85,796 @@ class PipelineOrchestrator:
         "narrow", "broad", "wide", "controlled", "very", "medium", "moderate",
         "partial", "partially",
         # Generic property-dimension words — too common to be material identity tokens.
-        # E.g. "Low Molecular Weight NBR" → only "nbr" remains as identity token.
+        # E.g. "Low Molecular Weight <Material>" → only material identity tokens remain.
         "molecular", "weight", "content", "level", "degree", "number", "index",
         "average", "distribution", "ratio", "fraction", "percent",
     ])
 
-    # Verb/process stems that indicate a TYPE_A (transformation) target
-    # when they appear in the target modification concepts.
-    _TRANSFORMATION_VERB_STEMS = (
-        "hydrogenat", "carboxylat", "sulfon", "graft", "crosslink",
-        "functionali", "chlorinat", "epoxidi", "oxidis", "oxidiz",
-        "vulcaniz", "degrad", "metathesi", "polymeriz", "copolymeriz",
-    )
 
-    def _classify_target_type(self, requested_attributes: set, target_modifications: list) -> str:
+    def _reset_filter_stats(self) -> None:
+        self._filter_stats = {
+            "selection_reject_variant": 0,
+            "selection_reject_downstream": 0,
+            "selection_reject_medium": 0,
+            "selection_reject_other": 0,
+            "selection_related_retain": 0,
+            "selection_keep": 0,
+            "fetch_failures": 0,
+            "extraction_failures": 0,
+            "reached_selection": 0,
+            "reached_fetch": 0,
+        }
+        self._related_candidates = []
+
+    def _format_zero_survivors_error(self, *, reached_validation: int) -> str:
+        s = getattr(self, "_filter_stats", {})
+        variant_total = s.get("selection_reject_variant", 0)
+        downstream_total = s.get("selection_reject_downstream", 0)
+        related_total = s.get("selection_related_retain", 0)
+        other = (
+            s.get("selection_reject_other", 0)
+            + s.get("selection_reject_medium", 0)
+            + s.get("fetch_failures", 0)
+            + s.get("extraction_failures", 0)
+        )
+        return (
+            f"Pipeline stopped: 0 patents survived the configured selection criteria "
+            f"(this is not a claim that no related patents exist in the literature). "
+            f"Of candidates that reached selection ({reached_validation}): "
+            f"{variant_total} qualifier/variant mismatch, "
+            f"{downstream_total} downstream-only, "
+            f"{related_total} related/non-primary retained for diagnostics only, "
+            f"{other} other rejections (identity mismatch, unrelated, insufficient evidence). "
+            f"Consider broadening discovery queries or reviewing identity/qualifier thresholds."
+        )
+
+    @staticmethod
+    def _strategy_tokens(strategy, compound_name: str) -> set[str]:
+        """Tokenize the current research strategy for evidence overlap (compound-agnostic)."""
+        tokens: set[str] = set()
+        fields = (
+            "base_material",
+            "target_modifications",
+            "target_attributes",
+            "synthesis_transformations",
+            "excluded_variants",
+            "precursor_relationships",
+            "relevant_process_concepts",
+            "downstream_terms",
+        )
+        for field in fields:
+            for term in getattr(strategy, field, []) or []:
+                for tok in re.findall(r"\b[a-zA-Z]{3,}\b", str(term).lower()):
+                    tokens.add(tok)
+        for tok in re.findall(r"\b[a-zA-Z]{3,}\b", (compound_name or "").lower()):
+            if tok not in PipelineOrchestrator._DIRECTIONAL_QUALIFIERS:
+                tokens.add(tok)
+        return tokens
+
+    async def _enrich_candidates_for_selection(
+        self,
+        candidates: list,
+        strategy,
+        compound_name: str,
+        *,
+        max_enrich: int = 60,
+        concurrency: int = 6,
+    ) -> list:
         """
-        Dynamically classify the target type from LLM-provided concept strings:
-          'TYPE_A' — process/transformation target (has transformation verb stem)
-          'TYPE_B' — attribute/range target (has directional qualifier word)
-          'MIXED'  — both signals present; apply TYPE_B tolerance for attribute scoring
-        No compound-specific terms used — decision is based solely on structure.
+        Lightweight evidence enrichment before authoritative selection.
+        Uses FetcherService.fetch_selection_evidence (metadata/abstract/claims),
+        not full-text extraction. Bounded concurrency and candidate cap.
         """
-        has_directional = False
-        has_transformation = False
+        if not candidates:
+            return candidates
 
-        all_concepts = list(requested_attributes) + [m.lower() for m in (target_modifications or [])]
-        for concept in all_concepts:
-            for tok in re.findall(r'\b[a-zA-Z]+\b', concept.lower()):
-                if tok in self._DIRECTIONAL_QUALIFIERS:
-                    has_directional = True
-                for stem in self._TRANSFORMATION_VERB_STEMS:
-                    if tok.startswith(stem):
-                        has_transformation = True
+        tokens = self._strategy_tokens(strategy, compound_name)
+        to_enrich = candidates[:max_enrich]
+        sem = asyncio.Semaphore(concurrency)
 
-        if has_directional and has_transformation:
-            return "MIXED"
-        if has_directional:
-            return "TYPE_B"
-        if has_transformation:
-            return "TYPE_A"
-        return "TYPE_A"  # default: treat as process intent
-
-    def _split_attribute_concepts(self, phrase: str) -> tuple:
-        """
-        For a TYPE_B attribute phrase (e.g. 'low acrylonitrile', 'high Mooney viscosity'):
-        Split into (qualifier_tokens, dimension_tokens).
-        qualifier_tokens — directional words (used for directional context only)
-        dimension_tokens — property/attribute nouns (used for title/text matching)
-
-        Generic: works for any property noun regardless of compound type.
-        """
-        tokens = re.findall(r'\b[a-zA-Z]+\b', phrase.lower())
-        qualifiers = set()
-        dimensions = set()
-        for tok in tokens:
-            if tok in self._DIRECTIONAL_QUALIFIERS:
-                qualifiers.add(tok)
-            elif len(tok) >= 3:
-                dimensions.add(tok)
-        return qualifiers, dimensions
-
-    # ── SYNTHESIS VERB STEMS used by Gate A ──────────────────────────────────
-    # Generic — no compound-specific terms.
-    _SYNTHESIS_VERB_STEMS = (
-        "prepar", "produc", "synthesi", "polymeriz", "copolymeriz",
-        "manufactur", "obtain", "mak", "form",
-    )
-
-    # ── DOWNSTREAM ARTICLE / PRODUCT NOUNS used by Gate A ────────────────────
-    # If Claim 1's primary subject (before "comprising") is one of these, the
-    # patent's invention is a downstream article, formulation, or device that
-    # USES the target material — it is not about making the material itself.
-    # Deliberately excludes: "rubber", "polymer", "elastomer", "copolymer",
-    # "composition", "formulation", "mixture", "blend" — in rubber/polymer
-    # chemistry these words describe the MATERIAL ITSELF, not a downstream product.
-    # "A rubber composition comprising..." is a standard material-identity claim.
-    _DOWNSTREAM_CLAIM_NOUNS = frozenset([
-        # End-use articles and parts (unambiguously downstream)
-        "article", "seal", "hose", "belt", "glove", "tire", "tyre",
-        "roller", "gasket", "bushing", "bearing", "tube", "pipe",
-        "cable", "wire", "insulation", "sheath", "jacket",
-        "panel", "board", "mat", "pad", "foam", "cushion",
-        "part", "component", "element", "member",
-        # Coatings, films and surface materials
-        "layer", "coating", "film", "ink", "paste", "varnish", "lacquer",
-        "laminate", "sheet", "substrate", "tape", "adhesive", "sealant",
-        "fabric", "fiber", "textile", "thread",
-        # Electrical / electronic devices (not the polymer material itself)
-        "electrode", "battery", "capacitor",
-        "cartridge", "toner", "printer",
-        # Polymer-class nouns unambiguously different from rubber/elastomer
-        "composite", "nanocomposite",
-        "thermoplastic", "thermoset",
-        "epoxy", "resin", "vulcanizate",
-        # Device / apparatus
-        "membrane", "device", "apparatus", "dispenser",
-        # Dispersant / pigment / cosmetic / specialty
-        # NOTE: "emulsifier" and "surfactant" are synthesis REAGENTS used in
-        # emulsion polymerization — NOT downstream article nouns. Do NOT add them here.
-        "dispersant", "pigment",
-        "cosmetic", "lotion", "cream",
-        # Implant / medical
-        "implant", "prosthesis", "scaffold",
-    ])
-
-    def _gate_a_synthesis_subject(self, parsed_patent, material_tokens: set) -> dict:
-        """
-        GATE A — Synthesis Subject:
-        Is the target material (or its direct precursor) the PRIMARY SUBJECT
-        of the patent's independent claims — i.e. is the patent about MAKING
-        the material — rather than a downstream article/device/composition that
-        merely CONTAINS or USES the material?
-
-        Iterates through all independent claims. Returns PASS if ANY independent claim passes.
-        """
-        claims_text = (parsed_patent.claims or "").strip().lower()
-        abstract_text = (parsed_patent.abstract or "").strip().lower()
-
-        independent_claims = []
-        if claims_text:
-            # Match numbered claims
-            claim_matches = re.finditer(r'(?:^|\n)\s*(\d+)\.\s*(.*?)(?=(?:^|\n)\s*\d+\.|\Z)', claims_text, re.DOTALL)
-            for match in claim_matches:
-                num = match.group(1)
-                text = match.group(2).strip()
-                # Heuristic for independent claim: no reference to another claim
-                if "claim " not in text.lower() and "claims " not in text.lower():
-                    independent_claims.append(f"{num}. {text}")
-
-        # Fallback to claim 1 extraction if no independent claims found using heuristic
-        if not independent_claims and claims_text:
-            c2_end = len(claims_text)
-            for pat in [r'\n\s*2\.', r'\nclaim\s+2\b', r'\n\s*2\)\s']:
-                m = re.search(pat, claims_text)
-                if m and m.start() > 30:
-                    c2_end = min(c2_end, m.start())
-            independent_claims.append(claims_text[:min(c2_end, 900)])
-
-        if not independent_claims and abstract_text:
-            independent_claims.append(abstract_text[:600])
-
-        if not independent_claims:
-            return {"pass": True, "reason": "No claims/abstract text available — Gate A defaults to PASS"}
-
-        all_process_stems = self._SYNTHESIS_VERB_STEMS + self._TRANSFORMATION_VERB_STEMS
-        reasons_for_failure = []
-
-        for claim_text in independent_claims:
-            claim_text = claim_text[:900]
-            _synth_claim_text = claim_text.replace('-', '')
-            _synth_stem_re = '|'.join(all_process_stems)
-            synthesis_as_subject = bool(re.search(
-                r'(?:^|(?<=\s))(?:a\s+)?(?:process|method|procedure)\s+(?:for|of)\s+(?:the\s+)?(?:'
-                + _synth_stem_re + r')\w*'
-                r'|a\s+(?:process|method)\s+comprising\s+(?:the\s+)?steps?',
-                _synth_claim_text
-            ))
-
-            polymer_structural = bool(re.search(
-                r'a\s+(?:co)?polymer\b'
-                r'|a\s+(?:nitrile\s+)?(?:rubber|elastomer)\b'
-                r'|a\s+copolymer\b'
-                r'|an?\s+elastomeric\s+(?:polymer|material)\b',
-                claim_text[:400]
-            ))
-
-            comprising_split = re.split(
-                r'\bcompris|\bcontain|\bconsist|\bbased\s+on|\bformed\s+from',
-                claim_text[:500], maxsplit=1
-            )
-            pre_comprising = comprising_split[0] if len(comprising_split) > 1 else ""
-            pre_comprising_toks = set(re.findall(r'\b[a-z]+\b', pre_comprising))
-            pre_comprising_toks |= {tok.rstrip('s') for tok in pre_comprising_toks}
-            downstream_noun_hit = pre_comprising_toks.intersection(self._DOWNSTREAM_CLAIM_NOUNS)
-            is_downstream_claim = bool(downstream_noun_hit)
-
-            material_in_claim = any(tok in claim_text for tok in material_tokens if len(tok) >= 3)
-
-            if synthesis_as_subject and material_in_claim and not is_downstream_claim:
-                return {"pass": True, "reason": "An independent claim describes synthesis/preparation process of target material"}
-
-            if polymer_structural and material_in_claim and not is_downstream_claim:
-                return {"pass": True, "reason": "An independent claim describes the target polymer/material itself (structural claim)"}
-
-            # Also pass: structural composition claim (e.g. "A rubber composition comprising...") 
-            # where the base material is explicitly identified. These are material-identity claims.
-            composition_structural = bool(re.search(
-                r'\b(?:rubber|polymer|elastomer|copolymer|nitrile)\b.*\bcomprising\b',
-                claim_text[:400]
-            ))
-            if composition_structural and material_in_claim:
-                return {"pass": True, "reason": "An independent claim is a structural composition claim for the target rubber/polymer material"}
-
-            if synthesis_as_subject and is_downstream_claim:
-                synth_pos = min(
-                    (claim_text.find(stem) for stem in all_process_stems if stem in claim_text),
-                    default=9999
-                )
-                if synth_pos < 9999:
-                    nearby_text = claim_text[synth_pos: synth_pos + 80]
-                    downstream_immediately_after = any(
-                        noun in nearby_text for noun in self._DOWNSTREAM_CLAIM_NOUNS
+        async def _one(cand: dict) -> None:
+            url = cand.get("url") or ""
+            if not url:
+                cand["selection_evidence_sources"] = ["title", "snippet"]
+                return
+            async with sem:
+                try:
+                    pack = await self.fetcher_service.fetch_selection_evidence(
+                        url, strategy_tokens=tokens
                     )
-                    if not downstream_immediately_after and material_in_claim:
-                        return {"pass": True, "reason": "An independent claim synthesis verb's product is the target material"}
+                except Exception as e:
+                    logger.warning(
+                        "[SELECTION ENRICH] %s failed: %s",
+                        cand.get("patent_number"),
+                        e,
+                    )
+                    pack = None
+            sources = ["title", "snippet"]
+            if pack:
+                if pack.get("title") and not cand.get("title"):
+                    cand["title"] = pack["title"]
+                if pack.get("abstract"):
+                    cand["abstract"] = pack["abstract"]
+                    sources.append("abstract")
+                if pack.get("claims_excerpt"):
+                    cand["claims_excerpt"] = pack["claims_excerpt"]
+                    sources.append("claims")
+                if pack.get("assignee") and not cand.get("assignee"):
+                    cand["assignee"] = pack["assignee"]
+                if pack.get("publication_date") and not cand.get("publication_date"):
+                    cand["publication_date"] = pack["publication_date"]
+                for s in pack.get("evidence_sources") or []:
+                    if s not in sources:
+                        sources.append(s)
+            cand["selection_evidence_sources"] = sources
+            logger.info(
+                "[SELECTION ENRICH] %s | sources=%s | abstract_chars=%d | claims_chars=%d",
+                cand.get("patent_number"),
+                ",".join(sources),
+                len(cand.get("abstract") or ""),
+                len(cand.get("claims_excerpt") or ""),
+            )
 
-            if is_downstream_claim and not synthesis_as_subject:
-                reasons_for_failure.append(f"Primary subject contains downstream noun ({', '.join(sorted(downstream_noun_hit)[:2])})")
-            elif not material_in_claim:
-                reasons_for_failure.append("No material identity tokens found in claim")
-            else:
-                reasons_for_failure.append("Claim describes making a downstream article or lacks synthesis intent")
+        await asyncio.gather(*[_one(c) for c in to_enrich])
+        for cand in candidates[max_enrich:]:
+            cand.setdefault("selection_evidence_sources", ["title", "snippet"])
+        return candidates
 
-        reason_str = "; ".join(list(set(reasons_for_failure))[:3]) if reasons_for_failure else "No valid claims parsed"
-        return {
-            "pass": False,
-            "reason": f"No independent claim passed Gate A criteria. Reasons: {reason_str}"
+    @staticmethod
+    def _selection_rank_tuple(verdict) -> tuple:
+        """Higher is better — used after evaluating ALL candidates.
+
+        Prefer direct synthesis / transformation of the target over generic
+        composition or residual downstream cases. Qualifier MATCH ranks above
+        UNKNOWN; MISMATCH should not reach ranking.
+        """
+        cls = getattr(verdict, "classification", None)
+        cls_name = str(getattr(cls, "value", cls) or "").upper()
+        cls_score = {
+            "DIRECT_SYNTHESIS": 6,
+            "TARGET_TRANSFORMATION": 6,
+            "POLYMER_STRUCTURE": 5,
+            "PRECURSOR_OR_INTERMEDIATE": 4,
+            "AMBIGUOUS": 2,
+            "BASE_MATERIAL_ONLY": 1,
+            "DOWNSTREAM_APPLICATION": 0,
+            "UNRELATED": 0,
+        }.get(cls_name, 2)
+        centrality = getattr(verdict, "technical_centrality", None)
+        c_val = getattr(centrality, "value", centrality) if centrality is not None else "PARTIAL"
+        c_score = {"CENTRAL": 4, "PARTIAL": 2, "PERIPHERAL": 1, "NONE": 0}.get(str(c_val), 2)
+        vm = str(getattr(verdict, "variant_match", "UNKNOWN") or "UNKNOWN").upper()
+        q_score = {"MATCH": 3, "PARTIAL": 2, "UNKNOWN": 1, "MISMATCH": 0}.get(vm, 1)
+        strength = float(getattr(verdict, "evidence_strength", 0.0) or 0.0)
+        conf = float(getattr(verdict, "confidence", 0.0) or 0.0)
+        return (cls_score, c_score, q_score, strength, conf)
+
+    @staticmethod
+    def _norm_str_field(verdict, name: str, default: str = "UNKNOWN") -> str:
+        raw = getattr(verdict, name, None)
+        if raw is None:
+            return default
+        return str(getattr(raw, "value", raw) or default).upper()
+
+    def _derive_rejection_category(
+        self,
+        *,
+        relationship: str,
+        material_identity: str,
+        variant_match: str,
+        variant_mismatch: bool,
+        medium_mismatch: bool,
+        downstream_only: bool,
+        cls_name: str,
+        retain_related: bool,
+        llm_category: str = "",
+    ) -> str:
+        cat = (llm_category or "").strip().upper()
+        allowed = {
+            "UNRELATED_MATERIAL",
+            "NON_TARGET_MATERIAL",
+            "TARGET_AS_COMPONENT",
+            "TARGET_AS_SEGMENT",
+            "DOWNSTREAM_ONLY",
+            "QUALIFIER_MISMATCH",
+            "INSUFFICIENT_TARGET_EVIDENCE",
+            "AMBIGUOUS_TARGET_IDENTITY",
+            "MEDIUM_MISMATCH",
+            "RELATED_RETAINED",
+        }
+        if cat in allowed:
+            return cat
+        if medium_mismatch:
+            return "MEDIUM_MISMATCH"
+        if variant_mismatch or variant_match == "MISMATCH":
+            return "QUALIFIER_MISMATCH"
+        if relationship == "RELATED_TARGET" or retain_related:
+            return "RELATED_RETAINED"
+        if relationship == "DOWNSTREAM_ADJACENT" or downstream_only or cls_name == "DOWNSTREAM_APPLICATION":
+            return "DOWNSTREAM_ONLY"
+        if material_identity == "MISMATCH" or relationship == "REJECTED":
+            return "NON_TARGET_MATERIAL"
+        if material_identity == "UNKNOWN" or relationship == "REJECTED":
+            return "AMBIGUOUS_TARGET_IDENTITY"
+        if cls_name == "UNRELATED":
+            return "UNRELATED_MATERIAL"
+        return "INSUFFICIENT_TARGET_EVIDENCE"
+
+    @staticmethod
+    def _detected_aligns_with_base_material(detected: str, strategy) -> bool:
+        """
+        Compound-agnostic overlap check using THIS run's strategy base_material /
+        identity_exclusions only — never a hard-coded synonym table.
+        """
+        det = (detected or "").strip().lower()
+        if not det or strategy is None:
+            return False
+        exclusions = []
+        for field in ("identity_exclusions", "excluded_variants"):
+            for term in getattr(strategy, field, None) or []:
+                t = str(term or "").strip().lower()
+                if t:
+                    exclusions.append(t)
+        for ex in exclusions:
+            if len(ex) >= 3 and ex in det:
+                return False
+        bases = []
+        for term in getattr(strategy, "base_material", None) or []:
+            t = str(term or "").strip().lower()
+            if t:
+                bases.append(t)
+        for b in bases:
+            if len(b) >= 3 and b in det:
+                return True
+        return False
+
+    @staticmethod
+    def _text_hits_strategy_downstream(text: str, strategy) -> bool:
+        blob = (text or "").lower()
+        if not blob or strategy is None:
+            return False
+        for term in getattr(strategy, "downstream_terms", None) or []:
+            t = str(term or "").strip().lower()
+            if len(t) >= 4 and t in blob:
+                return True
+        return False
+
+    def _compute_primary_eligibility(
+        self, verdict, relationship: str, *, llm_decision: str, strategy=None, title: str = ""
+    ) -> tuple[bool, str, str]:
+        """
+        Authoritative primary eligibility.
+        Separates material identity from qualifier UNKNOWN vs MISMATCH.
+        Returns (eligible, effective_relationship, variant_match_norm).
+        """
+        material_identity = self._norm_str_field(verdict, "material_identity", "UNKNOWN")
+        variant_match = self._norm_str_field(verdict, "variant_match", "UNKNOWN")
+        centrality = self._norm_str_field(verdict, "technical_centrality", "PARTIAL")
+        downstream_only = bool(getattr(verdict, "downstream_only", False))
+        variant_mismatch = bool(getattr(verdict, "variant_mismatch", False)) or variant_match == "MISMATCH"
+        medium_mismatch = bool(getattr(verdict, "polymerization_medium_mismatch", False))
+        decision = (llm_decision or "REJECT").upper()
+        cls = getattr(verdict, "classification", None)
+        cls_name = str(getattr(cls, "value", cls) or "").upper()
+        detected = (getattr(verdict, "detected_primary_material", None) or "").strip()
+        synthesis_focus = cls_name in {
+            "DIRECT_SYNTHESIS",
+            "TARGET_TRANSFORMATION",
+            "POLYMER_STRUCTURE",
+            "PRECURSOR_OR_INTERMEDIATE",
+            "BASE_MATERIAL_ONLY",
+            "AMBIGUOUS",
         }
 
-    def _gate_b_attribute_grounding(
-        self, text: str, requested_attributes: set, target_type: str
-    ) -> dict:
-        """
-        GATE B — Target-Attribute Grounding:
-        Does the patent contain ACTUAL EVIDENCE addressing the specific target
-        attribute dimension (e.g. acrylonitrile content, hydrogenation degree,
-        molecular weight, carboxylation level — whatever the LLM derived for
-        this run)?
+        # RELATED is never primary (preserve anti-contamination).
+        if relationship == "RELATED_TARGET":
+            return False, relationship, variant_match
 
-        Generic — driven entirely by LLM-derived target_modifications / target_attributes.
-        No compound names or attribute names are hardcoded.
+        # Finished-product / ingredient uses are never primary.
+        if (
+            relationship == "DOWNSTREAM_ADJACENT"
+            or downstream_only
+            or cls_name == "DOWNSTREAM_APPLICATION"
+        ):
+            return False, "DOWNSTREAM_ADJACENT", variant_match
 
-        For TYPE_A (transformation) targets: the transformation verb IS the
-        attribute dimension; it must appear in a synthesis/process context
-        (near catalyst, reactor, temperature, step, etc.) — at least 2 windows.
+        # Strategy downstream cues (from THIS run's profile) catch mislabeled article patents.
+        # Direct synthesis/polymerization of the base material is exempt.
+        if cls_name not in {"DIRECT_SYNTHESIS", "POLYMER_STRUCTURE"} and self._text_hits_strategy_downstream(
+            f"{detected} {title}", strategy
+        ):
+            return False, "DOWNSTREAM_ADJACENT", variant_match
 
-        For TYPE_B / MIXED targets: the dimension token must appear in a
-        controlling/quantitative context — near an active control verb (adjust,
-        target, control, regulate, range, achieve, maintain) OR with an explicit
-        numeric+unit value — at least 2 distinct text windows.
+        effective_rel = relationship
+        # Soft-correct REJECTED → PRIMARY when base material MATCH and synthesis-focused.
+        if (
+            material_identity == "MATCH"
+            and relationship == "REJECTED"
+            and centrality in ("CENTRAL", "PARTIAL")
+            and synthesis_focus
+        ):
+            effective_rel = "PRIMARY_TARGET"
 
-        Descriptive mentions ("the starting rubber had X% acrylonitrile") do NOT
-        count — only controlling/process-intent contexts qualify.
+        # Soft-correct UNKNOWN material_identity when LLM already asserted PRIMARY
+        # with synthesis focus (common over-strict conflation of qualifier into identity).
+        if (
+            effective_rel == "PRIMARY_TARGET"
+            and material_identity == "UNKNOWN"
+            and synthesis_focus
+            and centrality in ("CENTRAL", "PARTIAL")
+        ):
+            material_identity = "MATCH"
 
-        Returns dict: {'pass': bool, 'dimension_tokens': list, 'hits': int, 'reason': str}
-        """
-        # Collect all dimension tokens across all requested attributes
-        all_dimension_tokens: set = set()
-        for attr in requested_attributes:
-            _, dim_toks = self._split_attribute_concepts(attr)
-            all_dimension_tokens.update(dim_toks)
+        # Strategy-driven rescue: LLM sometimes sets material MISMATCH/UNKNOWN because
+        # the qualifier differs, while detected_primary_material still names the base.
+        if (
+            material_identity in ("MISMATCH", "UNKNOWN")
+            and synthesis_focus
+            and centrality in ("CENTRAL", "PARTIAL")
+            and not variant_mismatch
+            and relationship not in ("RELATED_TARGET", "DOWNSTREAM_ADJACENT")
+            and self._detected_aligns_with_base_material(detected, strategy)
+        ):
+            material_identity = "MATCH"
+            if effective_rel == "REJECTED":
+                effective_rel = "PRIMARY_TARGET"
 
-        # No specific attribute dimension: pure base-material search — PASS
-        if not all_dimension_tokens:
-            return {
-                "pass": True, "dimension_tokens": [], "hits": 0,
-                "reason": "Gate B: no attribute dimension tokens — base-material search only"
-            }
+        about_target = material_identity == "MATCH" and effective_rel == "PRIMARY_TARGET"
+        if not about_target:
+            return False, effective_rel, variant_match
 
-        # ── TYPE_A: transformation verb is the attribute ──────────────────────
-        # Require the transformation dimension to appear near synthesis-context words
-        # (not just mentioned in background as "the compound was hydrogenated").
-        if target_type == "TYPE_A":
-            _TYPE_A_SYNTHESIS_CONTEXT = frozenset([
-                "process", "method", "step", "catalyst", "reaction", "condition",
-                "temperature", "pressure", "solvent", "agent", "convert", "degree",
-                "percent", "level", "reactor", "hydrogen", "selective",
-            ])
-            qualifying_hits = 0
-            seen_buckets: set = set()
-            for dim in all_dimension_tokens:
-                # Min 5 chars: filters generic short tokens like 'acid' (4 chars)
-                # that are too common to serve as specific dimension evidence.
-                if len(dim) < 5 or dim not in text:
-                    continue
-                for m in re.finditer(r'\b' + re.escape(dim) + r'\b', text):
-                    bucket = m.start() // 300
-                    if bucket in seen_buckets:
-                        continue
-                    ctx = text[max(0, m.start() - 200): m.end() + 200]
-                    ctx_toks = set(re.findall(r'\b[a-z]+\b', ctx))
-                    if ctx_toks.intersection(_TYPE_A_SYNTHESIS_CONTEXT):
-                        qualifying_hits += 1
-                        seen_buckets.add(bucket)
-            if qualifying_hits >= 2:
-                return {
-                    "pass": True,
-                    "dimension_tokens": sorted(all_dimension_tokens),
-                    "hits": qualifying_hits,
-                    "reason": (
-                        f"Gate B TYPE_A: transformation dimension "
-                        f"{sorted(all_dimension_tokens)[:2]} found in synthesis context "
-                        f"({qualifying_hits} windows)"
-                    )
-                }
-            return {
-                "pass": False,
-                "dimension_tokens": sorted(all_dimension_tokens),
-                "hits": qualifying_hits,
-                "reason": (
-                    f"Gate B TYPE_A FAIL: transformation dimension "
-                    f"{sorted(all_dimension_tokens)[:2]} not found in synthesis/process context "
-                    f"({qualifying_hits} qualifying windows, need >= 2)"
+        if medium_mismatch:
+            return False, effective_rel, variant_match
+        if variant_mismatch:
+            return False, effective_rel, variant_match
+        if centrality not in ("CENTRAL", "PARTIAL"):
+            return False, effective_rel, variant_match
+
+        # Soft-KEEP LLM REJECT only when identity already MATCH after soft-corrects.
+        if decision != "KEEP" and material_identity != "MATCH":
+            return False, effective_rel, variant_match
+
+        # MATCH or UNKNOWN qualifier → eligible. Never treat UNKNOWN as MISMATCH.
+        return True, "PRIMARY_TARGET", variant_match
+
+    def _candidate_evidence_packet(self, c: dict) -> dict:
+        return {
+            "patent_number": c.get("patent_number", ""),
+            "title": c.get("title", ""),
+            "snippet": (c.get("snippet", "") or "")[:800],
+            "abstract": (c.get("abstract", "") or "")[:1500],
+            "claims_excerpt": (c.get("claims_excerpt", "") or "")[:2500],
+            "publication_year": (
+                c.get("publication_date", "") or c.get("grant_date", "") or ""
+            )[:4],
+            "jurisdiction": (c.get("patent_number", "") or "")[:2],
+            "assignee": c.get("assignee", "") or "",
+            "evidence_sources": c.get("selection_evidence_sources")
+            or ["title", "snippet"],
+        }
+
+    @staticmethod
+    def _norm_target_relationship(verdict) -> str:
+        raw = getattr(verdict, "target_relationship", None)
+        if raw is None:
+            decision = getattr(verdict.final_decision, "value", str(verdict.final_decision))
+            return "PRIMARY_TARGET" if decision == "KEEP" else "REJECTED"
+        return getattr(raw, "value", str(raw)).upper()
+
+    async def _select_patents_via_llm(
+        self,
+        candidates: list,
+        strategy,
+        run: ResearchRun,
+        *,
+        batch_size: int = 50,
+        max_keep: int = 10,
+    ) -> list:
+        """Evidence-aware selection via batched LLM — authoritative PRIMARY KEEP/REJECT."""
+        if not hasattr(self, "_filter_stats"):
+            self._reset_filter_stats()
+        self._related_candidates = []
+        medium = (getattr(run, "polymerization_medium", None) or "any").strip().lower()
+        attribute_constraint = getattr(run, "attribute_constraint", None) or "None"
+        search_intents = [
+            q.intent for q in getattr(strategy, "search_queries", []) if hasattr(q, "intent")
+        ]
+        synthesis_intent_str = (
+            "YES (Target synthesis/preparation)"
+            if getattr(strategy, "synthesis_intent", False)
+            else "NO"
+        )
+        prompt_template = PATENT_SELECTION_PROMPT.format(
+            compound_name=run.compound_name,
+            base_material=", ".join(getattr(strategy, "base_material", [])),
+            target_modifications=", ".join(getattr(strategy, "target_modifications", [])),
+            target_attributes=", ".join(getattr(strategy, "target_attributes", [])),
+            synthesis_transformations=", ".join(
+                getattr(strategy, "synthesis_transformations", [])
+            ),
+            downstream_terms=", ".join(getattr(strategy, "downstream_terms", [])),
+            excluded_variants=", ".join(getattr(strategy, "excluded_variants", [])),
+            identity_exclusions=", ".join(getattr(strategy, "identity_exclusions", []) or []) or "None",
+            related_materials=", ".join(getattr(strategy, "related_materials", []) or []) or "None",
+            relevance_definition=(getattr(strategy, "relevance_definition", None) or "").strip()
+            or "Requested target material itself must be the central technical subject.",
+            search_intent=(
+                f"Synthesis Required: {synthesis_intent_str}. Intents: "
+                + (
+                    ", ".join(search_intents)
+                    if search_intents
+                    else "synthesis and material preparation"
                 )
-            }
-
-        # ── TYPE_B / MIXED: require active-control or quantitative evidence ───
-        # ACTIVE CONTROL verbs — intentional manipulation of the attribute.
-        # Deliberately excludes purely descriptive words ('content', 'level', 'percent',
-        # 'fraction') so that "the starting rubber had 34% acrylonitrile" does NOT qualify.
-        _ACTIVE_CONTROL_STEMS = (
-            "control", "adjust", "target", "achiev", "maintain", "regulat",
-            "vari", "set ", "rang", "tuning", "tune", "select", "determin",
-            "feed ratio", "monomer ratio", "feed composition", "mole ratio",
-        )
-        _NUMERIC_UNIT_RE = re.compile(
-            r'\b\d+(?:[.,]\d+)?\s*'
-            r'(?:%|wt\.?\s*%?|mol\.?\s*%?|phr\b|g\b|kg\b|ppm\b|eq\b|equiv\b|mole\b|weight\b|percent\b)',
-            re.IGNORECASE
+            ),
+            attribute_constraint=attribute_constraint,
+            polymerization_medium=medium,
+            candidates_json="{candidates_json}",
         )
 
-        # SYNTHESIS PROCESS CONTEXT — words that appear in genuine synthesis discussions
-        # but NOT in comparison/background sentences about a different polymer.
-        # Required co-occurrence for at least ONE qualifying TYPE_B hit.
-        _SYNTHESIS_PROC_STEMS = (
-            "polymeriz", "copolymeriz", "monomer", "initiator", "catalyst",
-            "emulsi", "react", "chain transfer", "conversion", "feed ratio",
-            "monomer ratio", "feed composition",
-        )
+        selection_by_number: dict = {}
+        for i in range(0, len(candidates), batch_size):
+            batch = candidates[i : i + batch_size]
+            batch_json = json.dumps(
+                [self._candidate_evidence_packet(c) for c in batch],
+                indent=2,
+            )
+            prompt = prompt_template.replace("{candidates_json}", batch_json)
+            try:
+                result, _, _ = await llm_client.generate_structured(
+                    prompt=prompt,
+                    system_prompt="You are a JSON generator. Do not include markdown blocks.",
+                    schema=PatentSelectionResult,
+                    temperature=0.1,
+                )
+                if result and getattr(result, "candidates", None):
+                    for cand in result.candidates:
+                        selection_by_number[cand.patent_number] = cand
+            except Exception as e:
+                logger.error(
+                    "[LLM PATENT SELECTION] Failed for batch %d-%d: %s",
+                    i,
+                    i + len(batch),
+                    str(e),
+                )
 
-        THRESHOLD = 2
-        qualifying_hits = 0
-        synth_context_hit = False  # tracks if ≥1 window has synthesis co-occurrence
-        seen_buckets: set = set()
+        # Evaluate EVERY candidate first — do not early-break on max_keep.
+        kept_pairs: list[tuple] = []  # (rank_tuple, candidate_dict)
+        related_pairs: list[tuple] = []
 
-        for dim in all_dimension_tokens:
-            if len(dim) < 3 or dim not in text:
+        for cand in candidates:
+            self._filter_stats["reached_selection"] += 1
+            pnum = cand.get("patent_number", "")
+            verdict = selection_by_number.get(pnum)
+            if verdict is None:
+                self._filter_stats["selection_reject_other"] += 1
+                logger.info(
+                    "[PATENT SELECTION] %s | decision=REJECT | classification=NO_VERDICT | "
+                    "confidence=0 | technical_centrality=NONE | target_match=UNKNOWN | "
+                    "target_relationship=REJECTED | detected_primary_material= | "
+                    "medium_match=UNKNOWN | downstream_only=False | primary_selection=REJECT | "
+                    "related_retention=NO | sources=%s | reason=No LLM verdict returned",
+                    pnum,
+                    ",".join(cand.get("selection_evidence_sources") or ["title", "snippet"]),
+                )
                 continue
-            for m in re.finditer(r'\b' + re.escape(dim) + r'\b', text):
-                bucket = m.start() // 250
-                if bucket in seen_buckets:
-                    continue
-                ctx = text[max(0, m.start() - 150): m.end() + 150]
-                has_numeric = bool(_NUMERIC_UNIT_RE.search(ctx))
-                has_active_control = any(stem in ctx for stem in _ACTIVE_CONTROL_STEMS)
-                has_synth_context = any(stem in ctx for stem in _SYNTHESIS_PROC_STEMS)
-                if has_synth_context:
-                    synth_context_hit = True
-                if has_numeric and has_active_control:
-                    # Strongest evidence: numeric value + active control intent
-                    qualifying_hits += 2
-                    seen_buckets.add(bucket)
-                elif has_active_control:
-                    # Control intent without explicit numeric — partial credit
-                    qualifying_hits += 1
-                    seen_buckets.add(bucket)
-                # Numeric alone (descriptive) does NOT qualify
 
-        # Require at least one qualifying window to also contain a synthesis process
-        # word. This prevents comparison-mention false positives such as:
-        # "achieves properties equivalent to NBR with 40% acrylonitrile" — where
-        # 'achiev' (active control stem) co-occurs with 'acrylonitrile' but no
-        # genuine synthesis context is present.
-        if qualifying_hits >= THRESHOLD and not synth_context_hit:
-            return {
-                "pass": False,
-                "dimension_tokens": sorted(all_dimension_tokens),
-                "hits": qualifying_hits,
-                "reason": (
-                    f"Gate B TYPE_B FAIL: {qualifying_hits} control-language windows found but "
-                    f"none co-occur with synthesis-process context — likely comparison/background "
-                    f"mention, not a synthesis-control claim."
-                )
-            }
-
-        if qualifying_hits >= THRESHOLD:
-            return {
-                "pass": True,
-                "dimension_tokens": sorted(all_dimension_tokens),
-                "hits": qualifying_hits,
-                "reason": (
-                    f"Gate B TYPE_B: {qualifying_hits} qualifying evidence windows "
-                    f"for dimension tokens {sorted(all_dimension_tokens)[:3]}"
-                )
-            }
-        return {
-            "pass": False,
-            "dimension_tokens": sorted(all_dimension_tokens),
-            "hits": qualifying_hits,
-            "reason": (
-                f"Gate B TYPE_B FAIL: no active-control/quantitative evidence "
-                f"for attribute dimension {sorted(all_dimension_tokens)[:3]} "
-                f"({qualifying_hits} qualifying windows, need >= {THRESHOLD}). "
-                f"Patent discusses material identity but not the specific target attribute."
+            cls_name = getattr(verdict.classification, "value", str(verdict.classification))
+            llm_decision = getattr(verdict.final_decision, "value", str(verdict.final_decision))
+            centrality_s = self._norm_str_field(verdict, "technical_centrality", "PARTIAL")
+            relationship = self._norm_target_relationship(verdict)
+            material_identity = self._norm_str_field(verdict, "material_identity", "UNKNOWN")
+            detected_material = (getattr(verdict, "detected_primary_material", None) or "").strip()
+            retain_related = bool(getattr(verdict, "retain_as_related", False)) or (
+                relationship == "RELATED_TARGET"
             )
-        }
+            variant_match = self._norm_str_field(verdict, "variant_match", "UNKNOWN")
+            variant_mismatch = bool(verdict.variant_mismatch) or variant_match == "MISMATCH"
+            medium_mismatch = bool(verdict.polymerization_medium_mismatch)
 
-    def _deterministic_rank(self, candidates, profile, compound_name: str):
+            primary_keep, effective_rel, variant_match = self._compute_primary_eligibility(
+                verdict,
+                relationship,
+                llm_decision=llm_decision,
+                strategy=strategy,
+                title=cand.get("title") or "",
+            )
+            if primary_keep and llm_decision != "KEEP":
+                logger.info(
+                    "[PATENT SELECTION] Soft-KEEP %s: material identity eligible with "
+                    "variant_match=%s (LLM had final_decision=%s)",
+                    pnum,
+                    variant_match,
+                    llm_decision,
+                )
+            if (not primary_keep) and llm_decision == "KEEP" and effective_rel != "PRIMARY_TARGET":
+                logger.warning(
+                    "[PATENT SELECTION] Demoting %s from KEEP: target_relationship=%s "
+                    "material_identity=%s",
+                    pnum,
+                    effective_rel,
+                    material_identity,
+                )
 
-        # all_material_terms — used for PHRASE-LEVEL substring match only.
-        # Includes compound_name so we can detect the exact user-input phrase.
-        base_material_phrases = [compound_name.lower()]
-        base_material_phrases.extend([syn.lower() for syn in getattr(profile, 'base_material', [])])
-        all_material_terms = set(t for t in base_material_phrases if t)
-        all_material_terms.update(self._generate_aliases(list(all_material_terms)))
+            rejection_category = ""
+            if not primary_keep:
+                rejection_category = self._derive_rejection_category(
+                    relationship=effective_rel,
+                    material_identity=material_identity,
+                    variant_match=variant_match,
+                    variant_mismatch=variant_mismatch,
+                    medium_mismatch=medium_mismatch,
+                    downstream_only=bool(getattr(verdict, "downstream_only", False)),
+                    cls_name=cls_name,
+                    retain_related=retain_related and not primary_keep,
+                    llm_category=getattr(verdict, "rejection_category", "") or "",
+                )
 
-        # material_tokens — used for INDIVIDUAL TOKEN matching.
-        # Tokenize ONLY the LLM-provided base_material list, NOT compound_name,
-        # to avoid injecting directional qualifiers (e.g. 'low') as identity tokens.
-        # Min token length = 3 to avoid single-char noise from hyphenated terms (e.g. 'Buna-N' -> 'n').
-        material_tokens = set()
-        for t in getattr(profile, 'base_material', []):
-            for tok in re.findall(r'\b[a-zA-Z]+\b', t.lower()):
-                if len(tok) >= 3:
-                    material_tokens.add(tok)
-        # Also tokenize compound_name but strip directional qualifiers
-        for tok in re.findall(r'\b[a-zA-Z]+\b', compound_name.lower()):
-            if tok not in self._DIRECTIONAL_QUALIFIERS and len(tok) >= 3:
-                material_tokens.add(tok)
-            
-        requested_attributes = set([t.lower() for t in getattr(profile, 'target_attributes', [])])
-        requested_attributes.update([t.lower() for t in getattr(profile, 'target_modifications', [])])
-        
-        synthesis_terms = set([t.lower() for t in getattr(profile, 'synthesis_transformations', [])] + 
-                              [t.lower() for t in getattr(profile, 'precursor_relationships', [])] + 
-                              [t.lower() for t in getattr(profile, 'relevant_process_concepts', [])])
-        # Default strong synthesis terms if model failed to provide enough
-        synthesis_terms.update({"polymerization", "copolymerization", "preparation", "synthesis", "production", "manufacture", "hydrogenation", "metathesis", "degradation", "precursor"})
-        
-        downstream_terms = set([t.lower() for t in getattr(profile, 'downstream_terms', [])])
-        # Default downstream penalty words
-        hard_downstream = {"tire", "seal", "hose", "gasket", "article", "coating", "finished product", "rubber composition", "formulation", "battery", "electrode", "dispersion", "conductive", "adhesive", "glove", "film"}
-        downstream_terms.update(hard_downstream)
-        
-        excluded_terms = set()
-        for exc in getattr(profile, 'excluded_variants', []):
-            excluded_terms.update([t.lower() for t in re.findall(r'\b[a-zA-Z]+\b', exc)])
-            
-        all_expanded_queries = [q.query if hasattr(q, 'query') else q.get('query', q) if isinstance(q, dict) else q for q in getattr(profile, 'search_queries', [])]
-        
-        for candidate in candidates:
-            title = candidate.get('title', '').lower()
-            snippet = candidate.get('snippet', '').lower()
-            text_to_search = title + " " + snippet
-            tokens = set(re.findall(r'\b[a-zA-Z]+\b', text_to_search))
-            title_tokens = set(re.findall(r'\b[a-zA-Z]+\b', title))
-            
-            # --- 1. Material Identity Gate (Base Match) ---
-            material_score = 0
-            tok_m = material_tokens.intersection(tokens)
-            if len(tok_m) >= 2:
-                material_score += 30
-            if any(mat in text_to_search for mat in all_material_terms):
-                material_score += 20
-                
-            unrelated_penalty = 0
-            if material_score > 0 and excluded_terms and excluded_terms.intersection(title_tokens):
-                unrelated_penalty = -50
-                
-            # --- 2. Target Variant Match ---
-            # Determine target type dynamically from concept structure (no compound knowledge).
-            target_type = self._classify_target_type(
-                requested_attributes,
-                getattr(profile, 'target_modifications', [])
+            cand["selection_classification"] = verdict.classification
+            cand["selection_variant_mismatch"] = variant_mismatch
+            cand["selection_medium_mismatch"] = medium_mismatch
+            cand["selection_decision"] = "KEEP" if primary_keep else "REJECT"
+            cand["selection_reason"] = verdict.reason
+            cand["selection_confidence"] = verdict.confidence
+            cand["selection_technical_centrality"] = centrality_s
+            cand["selection_target_match"] = getattr(verdict, "target_match", "unknown")
+            cand["selection_variant_match"] = variant_match
+            cand["selection_medium_match"] = getattr(verdict, "medium_match", "not_applicable")
+            cand["selection_downstream_only"] = bool(getattr(verdict, "downstream_only", False))
+            cand["selection_evidence"] = list(getattr(verdict, "evidence", None) or [])
+            cand["selection_evidence_strength"] = float(
+                getattr(verdict, "evidence_strength", 0.0) or 0.0
+            )
+            cand["selection_target_relationship"] = effective_rel
+            cand["selection_material_identity"] = material_identity
+            cand["selection_detected_primary_material"] = detected_material
+            cand["selection_retain_as_related"] = retain_related and not primary_keep
+            cand["selection_rejection_category"] = rejection_category
+            cand["triage_classification"] = verdict.classification
+            cand["ft_category"] = cls_name
+
+            logger.info(
+                "[PATENT SELECTION] Patent: %s | Requested target: %s | "
+                "Detected primary material: %s | Material identity: %s | "
+                "Target relationship: %s | Technical centrality: %s | "
+                "Qualifier/variant match: %s | Target match: %s | "
+                "invention_focus=%s | Primary selection: %s | Related retention: %s | "
+                "rejection_category=%s | decision=%s | classification=%s | "
+                "confidence=%.2f | material_identity_confidence=%.2f | "
+                "medium_match=%s | downstream_only=%s | "
+                "sources=%s | reason=%s",
+                pnum,
+                run.compound_name,
+                detected_material or "unknown",
+                material_identity,
+                effective_rel,
+                centrality_s,
+                variant_match,
+                cand["selection_target_match"],
+                cls_name,
+                "KEEP" if primary_keep else "REJECT",
+                "YES" if (not primary_keep and retain_related) else "NO",
+                rejection_category or "-",
+                cand["selection_decision"],
+                cls_name,
+                float(verdict.confidence or 0),
+                float(verdict.confidence or 0),
+                cand["selection_medium_match"],
+                cand["selection_downstream_only"],
+                ",".join(cand.get("selection_evidence_sources") or ["title", "snippet"]),
+                verdict.reason,
             )
 
-            target_score = 0
-            if requested_attributes:
-                found_any_target = False
+            if primary_keep:
+                self._filter_stats["selection_keep"] += 1
+                kept_pairs.append((self._selection_rank_tuple(verdict), cand))
+                continue
 
-                if target_type in ("TYPE_A", "MIXED"):
-                    # TYPE_A: require the full transformation phrase (e.g. "hydrogenation") to appear.
-                    for attr in requested_attributes:
-                        if attr in title:
-                            target_score += 40
-                            found_any_target = True
-                        elif attr in text_to_search:
-                            target_score += 20
-                            found_any_target = True
+            if retain_related and effective_rel == "RELATED_TARGET":
+                self._filter_stats["selection_related_retain"] += 1
+                related_pairs.append((self._selection_rank_tuple(verdict), cand))
+                continue
 
-                if target_type in ("TYPE_B", "MIXED"):
-                    # TYPE_B: match on DIMENSION TOKENS only (property nouns without directional qualifier).
-                    # E.g. for "low acrylonitrile": match "acrylonitrile" in title/text.
-                    # This avoids the -100 false rejection for patents disclosing ACN content
-                    # as a numeric value without literally saying "low acrylonitrile".
-                    for attr in requested_attributes:
-                        _, dim_tokens = self._split_attribute_concepts(attr)
-                        if not dim_tokens:
-                            continue
-                        # Title hit: all dimension tokens present
-                        if dim_tokens.issubset(title_tokens):
-                            target_score += 30
-                            found_any_target = True
-                        # Snippet hit: at least one dimension token present
-                        elif dim_tokens.intersection(tokens):
-                            target_score += 15
-                            found_any_target = True
-
-                if not found_any_target:
-                    if target_type == "TYPE_A":
-                        # Hard penalty: transformation term should be detectable in title/snippet
-                        target_score -= 100
-                    else:
-                        # TYPE_B / MIXED: defer to full-text validation — stay neutral at title stage
-                        target_score = 0
-
-                        
-            # --- 3. Synthesis Intent ---
-            synthesis_score = 0
-            
-            # Use substring matching for synthesis terms to catch "preparing", "producing" etc.
-            syn_stems = set()
-            for t in synthesis_terms:
-                if len(t) >= 4:
-                    syn_stems.add(t[:5])  # Take first 5 chars for stemming
-                else:
-                    syn_stems.add(t)
-            syn_stems.update({"prepar", "produc", "manufactur", "polymeriz", "synthes", "process", "method", "mak", "form"})
-            
-            title_text = candidate.get('title', '').lower()
-            snippet_text = candidate.get('snippet', '').lower()
-            
-            syn_matches = [stem for stem in syn_stems if stem in title_text]
-            if syn_matches:
-                synthesis_score += (len(syn_matches) * 15)
-                
-            syn_matches_snippet = [stem for stem in syn_stems if stem in snippet_text]
-            if syn_matches_snippet:
-                synthesis_score += (len(syn_matches_snippet) * 5)
-                
-            # --- 4. Query Match & Multi-Query Evidence ---
-            matched_queries = candidate.get("matched_queries", [])
-            query_match_score = min(len(matched_queries) * 2, 10)
-            multi_query_score = 5 if len(matched_queries) >= 3 else 0
-            
-            # --- 5. Application / Downstream Penalty ---
-            application_penalty = 0
-            down_matches = downstream_terms.intersection(title_tokens)
-            if down_matches:
-                application_penalty = (len(down_matches) * 35)
-                
-            down_matches_snippet = downstream_terms.intersection(tokens)
-            if down_matches_snippet:
-                application_penalty += (len(down_matches_snippet) * 10)
-                
-            # --- 6. Triage Priority Bonus (additive signal, not gating — UNRELATED already excluded upstream) ---
-            triage_cls = candidate.get('triage_classification')
-            triage_str = getattr(triage_cls, "value", str(triage_cls)) if triage_cls else ""
-            triage_priority = candidate.get('triage_priority', '')
-            triage_bonus = {
-                'HIGH': 20,
-                'MEDIUM_HIGH': 10,
-                'MEDIUM': 5,
-                'LOW': 0,
-                'REJECT': -10,  # Should not reach here, but guard anyway
-            }.get(triage_priority, -5)  # -5 if triage was not run (no LLM result for this patent)
-                
-            # --- 7. Final Score Calculation ---
-            final_score = material_score + target_score + synthesis_score + query_match_score + multi_query_score + unrelated_penalty + triage_bonus - application_penalty
-            
-            # Relevance threshold is loosened because triage has already handled semantic filtering
-            # upstream — deterministic ranking no longer needs to carry the full precision burden alone.
-            RELEVANCE_THRESHOLD = 15
-            
-            category = "UNRELATED"
-            if final_score >= RELEVANCE_THRESHOLD and material_score > 0:
-                decision = "KEEP"
-                
-                # Synthesis Strict Requirement
-                requires_synthesis = getattr(profile, 'synthesis_intent', False)
-                if not requires_synthesis and (getattr(profile, 'synthesis_transformations', []) or getattr(profile, 'precursor_relationships', [])):
-                    requires_synthesis = True
-                    
-                if requires_synthesis and synthesis_score == 0:
-                    decision = "REJECT"
-                    category = "NO_SYNTHESIS_EVIDENCE"
-                    
-                if decision == "KEEP":
-                    if synthesis_score >= 30 and target_score > 0:
-                        category = "PRIMARY_SYNTHESIS"
-                    elif target_score > 0 and synthesis_score > 0:
-                        category = "TARGET_TRANSFORMATION"
-                    elif synthesis_score >= 30 and target_score == 0:
-                        category = "PRECURSOR_SYNTHESIS"
-                    elif synthesis_score > 0 and target_score == 0:
-                        category = "BASE_MATERIAL_RELEVANT"
-                    else:
-                        category = "DOWNSTREAM_APPLICATION"
+            if rejection_category == "QUALIFIER_MISMATCH" or variant_mismatch:
+                self._filter_stats["selection_reject_variant"] += 1
+            elif rejection_category == "DOWNSTREAM_ONLY":
+                self._filter_stats["selection_reject_downstream"] += 1
+            elif rejection_category == "MEDIUM_MISMATCH" or medium_mismatch:
+                self._filter_stats["selection_reject_medium"] += 1
             else:
-                decision = "REJECT"
-                if application_penalty > 0:
-                    category = "DOWNSTREAM_APPLICATION"
-                
-            candidate['score'] = final_score
-            candidate['eligibility'] = decision
-            candidate['category'] = category
-            
-            # Logging
-            logger.info("[RANKING]\n"
-                f"PATENT: {candidate.get('patent_number')}\n"
-                f"TITLE: {candidate.get('title')}\n"
-                f"FINAL SCORE: {final_score}\n"
-                f"CATEGORY: {category}\n"
-                f"BASE MATCH: {material_score}\n"
-                f"TARGET MATCH: {target_score}\n"
-                f"SYNTHESIS MATCH: {synthesis_score}\n"
-                f"QUERY MATCH: {query_match_score + multi_query_score}\n"
-                f"APPLICATION PENALTY: {-application_penalty}\n"
-                f"UNRELATED PENALTY: {unrelated_penalty}\n"
-                f"MATCHED QUERIES: {matched_queries}\n"
-                f"DECISION: {decision}"
+                self._filter_stats["selection_reject_other"] += 1
+                # Track finer categories without material-specific names.
+                key = f"reject_{rejection_category.lower()}" if rejection_category else "reject_other"
+                self._filter_stats[key] = self._filter_stats.get(key, 0) + 1
+
+        # Rank all PRIMARY KEEP decisions, then apply max_keep as an upper bound (not a quota).
+        kept_pairs.sort(key=lambda x: x[0], reverse=True)
+        selected = [c for _, c in kept_pairs[:max_keep]]
+
+        related_pairs.sort(key=lambda x: x[0], reverse=True)
+        # Cap related separately — never pad primary with related.
+        self._related_candidates = [c for _, c in related_pairs[:max_keep]]
+
+        logger.info(
+            "[PATENT SELECTION SUMMARY] entered=%d keep_before_cap=%d keep_after_cap=%d "
+            "related_retained=%d reject_variant=%d reject_downstream=%d reject_medium=%d "
+            "reject_other=%d max_keep=%d | category_counts=%s",
+            self._filter_stats["reached_selection"],
+            self._filter_stats["selection_keep"],
+            len(selected),
+            len(self._related_candidates),
+            self._filter_stats["selection_reject_variant"],
+            self._filter_stats["selection_reject_downstream"],
+            self._filter_stats["selection_reject_medium"],
+            self._filter_stats["selection_reject_other"],
+            max_keep,
+            {
+                k: v
+                for k, v in self._filter_stats.items()
+                if k.startswith("reject_") and k
+                not in (
+                    "selection_reject_variant",
+                    "selection_reject_downstream",
+                    "selection_reject_medium",
+                    "selection_reject_other",
+                )
+            },
+        )
+        return selected
+
+    def _validate_primary_manifest_integrity(self, selected_candidates: list) -> list:
+        """Fail loudly (log + drop) if a non-PRIMARY patent leaked into the primary list."""
+        clean = []
+        for cand in selected_candidates:
+            rel = (cand.get("selection_target_relationship") or "PRIMARY_TARGET").upper()
+            pnum = cand.get("patent_number", "")
+            vm = str(cand.get("selection_variant_match") or "UNKNOWN").upper()
+            cls = str(cand.get("ft_category") or cand.get("selection_classification") or "").upper()
+            if "DOWNSTREAM_APPLICATION" in cls or cand.get("selection_downstream_only"):
+                logger.error(
+                    "[INTEGRITY] Dropping %s from primary manifest: downstream/ingredient focus",
+                    pnum,
+                )
+                continue
+            if rel != "PRIMARY_TARGET":
+                logger.error(
+                    "[INTEGRITY] Dropping %s from primary manifest: target_relationship=%s",
+                    pnum,
+                    rel,
+                )
+                continue
+            if cand.get("selection_decision") != "KEEP":
+                logger.error(
+                    "[INTEGRITY] Dropping %s from primary manifest: selection_decision=%s",
+                    pnum,
+                    cand.get("selection_decision"),
+                )
+                continue
+            if vm == "MISMATCH" or cand.get("selection_variant_mismatch"):
+                logger.error(
+                    "[INTEGRITY] Dropping %s from primary manifest: qualifier MISMATCH",
+                    pnum,
+                )
+                continue
+            clean.append(cand)
+        return clean
+
+    @staticmethod
+    def _build_related_report_patents(related_candidates: list) -> list:
+        """Lightweight SECONDARY report entries from related selection candidates (no full extract)."""
+        from app.services.pipeline.schemas import (
+            ReportPatent,
+            ReportPatentDetails,
+            ReportPatentMethodology,
+        )
+
+        out = []
+        for cand in related_candidates or []:
+            pn = cand.get("patent_number") or ""
+            if not pn:
+                continue
+            assignee = (cand.get("assignee") or "").strip() or None
+            out.append(
+                ReportPatent(
+                    patent_details=ReportPatentDetails(
+                        patent_number=pn,
+                        patent_title=cand.get("title") or "Not disclosed",
+                        assignee=assignee,
+                        jurisdiction=(pn[:2] if len(pn) >= 2 else None),
+                        publication_year=(cand.get("publication_date") or "")[:4] or None,
+                        relevance_to_target=cand.get("selection_reason")
+                        or "Related/adjacent to requested target; not primary.",
+                        relevance_tier="SECONDARY",
+                    ),
+                    polymerization_method=ReportPatentMethodology(dynamic_parameters=[]),
+                    experimental_evidence=[
+                        f"Detected primary material: {cand.get('selection_detected_primary_material') or 'unknown'}",
+                        f"Target relationship: {cand.get('selection_target_relationship') or 'RELATED_TARGET'}",
+                    ],
+                    technical_relevance=cand.get("selection_reason")
+                    or "Retained as RELATED_TARGET — not a primary target patent.",
+                )
             )
+        return out
 
-    def _validate_full_text(self, parsed_patent, profile, compound_name: str) -> dict:
-        text = ((parsed_patent.title or "") + " " + (parsed_patent.abstract or "") + " " + (parsed_patent.claims or "") + " " + (parsed_patent.detailed_description or "") + " " + (parsed_patent.examples or "")).lower()
-        tokens = set(re.findall(r'\b[a-zA-Z]+\b', text))
-        
-        # all_material_terms — used for PHRASE-LEVEL substring match only.
-        base_material_phrases = [compound_name.lower()]
-        base_material_phrases.extend([syn.lower() for syn in getattr(profile, 'base_material', [])])
-        all_material_terms = set(t for t in base_material_phrases if t)
-        all_material_terms.update(self._generate_aliases(list(all_material_terms)))
+    async def _fetch_and_extract_selected(
+        self,
+        selected_candidates: list,
+        strategy,
+    ) -> tuple[list, dict]:
+        """
+        Fetch full patent HTML and run extractor ONLY for Phase-3 selected candidates.
+        Returns (extractions, parsed_patents_map). Does not modify extractor_service logic.
+        """
+        parsed_patents_map: dict = {}
+        extractions: list = []
 
-        # material_tokens — tokenized only from LLM base_material, NOT compound_name,
-        # to avoid injecting directional qualifiers (e.g. 'low') as identity tokens.
-        # Min token length = 3 to avoid single-char noise from hyphenated terms (e.g. 'Buna-N' -> 'n').
-        material_tokens = set()
-        for t in getattr(profile, 'base_material', []):
-            for tok in re.findall(r'\b[a-zA-Z]+\b', t.lower()):
-                if len(tok) >= 3:
-                    material_tokens.add(tok)
-        for tok in re.findall(r'\b[a-zA-Z]+\b', compound_name.lower()):
-            if tok not in self._DIRECTIONAL_QUALIFIERS and len(tok) >= 3:
-                material_tokens.add(tok)
+        for candidate in selected_candidates:
+            self._filter_stats["reached_fetch"] += 1
+            url = candidate["url"]
+            logger.info("Fetching selected patent: %s", url)
 
-
-        requested_attributes = set([t.lower() for t in getattr(profile, 'target_attributes', [])])
-        requested_attributes.update([t.lower() for t in getattr(profile, 'target_modifications', [])])
-            
-        synthesis_terms = set([t.lower() for t in getattr(profile, 'synthesis_transformations', [])] + 
-                              [t.lower() for t in getattr(profile, 'precursor_relationships', [])] + 
-                              [t.lower() for t in getattr(profile, 'relevant_process_concepts', [])])
-        synthesis_terms.update({"polymerization", "copolymerization", "preparation", "synthesis", "production", "manufacture", "hydrogenation", "metathesis", "degradation", "precursor"})
-        
-        downstream_terms = set([t.lower() for t in getattr(profile, 'downstream_terms', [])])
-        # Expanded hard downstream vocabulary — includes application domains that use NBR/HNBR as a purchased ingredient
-        hard_downstream = {
-            "tire", "seal", "hose", "gasket", "article", "coating", "finished product",
-            "rubber composition", "formulation", "battery", "electrode", "dispersion",
-            "conductive", "adhesive", "glove", "film",
-            # Sound/audio application domain
-            "diaphragm", "membran", "membrane", "acoustic", "loudspeaker", "speaker",
-            "sound", "audio", "transducer",
-            # Other application domains that merely use rubber as ingredient
-            "footwear", "belt", "roller", "wiper", "plug", "bushing", "bearing",
-            "insulation", "cable", "medical", "implant",
-        }
-        downstream_terms.update(hard_downstream)
-        
-        excluded_terms = set()
-        # Only keep excluded variant tokens that are meaningful chemical-name tokens (length >= 4)
-        # This prevents single-letter/stop-word tokenization artifacts from triggering variant mismatch.
-        for exc in getattr(profile, 'excluded_variants', []):
-            for t in re.findall(r'\b[a-zA-Z]{4,}\b', exc):
-                t_lower = t.lower()
-                # Also skip tokens that are part of the valid base material vocabulary
-                # (e.g. 'nitrile', 'rubber', 'butadiene' from 'nitrile rubber' excluded variant)
-                if t_lower not in material_tokens:
-                    excluded_terms.add(t_lower)
-            
-        # BASE MATERIAL — require at least 2 matching tokens OR a phrase match
-        base_material_evidence = False
-        tok_matches = material_tokens.intersection(tokens)
-        n_material_token_matches = len(tok_matches)
-        if n_material_token_matches >= 2:
-            base_material_evidence = True
-        elif any(mat in text for mat in all_material_terms):
-            base_material_evidence = True
-
-        # Title-subject mismatch flag: set True if Signal 5 fires (computed in centrality block).
-        # Used in scoring to zero out attribute_score for device-title patents.
-        title_subject_mismatch = False
-
-        # ── MATERIAL CENTRALITY ──────────────────────────────────────────────
-        # Measure whether the target material is the SUBJECT of the patent or just
-        # one item in an enumeration. Generic — uses no compound-specific vocabulary.
-        centrality_penalty = 0
-        centrality_note = ""
-
-        if base_material_evidence:
-            # Signal 1: target material appears primarily in list/enum constructions
-            list_context_patterns = [
-                r'selected\s+from\s+(?:the\s+)?(?:group\s+)?(?:consisting\s+of\s+)?[^.]{0,200}',
-                r'chosen\s+from\s+[^.]{0,200}',
-                r'comprising\s+(?:at\s+least\s+one\s+of\s+)?[^.]{0,200}',
-                r'(?:may\s+(?:also\s+)?(?:optionally\s+)?include|optionally\s+includes?)\s+[^.]{0,200}',
-                r'(?:such\s+as|including\s+but\s+not\s+limited\s+to)\s+[^.]{0,200}',
-            ]
-            list_context_hits = 0
-            for pat in list_context_patterns:
-                for m in re.finditer(pat, text, re.IGNORECASE):
-                    chunk = m.group(0).lower()
-                    if any(alias in chunk for alias in all_material_terms):
-                        list_context_hits += 1
-
-            # Signal 2: competing polymer class diversity
-            _POLYMER_CLASS_INDICATORS = frozenset([
-                "polyurethane", "silicone", "epoxy", "polypropylene", "polyethylene",
-                "polycarbonate", "polyester", "polyamide", "nylon", "acrylic",
-                "styrene", "polyacrylate", "polysulfide", "fluorocarbon", "polychloroprene",
-                "epdm", "sbr", "nbr", "hnbr", "acm", "aem", "fkm", "pvdf",
-                "natural rubber", "latex", "elastomer",
-            ])
-            competing_classes = _POLYMER_CLASS_INDICATORS.intersection(tokens)
-            competing_classes -= material_tokens
-
-            # Signal 3: material in title = high centrality
-            title_lower = (parsed_patent.title or "").lower()
-            in_title = any(alias in title_lower for alias in all_material_terms) or \
-                       len(material_tokens.intersection(set(re.findall(r'\b[a-zA-Z]+\b', title_lower)))) >= 2
-
-            # Signal 4: sparse mention density — material mentioned very few times
-            # in a large document, indicating it's incidental (e.g. one background sentence).
-            # Count actual substring occurrences of each alias phrase in the raw text.
-            alias_mention_count = 0
-            for alias in all_material_terms:
-                if len(alias) >= 3:  # skip degenerate short tokens
-                    alias_mention_count += text.count(alias)
-            doc_len_kchars = max(1, len(text) / 1000.0)
-            alias_density = alias_mention_count / doc_len_kchars  # mentions per 1000 chars
-
-            is_sparse = (alias_density < 0.08) and (alias_mention_count < 4)
-
-            # Compute centrality penalty
-            if list_context_hits >= 2 and len(competing_classes) >= 3 and not in_title:
-                centrality_penalty = 30
-                centrality_note = (
-                    f"Low centrality: material appears {list_context_hits}x in list constructions "
-                    f"alongside {len(competing_classes)} competing polymer classes"
+            parsed_patent = await self.fetcher_service.fetch_patent(url)
+            if not parsed_patent:
+                logger.warning(
+                    "[FETCH FAILURE] patent number: %s | URL: %s",
+                    candidate["patent_number"],
+                    url,
                 )
-            elif list_context_hits >= 3 and not in_title:
-                centrality_penalty = 20
-                centrality_note = (
-                    f"Low centrality: material appears {list_context_hits}x in list/enum constructions"
+                self._filter_stats["fetch_failures"] += 1
+                continue
+
+            # Authoritative metadata precedence: search/enrichment assignee survives full parse.
+            cand_assignee = (candidate.get("assignee") or "").strip()
+            if cand_assignee:
+                if not (parsed_patent.assignee or "").strip():
+                    parsed_patent.assignee = cand_assignee
+                parsed_patent.metadata["assignee"] = (
+                    (parsed_patent.metadata.get("assignee") or "").strip() or cand_assignee
                 )
-            elif len(competing_classes) >= 5 and not in_title:
-                centrality_penalty = 15
-                centrality_note = (
-                    f"Low centrality: {len(competing_classes)} competing polymer classes co-mentioned"
-                )
-            elif is_sparse and not in_title:
-                # Sparse-density penalty: material mentioned only incidentally in a large doc
-                centrality_penalty = 30
-                centrality_note = (
-                    f"Low centrality: sparse mention density "
-                    f"({alias_mention_count} alias occurrences in {doc_len_kchars:.0f}k chars, "
-                    f"density={alias_density:.3f}/kchar)"
-                )
+            if candidate.get("title") and not (parsed_patent.title or "").strip():
+                parsed_patent.title = candidate["title"]
 
-            # Signal 5: title-subject mismatch — title contains engineering/device vocabulary
-            # but NONE of the material tokens. Indicates the patent's claimed invention is a
-            # manufactured device/article that merely uses the target material as an ingredient.
-            # Generic application-domain device keywords (not compound-specific).
-            _APPLICATION_DOMAIN_KEYWORDS = frozenset([
-                "charging", "cartridge", "photographic", "electrophotographic", "printer",
-                "copier", "scanner", "camera", "display", "transistor", "semiconductor",
-                "membrane", "electrode", "battery", "capacitor", "circuit",
-                "belt", "roller", "conveyor", "transmission",
-                "tire", "tyre", "seal", "gasket", "hose", "tube", "pipe",
-                "glove", "catheter", "implant", "stent",
-                "adhesive", "coating", "paint", "ink", "dye",
-                "fiber", "textile", "fabric", "foam", "cushion",
-            ])
-            title_toks = set(re.findall(r'\b[a-zA-Z]+\b', title_lower))
-            title_has_device_keyword = bool(_APPLICATION_DOMAIN_KEYWORDS.intersection(title_toks))
-            if not in_title and title_has_device_keyword and centrality_penalty > 0:
-                # Already penalized for centrality; boost the penalty further for clear device titles
-                centrality_penalty = max(centrality_penalty, 45)
-                title_subject_mismatch = True
-                centrality_note = centrality_note + (
-                    f"; title subject mismatch: device/application domain keywords in title "
-                    f"({sorted(_APPLICATION_DOMAIN_KEYWORDS.intersection(title_toks))[:3]})"
-                )
+            logger.info(
+                "[FETCH SUCCESS] patent number: %s | URL: %s | assignee=%s",
+                candidate["patent_number"],
+                url,
+                (parsed_patent.assignee or "")[:80] or "(empty)",
+            )
+            parsed_patents_map[candidate["patent_number"]] = parsed_patent
+            await asyncio.sleep(1)
 
+            ext = await self.extractor_service.extract_polymerization_data(
+                parsed_patent, url=candidate["url"], profile=strategy
+            )
+            if not ext:
+                self._filter_stats["extraction_failures"] += 1
+                continue
 
-        # VARIANT MISMATCH
-        variant_mismatch = False
-        if base_material_evidence and excluded_terms:
-            title_tokens = set(re.findall(r'\b[a-zA-Z]+\b', (parsed_patent.title or "").lower()))
-            if excluded_terms.intersection(title_tokens):
-                variant_mismatch = True
+            ext.metadata.patent_number = candidate["patent_number"]
+            ext.metadata.patent_title = candidate["title"]
+            # Never let empty LLM/placeholder overwrite authoritative assignee
+            authoritative_assignee = (
+                cand_assignee
+                or (parsed_patent.assignee or "").strip()
+                or (getattr(ext.metadata, "assignee", None) or "").strip()
+            )
+            if authoritative_assignee and authoritative_assignee.lower() not in (
+                "not disclosed",
+                "unknown",
+                "none",
+                "n/a",
+            ):
+                ext.metadata.assignee = authoritative_assignee
+            elif not (getattr(ext.metadata, "assignee", None) or "").strip():
+                ext.metadata.assignee = "Not disclosed"
 
-        # SYNTHESIS EVIDENCE
-        syn_matches = synthesis_terms.intersection(tokens)
-        synthesis_evidence_score = len(syn_matches)
-
-        # DOWNSTREAM EVIDENCE
-        downstream_matches = downstream_terms.intersection(tokens)
-        downstream_evidence_score = len(downstream_matches)
-
-        # ATTRIBUTE EVIDENCE — TYPE_B: also match on dimension tokens in full text
-        # target_type is computed here (hoisted) so Gate B can use it below.
-        target_type = self._classify_target_type(
-            requested_attributes, getattr(profile, 'target_modifications', [])
-        ) if requested_attributes else "TYPE_A"
-
-        attribute_score = 0
-        if requested_attributes:
-            if target_type in ("TYPE_A", "MIXED"):
-                attr_matches = sum(1 for attr in requested_attributes if attr in text)
-                attribute_score += attr_matches * 15
-            if target_type in ("TYPE_B", "MIXED"):
-                # Parse LLM-provided attribute_dimension_ranges for numeric grounding.
-                # Extract upper/lower bound hints from strings like:
-                #   "acrylonitrile content: standard 18-51 wt%; low-ACN grade <20 wt%"
-                # We pull out the first "<N" or "N-M" pattern near a qualifier as an upper/lower bound.
-                dimension_ranges = getattr(profile, 'attribute_dimension_ranges', [])
-                _range_upper: dict[str, float] = {}   # dim_token -> upper bound from "low" context
-                _range_lower: dict[str, float] = {}   # dim_token -> lower bound from "high" context
-                for range_str in dimension_ranges:
-                    range_str_l = range_str.lower()
-                    # Find "dim_word: ... <N wt%" patterns (upper bound for 'low' targets)
-                    for m in re.finditer(r'([a-zA-Z]{4,})\s*(?:content|value|level|ratio)?[^:;]*(?:<|less than|up to)\s*(\d+(?:\.\d+)?)', range_str_l):
-                        dim_hint = m.group(1)
-                        try:
-                            _range_upper[dim_hint] = float(m.group(2))
-                        except ValueError:
-                            pass
-                    # "N-M" range
-                    for m in re.finditer(r'([a-zA-Z]{4,})\s*(?:content|value|level|ratio)?[^:;]*?(\d+(?:\.\d+)?)\s*[-–]\s*(\d+(?:\.\d+)?)', range_str_l):
-                        dim_hint = m.group(1)
-                        try:
-                            _range_lower[dim_hint] = float(m.group(2))
-                            _range_upper[dim_hint] = float(m.group(3))
-                        except ValueError:
-                            pass
-
-                for attr in requested_attributes:
-                    qualifiers, dim_tokens = self._split_attribute_concepts(attr)
-                    is_low_qualifier = bool(qualifiers.intersection({"low", "lower", "reduced", "minimal", "minimum", "minor"}))
-                    is_high_qualifier = bool(qualifiers.intersection({"high", "higher", "elevated", "increased", "maximum", "ultra"}))
-
-                    for dim in dim_tokens:
-                        if dim not in text:
-                            continue
-                        # Base credit for dimension word present
-                        dim_base_score = 10
-                        found_numeric = False
-                        numeric_in_range = False
-                        numeric_out_of_range = False
-
-                        for m in re.finditer(r'\b' + re.escape(dim) + r'\b', text):
-                            ctx = text[max(0, m.start()-100):m.end()+100]
-                            num_match = re.search(r'\b(\d+(?:\.\d+)?)\s*(?:%|wt|mol|phr|g|kg|ppm|\s)', ctx)
-                            if num_match:
-                                found_numeric = True
-                                try:
-                                    extracted_val = float(num_match.group(1))
-                                    upper = _range_upper.get(dim)
-                                    lower = _range_lower.get(dim)
-                                    if is_low_qualifier and upper is not None:
-                                        if extracted_val <= upper:
-                                            numeric_in_range = True
-                                        elif extracted_val > upper * 1.5:
-                                            numeric_out_of_range = True
-                                    elif is_high_qualifier and lower is not None:
-                                        if extracted_val >= lower:
-                                            numeric_in_range = True
-                                        elif extracted_val < lower * 0.5:
-                                            numeric_out_of_range = True
-                                    else:
-                                        numeric_in_range = True  # no range → accept any numeric
-                                except ValueError:
-                                    pass
-                                break
-
-                        if found_numeric and numeric_in_range:
-                            attribute_score += dim_base_score + 10  # full credit + in-range bonus
-                        elif found_numeric and numeric_out_of_range:
-                            attribute_score += dim_base_score - 5   # reduced credit: wrong range
-                        elif found_numeric:
-                            attribute_score += dim_base_score + 5   # numeric present, no range to check
-                        else:
-                            attribute_score += dim_base_score // 2  # dimension word only, no numeric grounding
-
-
-        decision = "KEEP"
-        reason = "Passes full text validation"
-        score = 0
-        category = "DIRECT_SYNTHESIS"
-
-        if not base_material_evidence:
-            decision = "REJECT"
-            reason = "Missing base material evidence"
-            score = -100
-        elif variant_mismatch:
-            decision = "REJECT"
-            reason = "Variant mismatch: excluded term found in title"
-            score = -100
-        else:
-            # ── GATE A: Synthesis Subject ────────────────────────────────────
-            # Must the target material be the SUBJECT of the claims (synthesized/
-            # modified), not merely an ingredient in a downstream article?
-            gate_a = self._gate_a_synthesis_subject(parsed_patent, material_tokens)
-            logger.info("Gate A: %s | %s", "PASS" if gate_a["pass"] else "FAIL", gate_a["reason"])
-
-            if not gate_a["pass"]:
-                decision = "REJECT"
-                reason = f"GATE A FAIL: {gate_a['reason']}"
-                score = -200
-                category = "DOWNSTREAM_APPLICATION"
-                return {
-                    "score": score, "decision": decision, "reason": reason,
-                    "category": category,
-                    "synthesis_evidence": synthesis_evidence_score,
-                    "downstream_evidence": downstream_evidence_score,
-                    "centrality_penalty": centrality_penalty,
-                    "centrality_note": centrality_note,
-                    "matched_material_tokens": sorted(material_tokens.intersection(tokens)),
-                    "matched_downstream": sorted(downstream_matches),
-                    "gate_a": gate_a, "gate_b": {"pass": None, "reason": "not reached"},
-                }
-
-            # ── GATE B: Target-Attribute Grounding ───────────────────────────
-            # Must the patent contain ACTUAL evidence addressing the specific
-            # target attribute dimension — not just base-material identity.
-            gate_b = self._gate_b_attribute_grounding(text, requested_attributes, target_type)
-            logger.info("Gate B: %s | %s", "PASS" if gate_b["pass"] else "FAIL", gate_b["reason"])
-
-            if not gate_b["pass"]:
-                decision = "REJECT"
-                reason = f"GATE B FAIL: {gate_b['reason']}"
-                score = -150
-                category = "UNGROUNDED_BASE_MATCH"
-                return {
-                    "score": score, "decision": decision, "reason": reason,
-                    "category": category,
-                    "synthesis_evidence": synthesis_evidence_score,
-                    "downstream_evidence": downstream_evidence_score,
-                    "centrality_penalty": centrality_penalty,
-                    "centrality_note": centrality_note,
-                    "matched_material_tokens": sorted(material_tokens.intersection(tokens)),
-                    "matched_downstream": sorted(downstream_matches),
-                    "gate_a": gate_a, "gate_b": gate_b,
-                }
-
-            # Both gates passed — apply secondary synthesis/downstream scoring
-            if synthesis_evidence_score < 2:
-                decision = "REJECT"
-                reason = "Insufficient synthesis evidence"
-                score = -50
-            elif downstream_evidence_score > synthesis_evidence_score * 2:
-                if downstream_evidence_score > synthesis_evidence_score * 4:
-                    decision = "REJECT"
-                    reason = "Downstream application only"
-                    score = -50
-                else:
-                    # For device-title patents, zero out attribute_score — their 'synthesis' language
-                    # is about manufacturing the device, not producing the target material.
-                    effective_attr_borderline = 0 if title_subject_mismatch else attribute_score
-                    score = (synthesis_evidence_score * 2) + effective_attr_borderline - (downstream_evidence_score * 3) - centrality_penalty
-                    decision = "KEEP"
-                    reason = f"Borderline: downstream-heavy but synthesis context present{'; ' + centrality_note if centrality_note else ''}"
-                    category = "DOWNSTREAM_APPLICATION"
+            if self.extractor_service.validate_extraction(ext):
+                extractions.append(ext)
+                logger.info("EXTRACTION SUCCESS: %s", ext.metadata.patent_number)
             else:
-                # Determine category first so we can attenuate attribute_score for downstream patents
-                if downstream_evidence_score > synthesis_evidence_score:
-                    category = "DOWNSTREAM_APPLICATION"
-                elif attribute_score > 0:
-                    category = "TARGET_TRANSFORMATION"
-                else:
-                    category = "PRECURSOR_SYNTHESIS"
+                self._filter_stats["extraction_failures"] += 1
 
-                # For TYPE_B targets with device-title mismatch (Signal 5): zero out attribute_score.
-                # For other DOWNSTREAM patents with centrality penalty: halve it.
-                # A patent about making printer rollers or adhesive sheets may mention
-                # "acrylonitrile content" as a property spec — not as a synthesis claim.
-                effective_attribute_score = attribute_score
-                if title_subject_mismatch:
-                    effective_attribute_score = 0
-                elif category == "DOWNSTREAM_APPLICATION" and centrality_penalty > 0:
-                    effective_attribute_score = attribute_score // 2
-
-                score = 50 + (synthesis_evidence_score * 2) + effective_attribute_score - downstream_evidence_score - centrality_penalty
-                if centrality_note:
-                    reason = f"Passes full text validation; {centrality_note}"
-
-        return {
-            "score": score,
-            "decision": decision,
-            "reason": reason,
-            "category": category,
-            "synthesis_evidence": synthesis_evidence_score,
-            "downstream_evidence": downstream_evidence_score,
-            "centrality_penalty": centrality_penalty,
-            "centrality_note": centrality_note,
-            "matched_material_tokens": sorted(material_tokens.intersection(tokens)),
-            "matched_downstream": sorted(downstream_matches),
-        }
-
-
+        return extractions, parsed_patents_map
 
     async def execute(self):
         """
@@ -1105,16 +894,28 @@ class PipelineOrchestrator:
                 set_current_stage(TelemetryStage.QUERY_EXPANSION)
                 await self._update_status(session, run, RunStatus.SEARCHING)
                 
-                logger.info("[ORCHESTRATOR] Research Inputs: Compound='%s', Jurisdictions=%s, DateFilter=%s, Competitors=%s, Websites=%s", 
-                    run.compound_name, run.jurisdictions, run.publication_filter, run.competitors, run.mentioned_websites)
+                logger.info(
+                    "[ORCHESTRATOR] Research Inputs: Compound='%s', Jurisdictions=%s, "
+                    "DateFilter=%s, Competitors=%s, Websites=%s, "
+                    "AttributeConstraint=%s, PolymerizationMedium=%s",
+                    run.compound_name,
+                    run.jurisdictions,
+                    run.publication_filter,
+                    run.competitors,
+                    run.mentioned_websites,
+                    getattr(run, "attribute_constraint", None),
+                    getattr(run, "polymerization_medium", None) or "any",
+                )
                 
                 logger.info("[LLM CALL 1] QUERY_EXPANSION")
                 strategy = await self.search_service.generate_strategy(
-                    compound_name=run.compound_name, 
+                    compound_name=run.compound_name,
                     competitors=run.competitors,
                     websites=run.mentioned_websites,
                     jurisdictions=run.jurisdictions,
-                    publication_filter=run.publication_filter
+                    publication_filter=run.publication_filter,
+                    attribute_constraint=getattr(run, "attribute_constraint", None),
+                    polymerization_medium=getattr(run, "polymerization_medium", None) or "any",
                 )
                 logger.info("[QUERY_EXPANSION] Target compound: %s", run.compound_name)
                 logger.info("[QUERY_EXPANSION] Number of generated queries: %d", len(strategy.search_queries))
@@ -1309,251 +1110,82 @@ class PipelineOrchestrator:
                             len(deterministic_kept), len(deterministic_rejected))
                 family_deduped = deterministic_kept
 
-                # ── LLM Title Triage ──
-                logger.info("[LLM TITLE TRIAGE] Starting triage for %d candidates...", len(family_deduped))
-                search_intents = [q.intent for q in getattr(strategy, 'search_queries', []) if hasattr(q, 'intent')]
-                synthesis_intent_str = "YES (Target synthesis/preparation)" if getattr(strategy, 'synthesis_intent', False) else "NO"
-                
-                triage_prompt = TITLE_TRIAGE_PROMPT.format(
-                    compound_name=run.compound_name,
-                    base_material=", ".join(getattr(strategy, 'base_material', [])),
-                    target_modifications=", ".join(getattr(strategy, 'target_modifications', [])),
-                    target_attributes=", ".join(getattr(strategy, 'target_attributes', [])),
-                    synthesis_transformations=", ".join(getattr(strategy, 'synthesis_transformations', [])),
-                    downstream_terms=", ".join(getattr(strategy, 'downstream_terms', [])),
-                    search_intent=f"Synthesis Required: {synthesis_intent_str}. Intents: " + (", ".join(search_intents) if search_intents else "synthesis and material preparation"),
-                    candidates_json="{candidates_json}"
-                )
-                
-                # Batch candidates 50 at a time, with enriched payload
-                TRIAGE_SHORTLIST_MIN = 25
-                TRIAGE_SHORTLIST_MAX = 50
-                batch_size = 50
-                triage_results = {}
-                triage_llm_calls = 0
-                for i in range(0, len(family_deduped), batch_size):
-                    triage_llm_calls += 1
-                    batch = family_deduped[i:i+batch_size]
-                    batch_json = json.dumps([
-                        {
-                            "patent_number": c.get('patent_number', ''),
-                            "title": c.get('title', ''),
-                            "publication_year": (c.get('publication_date', '') or c.get('grant_date', '') or '')[:4],
-                            "jurisdiction": (c.get('patent_number', '') or '')[:2],
-                            "assignee": c.get('assignee', '') or '',
-                            "matched_query_category": c.get('query_matched', '')[:120],
-                        }
-                        for c in batch
-                    ], indent=2)
-                    prompt = triage_prompt.replace("{candidates_json}", batch_json)
-                    try:
-                        result, _, _ = await llm_client.generate_structured(
-                            prompt=prompt,
-                            system_prompt="You are a JSON generator. Do not include markdown blocks.",
-                            schema=TitleTriageResult,
-                            temperature=0.1
-                        )
-                        if result and hasattr(result, 'candidates'):
-                            for cand in result.candidates:
-                                triage_results[cand.patent_number] = cand
-                    except Exception as e:
-                        logger.error("[LLM TITLE TRIAGE] Failed for batch %d-%d: %s", i, i+len(batch), str(e))
-                        # Fallback: ignore failure and all candidates pass through untagged
-                
-                # --- Apply triage results back to candidates ---
-                triage_counts = {
-                    "DIRECT_SYNTHESIS": 0, "TARGET_TRANSFORMATION": 0, "POLYMER_STRUCTURE": 0, 
-                    "PRECURSOR_OR_INTERMEDIATE": 0, "BASE_MATERIAL_ONLY": 0, 
-                    "DOWNSTREAM_APPLICATION": 0, "UNRELATED": 0, "AMBIGUOUS": 0
-                }
-                # Priority mapping — generic, compound-agnostic
-                PRIORITY_MAP = {
-                    "DIRECT_SYNTHESIS": "HIGH",
-                    "TARGET_TRANSFORMATION": "HIGH",
-                    "POLYMER_STRUCTURE": "HIGH",
-                    "PRECURSOR_OR_INTERMEDIATE": "MEDIUM_HIGH",
-                    "AMBIGUOUS": "MEDIUM",
-                    "BASE_MATERIAL_ONLY": "LOW",
-                    "DOWNSTREAM_APPLICATION": "LOW",
-                    "UNRELATED": "REJECT",
-                }
-                for cand in family_deduped:
-                    pnum = cand.get('patent_number')
-                    if pnum in triage_results:
-                        triage_cand = triage_results[pnum]
-                        cls_name = getattr(triage_cand.classification, "value", str(triage_cand.classification))
-                        # Use LLM-provided priority if valid, else derive from classification
-                        llm_priority = getattr(triage_cand, 'priority', '') or ''
-                        derived_priority = PRIORITY_MAP.get(cls_name, "LOW")
-                        final_priority = llm_priority if llm_priority in PRIORITY_MAP.values() or llm_priority == 'REJECT' else derived_priority
-                        
-                        cand['triage_classification'] = triage_cand.classification
-                        cand['triage_priority'] = final_priority
-                        cand['triage_relevance'] = triage_cand.relevance
-                        cand['triage_reason'] = triage_cand.reason
-                        
-                        triage_counts[cls_name] = triage_counts.get(cls_name, 0) + 1
-                        
-                        logger.info("[TITLE TRIAGE_PATENT] %s | cls=%s | priority=%s | relevance=%s | %s",
-                            pnum, cls_name, final_priority, triage_cand.relevance, triage_cand.reason)
-                    else:
-                        # No triage result: treat as AMBIGUOUS/MEDIUM so it still flows through
-                        cand['triage_classification'] = None
-                        cand['triage_priority'] = 'MEDIUM'
-                        cand['triage_relevance'] = 'MEDIUM'
-                        cand['triage_reason'] = 'No triage result — default pass-through'
-                        
-                clearly_relevant = triage_counts.get('DIRECT_SYNTHESIS', 0) + triage_counts.get('TARGET_TRANSFORMATION', 0) + triage_counts.get('POLYMER_STRUCTURE', 0)
-                potentially_relevant = triage_counts.get('PRECURSOR_OR_INTERMEDIATE', 0) + triage_counts.get('BASE_MATERIAL_ONLY', 0) + triage_counts.get('AMBIGUOUS', 0)
-                downstream = triage_counts.get('DOWNSTREAM_APPLICATION', 0)
-                clearly_unrelated = triage_counts.get('UNRELATED', 0)
-                
-                logger.info(
-                    "\n[TRIAGE SUMMARY]\n"
-                    "Total candidates entering triage: %d\n"
-                    "DIRECT_SYNTHESIS:       %d\n"
-                    "TARGET_TRANSFORMATION:  %d\n"
-                    "POLYMER_STRUCTURE:      %d\n"
-                    "PRECURSOR_OR_INTERMEDIATE: %d\n"
-                    "AMBIGUOUS:              %d\n"
-                    "BASE_MATERIAL_ONLY:     %d\n"
-                    "DOWNSTREAM_APPLICATION: %d\n"
-                    "UNRELATED:              %d\n"
-                    "Clearly relevant (HIGH): %d\n"
-                    "Potentially relevant (MEDIUM/LOW): %d\n"
-                    "Hard-excluded (UNRELATED): %d",
-                    len(family_deduped),
-                    triage_counts.get('DIRECT_SYNTHESIS', 0),
-                    triage_counts.get('TARGET_TRANSFORMATION', 0),
-                    triage_counts.get('POLYMER_STRUCTURE', 0),
-                    triage_counts.get('PRECURSOR_OR_INTERMEDIATE', 0),
-                    triage_counts.get('AMBIGUOUS', 0),
-                    triage_counts.get('BASE_MATERIAL_ONLY', 0),
-                    triage_counts.get('DOWNSTREAM_APPLICATION', 0),
-                    triage_counts.get('UNRELATED', 0),
-                    clearly_relevant,
-                    potentially_relevant + downstream,
-                    clearly_unrelated,
+                # ── Lightweight evidence enrichment (metadata/abstract/claims) ──
+                family_deduped = await self._enrich_candidates_for_selection(
+                    family_deduped, strategy, run.compound_name
                 )
 
-                # ── FUNNEL GATE: Hard-exclude UNRELATED, then build priority-ordered shortlist ──
-                pre_gate_count = len(family_deduped)
-                post_unrelated = [c for c in family_deduped if c.get('triage_priority', 'MEDIUM') != 'REJECT']
-                excluded_unrelated = pre_gate_count - len(post_unrelated)
-                logger.info("[TRIAGE GATE] Hard-excluded %d UNRELATED candidates. Remaining: %d",
-                            excluded_unrelated, len(post_unrelated))
-
-                # Sort remaining by priority tier for shortlisting
-                PRIORITY_ORDER = {'HIGH': 0, 'MEDIUM_HIGH': 1, 'MEDIUM': 2, 'LOW': 3, 'REJECT': 4}
-                post_unrelated.sort(key=lambda c: PRIORITY_ORDER.get(c.get('triage_priority', 'MEDIUM'), 2))
-
-                # Build shortlist: take all HIGH+MEDIUM_HIGH, then fill to TRIAGE_SHORTLIST_MAX with MEDIUM/LOW
-                if len(post_unrelated) > TRIAGE_SHORTLIST_MAX:
-                    high_medium_high = [c for c in post_unrelated if c.get('triage_priority') in ('HIGH', 'MEDIUM_HIGH')]
-                    remaining = [c for c in post_unrelated if c.get('triage_priority') not in ('HIGH', 'MEDIUM_HIGH')]
-                    shortlist = high_medium_high
-                    # Fill up to TRIAGE_SHORTLIST_MAX with MEDIUM/LOW
-                    slots = TRIAGE_SHORTLIST_MAX - len(shortlist)
-                    if slots > 0:
-                        shortlist = shortlist + remaining[:slots]
-                    # Ensure we always have at least TRIAGE_SHORTLIST_MIN
-                    if len(shortlist) < TRIAGE_SHORTLIST_MIN and len(post_unrelated) >= TRIAGE_SHORTLIST_MIN:
-                        shortlist = post_unrelated[:TRIAGE_SHORTLIST_MIN]
-                    triage_shortlist = shortlist
-                else:
-                    triage_shortlist = post_unrelated
-
-                logger.info("[TRIAGE GATE] Shortlist built: %d candidates (min=%d, max=%d) → feeding into deterministic ranking",
-                            len(triage_shortlist), TRIAGE_SHORTLIST_MIN, TRIAGE_SHORTLIST_MAX)
-
-                # Step 3: Deterministic Ranking (operates on shortlist only)
+                # ── LLM Patent Selection (evidence-aware; authoritative KEEP/REJECT) ──
+                self._reset_filter_stats()
                 set_current_stage(TelemetryStage.PATENT_RANKING)
                 await self._update_status(session, run, RunStatus.FILTERING)
-                
-                self._deterministic_rank(triage_shortlist, strategy, run.compound_name)
-                logger.info("[ORCHESTRATOR] Preliminary title filtering completed")
-                
-                triage_shortlist.sort(key=lambda x: x['score'], reverse=True)
-                # Keep all eligible for full text validation (relevance threshold applied later)
-                preliminary_candidates = [c for c in triage_shortlist if c.get('eligibility', 'KEEP') != 'REJECT']
-                
+
                 logger.info(
-                    f"\n[RANKING]\n"
-                    f"Candidates entering ranking: {len(triage_shortlist)}\n"
-                    f"Candidates passing preliminary threshold: {len(preliminary_candidates)}\n"
+                    "[LLM PATENT SELECTION] Starting selection for %d candidates...",
+                    len(family_deduped),
+                )
+                selected_candidates = await self._select_patents_via_llm(
+                    family_deduped, strategy, run, batch_size=50, max_keep=10
+                )
+                selected_candidates = self._validate_primary_manifest_integrity(selected_candidates)
+                related_candidates = list(getattr(self, "_related_candidates", []) or [])
+                # Authoritative selected patent manifest for the rest of the pipeline
+                selected_manifest = [
+                    c.get("patent_number") for c in selected_candidates if c.get("patent_number")
+                ]
+                related_manifest = [
+                    c.get("patent_number") for c in related_candidates if c.get("patent_number")
+                ]
+                logger.info(
+                    "SELECTED: %d | manifest=%s | RELATED: %d | related_manifest=%s",
+                    len(selected_candidates),
+                    selected_manifest,
+                    len(related_candidates),
+                    related_manifest,
                 )
 
-                # ── Step 4: Fetch & Validate
-                set_current_stage(TelemetryStage.PATENT_EXTRACTION)
-                await self._update_status(session, run, RunStatus.EXTRACTING)
-                
-                validated_patents = []
-                parsed_patents_map = {}
-                
-                for candidate in preliminary_candidates:
-                    url = candidate['url']
-                    logger.info("Fetching for validation: %s", url)
-                    
-                    parsed_patent = await self.fetcher_service.fetch_patent(url)
-                    if not parsed_patent:
-                        logger.warning("[FETCH FAILURE] patent number: %s | URL: %s", candidate['patent_number'], url)
-                        continue
-                        
-                    logger.info("[FETCH SUCCESS] patent number: %s | URL: %s", candidate['patent_number'], url)
-                    await asyncio.sleep(1)
-                    
-                    try:
-                        val_result = self._validate_full_text(parsed_patent, strategy, run.compound_name)
-                        
-                        logger.info(
-                            "[VALIDATION]\n"
-                            f"Patent: {candidate['patent_number']}\n"
-                            f"Target material evidence: {'STRONG' if val_result['decision'] != 'REJECT' else 'WEAK'} ({val_result.get('matched_material_tokens', [])})\n"
-                            f"Transformation evidence: {val_result['synthesis_evidence']}\n"
-                            f"Claim evidence: {'PASS' if val_result.get('gate_a', {}).get('pass', True) else 'FAIL'} | {val_result.get('gate_a', {}).get('reason', 'n/a')}\n"
-                            f"Decision: {val_result['decision']} - {val_result['reason']}"
+                if not selected_candidates:
+                    raise Exception(
+                        self._format_zero_survivors_error(
+                            reached_validation=self._filter_stats["reached_selection"],
                         )
+                    )
 
-                        if val_result['decision'] == "KEEP":
-                            candidate['final_score'] = val_result['score']
-                            candidate['ft_category'] = val_result.get('category', 'DIRECT_SYNTHESIS')
-                            validated_patents.append(candidate)
-                            parsed_patents_map[candidate['patent_number']] = parsed_patent
-                    except Exception as e:
-                        logger.error(f"[VALIDATION ERROR] Failed to validate patent {candidate['patent_number']}: {e}")
-                        continue
-                validated_patents.sort(key=lambda x: x.get('final_score', 0), reverse=True)
-                selected_candidates = [c for c in validated_patents if c.get('final_score', 0) >= -50][:10]
-                
-                logger.info("ABOVE RELEVANCE THRESHOLD: %d", len([c for c in validated_patents if c.get('final_score', 0) >= -50]))
-                logger.info("SELECTED: %d", len(selected_candidates))
-                
                 for i, candidate in enumerate(selected_candidates):
-                    logger.info("RANK %d\n"
+                    logger.info(
+                        "RANK %d\n"
                         f"PATENT: {candidate.get('patent_number')}\n"
                         f"TITLE: {candidate.get('title')}\n"
-                        f"FINAL SCORE: {candidate.get('final_score')}\n"
-                        f"CATEGORY: {candidate.get('ft_category', candidate.get('category'))}\n"
-                        f"MATCHED QUERIES: {candidate.get('matched_queries')}\n"
+                        f"CATEGORY: {candidate.get('ft_category')}\n"
+                        f"SELECTION: {candidate.get('selection_decision')} "
+                        f"(conf={candidate.get('selection_confidence')})\n"
+                        f"REASON: {candidate.get('selection_reason')}\n"
                         "----------------------------------------"
                     )
-                
-                extractions: list[PatentExtraction] = []
-                for candidate in selected_candidates:
-                    parsed_patent = parsed_patents_map[candidate['patent_number']]
-                    ext = await self.extractor_service.extract_polymerization_data(parsed_patent, url=candidate['url'], profile=strategy)
-                    if not ext:
-                        continue
-                    
-                    ext.metadata.patent_number = candidate['patent_number']
-                    ext.metadata.patent_title = candidate['title']
-                    
-                    if self.extractor_service.validate_extraction(ext):
-                        extractions.append(ext)
-                        logger.info("EXTRACTION SUCCESS: %s", ext.metadata.patent_number)
-                        
+
+                # ── Fetch + Extract ONLY selected candidates ──
+                set_current_stage(TelemetryStage.PATENT_EXTRACTION)
+                await self._update_status(session, run, RunStatus.EXTRACTING)
+
+                extractions, parsed_patents_map = await self._fetch_and_extract_selected(
+                    selected_candidates, strategy
+                )
+
+                # Enforce selected manifest: drop any accidental non-selected extractions
+                extractions = [
+                    e for e in extractions
+                    if getattr(e.metadata, "patent_number", None) in selected_manifest
+                ]
+                parsed_patents_map = {
+                    k: v for k, v in parsed_patents_map.items() if k in selected_manifest
+                }
+
                 if len(extractions) == 0:
-                    raise Exception("Pipeline failed: Could not validate or extract any relevant patents.")
+                    raise Exception(
+                        self._format_zero_survivors_error(
+                            reached_validation=self._filter_stats["reached_selection"],
+                        )
+                    )
 
                 # ── Step 5: Generate Report & Export
                 set_current_stage(TelemetryStage.REPORT_GENERATION)
@@ -1597,9 +1229,41 @@ class PipelineOrchestrator:
                 report, usage = await self.report_service.generate_structured_report(
                     compound_name=run.compound_name, 
                     extractions=report_evidence_list,
+                    patent_manifest=selected_manifest,
                     original_input=run.compound_name,
-                    research_profile=profile_json
+                    research_profile=profile_json,
+                    attribute_constraint=getattr(run, "attribute_constraint", None),
                 )
+                # Authoritative primary manifest only — never inject related/secondary patents.
+                if hasattr(report, "secondary_patents"):
+                    report.secondary_patents = []
+                # Drop any phantom references not in the selected (primary) manifest
+                allowed_refs = set(selected_manifest)
+                if report and getattr(report, "references", None):
+                    report.references = [
+                        r for r in report.references
+                        if (r.split("|")[0].strip() if "|" in r else r.strip()) in allowed_refs
+                    ]
+                # Integrity: primary methodology patents must match selected manifest only
+                if report and getattr(report, "methodology_patents", None):
+                    report.methodology_patents = [
+                        p for p in report.methodology_patents
+                        if getattr(p.patent_details, "patent_number", None) in allowed_refs
+                    ]
+                    for p in report.methodology_patents:
+                        if getattr(p.patent_details, "relevance_tier", None) != "PRIMARY":
+                            p.patent_details.relevance_tier = "PRIMARY"
+                        ta = getattr(p, "target_attribute", None)
+                        if ta is not None and hasattr(ta, "belongs_to_target") and not ta.belongs_to_target:
+                            if (ta.value or "").strip() and ta.value != "Not disclosed in extracted evidence":
+                                logger.error(
+                                    "[INTEGRITY] Clearing non-owned target property on %s: %s=%s",
+                                    p.patent_details.patent_number,
+                                    ta.label,
+                                    ta.value,
+                                )
+                                ta.value = "Not disclosed in extracted evidence"
+                                ta.status = "not_found"
                 markdown_report = self.report_service.report_to_markdown(report)
                 
                 logger.info("[REPORT] final report generation completed")
@@ -1695,9 +1359,9 @@ class PipelineOrchestrator:
                     f"family_removed: {removed_by_family}\n"
                     f"ranking_pool: {len(family_deduped)}\n\n"
                     f"RANKING:\n"
-                    f"method: deterministic\n"
-                    f"llm_calls: 0\n"
-                    f"ranked: {len(validated_patents)}\n"
+                    f"method: llm_title_snippet_selection\n"
+                    f"llm_calls: selection_batches\n"
+                    f"selection_pool: {len(family_deduped)}\n"
                     f"selected: {len(selected_candidates)}\n\n"
                     f"EXTRACTION:\n"
                     f"selected: {len(selected_candidates)}\n"
@@ -1716,6 +1380,40 @@ class PipelineOrchestrator:
                 )
                 
                 return RunStatus.COMPLETED
+
+            except asyncio.CancelledError:
+                # uvicorn --reload / worker shutdown cancels the task. CancelledError is a
+                # BaseException (not Exception), so without this handler the run stays stuck
+                # forever in SEARCHING / FILTERING / etc.
+                logger.warning(
+                    "Pipeline cancelled for run %s (worker reload/shutdown). "
+                    "Persisting CANCELLED so the run does not remain stuck.",
+                    self.run_id,
+                )
+                try:
+                    await self._update_status(session, run, RunStatus.CANCELLED)
+                except Exception as persist_err:
+                    logger.error(
+                        "Failed to persist CANCELLED on active session for %s: %s",
+                        self.run_id,
+                        persist_err,
+                    )
+                    try:
+                        async with await get_background_session() as recovery_session:
+                            result = await recovery_session.execute(
+                                select(ResearchRun).where(ResearchRun.id == self.run_id)
+                            )
+                            recovery_run = result.scalar_one_or_none()
+                            if recovery_run and recovery_run.status in RunStatus.active_states():
+                                await self._update_status(
+                                    recovery_session, recovery_run, RunStatus.CANCELLED
+                                )
+                    except Exception:
+                        logger.exception(
+                            "Recovery session also failed to persist CANCELLED for %s",
+                            self.run_id,
+                        )
+                raise
 
             except Exception as e:
                 import traceback

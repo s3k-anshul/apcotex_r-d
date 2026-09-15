@@ -1,0 +1,200 @@
+900: It is usually useful to use the catalyst together with a co-catalyst which is a ligand of the formula R
+901: 1
+902: m
+903: B, where R
+904: 1
+905: , m and B have the meanings given above for the catalyst. Preferably m is 3, B is phosphorus and the radicals R
+906: 1
+907: may be the same or different. Preference is given to co-catalysts with trialkyl, tricycloalkyl, triaryl, triaralkyl, diaryl-monoalkyl, diaryl-monocycloalkyl, dialkyl-monoaryl, dialkylmonocycloalkyl, dicycloalkyl-monoaryl or dicycloalkyl-monoaryl radicals.
+908: Beispiele von Co-Katalysatoren finden sich beispielsweise in
+909: US-A-4,631,315
+910: .
+911: Bevorzugter Co-Katalysator ist Triphenylphosphin. Der Co-Katalysator wird bevorzugt in Mengen in einem Bereich von 0,3-5 Gew.%, bevorzugt im Bereich von 0,5-4 Gew.% eingesetzt, bezogen auf das Gewicht des zu hydrierenden Nitrilkautschuks. Bevorzugt liegt ferner das Gewichtsverhältnis des Rhodium-haltigen Katalysators zum Co-Katalysator im Bereich von 1:3 bis 1:55, besonders bevorzugt im Bereich von 1:5 bis 1:45. Bezogen auf 100 Gewichtsteile des zu hydrierenden Nitrilkautschuks werden geeigneterweise 0,1 bis 33 Gewichtsteile des Co-Katalyators, bevorzugt 0,5 bis 20 und ganz besonders bevorzugt 1 bis 5 Gewichtsteile, insbesondere mehr als 2 aber weniger als 5 Gewichtsteile Co-Katalysator bezogen auf 100 Gewichtsteile des zu hydrierenden Nitrilkautschuks eingesetzt.
+912: Examples of co-catalysts can be found, for example, in
+913: US-A-4,631,315
+914: ,
+915: Preferred co-catalyst is triphenylphosphine. The co-catalyst is preferably used in amounts in a range of 0.3-5 wt.%, Preferably in the range of 0.5-4 wt.%, Based on the weight of the nitrile rubber to be hydrogenated. Furthermore, the weight ratio of the rhodium-containing catalyst to the cocatalyst is preferably in the range from 1: 3 to 1:55, particularly preferably in the range from 1: 5 to 1:45. Based on 100 parts by weight of the nitrile rubber to be hydrogenated, suitably 0.1 to 33 parts by weight of the co-catalyst, preferably 0.5 to 20 and most preferably 1 to 5 parts by weight, especially more than 2 but less than 5 parts by weight of co-catalyst based 100 parts by weight of the nitrile rubber to be hydrogenated.
+916: Die praktische Durchführung dieser Hydrierung ist dem Fachmann aus
+917: US-A-6,683,136
+918: hinlänglich bekannt. Sie erfolgt üblicherweise, indem man den zu hydrierenden Nitrilkautschuk in einem Lösungsmittel wie Toluol oder Monochlorbenzol bei einer Temperatur im Bereich von 100 bis 150 °C und einem Druck im Bereich von 50 bis 150 bar für 2 bis 10 h mit Wasserstoff beaufschlagt.
+919: The practical implementation of this hydrogenation is the expert from
+920: US-A-6,683,136
+921: well known. It is usually carried out by subjecting the nitrile rubber to be hydrogenated in a solvent such as toluene or monochlorobenzene at a temperature in the range of 100 to 150 ° C and a pressure in the range of 50 to 150 bar for 2 to 10 hours with hydrogen.
+922: Unter hydrierten Nitrilkautschuken im Sinne dieser Erfindung werden ganz oder teilweise hydrierte Nitrilkautschuke verstanden und unter Hydrierung entsprechend eine vollständige oder teilweise Umsetzung der im Ausgangs-Nitrilkautschuk vorhandenen Doppelbindungen, bevorzugt zu mindestens 50 %, besonders bevorzugt 70-100%, insbesondere bevorzugt 80-100%.
+923: Hydrogenated nitrile rubbers in the context of this invention are understood to mean wholly or partially hydrogenated nitrile rubbers and, corresponding to hydrogenation, a complete or partial reaction of the double bonds present in the starting nitrile rubber, preferably at least 50%, particularly preferably 70-100%, particularly preferably 80-100%. ,
+924: Bei Einsatz heterogener Katalysatoren handelt es sich üblicherweise um geträgerte Katalysatoren auf der Basis von Palladium, die z. B. auf Kohle, Kieselsäure, Calciumcarbonat oder Bariumsulfat geträgert sind.
+925: When using heterogeneous catalysts are usually supported catalysts based on palladium, z. B. supported on carbon, silica, calcium carbonate or barium sulfate.
+926: Die nach der Metathese- und/oder Hydrierungsreaktion der erfindungsgemäßen Nitrilkautschuke erhaltenen, gegebenenfalls hydrierten Nitrilkautschuke können analog zu den erfindungsgemäßen Nitrilkautschuken in vulkanisierbare Zusammensetzungen eingebracht werden und zur Herstellung von Vulkanisaten und Formteilen auf Basis solcher Vulkanisate verwendet werden.
+927: The optionally hydrogenated nitrile rubbers obtained after the metathesis and / or hydrogenation reaction of the nitrile rubbers according to the invention can be introduced into vulcanizable compositions analogously to the nitrile rubbers according to the invention and used for the preparation of vulcanizates and moldings based on such vulcanizates.
+928: Beispiele
+929: Examples
+930: I Herstellung der Nitrilkautschuke A, B, C, D, E und F
+931: I Preparation of nitrile rubbers A, B, C, D, E and F.
+932: (Erfindungsgemäße Beispiele sowie Vergleichsbeispiele)
+933: Inventive Examples and Comparative Examples
+934: Die Herstellung der in den folgenden Beispielserien eingesetzten Nitrilkautschuke A-F erfolgte nach den in Tabelle 1 angegebenen Rezepturen und Polymerisationsbedingungen, wobei sämtliche Einsatzstoffe in Gew.-Teilen bezogen auf 100 Gew.-Teile der Monomermischung angegeben sind.
+935: Tabelle 1:
+936: Nitrilkautschuk
+937: A
+938: B
+939: C
+940: D
+941: E
+942: F
+943: Vergleich
+944: Vergleich
+945: Vergleich
+946: Butadien
+947: 62
+948: 62
+949: 62
+950: 62
+951: 62
+952: 62
+953: Acrylnitril
+954: 38
+955: 38
+956: 38
+957: 38
+958: 38
+959: 38
+960: Gesamt-Wassermenge
+961: 200
+962: 200
+963: 200
+964: 200
+965: 200
+966: 200
+967: Edenor
+968: ®
+969: HTiCT
+970: 1)
+971: 2,20
+972: 2,20
+973: 2,20
+974: 2,20
+975: 2,20
+976: 2,20
+977: t-DDM
+978: 2)
+979: 0,30
+980: 0,30
+981: 0,50
+982: 0,50
+983: 0,75
+984: 0,75
+985: Trigonox NT 50
+986: 3)
+987: 0,02
+988: 0,02
+989: 0,02
+990: 0,02
+991: 0,02
+992: 0,02
+993: Prämix FeSO
+994: 4
+995: 4)
+996: 0,022
+997: -
+998: 0,026
+999: -
+1000: 0,022
+1001: -
+1002: Prämix FeCl
+1003: 2
+1004: 4)
+1005: -
+1006: 0,030
+1007: -
+1008: 0,026
+1009: -
+1010: 0,022
+1011: Diethylhydroxylamin
+1012: 0,4
+1013: 0,4
+1014: 0,4
+1015: 0,4
+1016: 0,4
+1017: 0,4
+1018: Vulkanox
+1019: ®
+1020: BKF
+1021: 5)
+1022: 0,3
+1023: 0,3
+1024: 0,3
+1025: 0,3
+1026: 0,3
+1027: 0,3
+1028: pH
+1029: 6)
+1030: 11,0±1,0
+1031: 11,0±1,0
+1032: 11,0+1,0
+1033: 11,0±1,0
+1034: 11,0±1,0
+1035: 11,0±1,0
+1036: Polymerisationstemperatur [°C]
+1037: 13,0±0,5
+1038: 13,0±0,5
+1039: 13,0±0,5
+1040: 13,0±0,5
+1041: 13,0±0,5
+1042: 13,0±0,5
+1043: Polymerisationsumsatz [%]
+1044: 81,7
+1045: 74,8
+1046: 90,1
+1047: 90,3
+1048: 76,3
+1049: 77,6
+1050: Polymerisationszeit [h]
+1051: 8,5
+1052: 7
+1053: 7
+1054: 7
+1055: 7
+1056: 7,5
+1057: 1) Edenor
+1058: ®
+1059: HTiCT: selektiv gehärtete Talgfettsäure (Handelsprodukt "Edenor HTiCT" der Firma Cognis GmbH)
+1060: 2) t-DDM: (tertiäres Dodecylmercaptan); Lanxess Deutschland GmbH
+1061: 3) p-Menthanhydroperoxid (Trigonox NT 50 der Firma Akzo-Degussa)
+1062: 4) enthaltend das Reduktionsmittel Rongalit C (Natriumsalz eines Sulfinsäurederivates) sowie das Fe(II) Salz in den unten angegebenen Mengen.
+1063: 5) 2-[(2-Hydroxy-5-methyl-3-tert-butyl-phenyl)methyl]-4-methyl-6-tert-butyl-phenol; Lanxess Deutschland GmbH
+1064: 6) gemessen zu Beginn der Polymerisation
+1065: The preparation of the nitrile rubbers AF used in the following examples series was carried out according to the recipes and polymerization conditions given in Table 1, all starting materials in parts by weight based on 100 parts by weight of the monomer mixture are given.
+1066: <b><u> Table 1: </ u></b>
+1067: nitrile rubber
+1068: A
+1069: B
+1070: C
+1071: D
+1072: e
+1073: F
+1074: comparison
+1075: comparison
+1076: comparison
+1077: butadiene
+1078: 62
+1079: 62
+1080: 62
+1081: 62
+1082: 62
+1083: 62
+1084: acrylonitrile
+1085: 38
+1086: 38
+1087: 38
+1088: 38
+1089: 38
+1090: 38
+1091: Total amount of water
+1092: 200
+1093: 200
+1094: 200
+1095: 200
+1096: 200
+1097: 200
+1098: Edenor
+1099: ®

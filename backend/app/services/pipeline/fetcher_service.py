@@ -168,6 +168,92 @@ class FetcherService:
             logger.error("Failed to fetch lightweight metadata from %s: %s", url, e)
             return None
 
+    async def fetch_selection_evidence(
+        self,
+        url: str,
+        *,
+        strategy_tokens: set[str] | None = None,
+        abstract_limit: int = 1500,
+        claims_limit: int = 2500,
+    ) -> dict | None:
+        """
+        Lightweight evidence pack for authoritative selection (not full-text extraction).
+
+        Reuses fetch_patent_metadata — abstract + truncated claims/metadata only.
+        Optionally prefers claim paragraphs overlapping strategy_tokens (from the
+        current research strategy), without any material-specific hardcoding.
+        """
+        meta = await self.fetch_patent_metadata(url)
+        if not meta:
+            return None
+
+        abstract = (meta.get("abstract") or "")[:abstract_limit]
+        claims_raw = meta.get("claims") or ""
+        claims_excerpt = self._claims_excerpt_for_selection(
+            claims_raw,
+            strategy_tokens=strategy_tokens or set(),
+            limit=claims_limit,
+        )
+
+        sources: list[str] = []
+        if meta.get("google_patents_title"):
+            sources.append("title")
+        if abstract:
+            sources.append("abstract")
+        if claims_excerpt:
+            sources.append("claims")
+        if meta.get("assignee"):
+            sources.append("metadata")
+
+        return {
+            "url": meta.get("url") or url,
+            "patent_number": meta.get("patent_number") or "",
+            "title": meta.get("google_patents_title") or "",
+            "abstract": abstract,
+            "claims_excerpt": claims_excerpt,
+            "assignee": meta.get("assignee") or "",
+            "publication_date": meta.get("publication_date") or "",
+            "jurisdiction": meta.get("jurisdiction") or "",
+            "legal_status": meta.get("legal_status") or "",
+            "cpc_ipc": meta.get("cpc_ipc") or [],
+            "evidence_sources": sources,
+        }
+
+    @staticmethod
+    def _claims_excerpt_for_selection(
+        claims_text: str,
+        *,
+        strategy_tokens: set[str],
+        limit: int,
+    ) -> str:
+        """Bounded claims excerpt; prefer paragraphs overlapping strategy tokens."""
+        if not claims_text:
+            return ""
+        if not strategy_tokens:
+            return claims_text[:limit]
+
+        paragraphs = [p.strip() for p in re.split(r"\n+", claims_text) if p.strip()]
+        preferred: list[str] = []
+        fallback: list[str] = []
+        for para in paragraphs:
+            toks = set(re.findall(r"\b[a-zA-Z]{3,}\b", para.lower()))
+            if strategy_tokens.intersection(toks):
+                preferred.append(para)
+            else:
+                fallback.append(para)
+
+        ordered = preferred + fallback
+        out: list[str] = []
+        size = 0
+        for para in ordered:
+            if size >= limit:
+                break
+            chunk = para if size + len(para) <= limit else para[: max(0, limit - size)]
+            if chunk:
+                out.append(chunk)
+                size += len(chunk) + 1
+        return "\n".join(out)
+
     def _parse_pdf(self, pdf_bytes: bytes) -> ParsedPatent:
         """Extract text from a PDF file using pdfplumber."""
         logger.info("Parsing PDF content...")
@@ -202,6 +288,17 @@ class FetcherService:
             content = meta.get("content")
             if name and content and (name.startswith("DC.") or name.startswith("citation_")):
                 parsed.metadata[name] = content
+
+        # Authoritative assignee (same sources as lightweight fetch_patent_metadata)
+        assignee_node = (
+            soup.find("meta", {"scheme": "assignee"})
+            or soup.find("meta", {"name": "DC.contributor"})
+            or soup.find("meta", {"name": "citation_author"})
+        )
+        if assignee_node and assignee_node.get("content"):
+            parsed.metadata["assignee"] = assignee_node.get("content").strip()
+        elif parsed.metadata.get("DC.contributor"):
+            parsed.metadata["assignee"] = str(parsed.metadata["DC.contributor"]).strip()
 
         # Remove noisy elements
         for tag in soup(["script", "style", "nav", "footer", "meta", "link", "noscript"]):
@@ -244,12 +341,13 @@ class FetcherService:
             
             # Phase 6: Structural Evidence
             from app.services.pipeline.schemas import StructuralEvidence
+            from app.services.pipeline.example_boundaries import (
+                EXAMPLE_BLOCK_START_RE,
+                find_examples_block_start,
+            )
             evidence = StructuralEvidence()
             
-            # 1. Section Headings (Flexible detection)
-            # Remove the (?i) from the pattern string itself so we can compile it with re.IGNORECASE without breaking substring operations.
-            heading_pattern = r'(example\s*\d*|preparation example|working example|experimental example|manufacturing example|polymerization example|reference example|comparative example|detailed description|best mode|mode for carrying out|embodiment|experimental|procedure|general procedure|reaction procedure|synthesis procedure|polymer preparation|production example)'
-            
+            # 1. Section Headings (Flexible detection — not mid-sentence "example")
             evidence.has_preparation_example = bool(re.search(r'preparation example', desc_text, re.IGNORECASE))
             evidence.has_experimental_example = bool(re.search(r'experimental example|experimental procedure', desc_text, re.IGNORECASE))
             evidence.has_working_example = bool(re.search(r'working example', desc_text, re.IGNORECASE))
@@ -258,13 +356,12 @@ class FetcherService:
             evidence.has_claims = bool(parsed.claims)
             
             # 2. Extract Scientific Blocks (Examples & Procedures)
-            ex_matches = list(re.finditer(heading_pattern, desc_text, re.IGNORECASE))
+            ex_matches = list(EXAMPLE_BLOCK_START_RE.finditer(desc_text))
             evidence.example_count = len(ex_matches)
             
-            if ex_matches:
-                idx = ex_matches[0].start()
-                # Phase 2: Scientific Block Detection. Extract from first experimental heading onwards
-                parsed.examples = desc_text[idx:].strip()
+            start_idx = find_examples_block_start(desc_text)
+            if start_idx is not None:
+                parsed.examples = desc_text[start_idx:].strip()
             else:
                 parsed.examples = ""
                 
@@ -289,7 +386,7 @@ class FetcherService:
             # CAS-like patterns (e.g. 100-42-5)
             cas_matches = len(re.findall(r'\b\d{2,7}-\d{2}-\d\b', desc_text))
             
-            # Capitalized potential chemicals (e.g. Butadiene, Acrylonitrile, Potassium persulfate)
+                # Capitalized potential chemicals (generic heuristic — not material-specific)
             # Simple heuristic: capitalized word followed by chemical suffixes
             chem_matches = len(re.findall(r'\b[A-Z][a-z]+(?:ene|ide|ate|ol|amine|ane|acid)\b', desc_text))
             

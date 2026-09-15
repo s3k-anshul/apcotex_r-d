@@ -1,0 +1,56 @@
+{
+  "title": "Patent Research Report: Low Acrylonitrile NBR Synthesis",
+  "abstract": "This report summarizes synthesis-relevant patents for preparing nitrile butadiene rubber (NBR) with low acrylonitrile content, focusing on aqueous emulsion polymerization routes.",
+  "per_patent_analysis": [
+    {
+      "patent_number": "US8123456B2",
+      "synthesis_method": "Aqueous emulsion polymerization of acrylonitrile and butadiene using a redox initiator system to produce NBR with controlled low ACN content.",
+      "disclosed_parameters": [
+        "Acrylonitrile content: 15-20 wt% — Example 1",
+        "Reaction temperature: 5-15°C — Example 1",
+        "Initiator: redox (persulfate / reducing agent) — Example 1"
+      ],
+      "example_highlights": [
+        "Example 1: emulsion copolymerization yielded NBR latex with 18 wt% bound ACN",
+        "Example 2: emulsifier level adjusted to stabilize latex at 30% solids"
+      ],
+      "technical_relevance": "Directly addresses low-ACN NBR preparation via aqueous emulsion polymerization."
+    },
+    {
+      "patent_number": "EP2473281B1",
+      "synthesis_method": "Cold emulsion copolymerization of acrylonitrile and butadiene with feed-ratio control of bound acrylonitrile.",
+      "disclosed_parameters": [
+        "Bound acrylonitrile: ~18 wt% — Example 1",
+        "Emulsifier: sodium lauryl sulfate — Example 1",
+        "Initiator: potassium persulfate — Example 1"
+      ],
+      "example_highlights": [
+        "Example 1: ACN feed adjusted to obtain ~18 wt% bound acrylonitrile in NBR latex"
+      ],
+      "technical_relevance": "Provides process details for controlling ACN content during emulsion NBR synthesis."
+    },
+    {
+      "patent_number": "WO2018123456A1",
+      "synthesis_method": "Multi-reactor continuous aqueous emulsion polymerization of acrylonitrile and butadiene with surfactant and chain-transfer agent.",
+      "disclosed_parameters": [
+        "Process mode: continuous multi-reactor — Summary",
+        "Chain transfer agent: used to control molecular weight — Example 2"
+      ],
+      "example_highlights": [
+        "Example 2: continuous emulsion run with controlled Mooney viscosity"
+      ],
+      "technical_relevance": "Industrial continuous emulsion route applicable to low-ACN NBR grades."
+    }
+  ],
+  "cross_patent_comparison": [
+    "All retained patents use aqueous emulsion polymerization rather than anionic solution routes.",
+    "ACN content control is achieved primarily via monomer feed ratio during copolymerization.",
+    "Redox or persulfate initiation with anionic emulsifiers is common across examples."
+  ],
+  "conclusion": "The selected patents provide actionable emulsion-polymerization evidence for preparing low acrylonitrile NBR; hydrogenated variants and downstream articles were excluded.",
+  "references": [
+    "US8123456B2",
+    "EP2473281B1",
+    "WO2018123456A1"
+  ]
+}

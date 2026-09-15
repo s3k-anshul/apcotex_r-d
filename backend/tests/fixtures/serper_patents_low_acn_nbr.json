@@ -1,0 +1,120 @@
+{
+  "searchParameters": {
+    "q": "(nitrile rubber OR NBR) AND (polymerization OR emulsion) AND acrylonitrile",
+    "type": "patents",
+    "page": 1
+  },
+  "patents": [
+    {
+      "title": "Process for producing low acrylonitrile content nitrile rubber by emulsion polymerization",
+      "link": "https://patents.google.com/patent/US8123456B2",
+      "snippet": "An aqueous emulsion polymerization process for preparing nitrile butadiene rubber (NBR) having acrylonitrile content of 15-20 wt% using a redox initiator system and anionic emulsifier.",
+      "publicationNumber": "US8123456B2",
+      "publicationDate": "2012-02-28",
+      "priorityDate": "2009-06-15",
+      "filingDate": "2010-06-10",
+      "inventor": "Yamada T.",
+      "assignee": "Apcotex Example Corp",
+      "pdfUrl": "https://patentimages.storage.googleapis.com/example/US8123456B2.pdf"
+    },
+    {
+      "title": "Emulsion polymerization of acrylonitrile-butadiene copolymers with controlled ACN content",
+      "link": "https://patents.google.com/patent/EP2473281B1",
+      "snippet": "Method for preparing NBR latex in aqueous phase with acrylonitrile feed ratio adjusted to obtain bound acrylonitrile of about 18 wt%. Uses potassium persulfate and sodium lauryl sulfate emulsifier.",
+      "publicationNumber": "EP2473281B1",
+      "publicationDate": "2015-08-12",
+      "priorityDate": "2010-01-08",
+      "filingDate": "2011-01-05",
+      "inventor": "Schmidt H.",
+      "assignee": "Example Polymer GmbH"
+    },
+    {
+      "title": "Solution polymerization of nitrile rubber using n-butyllithium in hexane",
+      "link": "https://patents.google.com/patent/US9012345B1",
+      "snippet": "Anionic solution polymerization of acrylonitrile and butadiene in hexane solvent initiated with n-butyllithium and THF polar modifier to produce living NBR chains.",
+      "publicationNumber": "US9012345B1",
+      "publicationDate": "2015-04-14",
+      "priorityDate": "2012-03-01",
+      "filingDate": "2013-02-28",
+      "inventor": "Chen L.",
+      "assignee": "Solvent Polymer Inc"
+    },
+    {
+      "title": "Process for producing hydrogenated nitrile rubber (HNBR) with high saturation",
+      "link": "https://patents.google.com/patent/US7654321B2",
+      "snippet": "Selective hydrogenation of NBR latex to produce highly saturated nitrile rubber (HNBR) using a Wilkinson-type catalyst under hydrogen pressure.",
+      "publicationNumber": "US7654321B2",
+      "publicationDate": "2010-05-04",
+      "priorityDate": "2006-11-20",
+      "filingDate": "2007-11-19",
+      "inventor": "Park J.",
+      "assignee": "Hydrogenation Polymers Ltd"
+    },
+    {
+      "title": "Pneumatic tire comprising nitrile rubber composition in sidewall",
+      "link": "https://patents.google.com/patent/US8888777B2",
+      "snippet": "A pneumatic tire having a sidewall rubber composition containing purchased NBR as a compounding ingredient together with carbon black and sulfur vulcanizing agents.",
+      "publicationNumber": "US8888777B2",
+      "publicationDate": "2014-09-16",
+      "priorityDate": "2011-04-02",
+      "filingDate": "2012-03-30",
+      "inventor": "Tanaka K.",
+      "assignee": "Tire Maker Co"
+    },
+    {
+      "title": "Adhesive composition containing acrylonitrile-butadiene rubber for metal bonding",
+      "link": "https://patents.google.com/patent/US7000111B1",
+      "snippet": "A structural adhesive formulation comprising commercially available NBR dissolved in solvent with phenolic resin for bonding metal substrates.",
+      "publicationNumber": "US7000111B1",
+      "publicationDate": "2006-01-24",
+      "priorityDate": "2003-07-11",
+      "filingDate": "2004-07-09",
+      "inventor": "Brown A.",
+      "assignee": "Adhesives Corp"
+    },
+    {
+      "title": "Method for purifying drinking water using activated carbon filters",
+      "link": "https://patents.google.com/patent/US5551234A",
+      "snippet": "A water treatment system employing granular activated carbon and ion-exchange resins; unrelated to polymer synthesis.",
+      "publicationNumber": "US5551234A",
+      "publicationDate": "1996-08-27",
+      "priorityDate": "1994-01-10",
+      "filingDate": "1995-01-09",
+      "inventor": "Smith R.",
+      "assignee": "Water Tech Inc"
+    },
+    {
+      "title": "Aqueous emulsion copolymerization of styrene-butadiene with low styrene content",
+      "link": "https://patents.google.com/patent/US8200001B2",
+      "snippet": "Preparation of SBR latex by cold emulsion polymerization with styrene content 15-25 wt%, using redox initiation and fatty acid soap emulsifier.",
+      "publicationNumber": "US8200001B2",
+      "publicationDate": "2012-06-19",
+      "priorityDate": "2008-09-01",
+      "filingDate": "2009-08-28",
+      "inventor": "Lee M.",
+      "assignee": "Latex Polymers SA"
+    },
+    {
+      "title": "Wellbore packer seal comprising hydrogenated nitrile elastomer",
+      "link": "https://patents.google.com/patent/US9444555B2",
+      "snippet": "An oilfield packer element molded from HNBR elastomer compound for high-temperature wellbore sealing applications.",
+      "publicationNumber": "US9444555B2",
+      "publicationDate": "2016-09-13",
+      "priorityDate": "2013-02-14",
+      "filingDate": "2014-02-12",
+      "inventor": "Johnson D.",
+      "assignee": "Oilfield Seals Inc"
+    },
+    {
+      "title": "Continuous emulsion polymerization process for acrylonitrile-butadiene rubber",
+      "link": "https://patents.google.com/patent/WO2018123456A1",
+      "snippet": "Multi-reactor continuous aqueous emulsion polymerization of acrylonitrile and butadiene with surfactant and chain transfer agent to control molecular weight and ACN bound content.",
+      "publicationNumber": "WO2018123456A1",
+      "publicationDate": "2018-06-21",
+      "priorityDate": "2016-12-20",
+      "filingDate": "2017-12-18",
+      "inventor": "Nguyen P.",
+      "assignee": "Global Elastomers AG"
+    }
+  ]
+}

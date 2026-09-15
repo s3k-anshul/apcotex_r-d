@@ -1,0 +1,87 @@
+[
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US12037432B2/en",
+      "patent_number": "US12037432B2",
+      "patent_title": "Method for preparing modified and conjugated diene-based polymer and modified \u2026",
+      "assignee": "Not disclosed",
+      "publication_year": "2024",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "10",
+      ")",
+      "The invention claimed is:",
+      "1. A modified and conjugated diene-based polymer comprising a condensation reaction group of a functional group derived from an alkoxysilane-based modifier with a modification stabilizer of Formula 1, in at least one terminal thereof:",
+      "in Formula 1,",
+      "m is an integer of 0 to 3,",
+      "R",
+      "1",
+      "is a functional group having a structure of Formula 1-1, and"
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "Example 1",
+        "example_type": "Extracted Example",
+        "title": "Example 1",
+        "raw_text": "Example 1\nTo a 20 L autoclave reactor, 270 g of styrene, 710 g of 1,3-butadiene, 5,000 g of n-hexane, and 1.3 g of 2,2-di(2-tetrahydrofuryl)propane as a polar additive were added, and the internal temperature of the reactor was controlled to 40\u00b0 C. When the internal temperature of the reactor reached 40\u00b0 C., 4 mmol of n-butyllithium was injected into the reactor, and an adiabatic reaction with heating was performed. After about 20 minutes from the initiation of a polymerization reaction, 20 g of 1,3-butadiene was injected for capping the terminal of a polymerized styrene-butadiene polymer with butadiene. After 5 minutes, 4 mmol of a compound of Formula 5a below was injected as a modifier, and reaction was conducted for 15 minutes. Then, the polymerization reaction was quenched by adding 0.03 parts by weight of ethanol based on monomers, and 5 ml of a hexane solution in which 0.3 wt % of butylated hydroxytoluene (BHT) as an antioxidant was dissolved (0.03 parts by weight was added based on the monomers), was added thereto.\nTo the modified polymer thus obtained, a compound of Formula 1a below was added as a modification stabilizer, and a condensation reaction was conducted for 15 minutes. Then, a polymer was injected into hot water of 100\u00b0 C. heated using steam and stirred to remove solvents, followed by roll drying to remove remaining solvents and water to prepare a modified styrene-butadiene copolymer.\n300% modulus\n151\n148\n147\n134\n(Kgf/cm\n2\n)\nTensile\n221\n216\n219\n203\nstrength\n(Kgf/cm\n2\n)\n\u0394G\u2032\n0.52\n0.52\n0.66\n0.92\ntan \u03b4 @ 0\u00b0 C.\n1.012\n1.061\n1.058\n1.012\ntan \u03b4 @ 60\u00b0 C.\n0.081\n0.080\n0.084\n0.102\nReferring to the experimental results, the rubber composition including one of the modified styrene-butadiene copolymers of Examples 1 to 3, which were prepared by the preparation method according to the present invention, was excellent in terms of all the properties including tensile strength, viscoelasticity and processability when compared to those of Comparative Example 1.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 2",
+        "example_type": "Extracted Example",
+        "title": "Example 2",
+        "raw_text": "Example 2\nA modified styrene-butadiene copolymer was prepared by conducting the same method as in Example 1 except for using a compound of Formula 1b below as a modification stabilizer.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 3",
+        "example_type": "Extracted Example",
+        "title": "Example 3",
+        "raw_text": "Example 3\nA modified styrene-butadiene copolymer was prepared by conducting the same method as in Example 1 except for using a compound of Formula 1c below as a modification stabilizer.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 1",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 1",
+        "raw_text": "Comparative Example 1\nA modified styrene-butadiene copolymer was prepared by conducting the same method as in Example 1 except for not conducting the condensation reaction with a modification stabilizer in Example 1.\nIn detail, to a 20 L autoclave reactor, 270 g of styrene, 710 g of 1,3-butadiene, 5,000 g of n-hexane, and 1.3 g of 2,2-di(2-oxolanyl)propane as a polar additive were added, and the internal temperature of the reactor was controlled to 40\u00b0 C. When the internal temperature of the reactor reached 40\u00b0 C., 4 mmol of n-butyllithium was injected into the reactor, and an adiabatic reaction with heating was performed. After about 20 minutes from the reaction, 20 g of 1,3-butadiene was injected for capping the terminal of SSBR with butadiene. After 5 minutes, 4 mmol of dimethylaminomethoxysilane was injected as a modifier, and the reaction was conducted for 15 minutes. Then, the polymerization reaction was quenched using ethanol, and 5 ml of a hexane solution in which 0.3 wt % of butylated hydroxytoluene (BHT) as an antioxidant was dissolved, was added thereto. The polymer thus obtained was injected into hot water of 100\u00b0 C. heated with steam, stirred to remove solvents, and roll dried to remove remaining solvents and water to prepare a modified styrene-butadiene copolymer.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Experimental Example 1",
+        "example_type": "Extracted Example",
+        "title": "Experimental Example 1",
+        "raw_text": "Experimental Example 1\nA weight average molecular weight (Mw), a number average molecular weight (Mn), polydispersity index (PDI), styrene derived structural unit and vinyl contents, and mooney viscosity (MV) were measured for each of the modified styrene-butadiene copolymers prepared in the examples and the comparative example. The results are shown in Table 1 below.\n1) Analysis of Styrene Derived Structural Unit and Vinyl Contents\nThe styrene derived structural unit (SM) and vinyl contents in each copolymer were measured using nuclear magnetic resonance (NMR).\n2) Analysis of Molecular Weights\nThe weight average molecular weight (Mw) and the number average molecular weight (Mn) of each copolymer were measured by gel permeation chromatography (GPC) analysis in conditions of 40\u00b0 C. In this case, two columns of PLgel Olexis and one column of PLgel mixed-C of Polymer Laboratories Co. Ltd. were used in combination, and newly replaced columns were all mixed bed type columns. In addition, polystyrene (PS) was used as a GPC standard material for calculating the molecular weights. Polydispersity index (PDI) was calculated from the ratio (Mw/Mn) of the weight average molecular weight and the number average molecular weight measured by the above method.\n3) Analysis of Mooney Viscosity\nThe mooney viscosity of each copolymer was measured by using MV-2000 (Alpha Technologies Co., Ltd.) at 100\u00b0 C. for 4 minutes after pre-heating two specimens, of which amount was 15 g or more each, for 1 minute.\nTABLE 1\nCompara-\nExam-\nExam-\nExam-\ntive Ex-\nple 1\nple 2\nple 3\nample 1\nMooney viscosity (MV)\n67\n69\n73\n97\nNMR\nStyrene content\n27.0\n26.8\n26.9\n27.1\n(wt % based on total\npolymer amount)\nNMR\nVinyl content\n42.9\n43.1\n42.8\n42.9\n(wt % based on total\npolymer amount)\nGPC\nMn (\u00d710\n4\ng/mol)\n12.6\n13.2\n13.0\n16.9\nGPC\nMw (\u00d710\n4\ng/mol)\n13.6\n14.8\n15.1\n20.4\nGPC\nPDI (Mw/Mn)\n1.08\n1.12\n1.16\n1.21\nReferring to the experimental results, the modified styrene-butadiene copolymers of Examples 1 to 3, which were prepared using a modification stabilizer, showed almost equivalent level of styrene and vinyl group contents in polymers, but lower Mn, Mw and PDI and remarkably decreased value regarding mooney viscosity (MW), when compared to the modified styrene butadiene copolymer of Comparative Example 1, which was prepared without a modification stabilizer.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Experimental Example 2",
+        "example_type": "Extracted Example",
+        "title": "Experimental Example 2",
+        "raw_text": "Experimental Example 2\nIn order to comparatively analyze the physical properties of rubber compositions including each copolymer of the examples and comparative example and molded articles manufactured therefrom, tensile properties and viscoelasticity properties were measured.\n1) Preparation of Rubber Composition\nEach rubber composition was prepared via a first stage mulling, a second stage mulling and a third stage mulling. In this case, the amounts used of materials excluding a modified styrene-butadiene copolymer were shown based on 100 parts by weight of the modified styrene-butadiene copolymer. In the first stage mulling, 100 parts by weight of each copolymer, 70 parts by weight of silica, 11.02 parts by weight of bis(3-triethoxysilylpropyl)tetrasulfide as a silane coupling agent, 33.75 parts by weight of a process oil (TDAE), 2.0 parts by weight of an antiaging agent (TMDQ), 2.0 parts by weight of an antioxidant, 3.0 parts by weight of zinc oxide (ZnO), 2.0 parts by weight of stearic acid, and 1.0 part by weight of wax were mixed and mulled under conditions of 80 rpm by using a banbury mixer equipped with a temperature controlling apparatus. In this case, the temperature of the mulling apparatus was controlled, and a first compound mixture was obtained at a discharge temperature of 140\u00b0 C. to 150\u00b0 C. In the second stage mulling, the first compound mixture was cooled to room temperature, and 1.75 parts by weight of a rubber accelerator (CZ), 1.5 parts by weight of a sulfur powder, and 2.0 parts by weight of a vulcanization accelerator were added to the mulling apparatus and mixed at a temperature of 60\u00b0 C. or less to obtain a second compound mixture. Then, the second compound mixture was molded at the third stage mulling, and vulcanized at 180\u00b0 C. for t90+10 minutes using a vulcanization press to prepare each vulcanized rubber.\n2) Tensile Properties\nThe tensile properties were measured by manufacturing each specimen (thickness of 25 mm, length of 80 mm) and measuring tensile strength when broken and tensile stress when elongated by 300% (300% modulus) of each specimen according to an ASTM 412 tensile test method. Particularly, a Universal Test machine 4204 tensile tester (Instron Co., Ltd.) was used, and measurement of tensile properties was performed at room temperature at a rate of 50 cm/min, to obtain a tensile strength value and a tensile stress value when elongated by 300%.\n3) Viscoelasticity Properties\nThe viscoelasticity properties were measured by using a dynamic mechanical analyzer (TA Co., Ltd.). Tan \u03b4 was measured by changing deformation at each measurement temperature (0\u00b0 C. to 60\u00b0 C.) with a twist mode and a frequency of 10 Hz. Payne effect (\u0394G\u2032) was shown as the difference between a minimum value and a maximum value at deformation of 0.28% to 40%, and if the Payne effect decreases, it means that dispersibility of a filler is excellent. In addition, if the tan \u03b4 at a high temperature of 60\u00b0 C. is low, it means that hysteresis loss is small, and low rolling resistance (fuel consumption ratio) is excellent.\nTABLE 2",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example",
+        "example_type": "Extracted Example",
+        "title": "Example",
+        "raw_text": "Example\nComparative\n1\n2\n3",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "Method for preparing modified and conjugated diene-based polymer and modified and conjugated diene-based polymer prepared using the same \n       \nAbstract\nThe present invention provides a method for preparing a modified and conjugated diene-based polymer, which may prevent processability degradation by restraining the increase of mooney viscosity during post-treatment using steam with high temperature or storage for a long time by stabilizing a modified polymer using a modification stabilizer, and a modified and conjugated diene-based polymer prepared by the preparation method.\nClaims (\n10\n)\nThe invention claimed is:\n1. A modified and conjugated diene-based polymer comprising a condensation reaction group of a functional group derived from an alkoxysilane-based modifier with a modification stabilizer of Formula 1, in at least one terminal thereof:\nin Formula 1,\nm is an integer of 0 to 3,\nR\n1\nis a functional group having a structure of Formula 1-1, and\nR\n2\nand R\n3\nare each independently a halogen group, an alkyl group of 1 to 5 carbon atoms, or an alkoxy group of 1 to 5 carbon atoms, where at least one of R\n2\nor R\n3\nis the alkoxy group,\n[R\n11\n\u2014(R\n12\n)\nn\n]\u2014\u2003\u2003[Formula 1-1]\nin Formula 1-1,\nn is 0 or 1,\nR\n11\nis an amino group or a four-member to six-member heterocyclic group containing 1 to 3 nitrogen atoms, each of which is unsubstituted or substituted with at least one substituent selected from the group consisting of an alkyl group of 1 to 10 carbon atoms and a cycloalkyl group of 3 to 10 carbon atoms, and\nR\n12\nis an alkylene group of 1 to 10 carbon atoms, which is unsubstituted or substituted with an alkyl group of 1 to 10 carbon atoms,\nwherein the modifier is a compound of Formula 2, Formula 3, Formula 5a, Formula 5f or Formula 5h:\nin Formula 2 and formula 3,\nA is a (C\n1-20\nalkyl)silyl group, an amino group, a (C\n1-20\nalkyl)amino group, or a heterocyclic group containing at least one nitrogen atom, each of which is unsubstituted or substituted with at least one substituent selected from the group consisting of an alkyl group of 1 to 6 carbon atoms and a cycloalkyl group of 3 to 6 carbon atoms,\nY\n1\nto Y\n3\nare each independently a divalent hydrocarbon group of 1 to 20 carbon atoms,\nZ\n11\n, Z\n12\n, and Z\n21\nto Z\n23\nare each independently a monovalent hydrocarbon group of 1 to 20 carbon atoms, which is unsubstituted or substituted with an organic group containing Si, O, or N, and which does not include active hydrogen, where at least one of Z\n11\nor Z\n12\n, and at least one of Z\n21\n, Z\n22\nor Z\n23\nare a functional group of Formula 4:\nin Formula 4,\np is an integer of 0 to 2,\nR\na\nand R\nb\nare each independently a monovalent hydrocarbon group of 1 to 10 carbon atoms, and\nW is a divalent hydrocarbon group of 1 to 10 carbon atoms, which is unsubstituted or substituted with an alkyl group of 1 to 4 carbon atoms,\nin Formulae 5a, 5f and 5h, Me is a methyl group, and Et is an ethyl group.\n2. The modified and conjugated diene-based polymer of\nclaim 1\n, wherein the modified and conjugated diene-based polymer has a mooney viscosity of 30 to 120.\n3. The modified and conjugated diene-based polymer of\nclaim 1\n, wherein the modified and conjugated diene-based polymer is a copolymer of a conjugated diene-based monomer and an aromatic vinyl-based monomer.\n4. The modified and conjugated diene-based polymer of\nclaim 1\n, wherein R\n1\nis a functional group having a structure of Formula 1-1, where R\n11\nis an amino group, an imidazolinyl group, a piperazinyl group, a methyl piperazinyl group, a pyrimidinyl group, a pyrrolidinyl group or a triazinyl group, each of which is unsubstituted or substituted with at least one substituent selected from the group consisting of an alkyl group of 1 to 6 carbon atoms and a cycloalkyl group of 3 to 6 carbon atoms, and R\n12\nis an alkylene group of 4 to 10 carbon atoms, which is unsubstituted or substituted with an alkyl group of 1 to 4 carbon atoms, and R\n2\nand R\n3\nare each independently an alkoxy group of 1 to 5 carbon atoms.\n5. The modified and conjugated diene-based polymer of\nclaim 1\n, wherein the modification stabilizer of Formula 1 is selected from the group consisting of compounds of Formulae 1a to 1c:\nin Formulae 1a to 1c, Me is a methyl group.\n6. The modified and conjugated diene-based polymer of\nclaim 1\n, wherein the heterocyclic group containing at least one nitrogen atom is selected from the group consisting of a piperazinyl group, a triazinyl group and an imidazolinyl group.\n7. The modified and conjugated diene-based polymer of\nclaim 1\n, wherein the modifier is selected from the group consisting of the following Formulas 5a, 5d to 5f and 5h:\nwherein, Me is a methyl group and Et is an ethyl group.\n8. A rubber composition comprising the modified and conjugated diene-based polymer according to\nclaim 1\n.\n9. The rubber composition of\nclaim 8\n, wherein the rubber composition further comprises a filler in an amount of 0.1 parts by weight to 200 parts by weight based on 100 parts by weight of the modified and conjugated diene-based polymer, and\nthe filler is selected from the group consisting of a silica-based filler, a carbon black-based filler and a mixture thereof.\n10. A tire manufactured from the rubber composition according to\nclaim 8\n.",
+    "examples_detection_note": ""
+  }
+]

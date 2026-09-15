@@ -350,6 +350,23 @@ class ReportEvidenceService:
                 raw_text=sec.raw_text
             ))
 
+        # Distinguish "no examples in patent" vs "examples not segmented"
+        detection_note = getattr(extraction, "examples_detection_note", "") or ""
+        if not evidence.examples:
+            if detection_note:
+                evidence.limitations_or_missing_data.append(detection_note)
+                evidence.technical_findings.append(detection_note)
+            elif evidence.synthesis_sections:
+                evidence.limitations_or_missing_data.append(
+                    "Worked-example headings were not segmented; process/description "
+                    "sections are available as synthesis evidence."
+                )
+            else:
+                evidence.limitations_or_missing_data.append(
+                    "This patent did not yield segmented worked-example sections; "
+                    "use claims/description/source_text for process evidence."
+                )
+
         # Source text: deterministic passage extraction
         if parsed_patent is not None:
             evidence.source_text = self._extract_source_text(parsed_patent)
@@ -380,6 +397,10 @@ class ReportEvidenceService:
             if ev.competitor_name:
                 parts.append(f"Competitor: {ev.competitor_name}")
             parts.append(f"URL: {ev.url}")
+            parts.append(
+                "NOTE: Extract medium_and_water_role and target_attribute from THIS patent's "
+                "evidence only. Do not use other patents' text."
+            )
 
             if ev.overall_patent_parameters:
                 parts.append("\nGeneral Parameters:")

@@ -12,10 +12,20 @@ Schema hierarchy:
 """
 import uuid
 from datetime import datetime
+from enum import Enum
 
 from pydantic import BaseModel, Field, field_validator
 
 from app.models.research_run import RunStatus
+
+
+class PolymerizationMedium(str, Enum):
+    """Optional bias for query expansion / selection (per-run)."""
+
+    AQUEOUS = "aqueous"
+    EMULSION = "emulsion"
+    SOLVENT = "solvent"
+    ANY = "any"
 
 
 # ── Create ─────────────────────────────────────────────────────────────────────
@@ -49,11 +59,33 @@ class ResearchRunCreate(BaseModel):
         default_factory=list,
         description='Patent jurisdictions to search, e.g. ["US", "EP", "IN"].',
     )
+    attribute_constraint: str | None = Field(
+        default=None,
+        max_length=500,
+        description=(
+            "Optional free-text attribute/range constraint supplied by the user for this run. "
+            "Omitted/None = no extra constraint."
+        ),
+    )
+    polymerization_medium: PolymerizationMedium = Field(
+        default=PolymerizationMedium.ANY,
+        description=(
+            'Optional polymerization-medium bias: "aqueous", "emulsion", '
+            '"solvent", or "any" (default — no bias).'
+        ),
+    )
 
     @field_validator("competitors", "mentioned_websites", "selected_sources", "jurisdictions", mode="before")
     @classmethod
     def strip_empty_strings(cls, v: list) -> list:
         return [item for item in v if isinstance(item, str) and item.strip()]
+
+    @field_validator("attribute_constraint", mode="before")
+    @classmethod
+    def blank_attribute_constraint_to_none(cls, v: object) -> object:
+        if isinstance(v, str) and not v.strip():
+            return None
+        return v
 
 
 # ── Response ────────────────────────────────────────────────────────────────────
@@ -68,6 +100,8 @@ class ResearchRunResponse(BaseModel):
     publication_filter: dict | None
     selected_sources: list[str]
     jurisdictions: list[str]
+    attribute_constraint: str | None = None
+    polymerization_medium: str = PolymerizationMedium.ANY.value
     status: RunStatus
     cache_key: str | None
     report_version: int

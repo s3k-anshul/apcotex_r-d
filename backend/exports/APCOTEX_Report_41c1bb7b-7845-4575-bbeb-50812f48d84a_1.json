@@ -1,0 +1,131 @@
+[
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/EP2507313B1/en",
+      "patent_number": "EP2507313",
+      "patent_title": "Elastomeric rubber and rubber products without the use of vulcanizing \u2026",
+      "assignee": "Not disclosed",
+      "publication_year": "2018-02-07",
+      "jurisdiction": "EP",
+      "quality": "Medium",
+      "extraction_score": 60
+    },
+    "polymerization": {
+      "process": "emulsion polymerization",
+      "monomers": "butadiene, acrylonitrile, carboxylic acid",
+      "monomer_ratio": "Not disclosed",
+      "initiator": "Not disclosed",
+      "emulsifier": "Not disclosed",
+      "catalyst": "Not disclosed",
+      "chain_transfer_agent": "Not disclosed",
+      "coagulation": "Not disclosed",
+      "water_amount": "Not disclosed"
+    },
+    "reaction_conditions": {
+      "temperature": "85 \u00b0C",
+      "time": "72 hours",
+      "pressure": "Not disclosed",
+      "ph": "Not disclosed",
+      "conversion": "Not disclosed"
+    },
+    "properties": {
+      "solid_content": "18 %",
+      "mooney_viscosity": "Not disclosed",
+      "volatile_matter": "Not disclosed",
+      "ash": "Not disclosed",
+      "other_properties": "Not disclosed"
+    },
+    "examples": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": []
+  },
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US9926439B2/en",
+      "patent_number": "US9926439",
+      "patent_title": "Nitrile rubber article having natural rubber characteristics",
+      "assignee": "Not disclosed",
+      "publication_year": "2018-03-27",
+      "jurisdiction": "US",
+      "quality": "Medium",
+      "extraction_score": 50
+    },
+    "polymerization": {
+      "process": "emulsion polymerization",
+      "monomers": "acrylonitrile, methacrylic acid, butadiene",
+      "monomer_ratio": "acrylonitrile content between 17 and 45% by weight, methacrylic acid content of less than 15% by weight, remaining balance butadiene",
+      "initiator": "Not disclosed",
+      "emulsifier": "Not disclosed",
+      "catalyst": "Not disclosed",
+      "chain_transfer_agent": "Not disclosed",
+      "coagulation": "Not disclosed",
+      "water_amount": "Not disclosed"
+    },
+    "reaction_conditions": {
+      "temperature": "Not disclosed",
+      "time": "15 minutes",
+      "pressure": "Not disclosed",
+      "ph": "Not disclosed",
+      "conversion": "Not disclosed"
+    },
+    "properties": {
+      "solid_content": "15-25% total solids content",
+      "mooney_viscosity": "Not disclosed",
+      "volatile_matter": "Not disclosed",
+      "ash": "Not disclosed",
+      "other_properties": "Not disclosed"
+    },
+    "examples": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": []
+  },
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/EP2316860B1/en",
+      "patent_number": "EP2316860",
+      "patent_title": "Nitrile rubbers",
+      "assignee": "Not disclosed",
+      "publication_year": "2012-05-09",
+      "jurisdiction": "EP",
+      "quality": "Medium",
+      "extraction_score": 75
+    },
+    "polymerization": {
+      "process": "emulsion polymerization",
+      "monomers": "at least one alpha,beta-unsaturated nitrile, at least one conjugated diene and optionally at least one further copolymerizable monomer (e.g., 1,3-butadiene, acrylonitrile, methyl isopropenyl ketone)",
+      "monomer_ratio": "Not disclosed",
+      "initiator": "redox system comprising (a) at least one peroxo compound as an oxidizing agent, (b) at least a reducing agent and (c) iron(II)chloride",
+      "emulsifier": "Not disclosed",
+      "catalyst": "Not disclosed",
+      "chain_transfer_agent": "C12-C16-alkylthiol",
+      "coagulation": "Not disclosed",
+      "water_amount": "Not disclosed"
+    },
+    "reaction_conditions": {
+      "temperature": "30 \u00b0C",
+      "time": "4 hours",
+      "pressure": "Not disclosed",
+      "ph": "Not disclosed",
+      "conversion": "Not disclosed"
+    },
+    "properties": {
+      "solid_content": "Not disclosed",
+      "mooney_viscosity": "Not disclosed",
+      "volatile_matter": "Not disclosed",
+      "ash": "Not disclosed",
+      "other_properties": "Not disclosed"
+    },
+    "examples": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": []
+  }
+]

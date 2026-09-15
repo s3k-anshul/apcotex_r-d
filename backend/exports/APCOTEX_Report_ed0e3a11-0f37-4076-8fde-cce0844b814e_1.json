@@ -1,0 +1,145 @@
+[
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/EP2316860B1/en",
+      "patent_number": "EP2316860",
+      "patent_title": "Nitrile rubbers",
+      "assignee": "Not disclosed",
+      "publication_year": "2012-05-09",
+      "jurisdiction": "EP",
+      "quality": "Medium",
+      "extraction_score": 50
+    },
+    "polymerization": {
+      "process": "emulsion polymerization",
+      "monomers": "at least one alpha,beta-unsaturated nitrile, at least one conjugated diene and optionally at least one further copolymerizable monomer",
+      "monomer_ratio": "Not disclosed",
+      "initiator": "redox system, which comprises (a) at least one peroxo compound as an oxidizing agent, (b) at least a reducing agent and (c) iron(II)chloride",
+      "emulsifier": "Not disclosed",
+      "catalyst": "Not disclosed",
+      "chain_transfer_agent": "Not disclosed",
+      "coagulation": "Not disclosed",
+      "water_amount": "Not disclosed"
+    },
+    "reaction_conditions": {
+      "temperature": "Not disclosed",
+      "time": "Not disclosed",
+      "pressure": "Not disclosed",
+      "ph": "Not disclosed",
+      "conversion": "Not disclosed"
+    },
+    "properties": {
+      "solid_content": "Not disclosed",
+      "mooney_viscosity": "Not disclosed",
+      "volatile_matter": "Not disclosed",
+      "ash": "Not disclosed",
+      "other_properties": "Not disclosed"
+    },
+    "examples": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "nitrile rubber comprising repeating units, obtained by the above mentioned method or obtained from the nitrile rubber by subjecting to a metathesis reaction",
+      "hydrogenated nitrile rubber obtained from the nitrile rubber, by subjecting them to a hydrogenation reaction or by subjecting them to a metathesis reaction and subsequent hydrogenation",
+      "vulcanizable mixture comprising the nitrile rubber or hydrogenated nitrile rubber and at least one crosslinking agent",
+      "producing a vulcanizate, comprising subjecting the vulcanizable mixture to crosslinking, preferably by increasing the temperature or photo-chemical activation",
+      "the vulcanizate obtained by the above mentioned method"
+    ]
+  },
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US9926439B2/en",
+      "patent_number": "US9926439",
+      "patent_title": "Nitrile rubber article having natural rubber characteristics",
+      "assignee": "Not disclosed",
+      "publication_year": "2018-03-27",
+      "jurisdiction": "US",
+      "quality": "Medium",
+      "extraction_score": 50
+    },
+    "polymerization": {
+      "process": "emulsion",
+      "monomers": "acrylonitrile, butadiene, methacrylic acid",
+      "monomer_ratio": "acrylonitrile content between 17 and 45% by weight, methacrylic acid content less than 15% by weight, remaining balance butadiene",
+      "initiator": "Not disclosed",
+      "emulsifier": "anionic surfactant",
+      "catalyst": "zinc oxide",
+      "chain_transfer_agent": "Not disclosed",
+      "coagulation": "Not disclosed",
+      "water_amount": "Not disclosed"
+    },
+    "reaction_conditions": {
+      "temperature": "Not disclosed",
+      "time": "Not disclosed",
+      "pressure": "Not disclosed",
+      "ph": "9 to 12.5",
+      "conversion": "Not disclosed"
+    },
+    "properties": {
+      "solid_content": "15-25% total solids content",
+      "mooney_viscosity": "Not disclosed",
+      "volatile_matter": "Not disclosed",
+      "ash": "Not disclosed",
+      "other_properties": "force to stretch to about 400% original dimensions, force to stretch to rupture"
+    },
+    "examples": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "1. A carboxylated nitrile-butadiene rubber latex formulation comprising a blend of a first acrylonitrile terpolymer and a second acrylonitrile terpolymer, wherein the first acrylonitrile terpolymer and the second acrylonitrile terpolymer are in a compositional ratio ranging from 60:40 to 40:60, wherein: the blend has an acrylonitrile content between 17 and 45% by weight, and the blend has a methacrylic acid content of less than 15% by weight, wherein a remaining balance of the blend is butadiene.",
+      "2. The formulation of claim 1, wherein the first acrylonitrile terpolymer has a lower modulus relative to the second acrylonitrile terpolymer.",
+      "3. The formulation of claim 1, wherein the carboxylated nitrile-butadiene rubber latex formulation further comprises, in terms of parts per 100 dry parts of rubber consisting of the blend of the first acrylonitrile terpolymer and the second acrylonitrile terpolymer, between 0-1.5 parts of an alkali agent that provides monovalent ions and 0.5-1.5 parts of a metallic oxide wherein a total combined amount of the alkali agent and metallic oxide is greater than 1.0 part per 100 dry parts of rubber.",
+      "4. The formulation of claim 3, further comprising in terms of parts per 100 dry parts of rubber consisting of the carboxylated nitrile-butadiene terpolymer, from 0.5-1.5 parts sulfur and 0.5-1.5 parts rubber accelerator.",
+      "5. The formulation of claim 1, wherein the formulation has a pH of 9 to 12.5.",
+      "6. The formulation of claim 1, wherein the formulation is an emulsion containing 15-25% total solids content.",
+      "7. The formulation of claim 1, wherein the formulation has a polymer structure comprising a random terpolymer of acrylonitrile, butadiene and carboxylic acid."
+    ]
+  },
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/EP2507313B1/en",
+      "patent_number": "EP2507313",
+      "patent_title": "Elastomeric rubber and rubber products without the use of vulcanizing \u2026",
+      "assignee": "Not disclosed",
+      "publication_year": "2018-02-07",
+      "jurisdiction": "EP",
+      "quality": "Medium",
+      "extraction_score": 60
+    },
+    "polymerization": {
+      "process": "emulsion",
+      "monomers": "carboxylated acrylonitrile butadiene",
+      "monomer_ratio": "Not disclosed",
+      "initiator": "Not disclosed",
+      "emulsifier": "Not disclosed",
+      "catalyst": "Not disclosed",
+      "chain_transfer_agent": "Not disclosed",
+      "coagulation": "coagulant dipping process",
+      "water_amount": "adjust to TSC 20-21%"
+    },
+    "reaction_conditions": {
+      "temperature": "50-70 degree C, 80-120 degree C, 120-150 degree C",
+      "time": "1-20 seconds, 20-70 seconds, 250-300 seconds, 20-30 minutes",
+      "pressure": "Not disclosed",
+      "ph": "Not disclosed",
+      "conversion": "Not disclosed"
+    },
+    "properties": {
+      "solid_content": "20-21%",
+      "mooney_viscosity": "Not disclosed",
+      "volatile_matter": "Not disclosed",
+      "ash": "Not disclosed",
+      "other_properties": "tensile properties, swell rate, crosslink density"
+    },
+    "examples": {
+      "example_tables": [],
+      "reaction_procedure": "described in Example 2",
+      "experimental_notes": "described in Example 2"
+    },
+    "claims": []
+  }
+]

@@ -1,0 +1,187 @@
+# PATENT RESEARCH REPORT
+
+## 1. ABSTRACT
+This technical report synthesizes recent patent literature on the synthesis, modification, and processing of Hydrogenated Nitrile Butadiene Rubber (HNBR). HNBR is a high-performance specialty elastomer renowned for its exceptional heat, ozone, chemical, and oil resistance, making it indispensable in demanding automotive, oil exploration, and industrial applications. The primary challenge in HNBR production is managing its high Mooney viscosity and molecular weight to improve processability without compromising mechanical properties. The selected patent landscape (comprising EP2473281B1, EP3827029A1, US9079979B2, EP2473280B1, EP3708590B1, and US7919563B2) reveals two major technological trends: catalytic molecular weight reduction (depolymerization) and optimized downstream purification/coagulation. To achieve low molecular weight HNBR (Mw 20,000 to 250,000; Mooney viscosity 1 to 50), patents such as US7919563B2 utilize ruthenium-based metathesis catalysts (e.g., Grubbs-type) in the presence of co-olefins like ethylene or 1-hexene. Newer approaches, detailed in EP2473281B1, US9079979B2, and EP2473280B1, transition to a highly efficient, single-step simultaneous metathesis and hydrogenation process under hydrogen pressure. Furthermore, EP3827029A1 addresses catalyst residue issues by demonstrating that restricting noble metal catalyst concentrations (Ru, Pd, or Rh) to precise low-ppm levels (e.g., 10 to 200 ppm) yields HNBR with excellent heat-ageing resistance and low gelation without requiring complex catalyst removal steps. Finally, EP3708590B1 highlights the critical role of coagulation chemistry, employing a halogen-free metal sulfate for NBR latex coagulation followed by a divalent metal chloride for HNBR solution coagulation to dramatically enhance heat oil resistance and metal adhesion. Together, these patents provide a comprehensive framework for synthesizing highly processable, high-purity HNBR with tailored molecular weights and superior ageing characteristics.
+
+## 2. METHODOLOGY
+### PRIMARY PATENT EVIDENCE
+
+#### Patent 1
+- Patent Number: EP2473281B1
+- Patent Title: Process for the preparation of low molecular weight hydrogenated nitrile rubber
+- Assignee: Not disclosed in the available patent text.
+- Jurisdiction: EP
+- Publication Year: 2014
+- Relevance: Describes a process for producing low molecular weight HNBR with narrow molecular weight distribution via simultaneous hydrogenation and metathesis using specific ruthenium or osmium catalysts in the presence of hydrogen and optionally a co-olefin. (Relevance score: 90.0) 
+
+**Polymerization / Synthesis Method**
+- Monomers: 1,3-butadiene and acrylonitrile (and optionally further copolymerizable monomers like fumaric acid, maleic acid, acrylic acid, methacrylic acid)
+- Catalyst: Ruthenium or osmium complex of general formula (I) bearing a 1,3-dimesityl-4,5-dihydroimidazole-2-ylidene and styryl ether ligand
+- Reaction Type: Simultaneous metathesis and hydrogenation
+- Hydrogen: Present during reaction
+- Co-olefin: Optionally present
+- Target Molecular Weight (Mw): 20,000 to 250,000
+- Target Mooney Viscosity (ML 1+4 @ 100 deg. C): 1 to 50
+- Target Polydispersity Index (MWD): Less than 2.8
+
+**Relevant Experimental Evidence**
+- The patent describes a process where nitrile rubber (NBR) is subjected to simultaneous metathesis and hydrogenation in the presence of hydrogen and a ruthenium-based catalyst.
+- The catalyst used is a ruthenium complex bearing a 1,3-dimesityl-4,5-dihydroimidazole-2-ylidene and styryl ether ligand.
+- The process yields a hydrogenated nitrile rubber (HNBR) with a molecular weight (Mw) in the range of 20,000 to 250,000.
+- The resulting HNBR exhibits a Mooney viscosity (ML 1+4 @ 100 deg. C) of 1 to 50 and a narrow molecular weight distribution (polydispersity index) of less than 2.8.
+- No specific numerical experimental examples with detailed charges or reaction times were extracted in the structured data, but the general procedure utilizes simultaneous metathesis/hydrogenation in a single step.
+
+**Technical Relevance**
+Explains how simultaneous metathesis and hydrogenation using specific ruthenium catalysts can directly yield low molecular weight HNBR with narrow molecular weight distribution in a single step, avoiding separate degradation and hydrogenation steps.
+
+#### Patent 2
+- Patent Number: EP3827029A1
+- Patent Title: Method for producing hydrogenated nitrile rubber and hnbr compositions thereof
+- Assignee: Not disclosed in the available patent text.
+- Jurisdiction: EP
+- Publication Year: 2021
+- Relevance: Focuses on producing HNBR with good ageing properties by controlling the residual amount of noble metal catalyst (Ru, Pd, or Rh) without requiring a separate catalyst removal step. (Relevance score: 90.0) 
+
+**Polymerization / Synthesis Method**
+- Monomers: Conjugated diene (40% to 90% by weight) and alpha,beta-unsaturated nitrile (10% to 60% by weight)
+- Catalyst Metal: Ruthenium (10 ppm to 200 ppm, preferably 10 to 150 ppm, most preferably 42 to 79 ppm based on NBR)
+- Alternative Catalyst Metal: Palladium (20 ppm to <67 ppm, preferably 44 to <67 ppm based on NBR)
+- Alternative Catalyst Metal: Rhodium (50 ppm to <270 ppm, preferably 79 to <270 ppm based on NBR)
+- Hydrogenation Temperature: 60 to 200 deg. C
+- Hydrogenation Pressure: 700,000 Pa to 15,000,000 Pa
+- Hydrogenation Time: 1 to 24 hours
+- Ruthenium Catalyst Type: RuHCl(CO)(PPh3)3 or benzylidenebis(tricyclohexylphosphine)dichlororuthenium (Grubbs I)
+
+**Relevant Experimental Evidence**
+- The method hydrogenates NBR in solution containing 40% to 90% by weight of a conjugated diene and 10% to 60% by weight of an alpha,beta-unsaturated nitrile.
+- Hydrogenation is conducted at 60 to 200 deg. C and 700,000 to 15,000,000 Pa for 1 to 24 hours.
+- By maintaining the ruthenium catalyst concentration between 10 ppm and 200 ppm (specifically 42 to 79 ppm), the resulting HNBR exhibits excellent ageing properties without requiring catalyst removal.
+- During ageing for 4 days at 140 deg. C, the gel content of the crude polymer increases by less than 10% and the Mooney viscosity increases by less than 40%.
+
+**Technical Relevance**
+Demonstrates that HNBR with excellent heat ageing and low gelation can be produced by strictly limiting the initial catalyst concentration (Ru, Pd, or Rh) to specific low ppm levels, eliminating the need for complex and expensive catalyst removal/recovery processes.
+
+#### Patent 3
+- Patent Number: US9079979B2
+- Patent Title: Process for the preparation of hydrogenated nitrile rubber
+- Assignee: Not disclosed in the available patent text.
+- Jurisdiction: US
+- Publication Year: 2015
+- Relevance: Describes a simultaneous hydrogenation and metathesis process for NBR using specific ruthenium or osmium catalysts to produce low molecular weight HNBR. (Relevance score: 90.0) 
+
+**Polymerization / Synthesis Method**
+- Monomers: Conjugated diene (preferably 1,3-butadiene) and alpha,beta-unsaturated nitrile (preferably acrylonitrile)
+- Catalyst: Grubbs III (0.057 phr or 0.080 phr), Wilkinson's (0.06 phr), or Grubbs II (0.055 phr)
+- Reaction Time: 120 min
+- Reaction Type: Simultaneous hydrogenation and metathesis
+- Target Molecular Weight (Mw): 20,000 to 250,000
+- Target Mooney Viscosity (ML 1+4 @ 100 deg. C): 1 to 50
+- Target Polydispersity Index (MWD): Less than 2.8
+
+**Relevant Experimental Evidence**
+- Example 1 (HNBR 1): Hydrogenation/metathesis of NBR using 0.057 phr of Grubbs III catalyst for 120 minutes.
+- Example 2 (HNBR 2): Hydrogenation/metathesis of NBR using 0.080 phr of Grubbs III catalyst for 120 minutes.
+- Example 3 (HNBR 3): Hydrogenation of NBR using 0.06 phr of Wilkinson's catalyst for 120 minutes.
+- Example 4 (HNBR 4): Hydrogenation/metathesis of NBR using 0.055 phr of Grubbs II catalyst for 120 minutes.
+- The process successfully produces HNBR with low residual double bonds (RDB), a molecular weight (Mw) of 20,000 to 250,000, and a polydispersity index of less than 2.8 in a single step.
+
+**Technical Relevance**
+Provides comparative data on different catalyst systems (Grubbs II, Grubbs III, Wilkinson's) for simultaneous metathesis and hydrogenation, showing that Grubbs-type catalysts can achieve both molecular weight reduction and hydrogenation in a single step.
+
+#### Patent 4
+- Patent Number: EP2473280B1
+- Patent Title: Process for the preparation of hydrogenated nitrile rubber
+- Assignee: Not disclosed in the available patent text.
+- Jurisdiction: EP
+- Publication Year: 2014
+- Relevance: Parallel patent to US9079979B2, describing simultaneous hydrogenation and metathesis of NBR. (Relevance score: 90.0) 
+
+**Polymerization / Synthesis Method**
+- Monomers: Conjugated diene (preferably 1,3-butadiene) and alpha,beta-unsaturated nitrile (preferably acrylonitrile)
+- Catalyst: Grubbs III (0.057 phr or 0.080 phr), Wilkinson's (0.06 phr), or Grubbs II (0.055 phr)
+- Reaction Time: 120 min
+- Reaction Type: Simultaneous hydrogenation and metathesis
+- Target Molecular Weight (Mw): 20,000 to 250,000
+- Target Mooney Viscosity (ML 1+4 @ 100 deg. C): 1 to 50
+- Target Polydispersity Index (MWD): Less than 2.8
+
+**Relevant Experimental Evidence**
+- Example 1 (HNBR 1): Simultaneous metathesis and hydrogenation of NBR using 0.057 phr of Grubbs III catalyst for 120 minutes.
+- Example 2 (HNBR 2): Reaction using 0.080 phr of Grubbs III catalyst for 120 minutes.
+- Example 3 (HNBR 3): Hydrogenation using 0.06 phr of Wilkinson's catalyst for 120 minutes.
+- Example 4 (HNBR 4): Reaction using 0.055 phr of Grubbs II catalyst for 120 minutes.
+- The simultaneous process yields HNBR with low residual double bonds (RDB), a molecular weight (Mw) of 20,000 to 250,000, and a polydispersity index of less than 2.8.
+
+**Technical Relevance**
+Confirms the viability of a single-step simultaneous metathesis and hydrogenation process using Grubbs II and III catalysts to achieve low molecular weight HNBR with narrow molecular weight distribution.
+
+#### Patent 5
+- Patent Number: EP3708590B1
+- Patent Title: Method for manufacturing hydrogenated nitrile rubber
+- Assignee: Not disclosed in the available patent text.
+- Jurisdiction: EP
+- Publication Year: 2022
+- Relevance: Focuses on the coagulation and purification process of NBR and HNBR to improve heat oil resistance and metal adhesion. (Relevance score: 90.0) 
+
+**Polymerization / Synthesis Method**
+- Monomers: alpha,beta-ethylenically unsaturated nitrile (10 to 60 wt%, preferably 12 to 58 wt%, more preferably 16 to 50 wt%) and a diene monomer
+- First Coagulant: Halogen atom-free metal salt (metal sulfate, e.g., magnesium sulfate or aluminum sulfate)
+- Second Coagulant: Divalent metal salt (divalent metal chloride, e.g., calcium chloride or magnesium chloride)
+- Target Iodine Value: 120 or less
+- Solvent for Solution Preparation: Organic solvent (e.g., acetone)
+
+**Relevant Experimental Evidence**
+- The process starts with a nitrile rubber latex prepared by emulsion polymerization.
+- First Coagulation Step: A halogen atom-free metal salt (such as magnesium sulfate or aluminum sulfate) is added to the NBR latex to form an NBR coagulum.
+- Solution Preparation Step: The NBR coagulum is dissolved in an organic solvent (e.g., acetone) to prepare an NBR solution.
+- Hydrogenation Step: The NBR solution is hydrogenated to yield a hydrogenated NBR solution.
+- Second Coagulation Step: A divalent metal salt (such as calcium chloride or magnesium chloride) is added to the HNBR solution to form the final HNBR coagulum.
+- The resulting HNBR has an iodine value of 120 or less and provides cross-linked rubber with high tensile strength, elongation, excellent heat oil resistance, and metal adhesion.
+
+**Technical Relevance**
+Introduces a novel two-step coagulation methodology (halogen-free metal sulfate for NBR latex, followed by divalent metal chloride for HNBR solution) that significantly improves the heat oil resistance and metal adhesion of the resulting HNBR.
+
+#### Patent 6
+- Patent Number: US7919563B2
+- Patent Title: Low molecular weight hydrogenated nitrile rubber
+- Assignee: Not disclosed in the available patent text.
+- Jurisdiction: US
+- Publication Year: 2011
+- Relevance: Describes a two-step process (metathesis followed by hydrogenation) or metathesis in the presence of a co-olefin to prepare low molecular weight HNBR. (Relevance score: 50.0) 
+
+**Polymerization / Synthesis Method**
+- Monomers: Conjugated diene (preferably butadiene) and alpha,beta-unsaturated nitrile (preferably acrylonitrile)
+- Starting Rubber Charge: 200 g dissolved in 1133 g monochlorobenzene (MCB) (15 wt% solid) or 75 g dissolved in 1175 g MCB (6 wt% solid)
+- Co-olefin: Ethylene (C2H4) at 500 psi or 1-hexene (150 g)
+- Catalyst Load: 0.05 phr, 0.10 phr, or 0.25 phr
+- Reactor Temperature: 80 deg. C
+- Target Molecular Weight (Mw): 30,000 to 250,000
+- Target Mooney Viscosity (ML 1+4 @ 100 deg. C): 3 to 50
+- Target Polydispersity Index (MWD): Less than 2.5
+
+**Relevant Experimental Evidence**
+- Example 1: 200 g of nitrile rubber dissolved in 1133 g of monochlorobenzene (MCB) to form a 15 wt% solid solution.
+- Example 2: 200 g of nitrile rubber dissolved in 1133 g of MCB (15 wt% solid) subjected to metathesis.
+- Example 3: 75 g of nitrile rubber dissolved in 1175 g of MCB (6 wt% solid) reacted with ethylene co-olefin at 500 psi and 80 deg. C with catalyst loads of 0.05 phr, 0.10 phr, or 0.25 phr.
+- Example 4: 75 g of nitrile rubber dissolved in 1175 g of MCB (6 wt% solid) reacted with 150 g of 1-hexene co-olefin at 80 deg. C.
+- The typical product achieves a molecular weight reduction from Mw 296 kg/mol (starting polymer) to Mw 54 kg/mol (Mn 27 kg/mol) with a polydispersity index of less than 2.5.
+
+**Technical Relevance**
+Demonstrates the use of Grubbs-type catalysts in combination with co-olefins (ethylene or 1-hexene) to achieve controlled metathesis (depolymerization) of NBR, reducing Mooney viscosity and molecular weight prior to or during hydrogenation.
+
+## 3. CROSS-PATENT COMPARISON & SYNTHESIS TRENDS
+- Catalyst Systems: EP2473281B1, US9079979B2, EP2473280B1, and US7919563B2 focus on ruthenium-based carbene catalysts (Grubbs II, Grubbs III, and related complexes) to perform metathesis to reduce molecular weight. EP3827029A1 expands this to palladium and rhodium catalysts, focusing on keeping catalyst concentrations extremely low (10-200 ppm) to avoid the need for catalyst removal while maintaining good ageing properties.
+- Process Configuration: US7919563B2 utilizes a sequential or co-olefin-assisted metathesis followed by hydrogenation. In contrast, EP2473281B1, US9079979B2, and EP2473280B1 advocate for a simultaneous, single-step metathesis and hydrogenation process in the presence of hydrogen.
+- Downstream Processing: EP3708590B1 addresses a critical gap in the other patents by focusing on the coagulation system. It uses a halogen-free metal sulfate (e.g., MgSO4) for the initial NBR latex coagulation, followed by a divalent metal chloride (e.g., CaCl2) for the final HNBR solution coagulation, which dramatically improves heat oil resistance and metal adhesion.
+- Target Properties: The metathesis-focused patents target low molecular weight HNBR (Mw 20,000 to 250,000, Mooney viscosity 1 to 50, MWD less than 2.5 to 2.8). EP3827029A1 targets excellent ageing (gel content increase less than 10% after 4 days at 140 degrees C). EP3708590B1 targets an iodine value of 120 or less with superior mechanical properties.
+
+## 4. CONCLUSION
+In conclusion, the synthesis of high-performance, highly processable Hydrogenated Nitrile Butadiene Rubber (HNBR) is optimized through a combination of simultaneous metathesis/hydrogenation and precise downstream purification. To achieve low molecular weight HNBR (Mw 20,000 to 250,000, Mooney viscosity 1 to 50) with a narrow polydispersity index (less than 2.8), a single-step simultaneous process using Grubbs-type ruthenium catalysts (such as Grubbs II or III at 0.05 to 0.08 phr) in the presence of hydrogen and optionally a co-olefin (ethylene or 1-hexene) is highly recommended. To ensure excellent heat-ageing resistance and prevent gelation during high-temperature service, the residual catalyst concentration should be strictly controlled between 10 and 200 ppm (ideally 42 to 79 ppm for ruthenium), which eliminates the need for expensive catalyst recovery steps. Additionally, incorporating a two-step coagulation process using a halogen-free metal sulfate (e.g., magnesium sulfate) for the initial NBR latex and a divalent metal chloride (e.g., calcium chloride) for the final HNBR solution is critical to maximizing tensile strength, elongation, metal adhesion, and heat oil resistance.
+
+## 5. REFERENCES
+- EP2473281B1 | Process for the preparation of low molecular weight hydrogenated nitrile rubber | Not disclosed | EP | 2014 | https://patents.google.com/patent/EP2473281B1/en
+- EP3827029A1 | Method for producing hydrogenated nitrile rubber and hnbr compositions thereof | Not disclosed | EP | 2021 | https://patents.google.com/patent/EP3827029A1/en
+- US9079979B2 | Process for the preparation of hydrogenated nitrile rubber | Not disclosed | US | 2015 | https://patents.google.com/patent/US9079979B2/en
+- EP2473280B1 | Process for the preparation of hydrogenated nitrile rubber | Not disclosed | EP | 2014 | https://patents.google.com/patent/EP2473280B1/en
+- EP3708590B1 | Method for manufacturing hydrogenated nitrile rubber | Not disclosed | EP | 2022 | https://patents.google.com/patent/EP3708590B1/en
+- US7919563B2 | Low molecular weight hydrogenated nitrile rubber | Not disclosed | US | 2011 | https://patents.google.com/patent/US7919563B2/en

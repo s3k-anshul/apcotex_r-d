@@ -37,6 +37,28 @@ from app.utils.exceptions import AppException, ForbiddenError, NotFoundError
 logger = logging.getLogger(__name__)
 
 
+async def _heal_cancelled_run(run_id: uuid.UUID) -> None:
+    """Best-effort: if a cancelled worker left a run in an active status, mark CANCELLED."""
+    from sqlalchemy.ext.asyncio import AsyncSession
+    from sqlalchemy.future import select
+
+    from app.db.database import engine
+
+    try:
+        async with AsyncSession(engine, expire_on_commit=False) as session:
+            result = await session.execute(select(ResearchRun).where(ResearchRun.id == run_id))
+            run = result.scalar_one_or_none()
+            if run and run.status in RunStatus.active_states():
+                run.status = RunStatus.CANCELLED
+                await session.commit()
+                logger.warning(
+                    "[RESEARCH REQUEST] Healed stuck run %s → CANCELLED after worker cancel",
+                    run_id,
+                )
+    except Exception:
+        logger.exception("[RESEARCH REQUEST] Failed to heal cancelled run %s", run_id)
+
+
 class ResearchService:
     """Orchestrates all research-run business operations."""
 
@@ -53,12 +75,16 @@ class ResearchService:
         publication_filter: dict | None,
         competitors: list[str],
         mentioned_websites: list[str],
-        jurisdictions: list[str]
+        jurisdictions: list[str],
+        attribute_constraint: str | None = None,
+        polymerization_medium: str = "any",
     ) -> str:
         """
         Produce a deterministic 32-char hex cache key from the run's
         significant parameters.
         """
+        medium = (polymerization_medium or "any").strip().lower()
+        constraint = (attribute_constraint or "").strip().lower() or None
         canonical = {
             "compound": compound_name.strip().lower(),
             "sources": sorted(selected_sources) if selected_sources else [],
@@ -66,6 +92,8 @@ class ResearchService:
             "competitors": sorted([c.lower() for c in competitors]) if competitors else [],
             "websites": sorted([w.lower() for w in mentioned_websites]) if mentioned_websites else [],
             "jurisdictions": sorted([j.upper() for j in jurisdictions]) if jurisdictions else [],
+            "attribute_constraint": constraint,
+            "polymerization_medium": medium,
         }
         raw = json.dumps(canonical, sort_keys=True, separators=(",", ":"))
         return hashlib.sha256(raw.encode()).hexdigest()[:32]
@@ -83,6 +111,11 @@ class ResearchService:
         """
         logger.info("[RESEARCH REQUEST] ResearchService.create_run() started")
         try:
+            medium_value = (
+                data.polymerization_medium.value
+                if hasattr(data.polymerization_medium, "value")
+                else str(data.polymerization_medium or "any")
+            )
             cache_key = self.generate_cache_key(
                 data.compound_name,
                 data.selected_sources,
@@ -90,6 +123,8 @@ class ResearchService:
                 data.competitors,
                 data.mentioned_websites,
                 data.jurisdictions,
+                attribute_constraint=data.attribute_constraint,
+                polymerization_medium=medium_value,
             )
             logger.info("[RESEARCH REQUEST] Cache key generated: %s", cache_key)
 
@@ -103,8 +138,16 @@ class ResearchService:
             #     return existing
 
             logger.info(
-                "[RESEARCH REQUEST] Payload details - Compound: %s | Jurisdictions: %s | DateFilter: %s | Competitors: %s | Websites: %s",
-                data.compound_name, data.jurisdictions, data.publication_filter, data.competitors, data.mentioned_websites
+                "[RESEARCH REQUEST] Payload details - Compound: %s | Jurisdictions: %s | "
+                "DateFilter: %s | Competitors: %s | Websites: %s | "
+                "AttributeConstraint: %s | PolymerizationMedium: %s",
+                data.compound_name,
+                data.jurisdictions,
+                data.publication_filter,
+                data.competitors,
+                data.mentioned_websites,
+                data.attribute_constraint,
+                medium_value,
             )
 
             logger.info("[RESEARCH REQUEST] Creating ResearchRun object")
@@ -115,6 +158,8 @@ class ResearchService:
                 publication_filter=data.publication_filter,
                 selected_sources=data.selected_sources,
                 jurisdictions=data.jurisdictions,
+                attribute_constraint=data.attribute_constraint,
+                polymerization_medium=medium_value,
                 status=RunStatus.PENDING,
                 cache_key=cache_key,
                 report_version=1,
@@ -150,6 +195,7 @@ class ResearchService:
             # Use asyncio.ensure_future to run the pipeline in the background
             # Keep a strong reference to prevent garbage collection
             global _active_task
+            run_id_for_callback = run.id
             _active_task = asyncio.ensure_future(orchestrator.execute())
             logger.info("[RESEARCH REQUEST] Pipeline task created: %s", _active_task)
             
@@ -162,7 +208,21 @@ class ResearchService:
                     else:
                         logger.error("[RESEARCH REQUEST] TASK EXECUTION COMPLETED - PIPELINE FAILED")
                 except asyncio.CancelledError:
-                    logger.warning("[RESEARCH REQUEST] Pipeline task was CANCELLED")
+                    logger.warning(
+                        "[RESEARCH REQUEST] Pipeline task was CANCELLED for run %s — "
+                        "scheduling DB status heal",
+                        run_id_for_callback,
+                    )
+                    try:
+                        loop = asyncio.get_running_loop()
+                        loop.create_task(
+                            _heal_cancelled_run(run_id_for_callback)
+                        )
+                    except RuntimeError:
+                        logger.error(
+                            "[RESEARCH REQUEST] No running loop to heal cancelled run %s",
+                            run_id_for_callback,
+                        )
                 except Exception as e:
                     logger.error("[RESEARCH REQUEST] Pipeline task failed: %s", e)
                 finally:
@@ -238,8 +298,9 @@ class ResearchService:
         
         if run.status in RunStatus.active_states():
             last_hb = hb.get("last_heartbeat")
-            # If no heartbeat within 30 minutes, or no heartbeat ever but updated_at is > 30 mins old
-            stale_threshold = timedelta(minutes=30)
+            # If no heartbeat within 10 minutes, or no heartbeat ever but updated_at is > 10 mins old
+            # (uvicorn --reload can cancel mid-SEARCHING; do not leave runs stuck for 30+ minutes)
+            stale_threshold = timedelta(minutes=10)
             now = datetime.now(timezone.utc)
             
             is_stale = False
@@ -249,10 +310,13 @@ class ResearchService:
                 is_stale = True
                 
             if is_stale:
-                logger.warning(f"Run {run.id} detected as stale (heartbeat missing for >30 mins). Marking as FAILED.")
+                logger.warning(f"Run {run.id} detected as stale (heartbeat missing for >10 mins). Marking as FAILED.")
                 run.status = RunStatus.FAILED
-                run.error = "Run timed out or background worker crashed."
-                await self._session.commit()
+                run.error = (
+                    "Run timed out or background worker crashed/reloaded. "
+                    "Previously active status was abandoned without a terminal update."
+                )
+                await self._repo._session.commit()
 
         return run
 
@@ -311,12 +375,14 @@ class ResearchService:
         run.status = RunStatus.PENDING
         run.report_version += 1
         run.cache_key = self.generate_cache_key(
-            run.compound_name, 
-            run.selected_sources or [], 
+            run.compound_name,
+            run.selected_sources or [],
             run.publication_filter,
             run.competitors or [],
             run.mentioned_websites or [],
-            run.jurisdictions or []
+            run.jurisdictions or [],
+            attribute_constraint=getattr(run, "attribute_constraint", None),
+            polymerization_medium=getattr(run, "polymerization_medium", None) or "any",
         )
 
         run = await self._repo.update(run)

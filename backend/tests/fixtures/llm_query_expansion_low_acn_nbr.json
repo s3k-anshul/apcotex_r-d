@@ -1,0 +1,168 @@
+{
+  "original_input": "Low Acrylonitrile NBR",
+  "synthesis_intent": true,
+  "base_material": [
+    "nitrile rubber",
+    "NBR",
+    "acrylonitrile butadiene rubber",
+    "acrylonitrile-butadiene copolymer"
+  ],
+  "important_negative_concepts": [
+    "hydrogenated nitrile rubber",
+    "HNBR",
+    "highly saturated nitrile",
+    "carboxylated NBR",
+    "XNBR"
+  ],
+  "target_modifications": [],
+  "target_attributes": [
+    "low acrylonitrile",
+    "low ACN content",
+    "low nitrile content"
+  ],
+  "synthesis_transformations": [
+    "emulsion polymerization",
+    "copolymerization",
+    "polymerization"
+  ],
+  "precursor_relationships": [
+    "acrylonitrile",
+    "butadiene",
+    "ACN",
+    "BD"
+  ],
+  "relevant_process_concepts": [
+    "redox initiator",
+    "emulsifier",
+    "latex",
+    "bound acrylonitrile",
+    "chain transfer agent"
+  ],
+  "downstream_terms": [
+    "tire",
+    "hose",
+    "seal",
+    "gasket",
+    "glove",
+    "adhesive",
+    "coating",
+    "article"
+  ],
+  "excluded_variants": [
+    "hydrogenated nitrile rubber",
+    "HNBR",
+    "highly saturated nitrile rubber",
+    "carboxylated nitrile rubber",
+    "XNBR"
+  ],
+  "attribute_dimension_ranges": [
+    "acrylonitrile content: standard NBR 18-51 wt%; low-ACN grade typically <25 wt%, often 15-20 wt%"
+  ],
+  "search_queries": [
+    {
+      "query": "(NBR OR \"nitrile rubber\" OR \"acrylonitrile butadiene\") AND (polymerization OR polymerisation) AND (\"low acrylonitrile\" OR \"low ACN\")",
+      "required_concepts": ["NBR", "polymerization", "low acrylonitrile"],
+      "alternative_concepts": ["nitrile rubber", "low ACN", "polymerisation"],
+      "intent": "direct synthesis with low ACN attribute",
+      "scope": "title"
+    },
+    {
+      "query": "(\"emulsion polymerization\" OR \"aqueous emulsion\") AND (acrylonitrile AND butadiene) AND (NBR OR \"nitrile rubber\")",
+      "required_concepts": ["emulsion polymerization", "acrylonitrile", "butadiene"],
+      "alternative_concepts": ["aqueous emulsion", "NBR"],
+      "intent": "aqueous emulsion synthesis",
+      "scope": "title"
+    },
+    {
+      "query": "(NBR OR \"nitrile butadiene rubber\") AND (\"bound acrylonitrile\" OR \"acrylonitrile content\") AND (preparation OR synthesis OR producing)",
+      "required_concepts": ["NBR", "acrylonitrile content", "preparation"],
+      "alternative_concepts": ["bound acrylonitrile", "synthesis"],
+      "intent": "attribute-focused synthesis",
+      "scope": "full_text"
+    },
+    {
+      "query": "(\"acrylonitrile butadiene copolymer\" OR NBR) AND (latex OR emulsifier OR surfactant) AND polymerization",
+      "required_concepts": ["NBR", "latex", "polymerization"],
+      "alternative_concepts": ["emulsifier", "surfactant"],
+      "intent": "latex/emulsion process concepts",
+      "scope": "title"
+    },
+    {
+      "query": "(NBR OR \"nitrile rubber\") AND (\"redox initiator\" OR persulfate OR \"emulsion copolymerization\")",
+      "required_concepts": ["NBR", "emulsion"],
+      "alternative_concepts": ["redox initiator", "persulfate"],
+      "intent": "initiator/process parameters",
+      "scope": "title"
+    },
+    {
+      "query": "(\"low nitrile\" OR \"low ACN\" OR \"15 wt%\" OR \"20 wt%\") AND (\"nitrile rubber\" OR NBR) AND polymerization",
+      "required_concepts": ["low nitrile", "NBR", "polymerization"],
+      "alternative_concepts": ["low ACN", "15 wt%"],
+      "intent": "numeric ACN range synthesis",
+      "scope": "full_text"
+    },
+    {
+      "query": "(acrylonitrile AND butadiene) AND (\"continuous emulsion\" OR \"cold emulsion\") AND rubber",
+      "required_concepts": ["acrylonitrile", "butadiene", "emulsion"],
+      "alternative_concepts": ["continuous emulsion", "cold emulsion"],
+      "intent": "continuous/cold emulsion process",
+      "scope": "title"
+    },
+    {
+      "query": "(NBR OR \"acrylonitrile-butadiene rubber\") AND (\"molecular weight\" OR Mooney) AND (polymerization OR preparing)",
+      "required_concepts": ["NBR", "polymerization"],
+      "alternative_concepts": ["Mooney", "molecular weight"],
+      "intent": "polymer structure / characterization during synthesis",
+      "scope": "full_text"
+    },
+    {
+      "query": "(\"nitrile rubber\" OR NBR) AND (\"chain transfer\" OR mercaptan OR \"molecular weight regulator\") AND emulsion",
+      "required_concepts": ["NBR", "chain transfer", "emulsion"],
+      "alternative_concepts": ["mercaptan", "molecular weight regulator"],
+      "intent": "process aids in emulsion polymerization",
+      "scope": "title"
+    },
+    {
+      "query": "(NBR OR \"nitrile butadiene\") AND (copolymerization OR copolymerisation) AND (aqueous OR water-based OR latex)",
+      "required_concepts": ["NBR", "copolymerization", "aqueous"],
+      "alternative_concepts": ["latex", "water-based"],
+      "intent": "aqueous-phase copolymerization",
+      "scope": "title"
+    },
+    {
+      "query": "(\"acrylonitrile content\" OR \"ACN content\") AND (NBR OR \"nitrile rubber\") AND (method OR process OR preparing)",
+      "required_concepts": ["acrylonitrile content", "NBR", "process"],
+      "alternative_concepts": ["ACN content", "preparing"],
+      "intent": "ACN control methods",
+      "scope": "full_text"
+    },
+    {
+      "query": "(NBR OR \"nitrile rubber\") AND polymerization AND (\"fatty acid soap\" OR \"sodium lauryl sulfate\" OR emulsifier)",
+      "required_concepts": ["NBR", "polymerization", "emulsifier"],
+      "alternative_concepts": ["fatty acid soap", "sodium lauryl sulfate"],
+      "intent": "emulsifier-focused synthesis",
+      "scope": "title"
+    },
+    {
+      "query": "(\"preparation of nitrile rubber\" OR \"producing NBR\" OR \"manufacturing nitrile rubber\") AND acrylonitrile",
+      "required_concepts": ["preparation", "nitrile rubber", "acrylonitrile"],
+      "alternative_concepts": ["producing NBR", "manufacturing"],
+      "intent": "broad preparation language",
+      "scope": "title"
+    },
+    {
+      "query": "(NBR OR \"acrylonitrile butadiene rubber\") AND (\"batch emulsion\" OR \"semi-batch\") AND polymerization",
+      "required_concepts": ["NBR", "emulsion", "polymerization"],
+      "alternative_concepts": ["batch emulsion", "semi-batch"],
+      "intent": "reactor mode / process engineering",
+      "scope": "title"
+    },
+    {
+      "query": "(acrylonitrile OR ACN) AND butadiene AND (\"nitrile rubber\" OR NBR) AND (\"feed ratio\" OR \"monomer ratio\")",
+      "required_concepts": ["acrylonitrile", "butadiene", "NBR"],
+      "alternative_concepts": ["feed ratio", "monomer ratio"],
+      "intent": "monomer ratio control for low ACN",
+      "scope": "full_text"
+    }
+  ]
+}

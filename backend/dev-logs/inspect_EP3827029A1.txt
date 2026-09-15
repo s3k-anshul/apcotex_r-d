@@ -1,0 +1,61 @@
+pn=EP3827029A1
+title=Method for producing hydrogenated nitrile rubber and hnbr compositions thereof 
+       
+examples_chars=44677
+desc_chars=45695
+--- EXAMPLES FIELD HEAD ---
+example, heterogeneous catalysts are removed by filtration. However, fine solids particles or catalyst that has entered into solution as a result of being washed out cannot be captured in this way, and complete removal additionally requires further complicated method steps.
+To date, efforts in the production of hydrogenated nitrile rubber have been primarily directed at using as little expensive catalyst as possible. The use of little catalyst, however, leads to the hydrogenation rate being lower and the production method thus becoming longer in duration and more expensive. Focus has therefore been on the search for improved catalysts having higher activity at equal or even lower catalyst mass.
+On account of the high cost of the catalyst, it should be removed as completely as possible after the hydrogenation and recovered as completely as possible. A further reason for removing catalyst residues from the HNBR produced is that catalyst residues cause undesirable dark discolourations in the hydrogenated nitrile rubber produced and thus limit the possibilities for use of the hydrogenated nitrile rubber. Such noble metal residues usually have a negative influence on the product properties, especially on the ageing and the gel content of the hydrogenated nitrile rubber.
+On account of the negative properties of the noble metal residues, numerous methods are known from the prior art for removing noble metal residues from the hydrogenated nitrile rubber produced. 
+
+ The hydrogenation of NBR to form HNBR has been known since the 1970s. Even at that time it was described that the catalysts should be removed from the hydrogenated nitrile rubber.
+US-3,700,637 discloses precipitating the HNBR rubber from a chlorobenzene/m-cresol solution with methanol and subsequently successively washing the coagulated rubber with methanol until the methanol is no longer coloured. This is very inconvenient and difficult to carry out on a multi-tonne production scale, since considerable amounts of solvent are involved.
+DE-A-2539132 discloses one of the first methods for hydrogenating NBR using Rh catalysts (RhCI(PPh
+3
+)3), wherein the catalyst can be separated off by the method described in DE1558395, i.e. by a reaction of the Rh-containing mixture with metals such as for example mercury or zinc to give insoluble materials.
+EP-A-0482391 discloses the recovery of rhodium and ruthenium catalysts from solutions of hydrogenated nitrile rubber by adsorption on organosiloxane-based absorbers. Here, HNBR having 58-60 ppm of rhodium is subjected to a recovery method.
+CN-A-102924726 discloses a method for hydrogenating NBR to form HNBR in which Rh nanoparticle on a carrier having dendrimeric structures is used as catalyst. In order to recover the Rh from the reaction mixture, use is made of salts for regulating ionic strength and also mercaptans in aromatic solvents. Recovery is very important, as Rh is expensive and has a negative influence on the performance of HNBR.
+CN-A-101704926 discloses a method for removing noble metal catalysts from HNBR solutions by adding tin-containing complexing reagents. The removal rate is 99%.
+CN-A-1483744 requires the recovery of Group VIII noble metals, as they lead to discolourations and poor product appearance, and negatively affect polymer degradation, ageing and product properties as a whole.
+CN-A-1763107 discloses the recovery of catalyst metals such as rhodium and ruthenium, since these negatively affect polymer degradation under heat, in the presence of oxygen, under the influence of UV, and also ageing and product performance.
+EP-A- 120377 discloses the recovery of Rh catalysts using thiourea-functionalized resins. The removal of catalytically active metals (Fe, Rh) is described as advantageous for reasons of costs and for general product quality. 
+
+ EP-A- 1454924 discloses the hydrogenation of NBR by means of 0.45 parts of magnesium-silicate-supported metal catalyst comprising Pd and also the recovery thereof by means of 
+--- EXAMPLE-LIKE LINES IN examples field ---
+0: example, heterogeneous catalysts are removed by filtration. However, fine solids particles or catalyst that has entered into solution as a result of being washed out cannot be capt
+9: )3), wherein the catalyst can be separated off by the method described in DE1558395, i.e. by a reaction of the Rh-containing mixture with metals such as for example mercury or zinc
+17:  EP-A- 1454924 discloses the hydrogenation of NBR by means of 0.45 parts of magnesium-silicate-supported metal catalyst comprising Pd and also the recovery thereof by means of conv
+26: US 5,128,297 discloses a catalyst having a high-molecular-weight complex formed from a palladium compound and a polymer comprising nitrile groups and conjugated dienes. Hydrogenati
+27: US 2016/0326322 A1 discloses hydrogenated nitrile rubbers (HNBRs) comprising phosphine oxides and/or diphosphine oxides and a defined proportion of halogens. Hydrogenation is effec
+29:  EP 0 174 551 A2 discloses low-molecular-weight copolymers and covulcanizates produced therefrom. Hydrogenation is effected in Example 1 using tris(triphenylphosphine)rhodium(l) ch
+74: Other commonly used names for methoxy polyethylene glycol acrylate (formula no. 3) are, for example, poly(ethylene glycol) methyl ether acrylate, acryl-PEG, methoxy-PEG acrylate, m
+75: These PEG acrylates can be purchased commercially, for example from Arkema under the Sartomer
+96: It is also possible that the production of the nitrile rubber is followed by a metathesis reaction to reduce the molecular weight of the nitrile rubber or a simultaneous metathesis
+103: The catalysts employed are based on rhodium, ruthenium or palladium (see, for example, US-A-3,700,637, DE-A-2 539 132, EP-A-0 134 023, DE-OS-35 41 689, EP-A-0 298 386, DE-OS-34 33 
+105: The hydrogenation of the nitrile rubber to form hydrogenated nitrile rubber using ruthenium compounds such as for example RuHCI(CO)(PPh
+115: The hydrogenation of the nitrile rubber to form hydrogenated nitrile rubber using palladium compounds such as for example palladium acetate is known from Polymer Chemistry A, Volum
+117:  Palladium compounds that are suitable for hydrogenating the nitrile rubber to form hydrogenated nitrile rubber are palladium complexes having a valency of II or IV that are for ex
+118: The hydrogenation of the nitrile rubber to form hydrogenated nitrile rubber using rhodium compounds such as for example rhodium acetate [Rh(OAc)
+139: The selective hydrogenation can be achieved, for example, in the presence of a rhodium- or ruthenium-containing catalyst. Use may for example be made of a catalyst of the 
+168: Examples of co-catalysts can be found in US-A-4,631 ,315. A preferred co-catalyst is triphenylphosphine. The co-catalyst is used preferably in amounts in a range from 0.3% to 5% by
+169: The practical conduct of this hydrogenation is sufficiently well-known to those skilled in the art, for example from US-A-6,683,136.
+177: In the case of use of heterogeneous catalysts, these are typically supported catalysts based on palladium, which is supported, for example, on charcoal, silica, calcium carbonate o
+182: In one preferred embodiment, the method according to the invention does not comprise any further method step for removing ruthenium, palladium or rhodium by means of ion- exchange 
+196: By way of example, the following peroxide compounds are suitable as the at least one peroxidic compound: bis(2,4-dichlorobenzoyl) peroxide, dibenzoyl peroxide, bis(4- chlorobenzoyl
+200: In addition, the vulcanizable HNBR composition may comprise further rubber additives. Standard rubber additives include, for example: polymers not covered by the inventive definiti
+204:  composition according to the invention with at least one cross-linker, preferably at least one peroxidic cross-linker, and the other components optionally present. This mixing ope
+205: By way of example, two variants for the possible procedure are described hereinafter:
+208: At the start time, the internal mixer is charged with the HNBR composition according to the invention in bale form, and the bales are comminuted. After a suitable mixing period, th
+217: The invention thus provides vulcanizates based on vulcanizable HNBR compositions according to the invention that are preferably selected from belts, seals, rollers, shoe components
+219:  Examples Materials used
+255: The influence of ruthenium, palladium and rhodium compounds on the ageing of hydrogenated nitrile rubber was investigated. To this end, in Examples 1 to 17, hydrogenated nitrile ru
+--- LINE-START EXAMPLE HEADINGS IN examples ---
+0: example, heterogeneous catalysts are removed by filtration. However, fine solids particles or catalyst that has entered into solution as a result of being washed out cannot be capt
+168: Examples of co-catalysts can be found in US-A-4,631 ,315. A preferred co-catalyst is triphenylphosphine. The co-catalyst is used preferably in amounts in a range from 0.3% to 5% by
+219:  Examples Materials used
+current_regex_split_count=0
+--- UNIQUE HEADING-ISH FORMATS ---
+'example, heterogeneous catalysts are removed by filtration. However, fine solids particles or catalyst that has entered '
+'Examples of co-catalysts can be found in US-A-4,631 ,315. A preferred co-catalyst is triphenylphosphine. The co-catalyst'
+'Examples Materials used'

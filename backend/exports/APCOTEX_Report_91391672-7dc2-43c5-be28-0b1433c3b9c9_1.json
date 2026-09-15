@@ -1,0 +1,52 @@
+[
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US9267019B2/en",
+      "patent_number": "US9267019B2",
+      "patent_title": "Functionalized silica for silica wet masterbatches and styrene butadiene rubber \u2026",
+      "assignee": "Lion Copolymer Holdings, Llc",
+      "publication_year": "2016",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "12",
+      ")",
+      "What is claimed is:",
+      "1. A wet polymer silica masterbatch comprising:",
+      "a. from 40 weight percent to 90 weight percent of a styrene butadiene rubber latex; and",
+      "b. from 1.0 weight percent to 40 weight percent of a functionalized silica comprising:",
+      "(i) dry precipitated silica with a specific surface area in the range of 100 to 300 m",
+      "2",
+      "/gm with no liquid components;"
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "EXAMPLE 1",
+        "example_type": "Extracted Example",
+        "title": "EXAMPLE 1",
+        "raw_text": "EXAMPLE 1\nForming a Functionalized Silica by Spraying Blends of Silane onto Silica Using an Air Carrier and Mixing the Sprayed Silanes into the Silica Using a Ribbon Blender\nIn this example, 0.35 pounds of S169 silane and 0.35 pounds of octyl triethoxysilane OTES from Gelest are stirred together in a beaker or other vessel for about 10 minutes at an ambient temperature.\nOnce the silanes are blended, 5 pounds of silica is placed into the ribbon blender.\n0.7 pounds of the blended silanes, and 0.1 pounds of acetic acid are then sprayed over the 5 pounds of silica in the ribbon blender and then the mixture is allowed to tumble at an ambient temperature for about 1 hour in the ribbon blender.\nThe silanes can be sprayed into the silica using a pump which increases flow pressure by using a narrow tube with 1-2 mm diameter pin holes and a conical flow pattern.\nThe temperature in the ribbon blender is raised to 120 degrees Celsius and blended at the elevated temperature for 2 hours.\nThe blender is allowed to cool to an ambient temperature and the treated silica is discharged from the blender.\nThe treated silica is then weighed to produce slurry with 17 weight percent treated silica in water. The silica and water are stirred at room temperature under high shear blending conditions for about an hour.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "EXAMPLE 2",
+        "example_type": "Extracted Example",
+        "title": "EXAMPLE 2",
+        "raw_text": "EXAMPLE 2\nForming a Polymeric Rubber Composite Using Pretreated Silica\nIn this example, a slurry of silanes is created as in Example 1.\nThe silanes are deposited on the silica such as by spraying as described earlier.\nThe treated silica is then added to a carrier to make a slurry with 17 weight percent treated silica in water. The treated silica slurry is then heated forming a heated slurry.\nCarbon black slurry can be added to the heated slurry. 0.2 pounds of carbon black is then mixed with water to form a carbon black slurry. 5.5 pounds of carbon black slurry is added at ambient temperatures to the heated slurry and then the carbon black heated mixture is heated to 70 degrees Celsius forming a carbon black silica heated slurry.\nSeparately, about 17 pounds of preheated polymer rubber latex with 21 weight percent solids is blended with 0.1 pounds non-staining antioxidant Naugard\u2122 RM51 emulsion, and 1.3 pounds of Ergon B0300 oil emulsion are blended at a temperature of 70 degrees Celsius for a time period of 5 minutes forming a latex slurry.\nThe carbon black silica heated slurry is added to the latex slurry, forming a blend of two slurries.\nThe blend of the two slurries is mixed while maintaining a temperature of about 70 degrees Celsius for a time period of about 2 minutes until uniform mixing is achieved by visual inspection.\nCoagulant is slowly added to the heated blend of two slurries changing the pH of the blend to a desired pH to provide desired coagulated crumb rubber properties.\nWhile these embodiments have been described with emphasis on the embodiments, it should be understood that within the scope of the appended claims, the embodiments might be practiced other than as specifically described herein.",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "Functionalized silica for silica wet masterbatches and styrene butadiene rubber compositions \n       \nAbstract\nA rubber composition and a tire using the rubber composition utilizing a functionalized silica dry precipitated silica with a specific surface area in the range of 100 to 300 m\n2\n/gm treated with a plurality of silanes coupling agents to form a wet polymer silica masterbatch, then blending the masterbatch with a latex rubber component that includes a styrene-butadiene copolymer rubber or a blend of the styrene-butadiene copolymer rubber and another conjugated diene base rubber using a plurality of coupling agents simultaneously.\nClaims (\n12\n)\nWhat is claimed is:\n1. A wet polymer silica masterbatch comprising:\na. from 40 weight percent to 90 weight percent of a styrene butadiene rubber latex; and\nb. from 1.0 weight percent to 40 weight percent of a functionalized silica comprising:\n(i) dry precipitated silica with a specific surface area in the range of 100 to 300 m\n2\n/gm with no liquid components;\n(ii) from 0.1 weight percent to 25 weight percent of a plurality of silane coupling agents simultaneously, wherein the plurality of silane coupling agents comprises:\n(a) a first silane is an organosilicon derived is an organosilicon derived from an organic silane having the structure: Z\n1\nZ\n2\nZ\n3\nSi(CH\n2\n)yX(CH\n2\n)SiZ\n1\nZ\n2\nZ\n3\n, wherein X is a polysulfide, wherein y is an integer equal to or greater than 1; and wherein Z\n1\n, Z\n2\n, and Z\n3\nare each independently selected from the group consisting of: hydrogen, alkoxy, halogen, and hydroxyl, and\n(b) a second silane having the structure\nwherein:\n1. X is a functional group selected from the group consisting of: a hydrogen, an amino group, a polyamino alkyl group, a mercapto group, a thiocyanato group, an epoxy group, a vinyl group, a halogen, an acryloxy group and a methacryloxy group;\n2. y is an integer equal to or greater than 0; and\n3. Z\n1\n, Z\n2\n, and Z\n3\nare each independently selected from the group consisting of: hydrogen, alkoxy, halogen, and hydroxyl, and combinations thereof; the wet polymer silica masterbatch forming rubbers with improved rolling resistance from 12 to 15 percent, a lower mooney viscosity reduced by about 10 percent from formulations containing only one silane coupling agent.\n2. The wet polymer silica masterbatch of\nclaim 1\n, wherein the styrene butadiene rubber latex is an emulsion styrene butadiene rubber latex with from 10 weight percent to 75 weight percent polymer molecules in water.\n3. The wet polymer silica masterbatch of\nclaim 1\n, wherein the styrene butadiene rubber latex comprises: natural rubber, styrene-butadiene rubber, acrylonitrile-butadiene rubber, polyvinylchloride, acrylonitrile-butadiene-styrene polymer, carboxylated styrene butadiene, carboxylated acrylonitrile-butadiene, styrene-acrylonitrile copolymer, polybutadiene, polyisoprene, polychloroprene, neoprene, polybutadiene-isoprene, or combinations thereof.\n4. The wet polymer silica masterbatch of\nclaim 1\n, wherein the styrene butadiene rubber latex comprises a copolymer of: styrene and butadiene, styrene and isoprene, styrene and acrylonitrile, or butadiene and acrylonitrile.\n5. The wet polymer silica masterbatch of\nclaim 1\n, wherein the polysulfide further comprises a sulfur content ranging from 0.1 weight percent to 10 weight percent.\n6. The wet polymer silica masterbatch of\nclaim 1\n, wherein the organosilicon is bonded to a surface of the silica, has three readily hydrolyzable groups attached directly to a silicon atom of the organosilicon, and has at least one organic group attached directly to the silicon atom.\n7. The wet polymer silica masterbatch of\nclaim 1\n, wherein the organosilicon is bonded to a surface of the silica and has an organic group attached directly to a silicon atom of the organosilicon that contains at least one functional group.\n8. The wet polymer silica masterbatch of\nclaim 1\n, wherein the mercapto group of the organic silane of the second silane has a sulfur content ranging from 0.1 weight percent to 10 weight percent.\n9. The wet polymer silica masterbatch of\nclaim 1\n, further comprising an oil extender, forming a polymer rubber composite with from 1 weight percent to 35 weight percent of the functionalized silica, from 1 weight percent to 35 weight percent of the oil extender, and from 30 weight percent to 98 weight percent of the styrene butadiene rubber.\n10. The wet polymer silica masterbatch of\nclaim 1\n, further comprising an antioxidant, forming a polymer rubber composite with from 1 weight percent to 35 weight percent of the functionalized silica, from 0.1 weight percent to 2 weight percent of an antioxidant, and from 67 weight percent to 99 weight percent of the styrene butadiene rubber.\n11. The wet polymer silica masterbatch of\nclaim 1\n, further comprising a carbon black slurry comprising from 4 weight percent to 6 weight percent carbon black in water, wherein the composition of the polymer rubber composite is from 1 weight percent to 35 weight percent functionalized silica, from 1 weight percent to 49 weight percent of carbon black, and from 16 weight percent to 98 weight percent the styrene butadiene.\n12. The wet polymer silica masterbatch of\nclaim 1\n, further comprising a third silane coupling agent, from a family of silane coupling agents, wherein silicon atoms are bridged through non-volatile diols.",
+    "examples_detection_note": ""
+  }
+]

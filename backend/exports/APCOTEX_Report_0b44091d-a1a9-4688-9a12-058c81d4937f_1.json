@@ -1,0 +1,22 @@
+[
+  {
+    "patent_number": "Not disclosed",
+    "patent_title": "Not disclosed",
+    "assignee": "Not disclosed",
+    "publication_year": "Not disclosed",
+    "jurisdiction": "Not disclosed",
+    "polymerization_process": "emulsion polymerization",
+    "acrylonitrile_content": "18-46 wt%",
+    "monomer_ratio": "Not disclosed",
+    "water_amount": "Not disclosed",
+    "emulsifier": "RA rosin acid or/and soap",
+    "initiator": "di-isopropylbenzene hydroperoxide, iron edta sodium salt or secondary reduction agent rongalite",
+    "chain_transfer_agent": "tert-dodecyl mercaptan, uncle's ten carbon mercaptan, uncle's 14 carbon mercaptan, uncle's 16 carbon mercaptan",
+    "temperature": "5-30 \u2103",
+    "reaction_time": "7-12 hours",
+    "conversion": "65-80%",
+    "coagulation": "Not disclosed",
+    "polymer_properties": "Mooney viscosity: 30-95, tensile strength: 10-22 Mpa",
+    "experimental_notes": "cold process discontinuous emulsion polymerization, nitrogen pressure testing, nitrogen replacement, cold water cooling, temperature-reducing coil"
+  }
+]

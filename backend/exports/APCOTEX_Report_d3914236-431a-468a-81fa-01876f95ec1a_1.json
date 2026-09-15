@@ -1,0 +1,107 @@
+[
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/EP3604355A1/en",
+      "patent_number": "EP3604355A1",
+      "patent_title": "Method for producing carboxylated nitrile rubber",
+      "assignee": "Not disclosed",
+      "publication_year": "2020",
+      "jurisdiction": "EP",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "4",
+      ")",
+      "A method for producing a carboxyl group-containing nitrile rubber, comprising the steps of:",
+      "polymerizing a monomer mixture comprising an \u03b1,\u03b2-ethylenically unsaturated nitrile monomer and a carboxyl group-containing monomer in a solvent;",
+      "terminating a polymerization reaction by adding a nitrous acid salt and a water-insoluble hydroquinone as polymerization terminators to the polymerization system when a predetermined polymerization conversion ratio is achieved, thereby obtaining a dispersion of the carboxyl group-containing nitrile rubber having a pH of 7 or below; and",
+      "coagulating the dispersion of the carboxyl group-containing nitrile rubber, thereby obtaining the carboxyl group-containing nitrile rubber in the solid state,",
+      "wherein the amount of the nitrous acid salt to be used is 0.15 parts by weight or less relative to 100 parts by weight of the monomer mixture used in the polymerization reaction.",
+      "The method for producing a carboxyl group-containing nitrile rubber according to claim 1, wherein the water-insoluble hydroquinone is added in the form of a dispersion in which the water-insoluble hydroquinone is dispersed in water.",
+      "The method for producing a carboxyl group-containing nitrile rubber according to claim 1 or 2, wherein the amount of the water-insoluble hydroquinone to be used is 0.1 to 1.0 part by weight relative to 100 parts by weight of the monomer mixture used in the polymerization reaction."
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "Comparative Example\n1",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example\n1",
+        "raw_text": "Comparative Example\n1\n2\n3\n4\n5\n6\n1\n2\n3\n4\n5\n6\n7\nPolymerization Condition\nMonomers\nAcrylonitrile\n(parts)\n25\n25\n25\n25\n25\n25\n25\n25\n25\n25\n25\n25\n25\n1,3-Butadiene\n(parts)\n68\n68\n68\n68\n68\n68\n68\n68\n68\n68\n68\n68\n68\nMethacrylic acid\n(parts)\n7\n7\n7\n7\n7\n7\n7\n7\n7\n7\n7\n7\n7\nPolymerization Terminators\nSodium nitrite\n(parts)\n0.025\n0.05\n0.05\n0.15\n0.1\n0.05\n-\n-\n-\n0.025\n0.05\n0.2\n0.2\n2,5-Di-t-amylhydroquinone\n(parts)\n0.4\n0.4\n0.2\n0.4\n0.1\n0.2\n-\n-\n-\n-\n-\n-\n0.2\nHydroxylamine sulfate\n(parts)\n-\n-\n-\n-\n-\n-\n0.2\n-\n-\n-\n-\n-\n-\nDiethylhydroxyamine\n(parts)\n-\n-\n-\n-\n-\n-\n-\n0.2\n-\n-\n-\n-\n-\nMethylhydroquinone\n(parts)\n-\n-\n-\n-\n-\n-\n-\n-\n0.2\n-\n-\n-\n-\npH of latex of carboxyl group-containing nitrile rubber\n4.2\n3.8\n5.5\n4.5\n5.3\n5.5\n3.9\n3.8\n4.4\n4.2\n5.6\n4.5\n4.1\nPolymerization termination effect\nPolymerization conversion ratio after addition of polymerization terminator\n(%)\n65\n65\n65\n65\n65\n80\n65\n65\n65\n65\n65\n65\n65\nIncrease in polymerization conversion ratio after storage at 5\u00b0C (\u0394conv\n_5\u00b0C\n)\n(%)\n0.4\n0.2\n0.3\n-0.2\n0.7\n0.1\n8.6\n1.3\n16.7\n3.5\n1.2\n-0.1\n0.1\nIncrease in polymerization conversion ratio after storage at 50\u00b0C (\u0394conv\n_50\u00b0C\n)\n(%)\n0.8\n0.1\n0.9\n0.5\n0.2\n0.0\n20.2\n31.3\n32.5\n17.7\n10.4\n0.4\n0.0\nIncrease in Mooney viscosity after storage at 5\u00b0C (\u0394ML\n_5\u00b0C\n)\n0.4\n0.2\n0.5\n0.1\n1.1\n0.2\n9.0\n1.0\n17.0\n8.0\n1.3\n0.1\n0.7\nIncrease in Mooney viscosity after storage at 50\u00b0C (\u0394ML\n_50\u00b0C\n)\n0.5\n0.2\n0.1\n0.4\n1\n0.5\n30\n21\n43\n18\n8\n0.5\n1\nDiscoloration of latex of carboxyl group-containing nitrile rubber\nA\nA\nA\nA\nA\nA\nB\nA\nA\nA\nA\nF\nF\nScorch stability of carboxyl group-containing nitrile rubber (scorch time, t5)\n(min)\n9.1\n9.3\n10.3\n9.2\n10.4\n9.4\n10.5\n10.8\n10.1\n10.9\n11\n10.1\n10.7\nTable 1 shows that if the nitrous acid salt and the water-insoluble hydroquinone were used in combination and the amount of the nitrous acid salt used was 0.15 parts by weight or less relative to 100 parts by weight of the monomer mixture used in the polymerization reaction, the values of the increase in polymerization conversion ratio after storage at 5\u00b0C (\u0394Conv\n_5\u00b0C\n), the increase in polymerization conversion ratio after storage at 50\u00b0C (\u0394Conv\n_50\u00b0C\n), the increase in Mooney viscosity after storage at 5\u00b0C (\u0394ML\n_5\u00b0C\n), and the increase in Mooney viscosity after storage at 50\u00b0C (\u0394ML\n_50\u00b0C\n) were all low and a sufficient polymerization termination effect was obtained. Table 1 also shows that the discoloration of the obtained carboxyl group-containing nitrile rubbers was significantly reduced (Examples 1 to 6).\nMeanwhile, if polymerization terminator(s) other than the nitrous acid salt and the water-insoluble hydroquinone was(were) used as the polymerization terminators, the values of the increase in polymerization conversion ratio after storage at 5\u00b0C (\u0394Conv\n_5\u00b0C\n), the increase in polymerization conversion ratio after storage at 50\u00b0C (\u0394Conv\n_50\u00b0C\n), the increase in Mooney viscosity after storage at 5\u00b0C (\u0394ML\n_5\u00b0C\n), and the increase in Mooney viscosity after storage at 50\u00b0C (\u0394ML\n_50\u00b0C\n) were all high and a sufficient polymerization termination effect was not obtained (Comparative Examples 1 to 3).\nFurther, if the nitrous acid salt was used alone and the amount thereof used was 0.15 parts by weight or less relative to 100 parts by weight of the monomer mixture used in the polymerization reaction, the polymerization termination effect was not sufficient. On the other hand, if the amount of the nitrous acid salt used was greater than 0.15 parts by weight, the obtained carboxyl group-containing nitrile rubber had undesired discoloration (Comparative Examples 4 to 6).\nFurther, if the nitrous acid salt and the water-insoluble hydroquinone were used in combination and the amount of the nitrous acid salt used was greater than 0.15 parts by weight relative to 100 parts by weight of the monomer mixture used in the polymerization reaction, the obtained carboxyl group-containing nitrile rubber had undesired discoloration (Comparative Example 7).",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "Method for producing carboxylated nitrile rubber \n       \nAbstract\nThe present invention provides a method for producing a carboxyl group-containing nitrile rubber comprising the steps of: polymerizing a monomer mixture comprising an \u03b1,\u03b2-ethylenically unsaturated nitrile monomer and a carboxyl group-containing monomer in a solvent; terminating a polymerization reaction by adding a nitrous acid salt and a water-insoluble hydroquinone as polymerization terminators to the polymerization system, thereby obtaining a dispersion of the carboxyl group-containing nitrile rubber having a pH of 7 or below; and coagulating the dispersion of the carboxyl group-containing nitrile rubber, thereby obtaining the carboxyl group-containing nitrile rubber in the solid state, wherein the amount of the nitrous acid salt to be used is 0.15 parts by weight or less relative to 100 parts by weight of the monomer mixture used in the polymerization reaction.\nClaims (\n4\n)\nA method for producing a carboxyl group-containing nitrile rubber, comprising the steps of:\npolymerizing a monomer mixture comprising an \u03b1,\u03b2-ethylenically unsaturated nitrile monomer and a carboxyl group-containing monomer in a solvent;\nterminating a polymerization reaction by adding a nitrous acid salt and a water-insoluble hydroquinone as polymerization terminators to the polymerization system when a predetermined polymerization conversion ratio is achieved, thereby obtaining a dispersion of the carboxyl group-containing nitrile rubber having a pH of 7 or below; and\ncoagulating the dispersion of the carboxyl group-containing nitrile rubber, thereby obtaining the carboxyl group-containing nitrile rubber in the solid state,\nwherein the amount of the nitrous acid salt to be used is 0.15 parts by weight or less relative to 100 parts by weight of the monomer mixture used in the polymerization reaction.\nThe method for producing a carboxyl group-containing nitrile rubber according to claim 1, wherein the water-insoluble hydroquinone is added in the form of a dispersion in which the water-insoluble hydroquinone is dispersed in water.\nThe method for producing a carboxyl group-containing nitrile rubber according to claim 1 or 2, wherein the amount of the water-insoluble hydroquinone to be used is 0.1 to 1.0 part by weight relative to 100 parts by weight of the monomer mixture used in the polymerization reaction.\nThe method for producing a carboxyl group-containing nitrile rubber according to any one of claims 1 to 3, wherein the weight ratio of the amount of the nitrous acid salt to be used to the amount of the water-insoluble hydroquinone to be used is within the range from 1:0.5 to 1:100."
+  },
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US20100147462A1/en",
+      "patent_number": "US20100147462A1",
+      "patent_title": "\u2026  strip that can be activated by heat and is based on carboxylated nitrile rubber",
+      "assignee": "Not disclosed",
+      "publication_year": "2010",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "15",
+      ")",
+      "1",
+      "-",
+      "9",
+      ". (canceled)",
+      "10",
+      ". A method of bonding flexible printed conductor tracks, which comprises bonding said flexible printed conductor tracks with a heat-activable adhesive tape having an adhesive comprised of",
+      "a. an acid- or acid anhydride-modified acrylonitrile-butadiene copolymer; and"
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "Example 1",
+        "example_type": "Extracted Example",
+        "title": "Example 1",
+        "raw_text": "Example 1\n80 parts by weight of Nipol NX 775 (nitrile rubber with 26% by weight of acrylonitrile and 7% by weight of acid modification from Zeon) are dissolved in butanone with 20 parts by weight of Bakelite EPR 166 (epoxy resin with an epoxide equivalent of 184, from Bakelite) and then the solution is coated out onto a release paper which has a release layer, to give, after drying, a coat thickness of 25 \u03bcm.\n12.6\n5",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 2",
+        "example_type": "Extracted Example",
+        "title": "Example 2",
+        "raw_text": "Example 2\n20 parts by weight of Piccolyte A 125 (polyterpene resin from Hercules) are added to example 1 and likewise dissolved in butanone. The subsequent procedure is as described in example 1.\n14.3\n7",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 3",
+        "example_type": "Extracted Example",
+        "title": "Example 3",
+        "raw_text": "Example 3\n, Comparative\n75 parts by weight of Breon N41H80 (nitrile rubber from Zeon with an acrylonitrile content of 41% by weight and a Mooney viscosity ML 1+4 at 100\u00b0 C. of 72 to 88) and 25 parts by weight of Bakelite EPR 166 are dissolved in butanone and coated out as described above.\n2.7\n>50",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 4",
+        "example_type": "Extracted Example",
+        "title": "Example 4",
+        "raw_text": "Example 4\n, Comparative\n70 parts by weight of Breon are dissolved in butanone with 25 parts by weight of EPR 166 and 5 parts by weight of Dyhard 100-S (dicyandiamide from Degussa) and then coated out.\nBonding of FPCBs with the Adhesive Tape Produced\nTwo FPCBs are bonded using in each case one of the adhesive tapes produced in accordance with examples 1 to 4. For this purpose the adhesive tape is laminated onto the polyimide sheet of the polyimide/copper foil FPCB laminate at 100\u00b0 C., the adhesive strip being somewhat shorter than the FPCB that is to be bonded, so as subsequently to have a grip tab. Subsequently a second polyimide sheet of a further FPCB is bonded to the adhesive tape and the whole assembly is compressed in a heatable Burkle press at 200\u00b0 C. and a pressure of 1.3 MPa for one hour.\nTest Methods\nThe properties of the adhesive sheets produced in accordance with the examples specified above are investigated by the following test methods.\nT-Peel Test with FPCB\nUsing a tensile testing machine from Zwick, the FPCB/adhesive tape/FPCB assemblies produced in accordance with the process described above are peeled from one another at an angle of 180\u00b0 and with a rate of 50 mm/min, and the force required, in N/cm, is measured. The measurements are made at 20\u00b0 C. and 50% relative humidity. Each measurement value is determined three times.\nTemperature Stability\nIn analogy to the T-peel test described, the FPCB assemblies produced in accordance with the process described above are suspended so that one of the two grip tabs formed is fixed at the top, while on the other grip tab a weight of 500 g is fastened, so that an angle of 180\u00b0 is formed between the two FPCBs. The static peel test takes place at 70\u00b0 C. The parameter measured is the static peel travel in mm/h.\nSolder Bath Resistance\nThe FPCB assemblies bonded in accordance with the process described above are laid for 10 seconds onto a solder bath which is at a temperature of 288\u00b0 C. The bond is rated solder bath resistant if there is no formation of air bubbles which cause the polyimide sheet of the FPCB to inflate. The test is rated as failed if there is even slight formation of bubbles.\nResults:\nFor adhesive assessment of the abovementioned examples the T-peel test was conducted first of all.\nThe results are given in Table 1.\nTABLE 1\nT-peel test [N/cm]\n10.7\nThe bond strength in the samples which no longer comprise any hardener in addition to the acid-modified elastomers is greater than in the sample which uses unmodified nitrile rubber but requires an additional hardener. Without crosslinking (example 3) the bond strength is only very low.\nThe temperature stability of the adhesive tapes was measured using the static peel test, whose values can be found in Table 2.\nTABLE 2\nStatic T-peel test at 70\u00b0 C. [mm/h]\n16\nAs can be seen, the temperature stability in the case of the reference specimens is less than in the case of examples 1 and 2.\nThe solder bath test was passed by all 4 examples.",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "Method for bonding flexible printed conductor tracks with an adhesive strip that can be activated by heat and is based on carboxylated nitrile rubber \n       \nAbstract\nHeat-activable adhesive tape for producing and further processing flexible conductor tracks, with an adhesive composed at least of\na. an acid- or acid anhydride-modified acrylonitrile-butadiene copolymer, and\nb. an epoxy resin,\nthe weight ratio of the two components a/b being greater than 1.5 and no additional nonpolymer hardener being used.\nClaims (\n15\n)\n1\n-\n9\n. (canceled)\n10\n. A method of bonding flexible printed conductor tracks, which comprises bonding said flexible printed conductor tracks with a heat-activable adhesive tape having an adhesive comprised of\na. an acid- or acid anhydride-modified acrylonitrile-butadiene copolymer; and\nb. an epoxy resin,\nthe weight ratio of the two components a/b being greater than 1.5, and no additional nonpolymer hardener.\n11\n. The method of\nclaim 10\n, wherein the acid- or acid anhydride-modified acrylonitrile-butadiene copolymer is at least partly hydrogenated.\n12\n. The method of\nclaim 10\nwherein the acrylonitrile content of the acrylonitrile-butadiene copolymer is 15% to 50% by weight.\n13\n. The method of\nclaim 10\n, wherein the adhesive comprises more than one epoxy resin.\n14\n. The method of\nclaim 10\n, wherein the adhesive comprises one or more of tackifying resins, accelerators, dyes, carbon black and metal powders.\n15\n. The method of\nclaim 10\n, wherein the adhesive crosslinks at temperatures above 150\u00b0 C.\n16\n. The method of\nclaim 10\n, wherein the adhesive further comprises additional elastomers.\n17\n. A method for bonding an article to polyimide, which comprises bonding said article to said polyimide with a heat-activable adhesive tape having an adhesive comprised of\nc. an acid- or acid anhydride-modified acrylonitrile-butadiene copolymer, and\nd. an epoxy resin,\nthe weight ratio of the two components a/b being greater than 1.5, and no additional nonpolymer hardener.\n18\n. The method of\nclaim 17\n, wherein the acid- or acid anhydride-modified acrylonitrile-butadiene copolymer is at least partly hydrogenated.\n19\n. The method of\nclaim 17\nwherein the acrylonitrile content of the acrylonitrile-butadiene copolymer is 15% to 50% by weight.\n20\n. The method of\nclaim 17\n, wherein the adhesive comprises more than one epoxy resin.\n21\n. The method of\nclaim 17\n, wherein the adhesive comprises one or more of tackifying resins, accelerators, dyes, carbon black and metal powders.\n22\n. The method of\nclaim 17\n, wherein the adhesive crosslinks at temperatures above 150\u00b0 C.\n23\n. The method of\nclaim 17\n, wherein the adhesive further comprises additional elastomers."
+  }
+]
