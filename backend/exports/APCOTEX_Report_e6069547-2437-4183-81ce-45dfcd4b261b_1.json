@@ -1,0 +1,62 @@
+{
+  "title": "Low Acrylonitrile NBR",
+  "abstract": "This report provides a technical summary of the research scope, definition of Low Acrylonitrile NBR, selected patent landscape, major polymerization approaches, and major formulation/process trends. The target compound, Low Acrylonitrile NBR, is a type of nitrile rubber with a low acrylonitrile content. The selected patent landscape includes patents related to the synthesis and properties of Low Acrylonitrile NBR. The major polymerization approaches include emulsion polymerization and metathesis reactions. The major formulation/process trends include the use of catalysts, solvents, and co-olefins to control the polymerization process and properties of the resulting polymer.",
+  "methodology_patents": [
+    {
+      "patent_details": {
+        "patent_number": "US7105606",
+        "patent_title": "Polymer blends comprising low molecular weight nitrile rubber",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2006-09-12",
+        "polymer_type": "Nitrile rubber",
+        "relevance_to_target": "The patent is relevant to Low Acrylonitrile NBR as it describes the synthesis and properties of low molecular weight nitrile rubber, which is a type of Low Acrylonitrile NBR."
+      },
+      "polymerization_method": {
+        "polymerization_process": "Metathesis reactions",
+        "monomer_system": "Butadiene-acrylonitrile terpolymer",
+        "monomer_ratio": "Butadiene content of 47 mol %, an acrylonitrile content of 21 mol %, a butylacrylate content of 32 mol %",
+        "water_amount": "Not disclosed in the analyzed patent evidence",
+        "emulsifier": "Not disclosed in the analyzed patent evidence",
+        "emulsifier_loading": "Not disclosed in the analyzed patent evidence",
+        "initiator": "Wilkinson's catalyst",
+        "initiator_loading": "0.08 phr",
+        "catalyst_activator": "Triphenylphosphine",
+        "chain_transfer_agent": "Not disclosed in the analyzed patent evidence",
+        "chain_transfer_dosage": "Not disclosed in the analyzed patent evidence",
+        "polymerization_temperature": "80° C",
+        "pressure": "500 psi",
+        "ph": "Not disclosed in the analyzed patent evidence",
+        "reaction_time": "30 minutes",
+        "conversion": "Not disclosed in the analyzed patent evidence",
+        "coagulation_conditions": "Not disclosed in the analyzed patent evidence",
+        "post_treatment": "Degassed 3 times with H2 (100 psi) under full agitation",
+        "raw_polymer_properties": "Mooney viscosity of 55 (ML 1+4 @ 100° C.) and a RDB of 18%"
+      },
+      "experimental_evidence": [
+        "Viscosity: 18 %",
+        "Bht: 0.025 %",
+        "Time: 30 minutes",
+        "Co-ol: 6 %",
+        "Sol: 0.5 phr",
+        "Cements: 6 %",
+        "Viscosity: 6 %",
+        "Triphenylphosphine: 0.08 phr",
+        "Sol: 1 phr",
+        "All: 99.6 %",
+        "Alternatively: 99.3 %",
+        "Solid Content: 6 %"
+      ],
+      "technical_relevance": "This patent is relevant to Low Acrylonitrile NBR as it describes the synthesis and properties of low molecular weight nitrile rubber, which is a type of Low Acrylonitrile NBR. The patent provides information on the monomer system, polymerization process, and properties of the resulting polymer, which can be used to inform the development of Low Acrylonitrile NBR."
+    }
+  ],
+  "cross_patent_comparison": [
+    "The selected patent (US7105606) describes the synthesis and properties of low molecular weight nitrile rubber, which is a type of Low Acrylonitrile NBR.",
+    "The patent uses metathesis reactions to synthesize the polymer, with a butadiene content of 47 mol %, an acrylonitrile content of 21 mol %, and a butylacrylate content of 32 mol %.",
+    "The polymerization process involves the use of Wilkinson's catalyst and triphenylphosphine, with a reaction time of 30 minutes and a temperature of 80° C.",
+    "The resulting polymer has a Mooney viscosity of 55 (ML 1+4 @ 100° C.) and a RDB of 18%."
+  ],
+  "references": [
+    "[US7105606](https://patents.google.com/patent/US7105606)"
+  ]
+}

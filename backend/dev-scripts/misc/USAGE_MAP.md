@@ -1,0 +1,98 @@
+# Usage Map
+
+## LIVE — reachable from main.py
+- app/__init__.py
+- app/api/v1/__init__.py
+- app/api/v1/admin_usage.py
+- app/api/v1/audit.py
+- app/api/v1/auth.py
+- app/api/v1/health.py
+- app/api/v1/recipe.py
+- app/api/v1/research.py
+- app/api/v1/settings.py
+- app/api/v1/telemetry.py
+- app/api/v1/users.py
+- app/config/__init__.py
+- app/config/model_pricing.py
+- app/core/__init__.py
+- app/core/audit_actions.py
+- app/core/config.py
+- app/core/logging.py
+- app/core/security.py
+- app/core/telemetry.py
+- app/db/__init__.py
+- app/db/database.py
+- app/db/seed.py
+- app/db/session.py
+- app/dependencies/__init__.py
+- app/dependencies/auth.py
+- app/main.py
+- app/models/__init__.py
+- app/models/api_usage_log.py
+- app/models/app_config.py
+- app/models/audit_log.py
+- app/models/base.py
+- app/models/customer_trial.py
+- app/models/extracted_parameter.py
+- app/models/extraction_batch.py
+- app/models/optimized_recipe_candidate.py
+- app/models/patent_document.py
+- app/models/patent_extraction.py
+- app/models/recipe_candidate.py
+- app/models/recipe_cycle.py
+- app/models/report_file.py
+- app/models/report_metadata.py
+- app/models/research_run.py
+- app/models/search_query.py
+- app/models/search_result.py
+- app/models/user.py
+- app/repositories/__init__.py
+- app/repositories/research_repository.py
+- app/repositories/user_repository.py
+- app/schemas/__init__.py
+- app/schemas/audit.py
+- app/schemas/auth.py
+- app/schemas/common.py
+- app/schemas/recipe.py
+- app/schemas/research.py
+- app/schemas/user.py
+- app/services/__init__.py
+- app/services/audit_service.py
+- app/services/auth_service.py
+- app/services/llm/__init__.py
+- app/services/llm/base.py
+- app/services/llm/gemini_provider.py
+- app/services/llm/llm_client.py
+- app/services/llm/openai_compatible_provider.py
+- app/services/llm/openai_provider.py
+- app/services/llm/provider_registry.py
+- app/services/llm/schema_normalizer.py
+- app/services/pipeline/extractor_service.py
+- app/services/pipeline/fetcher_service.py
+- app/services/pipeline/orchestrator.py
+- app/services/pipeline/report_evidence_service.py
+- app/services/pipeline/report_service.py
+- app/services/pipeline/schemas.py
+- app/services/pipeline/search_service.py
+- app/services/prompts/patent_prompts.py
+- app/services/recipe_service.py
+- app/services/research_service.py
+- app/services/usage_logger.py
+- app/services/user_service.py
+- app/utils/__init__.py
+- app/utils/exceptions.py
+
+## ORPHANED — not imported anywhere reachable from main.py
+- app/api/__init__.py (Moved to app/_unused_pending_review/)
+- app/repositories/patent_document_repository.py (Moved to app/_unused_pending_review/)
+- app/services/pipeline/cache_service.py (Moved to app/_unused_pending_review/)
+- app/services/pipeline/competitor_service.py (Moved to app/_unused_pending_review/)
+- app/services/pipeline/compound_intelligence.py (Moved to app/_unused_pending_review/)
+- app/services/pipeline/date_utils.py (Moved to app/_unused_pending_review/)
+- app/services/pipeline/deterministic_extractor.py (Moved to app/_unused_pending_review/)
+- app/services/pipeline/parser_service.py (Moved to app/_unused_pending_review/)
+- app/services/pipeline/rule_engine.py (Moved to app/_unused_pending_review/)
+- app/services/pipeline/validation_service.py (Moved to app/_unused_pending_review/)
+- app/services/pipeline/website_service.py (Moved to app/_unused_pending_review/)
+
+Note: These files were determined to be ORPHANED because they are not imported (statically or dynamically) by any module reachable from the FastAPI app's entry point (main.py -> create_app).

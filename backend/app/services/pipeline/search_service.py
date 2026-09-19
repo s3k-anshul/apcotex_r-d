@@ -15,7 +15,7 @@ from app.core.config import settings
 from app.services.pipeline.schemas import LLMCompoundSearchProfile, GeneratedQuery
 from app.services.llm import llm_client
 from app.services.usage_logger import UsageLogger
-from app.services.prompts.patent_prompts import PATENT_QUERY_EXPANSION_PROMPT
+from app.services.prompts.patent_prompts import build_query_expansion_prompt
 
 logger = logging.getLogger(__name__)
 
@@ -34,21 +34,32 @@ class SearchService:
         competitors: List[str] = None,
         websites: List[str] = None,
         jurisdictions: List[str] = None,
-        publication_filter: dict = None
+        publication_filter: dict = None,
+        attribute_constraint: str | None = None,
+        polymerization_medium: str = "any",
     ) -> LLMCompoundSearchProfile:
         """Use Gemini to create the search strategy."""
         logger.info("Generating search strategy for %s...", compound_name)
+        medium = (polymerization_medium or "any").strip().lower()
+        logger.info(
+            "[QUERY_EXPANSION] Optional constraints: "
+            "attribute_constraint=%r polymerization_medium=%r",
+            attribute_constraint,
+            medium,
+        )
         comp_str = ", ".join(competitors) if competitors else "None"
         web_str = ", ".join(websites) if websites else "None"
         jur_str = ", ".join(jurisdictions) if jurisdictions else "None"
         pub_str = str(publication_filter) if publication_filter else "None"
         
-        prompt = PATENT_QUERY_EXPANSION_PROMPT.format(
-            compound_name=compound_name, 
+        prompt = build_query_expansion_prompt(
+            compound_name=compound_name,
             competitors=comp_str,
             websites=web_str,
             jurisdictions=jur_str,
-            publication_filter=pub_str
+            publication_filter=pub_str,
+            attribute_constraint=attribute_constraint,
+            polymerization_medium=medium,
         )
 
         try:
@@ -63,6 +74,12 @@ class SearchService:
             
             logger.info("[QUERY_EXPANSION] Target compound: %s", compound_name)
             logger.info("[QUERY_EXPANSION] Base material: %s", getattr(result, "base_material", ""))
+            logger.info(
+                "[QUERY_EXPANSION] Target identity: exclusions=%s related=%s definition=%s",
+                getattr(result, "identity_exclusions", []),
+                getattr(result, "related_materials", []),
+                (getattr(result, "relevance_definition", "") or "")[:200],
+            )
             logger.info("[QUERY_EXPANSION] Target modification: %s", getattr(result, "target_modifications", ""))
             
             validated_queries = []
@@ -91,8 +108,8 @@ class SearchService:
                 # in the query string; (ii) concept-overlap: any token from the query's
                 # own required_concepts or alternative_concepts overlaps with the tokens
                 # of the LLM's target_modification phrases for this run.
-                # This avoids false rejection of queries that say "acrylonitrile content
-                # control" instead of "low acrylonitrile" — both describe the same target.
+                # This avoids false rejection of queries that describe the same target
+                # attribute using alternate scientific phrasing vs the literal LLM attribute string.
                 has_target_mod_in_query = True
                 if result.target_modifications:
                     has_target_mod_in_query = False
@@ -172,12 +189,14 @@ class SearchService:
                 # Build a retry prompt describing exactly what's needed
                 existing_exprs = [q.query for q in validated_queries]
                 retry_prompt = (
-                    PATENT_QUERY_EXPANSION_PROMPT.format(
+                    build_query_expansion_prompt(
                         compound_name=compound_name,
                         competitors=comp_str,
                         websites=web_str,
                         jurisdictions=jur_str,
-                        publication_filter=pub_str
+                        publication_filter=pub_str,
+                        attribute_constraint=attribute_constraint,
+                        polymerization_medium=medium,
                     )
                     + f"\n\nNOTE: A previous call already produced {len(validated_queries)} valid queries. "
                     f"You MUST produce {missing_count} ADDITIONAL distinct valid Boolean queries that "

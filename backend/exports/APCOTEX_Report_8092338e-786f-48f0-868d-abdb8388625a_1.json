@@ -1,0 +1,473 @@
+{
+  "title": "PATENT RESEARCH REPORT",
+  "abstract": "This report synthesizes technical data from fifteen key patents to map the synthesis, modification, and application landscape of hydrogenated nitrile butadiene rubber (HNBR). The research scope spans the evolution of HNBR production from traditional emulsion polymerization followed by multi-step degradation and hydrogenation, to advanced solution-based polymerization using RAFT modifiers and single-pot simultaneous metathesis and hydrogenation. The patent landscape reveals a strong focus on controlling polymer molecular weight and polydispersity to improve processability without compromising the material's inherent heat, ozone, and chemical resistance. Major polymerization and modification approaches highlight the transition from Wilkinson's catalyst-mediated hydrogenation to highly active ruthenium-based carbene catalysts (such as Grubbs-type and novel six-coordinate Ru-N complexes) that facilitate simultaneous chain cleavage and double-bond reduction. Additionally, the incorporation of specialized termonomers, such as maleic acid monoethyl ester and alkoxyalkyl acrylates, is shown to optimize the balance between low-temperature flexibility and oil swelling, expanding HNBR's utility in high-performance automotive drive belts, battery separators, and wearable electronics.",
+  "methodology_patents": [
+    {
+      "patent_details": {
+        "patent_number": "EP2473281B1",
+        "patent_title": "Process for the preparation of low molecular weight hydrogenated nitrile rubber",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "EP",
+        "publication_year": "2014",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Describes a process for producing low molecular weight HNBR by simultaneous hydrogenation and metathesis of NBR in the presence of hydrogen and a ruthenium or osmium catalyst.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Monomers: 1,3-butadiene and acrylonitrile",
+          "Catalyst: Ruthenium or osmium complex of general formula (I)",
+          "Reaction Type: Simultaneous metathesis and hydrogenation"
+        ]
+      },
+      "experimental_evidence": [
+        "No specific experimental examples disclosed in the supplied evidence."
+      ],
+      "technical_relevance": "Provides a single-step method for simultaneous metathesis and hydrogenation of NBR to yield low molecular weight HNBR with narrow polydispersity."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US9079979B2",
+        "patent_title": "Process for the preparation of hydrogenated nitrile rubber",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2015",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Simultaneous hydrogenation and metathesis of nitrile rubber using specific ruthenium or osmium catalysts.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Catalyst: Grubbs III Catalyst, Grubbs II Catalyst, or Wilkinson's Catalyst",
+          "Catalyst Amount: 0.057 phr (HNBR 1), 0.080 phr (HNBR 2), 0.06 phr (HNBR 3), 0.055 phr (HNBR 4)",
+          "Reaction Time: 120 min"
+        ]
+      },
+      "experimental_evidence": [
+        "Examples describe the preparation of HNBR 1, HNBR 2, HNBR 3, and HNBR 4 using different catalysts.",
+        "HNBR 1 and 2 utilize Grubbs III catalyst at 0.057 phr and 0.080 phr respectively.",
+        "HNBR 3 utilizes Wilkinson's catalyst at 0.06 phr.",
+        "HNBR 4 utilizes Grubbs II catalyst at 0.055 phr.",
+        "The process achieves simultaneous metathesis and hydrogenation in 120 minutes to produce low molecular weight HNBR."
+      ],
+      "technical_relevance": "Demonstrates simultaneous metathesis and hydrogenation of NBR to produce low molecular weight HNBR with narrow molecular weight distribution (MWD < 2.8) and low residual double bonds (RDB)."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US7919563B2",
+        "patent_title": "Low molecular weight hydrogenated nitrile rubber",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2011",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Process for preparing HNBR with Mw of 30,000 to 250,000 and Mooney viscosity of 3 to 50 via metathesis followed by hydrogenation.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Rubber Concentration: 15 wt.-% solid (Example 1, 2), 6 wt.-% solid (Example 3, 4)",
+          "Rubber Amount: 200 g (Example 1, 2), 75 g (Example 3, 4)",
+          "Solvent: Monochlorobenzene (MCB) 1133 g (Example 1, 2), 1175 g (Example 3, 4)",
+          "Co-olefin: Ethylene (C2H4) or 1-hexene",
+          "Co-olefin Amount: 150 g (1-hexene in Example 4)",
+          "Reactor Pressure: 500 psi (C2H4)",
+          "Reactor Temperature: 80 °C",
+          "Catalyst Load: 0.05 phr, 0.10 phr, 0.25 phr"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 1: 200 g rubber dissolved in 1133 g MCB (15 wt% solid) with ethylene co-olefin at 500 psi.",
+        "Example 3: 75 g rubber dissolved in 1175 g MCB (6 wt% solid) with ethylene co-olefin at 500 psi.",
+        "Example 4: 75 g rubber dissolved in 1175 g MCB (6 wt% solid) with 150 g 1-hexene co-olefin.",
+        "Typical product exhibits Mn of 27 kg/mol and Mw of 54 kg/mol compared to starting polymer Mw of 296 kg/mol."
+      ],
+      "technical_relevance": "Discloses a two-step process (metathesis then hydrogenation) to produce low molecular weight HNBR with narrow polydispersity index (< 2.5) and improved processability."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US9023914B2",
+        "patent_title": "Nitrile rubbers and production thereof in organic solvents",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2015",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Free-radical solution polymerization of NBR in organic solvent with RAFT modifiers, optionally followed by hydrogenation to HNBR.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Monomers: Acrylonitrile (34 ml or 35.6 g) and 1,3-butadiene (71 ml)",
+          "Initiator: Vazo 88 (128 mg in solution in 5 ml dimethylacetamide)",
+          "Solvent: Dimethylacetamide (DMAc) or monochlorobenzene",
+          "Reaction Temperature: 100 °C",
+          "Reaction Pressure: 3 bar",
+          "Reaction Time: 6 hours, 9 hours, 13 hours, 22 hours",
+          "Conversion: 39% (after 6 h), 48% (after 9 h), 9.2% (after 13 h)"
+        ]
+      },
+      "experimental_evidence": [
+        "Examples 9-16: Solution polymerization of acrylonitrile and butadiene in DMAc.",
+        "Example 18, 20, 23: Polymerization using 128 mg Vazo 88 initiator in 5 ml DMAc.",
+        "Examples 24-25: Free-radical polymerization using Dibenzoyl Trithiocarbonate (DiBenT) and Cumyl Phenyl Dithioacetate (CPDA) as RAFT modifiers.",
+        "Polymerization at 100 °C under 3 bar pressure of 1,3-butadiene (71 ml) yielding controlled molecular weight NBR."
+      ],
+      "technical_relevance": "Provides a solution polymerization route for NBR using RAFT agents, allowing direct subsequent hydrogenation to HNBR in the same organic solvent, avoiding the costly isolation step of emulsion NBR."
+    },
+    {
+      "patent_details": {
+        "patent_number": "EP2473278B1",
+        "patent_title": "Metathesis of nitrile rubbers in the presence of transition metal catalysts",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "EP",
+        "publication_year": "2014",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Metathesis of NBR in the presence of transition metal catalysts and subsequent isolation using a mechanical degassing device.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Starting Material: Perbunan T 3435 (700 g)",
+          "Solvent: Monochlorobenzene (4667 g)",
+          "Reactor: 10 L high pressure reactor",
+          "Co-olefin: 1-hexene (4 phr)",
+          "Reaction Temperature: 138 °C",
+          "Reaction Time: 4 hours",
+          "Agitation Speed: 600 rpm"
+        ]
+      },
+      "experimental_evidence": [
+        "Examples 5-6: 700 g of Perbunan T 3435 dissolved in 4667 g monochlorobenzene in a 10 L high pressure reactor.",
+        "4 phr of 1-hexene co-olefin added and agitated for 2 hours at 22 °C.",
+        "Metathesis reaction carried out at 138 °C for 4 hours under 600 rpm agitation.",
+        "Mooney viscosity (ML 1+4 @ 100 °C) and vulcanization properties (MDR 180 °C) evaluated for the resulting low molecular weight rubber."
+      ],
+      "technical_relevance": "Focuses on the metathesis degradation of NBR to low molecular weight polymers (Mw <= 50,000 g/mol, PDI < 2.0) and details a mechanical degassing isolation method to handle highly tacky low-viscosity rubbers."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US11349176B2",
+        "patent_title": "Separator for all-solid-state batteries, method for producing the same, and all …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2022",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Uses hydrogenated rubber-based resin (such as HNBR) as a binder in solid electrolyte layers for all-solid-state batteries.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Solid Electrolyte: 10LiI-15LiBr-75 (3Li2S-P2S5) (0.400 g)",
+          "Compacting Pressure: 19.6 MPa to 29.4 MPa (0.2 to 0.3 t/cm2)",
+          "Pulverization Pressure: 588 MPa",
+          "Solid Content Concentration: 80% by mass or less"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 1: Slurry prepared using 0.400 g of 10LiI-15LiBr-75 solid electrolyte and hydrogenated rubber-based binder.",
+        "Laminate pressed at a compacting pressure of 19.6 MPa to 29.4 MPa at 25 °C.",
+        "Comparative Example 4: Solid electrolyte layer formed by pressing at 588 MPa for 30 minutes, followed by pulverization.",
+        "The hydrogenated rubber-based resin acts as a flexible binder to improve tensile strength and ion conductivity of the separator."
+      ],
+      "technical_relevance": "Illustrates a high-value application of hydrogenated rubber-based resins (like HNBR) as flexible binders in battery separators, leveraging their large tensile elongation and chemical stability."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US20230015442A1",
+        "patent_title": "Method for separating and recovering lignin and meltable flowable biolignin …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2023",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Mentions the integration of dry lignin powder with nitrile rubber or acrylonitrile butadiene (NBR) as a nano-filler.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Lignin Solvent: n-butanol, butyl acetate, butyl ester, or furfural",
+          "Biomass Type: Lignocellulosic biomass",
+          "Processing Temperature: Greater than 120 °C (up to 180 °C for glass transition)"
+        ]
+      },
+      "experimental_evidence": [
+        "No specific experimental examples of hydrogenated NBR synthesis disclosed in the supplied evidence."
+      ],
+      "technical_relevance": "Mentions NBR composites in the context of biopolymer blending, highlighting the limitations of dry lignin powder fillers in nitrile rubber due to poor flowability."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US10869391B2",
+        "patent_title": "Garment-type electronic device and method for producing same",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2020",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Uses stretchable rubber/synthetic rubber binders (which can include HNBR) for garment-type electronic devices.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Silicone Resin Curing Time: 24 hours at room temperature",
+          "Stretching Evaluation: 10% elongation"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 5: Two-component curable silicone resin poured into a screen to a thickness of 5 mm and cured at room temperature over 24 hours.",
+        "Example 1: Electrical conductivity and maintenance evaluated under 10% stretching.",
+        "The stretchable conductor composition utilizes a stretchable binder resin (such as synthetic rubber) to maintain electrical chains during deformation."
+      ],
+      "technical_relevance": "Demonstrates the utility of stretchable rubber binders (including synthetic rubbers like NBR/HNBR) in conductive pastes for wearable electronics."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US10415370B2",
+        "patent_title": "Systems and methods for in situ monitoring of cement slurry locations and …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2019",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Mentions the use of polymers (such as latexes) in cement fluid compositions for downhole cementing operations.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Cement Type: Hydraulic, Portland, gypsum, calcium phosphate, high alumina, silica, or high alkalinity",
+          "Polymer Additives: Latex or epoxies"
+        ]
+      },
+      "experimental_evidence": [
+        "No specific experimental examples of hydrogenated NBR synthesis disclosed in the supplied evidence."
+      ],
+      "technical_relevance": "Mentions polymer/latex additives in cement formulations, indicating the broad industrial applicability of rubber latexes in oil and gas operations."
+    },
+    {
+      "patent_details": {
+        "patent_number": "EP2292687B1",
+        "patent_title": "Improved vulcanisable guanidine-free mixtures containing ethylene acrylate (AEM …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "EP",
+        "publication_year": "2012",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Vulcanizable guanidine-free mixtures containing HNBR-based rubbers with carboxylic acid/ester cure-site monomers.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "HNBR 1 Composition: 60.4% butadiene, maleic acid monoethyl ester termonomer, 39.6% acrylonitrile",
+          "Mooney Viscosity: 44 to 48 MU (ML 1+4 @ 100 °C)",
+          "Mooney Scorch Temperature: 120 °C",
+          "Scorch Time (T5): 13.0 to 24.3 min",
+          "MDR Vulcanization Temperature: 180 °C for 30 min",
+          "Hydrogenation Catalyst: Wilkinson's catalyst with triphenylphosphine (TPP) co-catalyst",
+          "Hydrogenation Pressure: 85 bar",
+          "Hydrogenation Temperature: 138 °C",
+          "Hydrogenation Time: 4 hours",
+          "Cooling Temperature: 22 °C"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 1: Vulcanizable mixture prepared with HNBR 1 (residual double bond content of 0.4%, maleic monoethylester content).",
+        "Mooney viscosity of the compounds determined at 100 °C; Mooney scorch conducted at 120 °C (T5 scorch times: 13.0 to 24.3 min).",
+        "Example 2: HNBR 1 prepared by hydrogenating NBR terpolymer (60.4% butadiene, maleic acid monoethyl ester, acrylonitrile) in MCB using Wilkinson's catalyst and TPP co-catalyst at 138 °C and 85 bar hydrogen pressure for 4 hours."
+      ],
+      "technical_relevance": "Discloses the synthesis of carboxylated HNBR (HXNBR) terpolymers containing cure-site monomers (maleic acid monoethyl ester) and their vulcanization using guanidine-free diamine systems with high scorch safety."
+    },
+    {
+      "patent_details": {
+        "patent_number": "EP3063192B1",
+        "patent_title": "Copolymer rubber containing nitrile groups",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "EP",
+        "publication_year": "2018",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Copolymer rubber containing nitrile groups, conjugated diene, and alkoxyalkyl (meth)acrylate termonomers, hydrogenated to >= 50%.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "HNBR Terpolymer Composition: 10% to 60% acrylonitrile, 31% to 89% conjugated diene, 1% to 9% methoxyethyl (meth)acrylate or 2-ethylhexyl (meth)acrylate",
+          "Hydrogenation Level: 50% or more (preferably >= 85%)",
+          "Hydrogenation Catalyst: Wilkinson catalyst (0.065 phr)",
+          "Co-catalyst: Triphenylphosphine (TPP) (1.0 phr)",
+          "Reactor Temperature: 137-140 °C",
+          "Reaction Time: Up to 4 hours",
+          "Hydrogen Pressure: 8.4 MPa",
+          "Premix Solution: 0.986 g Fe(II)SO4*7H2O and 2.0 g Rongalit C in 400 g water",
+          "Vulcanization: 180 °C for 10 minutes"
+        ]
+      },
+      "experimental_evidence": [
+        "Copolymer rubber prepared with 34% to 43% acrylonitrile, 49% to 64.5% butadiene, and 1.5% to 8% methoxyethyl (meth)acrylate.",
+        "NBR terpolymer hydrogenated in MCB (518 g) at 137-140 °C for up to 4 hours using 0.065 phr Wilkinson catalyst and 1.0 phr TPP co-catalyst under 8.4 MPa hydrogen pressure.",
+        "Vulcanizates prepared by mixing for 5 to 8 minutes and curing at 180 °C for 10 minutes, showing excellent low-temperature flexibility (down to -35 °C) and minimal oil swelling."
+      ],
+      "technical_relevance": "Details the synthesis of specialized HNBR terpolymers incorporating low amounts of acrylate termonomers to achieve an optimal balance of low-temperature flexibility and oil resistance for automotive drive belts."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US7572861B2",
+        "patent_title": "HXNBR-rubber as a cross-linking agent",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2009",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "HXNBR containing molecularly dispersed triphenylphosphine (TPP) as a cross-linking and elasticizing agent.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "TPP Concentration: 0.1 to 10 wt. % molecularly dispersed in HXNBR",
+          "Double Bond Content: Less than 40 double bonds per 1000 carbon atoms (preferably 0.2 to 15)",
+          "Solvents: Chlorobenzene, acetone, methyl ethyl ketone, methylene chloride, chloroform, tetrahydrofuran, toluene"
+        ]
+      },
+      "experimental_evidence": [
+        "HXNBR prepared by emulsion polymerization of XNBR followed by solution hydrogenation.",
+        "Triphenylphosphine (TPP) is molecularly dispersed in the HXNBR such that no concentration difference occurs on a scale > 1 micrometer.",
+        "The molecularly dispersed TPP acts as an in-situ activator for subsequent cross-linking reactions with epoxides or isocyanates."
+      ],
+      "technical_relevance": "Explains how molecularly dispersed TPP (retained from the hydrogenation catalyst system) in HXNBR can be utilized directly as a molecular activator for cross-linking other elastomers or plastics."
+    },
+    {
+      "patent_details": {
+        "patent_number": "EP2519350B1",
+        "patent_title": "Highly active metathesis catalysis selective for romp and rcm",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "EP",
+        "publication_year": "2019",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Highly active ruthenium complex catalysts for NBR depolymerization and subsequent hydrogenation to HNBR.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "NBR Substrate: 60 g",
+          "Solvent: Anhydrous chlorobenzene (500 mL)",
+          "Reactor: 1.0 L steel well-sealed reactor",
+          "Catalyst: Ru complex 4ab (0.04 wt%, 0.07 wt%, or 0.10 wt%)",
+          "Hydrogenation Temperature: 130 °C",
+          "Hydrogenation Pressure: 5 MPa",
+          "Hydrogenation Time: Overnight",
+          "Yield: 98%"
+        ]
+      },
+      "experimental_evidence": [
+        "Example: 60 g of NBR dissolved in 500 mL anhydrous chlorobenzene in a 1.0 L steel reactor.",
+        "Depolymerization carried out using Ru complex 4ab at 0.04 wt%, 0.07 wt%, or 0.10 wt%.",
+        "Mooney viscosity reduced from 77.5 (raw NBR) to 60.3 (with 0.04 wt% catalyst).",
+        "Subsequent hydrogenation conducted at 130 °C under 5 MPa hydrogen pressure overnight, yielding hydrogenated rubber at 98% yield."
+      ],
+      "technical_relevance": "Introduces novel six-coordinate ruthenium complexes with 'Ru-N' coordinate bonds that exhibit exceptionally high activity for NBR metathesis (depolymerization) and subsequent high-pressure hydrogenation to HNBR."
+    },
+    {
+      "patent_details": {
+        "patent_number": "EP2057205B1",
+        "patent_title": "Production of meta-block copolymers by polymer segment interchange",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "EP",
+        "publication_year": "2017",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Process for preparing block copolymers by cross-metathesis of two or more unsaturated polymers, including partially-hydrogenated HNBR.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Polymer Reagents: Partially-hydrogenated polybutadiene (HPBD) (0.25 g) and partially-hydrogenated HNBR (0.25 g)",
+          "Solvent: Toluene",
+          "Reaction Temperature: 95 °C",
+          "Catalyst: Grubbs II metathesis catalyst (8 mg)",
+          "Recovered Product: 0.45 g",
+          "Extraction Solvent: Tetrahydrofuran (30 ml)"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 1: Toluene solution containing 0.25 g HPBD and 0.25 g partially-hydrogenated HNBR warmed to 95 °C.",
+        "8 mg of Grubbs II metathesis catalyst added to the stirred solution.",
+        "Volatiles removed under reduced pressure to yield 0.45 g of recovered meta-block copolymer product.",
+        "Non-metathesized components extracted using THF, and microphase order analyzed by SAXS up to 300 °C."
+      ],
+      "technical_relevance": "Demonstrates the synthesis of novel meta-block copolymers containing HNBR segments via catalytic polymer segment interchange (cross-metathesis), providing thermoplastic elastomeric properties."
+    },
+    {
+      "patent_details": {
+        "patent_number": "EP2061827B1",
+        "patent_title": "Production of blockcopolymers by amorphous polymer segment interchange via …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "EP",
+        "publication_year": "2016",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Cross-metathesis of an amorphous polymer and another unsaturated polymer (such as partially-hydrogenated HNBR) to form block copolymers.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Polymer Reagents: Poly(cyclooctadiene) (0.25 g) and partially-hydrogenated poly(nitrile-butadiene) rubber (0.25 g)",
+          "Solvent: Toluene",
+          "Reaction Temperature: 50 °C",
+          "Catalyst: Benzylidene[1,3-bis(2,4,6-trimethylphenyl)-2-imidazolidinylidene]dichloro(tricyclohexylphosphine)ruthenium (Grubbs II) (8.02 mg)",
+          "Recovered Product: 0.39 g"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 5: Toluene solution containing 0.25 g poly(cyclooctadiene) and 0.25 g partially-hydrogenated HNBR warmed to 50 °C.",
+        "8.02 mg of Grubbs II catalyst added and stirred.",
+        "Volatiles removed under reduced pressure to yield 0.39 g of solid thermoplastic block copolymer.",
+        "Analysis by SAXS, DSC, and NMR showed the presence of unsaturation but no crystalline segments above 30 °C."
+      ],
+      "technical_relevance": "Utilizes cross-metathesis of amorphous polymers with partially-hydrogenated HNBR to construct unique block copolymer architectures with low glass transition temperatures (< 0 °C) and excellent elastomeric properties."
+    }
+  ],
+  "cross_patent_comparison": [
+    "Catalyst Evolution: Traditional systems (EP2292687B1, EP3063192B1) utilize Wilkinson's catalyst [RhCl(PPh3)3] with triphenylphosphine (TPP) co-catalyst for selective hydrogenation, whereas newer approaches (US9079979B2, EP2473281B1, EP2519350B1) employ advanced ruthenium carbene complexes (Grubbs II/III and six-coordinate Ru-N complexes) to drive simultaneous metathesis and hydrogenation.",
+    "Process Configurations: Patents such as US7919563B2 and EP2473278B1 detail a two-step process where NBR is first metathesized to reduce molecular weight and subsequently hydrogenated. In contrast, EP2473281B1 and US9079979B2 establish single-step, simultaneous metathesis/hydrogenation processes that significantly reduce cycle times and energy consumption.",
+    "Monomer and Termonomer Systems: Standard HNBR compositions are contrasted with carboxylated HNBR (HXNBR) terpolymers containing maleic acid monoethyl ester cure-site monomers (EP2292687B1, US7572861B2) and alkoxyalkyl acrylate-modified HNBR (EP3063192B1), which are specifically designed to optimize low-temperature flexibility down to -35°C and minimize oil swelling.",
+    "Solvent and Reaction Media: Monochlorobenzene (MCB) is the dominant solvent utilized across both metathesis and hydrogenation reactions (US7919563B2, EP2473278B1, EP3063192B1, EP2519350B1). However, toluene is preferred for polymer segment interchange reactions to produce block copolymers (EP2057205B1, EP2061827B1), and dimethylacetamide (DMAc) is highlighted for solution-based RAFT polymerization (US9023914B2)."
+  ],
+  "conclusion": "The synthesized patent data demonstrates that the molecular weight, polydispersity, and performance characteristics of hydrogenated NBR can be finely tuned by selecting specific catalytic systems and process configurations. While traditional Wilkinson's catalyst remains highly effective for pure selective hydrogenation, modern applications increasingly rely on ruthenium carbene complexes to achieve simultaneous metathesis and hydrogenation in a single step. This single-pot approach, typically conducted in monochlorobenzene at temperatures between 130°C and 140°C, successfully yields low molecular weight HNBR with narrow polydispersity indices (< 2.5) and low Mooney viscosities, significantly enhancing processability. Furthermore, the integration of cure-site termonomers and the development of solution-polymerized NBR via RAFT chemistry represent key advancements that streamline production and enable high-value applications in energy storage and advanced elastomer composites.",
+  "references": [
+    "EP2473281B1 | Process for the preparation of low molecular weight hydrogenated nitrile rubber | Not disclosed | EP | 2014 | https://patents.google.com/patent/EP2473281B1/en",
+    "US9079979B2 | Process for the preparation of hydrogenated nitrile rubber | Not disclosed | US | 2015 | https://patents.google.com/patent/US9079979B2/en",
+    "US7919563B2 | Low molecular weight hydrogenated nitrile rubber | Not disclosed | US | 2011 | https://patents.google.com/patent/US7919563B2/en",
+    "US9023914B2 | Nitrile rubbers and production thereof in organic solvents | Not disclosed | US | 2015 | https://patents.google.com/patent/US9023914B2/en",
+    "EP2473278B1 | Metathesis of nitrile rubbers in the presence of transition metal catalysts | Not disclosed | EP | 2014 | https://patents.google.com/patent/EP2473278B1/en",
+    "US11349176B2 | Separator for all-solid-state batteries, method for producing the same, and all … | Not disclosed | US | 2022 | https://patents.google.com/patent/US11349176B2/en",
+    "US20230015442A1 | Method for separating and recovering lignin and meltable flowable biolignin … | Not disclosed | US | 2023 | https://patents.google.com/patent/US20230015442A1/en",
+    "US10869391B2 | Garment-type electronic device and method for producing same | Not disclosed | US | 2020 | https://patents.google.com/patent/US10869391B2/en",
+    "US10415370B2 | Systems and methods for in situ monitoring of cement slurry locations and … | Not disclosed | US | 2019 | https://patents.google.com/patent/US10415370B2/en",
+    "EP2292687B1 | Improved vulcanisable guanidine-free mixtures containing ethylene acrylate (AEM … | Not disclosed | EP | 2012 | https://patents.google.com/patent/EP2292687B1/en",
+    "EP3063192B1 | Copolymer rubber containing nitrile groups | Not disclosed | EP | 2018 | https://patents.google.com/patent/EP3063192B1/en",
+    "US7572861B2 | HXNBR-rubber as a cross-linking agent | Not disclosed | US | 2009 | https://patents.google.com/patent/US7572861B2/en",
+    "EP2519350B1 | Highly active metathesis catalysis selective for romp and rcm | Not disclosed | EP | 2019 | https://patents.google.com/patent/EP2519350B1/en",
+    "EP2057205B1 | Production of meta-block copolymers by polymer segment interchange | Not disclosed | EP | 2017 | https://patents.google.com/patent/EP2057205B1/en",
+    "EP2061827B1 | Production of blockcopolymers by amorphous polymer segment interchange via … | Not disclosed | EP | 2016 | https://patents.google.com/patent/EP2061827B1/en"
+  ]
+}

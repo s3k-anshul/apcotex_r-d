@@ -1,0 +1,488 @@
+{
+  "title": "PATENT RESEARCH REPORT",
+  "abstract": "This technical report synthesizes patent literature regarding the synthesis, modification, and compounding of Low Acrylonitrile Nitrile Butadiene Rubber (NBR) and its hydrogenated derivative (HNBR). Low Acrylonitrile NBR, typically defined by an acrylonitrile content of 1% to 20%, offers a unique balance of superior low-temperature flexibility, high resilience, and moderate oil resistance, making it highly desirable for specialized industrial applications. The selected patent landscape of fifteen primary patents reveals a diverse array of chemical approaches to optimize this material. A major polymerization and modification trend is the transition from traditional mechanical mastication to controlled catalytic processes. Specifically, olefin metathesis utilizing ruthenium-based Grubbs catalysts is widely employed to selectively degrade high-molecular-weight HNBR into low-Mooney viscosity variants (3 to 50 ML 1+4 @ 100 °C) with narrow molecular weight distributions (PDI < 2.5) without altering the polymer's core microstructure. Additionally, segment-interchange metathesis is utilized to prepare novel meta-block copolymers containing HNBR segments. Another significant trend is the development of advanced compounding techniques to create highly structured matrix-domain morphologies. In these systems, low-acrylonitrile NBR is dispersed as conductive domains within high-resistivity matrices (such as epichlorohydrin or acrylic polyols) to achieve a volume resistivity ratio of 1.00x10^5 or higher. This precise phase separation is critical for electrophotographic components, where it prevents local charge accumulation and abnormal electrical discharge. Furthermore, the integration of nanomaterials and bio-derived fillers is explored, highlighting emulsion compounding with ion flocculation to achieve completely delaminated graphene oxide/NBR nanocomposites, and the development of melt-flowable biolignin to overcome the processing limitations of dry-compounding lignin fillers. Together, these disclosures provide a comprehensive framework for the design, synthesis, and high-value application of low-acrylonitrile nitrile rubber technologies.",
+  "methodology_patents": [
+    {
+      "patent_details": {
+        "patent_number": "US7919563B2",
+        "patent_title": "Low molecular weight hydrogenated nitrile rubber",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2011",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Discloses a process for preparing low molecular weight hydrogenated nitrile rubber (HNBR) with repeating units of conjugated diene and acrylonitrile, which can have low acrylonitrile content (e.g., 1 to 18%).",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Monomers: Acrylonitrile and Butadiene",
+          "Acrylonitrile content: 1 to 18% (by IR spectroscopy)",
+          "Catalyst: Grubbs' catalyst (ruthenium carbene)",
+          "Co-olefin: 1-hexene (150 g)",
+          "Solvent: Monochlorobenzene (MCB) (1133 g or 1175 g)",
+          "Reaction Temperature: 80 °C",
+          "Mooney Viscosity: 3 to 50 (ML 1+4 @ 100 °C)",
+          "Polydispersity Index: Less than 2.5"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 1: 200 g of nitrile rubber was dissolved in 1133 g of monochlorobenzene (MCB) to form a 15 wt% solid cement.",
+        "Example 2: 200 g of rubber dissolved in 1133 g of MCB (15 wt% solid) subjected to metathesis.",
+        "Example 3: 75 g of rubber dissolved in 1175 g of MCB (6 wt% solid) with catalyst load of 0.05 to 0.25 phr at 80 °C, yielding Mn of 27 kg/mol and Mw of 54 kg/mol.",
+        "Example 4: 75 g of rubber dissolved in 1175 g of MCB (6 wt% solid) with 150 g of 1-hexene co-olefin added to the reactor and degassed 3 times with dry N2."
+      ],
+      "technical_relevance": "Provides a metathesis-based degradation method to lower the molecular weight and Mooney viscosity of nitrile rubbers (including low-acrylonitrile variants) without altering their microstructure or introducing unwanted functional groups."
+    },
+    {
+      "patent_details": {
+        "patent_number": "EP3715957B1",
+        "patent_title": "Electro-conductive member, process cartridge image forming apparatus and a …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "EP",
+        "publication_year": "2022",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Relates to electro-conductive members utilizing cross-linked rubbers (which can include NBR/low-acrylonitrile NBR) in a matrix-domain structure to control electrical impedance and charge transfer.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Matrix rubber: Value not specified.",
+          "Domain rubber: Value not specified.",
+          "Conductive agent: Value not specified."
+        ]
+      },
+      "experimental_evidence": [
+        "No specific experimental examples of low acrylonitrile NBR polymerization disclosed in the supplied evidence.",
+        "The patent examples focus on the preparation of electro-conductive layers with matrix-domain structures and evaluating their impedance characteristics (slope of -0.8 to -0.3 at 10^5 to 10^6 Hz)."
+      ],
+      "technical_relevance": "Demonstrates the application of cross-linked nitrile rubbers in electrophotographic components, highlighting the importance of matrix-domain morphology and electrical properties."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US11340553B2",
+        "patent_title": "Process cartridge and electrophotographic apparatus",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2022",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Uses matrix-domain rubber structures where the matrix has high volume resistivity and the domains contain electron-conductive agents in a second rubber, relevant to NBR formulations.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Matrix rubber: SBR, EPDM, Butyl, or NBR",
+          "Domain rubber: Value not specified.",
+          "Volume resistivity ratio (matrix/domain): 1.00x10^5 or higher",
+          "Solid content of pigment: 23%, 88%, or 98%"
+        ]
+      },
+      "experimental_evidence": [
+        "Preparation 1: Synthesis of chlorogallium phthalocyanine pigment from 5.46 parts orthophthalonitrile and 3.75 parts gallium trichloride in 45 parts alpha-chloronaphthalene heated for 4.5 hours under nitrogen flow, yield 71%.",
+        "Preparation 2: Dissolving 4.65 parts chlorogallium phthalocyanine in 139.5 parts concentrated sulfuric acid, pouring into 1000 parts ice water, washing with 2% aqueous ammonia, freeze-drying to obtain hydroxygallium phthalocyanine with 23% solid content.",
+        "Preparation 3 & 4: Further processing of hydroxygallium phthalocyanine to obtain solid contents of 88% and 98% and mixing with hydrochloric acid.",
+        "MRC Production Examples: Formulating raw rubbers (SBR, EPDM, Butyl) with calcium carbonate (70 parts), zinc oxide (7 parts or 2.8 parts), and stearic acid (1.33 or 0.91 parts) to prepare electro-conductive layers."
+      ],
+      "technical_relevance": "Provides formulation details for compounding rubbers (including NBR) into matrix-domain structures with controlled electrical resistivity for electrophotographic applications."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US12486386B2",
+        "patent_title": "Process for regenerating a monolithic, macro-structural, inter-penetrating …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2025",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Relates to the delamination and modification of vulcanized rubber matrices (which can include NBR) via sulfidic metathesis to form interpenetrating networks.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Vulcanized rubber particles: 100 parts by weight",
+          "Organometallic compound: 0.1 to 5.0 parts per hundred parts rubber",
+          "Metal ions: Co2+, Cu2+, Ni2+, Zn2+, or Mn2+",
+          "Ligand: Organic anion (e.g., acetate)",
+          "Reaction Temperature: Ambient (maintained by cooling jacket) or 100-150 °C for phase change of salt",
+          "Particle size: Greater than 200 mesh"
+        ]
+      },
+      "experimental_evidence": [
+        "General Procedure 1: Vulcanized rubber particles (GTRP) are mixed with an organometallic compound (e.g., copper acetate) in an electromechanical reactor.",
+        "The reactor applies differential-cyclical mechanical stress and steric field polarization to induce delamination of the rubber matrix.",
+        "Sulfidic linkages are disrupted via a sulfidic metathesis reaction and reestablished to form sulfur bridge cross-linked, re-aligned laminates with average spacing of 10 nm to 5 microns."
+      ],
+      "technical_relevance": "Discloses a novel chemical and mechanical process (sulfidic metathesis) to break and reform sulfur crosslinks in rubber matrices, which is applicable to recycling and modifying NBR and other elastomers."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US20230015442A1",
+        "patent_title": "Method for separating and recovering lignin and meltable flowable biolignin …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2023",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Mentions the integration of lignin with nitrile rubber (NBR) or acrylonitrile butadiene as a nano-filler, and addresses the flowability and processing of such composites.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Lignin solvent: n-butanol, butyl acetate, butyl ester, or furfural",
+          "Biomass type: Lignocellulosic biomass",
+          "Glass transition temperature (Tg) of softwood kraft lignin: 169 °C to 180 °C"
+        ]
+      },
+      "experimental_evidence": [
+        "No specific experimental examples of low acrylonitrile NBR polymerization disclosed in the supplied evidence.",
+        "The patent describes a method of making a biofuel feedstock by heating and pressurizing a mixture of biomass, non-polar lignin solvent, water, and carrier fluid to solubilize lignin, separating the pulp, and evaporating the solvent to leave a flowable biopolymer lignin.",
+        "Discusses prior art (U.S. Pat. No. 9,453,129) where dry lignin powder is used as a nano-filler in nitrile rubber (acrylonitrile butadiene) and notes its limitations in flowability and rheology."
+      ],
+      "technical_relevance": "Highlights the compounding challenges of using lignin as a bio-filler in nitrile rubber (NBR) and provides methods to obtain meltable, flowable lignin that can be better integrated into rubber matrices."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US10869391B2",
+        "patent_title": "Garment-type electronic device and method for producing same",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2020",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Utilizes synthetic rubbers (such as NBR) as stretchable binders for conductive compositions in wearable electronics.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Binder resin: Silicone, polyurethane, natural rubber, or synthetic rubber",
+          "Silicone curing conditions: Room temperature over 24 hours",
+          "Silicone thickness: 5 mm",
+          "Stretching ratio: 10%"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 1: A stretchable conductor composition was printed and evaluated for electrical conductivity maintenance under 10% stretching.",
+        "Example 5: A two-component curable silicone resin was poured into a screen to a thickness of 5 mm and cured at room temperature over 24 hours, followed by evaluation of conductivity under 10% stretching.",
+        "Example 120: A two-component curable silicone resin was poured and cured at room temperature over 24 hours."
+      ],
+      "technical_relevance": "Demonstrates the formulation of stretchable conductive inks using synthetic rubber binders, which can include low-acrylonitrile NBR, to maintain electrical conductivity under physical deformation."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US11971683B2",
+        "patent_title": "Electrophotographic electro-conductive member, process cartridge, and …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2024",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Specifically utilizes NBR (e.g., N215SL, which is a low/medium acrylonitrile NBR) as a rubber component in a matrix-domain electro-conductive layer.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "First rubber (matrix): Caprolactone-modified acrylic polyol (100 parts by mass, 70% solid content)",
+          "Second rubber (domain): BR, IR, or NBR (e.g., N215SL)",
+          "NBR Mooney viscosity: 45",
+          "NBR SP value: 18.6",
+          "Mixing equipment: 6 L pressurized kneader",
+          "Mixing conditions: 70 vol% filling rate, 30 rpm blade speed, 16 to 18 minutes",
+          "Coating drying conditions: Room temperature for 30 minutes, then hot-air circulating dryer at 90 °C"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 1: Prepared Carbon Masterbatch (CMB) for domain formation using a 6 L pressurized kneader with a filling rate of 70 vol%, blade rotation speed of 30 rpm, mixed for 16 to 18 minutes. Second rubber used was NBR (N215SL, Mooney viscosity 45).",
+        "Example 2: Prepared a mixed solution with 1,000 parts by mass of caprolactone-modified acrylic polyol solution (solid content 100 parts by mass) and materials in Table 7. Coated product was dried at room temperature for 30 minutes, then at 90 °C.",
+        "Comparative Examples 8 & 9: Prepared electrophotographic electro-conductive members C8 and C9 with matrix-domain structures, but observed 0% of domains satisfying the specific circularity requirements (B1) and (B2)."
+      ],
+      "technical_relevance": "Discloses precise compounding and mixing parameters for low/medium acrylonitrile NBR (N215SL) to form highly spherical, well-dispersed domains in a matrix-domain electro-conductive layer, preventing electrical field concentration."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US11137716B2",
+        "patent_title": "Process cartridge and electrophotographic apparatus",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2021",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Formulates unvulcanized rubber compositions using acrylonitrile butadiene rubber (Nipol DN401LL, which is a low-acrylonitrile NBR with ~18% AN content) to create matrix-domain structures.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "First rubber (matrix): Epichlorohydrin rubber (EO-EP-AGE terpolymer, 100 parts)",
+          "Second rubber (domain): Acrylonitrile butadiene rubber (Nipol DN401LL, 70 parts) and epichlorohydrin terpolymer (30 parts)",
+          "Domain rubber filler: Carbon black (ASAHI #35G, 40 parts)",
+          "Vulcanization aid: Zinc stearate (3.0 parts)",
+          "Kneader: 6 L or 7 L pressurized kneader",
+          "Mixing conditions: 70 vol% filling rate, 30 rpm blade speed, 16 to 20 minutes",
+          "Vulcanizing agent: Sulfur (3.0 parts or 1.8 parts)",
+          "Accelerators: Dibenzothiazyl disulfide (2.5 parts), tetraethylthiuram disulfide (2.0 parts)"
+        ]
+      },
+      "experimental_evidence": [
+        "Example: Mixed 70 parts of acrylonitrile butadiene rubber (Nipol DN401LL) and 30 parts of epichlorohydrin terpolymer as unvulcanized rubber with 40 parts carbon black and 3.0 parts zinc stearate in a 7 L closed kneader for 15 minutes.",
+        "CMB and MRC Mixing: Mixed 25 parts of CMB 1 and 85 parts of MRC1 using a 6 L pressure kneader at 70 vol% filling rate, 30 rpm, for 16 to 20 minutes.",
+        "Vulcanization: Added 3 parts of sulfur and 1 part of tetramethylthiuram disulfide to 100 parts of the CMB/MRC mixture, and vulcanized.",
+        "Evaluation: Conducted scanning probe microscopy (SPM) under 23 °C and 50% RH to observe the matrix-domain structure on a grounded metal plate."
+      ],
+      "technical_relevance": "Provides a detailed formulation and compounding process using a commercial low-acrylonitrile NBR (Nipol DN401LL) to achieve a matrix-domain structure with a high volume resistivity ratio (matrix/domain >= 10^5) to suppress transfer black spots."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US9376537B2",
+        "patent_title": "Process for preparing completely delaminated graphene oxide/rubber …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2016",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Discloses the preparation of graphene oxide/rubber nanocomposites using acrylonitrile butadiene latex (NBR) to achieve highly dispersed and delaminated morphology.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Graphene oxide/water sol: 0.01 to 20 wt% solid content",
+          "Ultrasonic treatment: 10 to 2000 W, 10 to 20000 Hz, 10 min to 6 h, 0 to 100 °C",
+          "Surfactant: Butadiene-vinylpyridine latex (40 wt% solid content)",
+          "Rubber latex: Acrylonitrile butadiene latex (28 wt% solid content, 357 g)",
+          "Flocculant: Dilute hydrochloric acid (1% concentration)",
+          "Compounding formulation: Zinc oxide (5 parts), stearic acid (2 parts), sulfur (2.5 parts), accelerators (1.5 and 0.2 parts), antioxidant (2 parts)"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 1-9: Prepared graphene oxide/water sol by dispersing 10 g graphite oxide in 10 L water, treating with ultrasonic waves (800 W, 1000 Hz, 25 °C) for 2 h to get 0.1 wt% sol.",
+        "Pretreatment: Mixed graphene oxide/water sol (100 g to 40000 g) with butadiene-vinylpyridine latex (0.625 g to 250 g) for 10 min at 500 r/min.",
+        "Compounding: Added 500 g SBR latex (20 wt% solid content) and mixed for 20 min at 500 r/min.",
+        "Contrast 6 (NBR): Added 1% dilute hydrochloric acid to 357 g acrylonitrile butadiene latex (28 wt% solid content) to perform flocculation, washed with water, and mixed with pretreated graphene oxide/water dispersion (1000 g sol + 1 g carboxylic NBR latex) and 357 g NBR latex for 1 h at 1000 r/min.",
+        "Vulcanization: Mixed the nanocomposite on a two-roll mill with 5 parts zinc oxide, 2 parts stearic acid, 1.5 parts accelerator, 0.2 parts accelerator, 2 parts antioxidant, and 2.5 parts sulfur, followed by vulcanization."
+      ],
+      "technical_relevance": "Demonstrates a latex-based compounding method (emulsion compounding with ion flocculation) to highly disperse graphene oxide in NBR, significantly improving tensile strength and air barrier properties."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US11586121B2",
+        "patent_title": "Electrophotographic electro-conductive member, process cartridge, and …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2023",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Relates to electrophotographic electro-conductive members with a matrix-domain structure containing crosslinked rubbers (such as NBR) to optimize charge supply and reduce fogging.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Matrix rubber: First crosslinked rubber",
+          "Domain rubber: Second crosslinked rubber",
+          "Electron conductive agent: Carbon black",
+          "Impedance: 1.0x10^4 to 1.0x10^11 ohm (at 10^-2 to 10^1 Hz)",
+          "Slope of impedance: -0.8 to -0.3 (at 10^6 to 10^7 Hz)",
+          "Environmental conditions: 23 °C, 50% RH (measurement), 85% RH for 6 hours (standing)"
+        ]
+      },
+      "experimental_evidence": [
+        "Example: Prepared an electro-conductive layer with a matrix-domain structure and a surface layer.",
+        "Impedance was measured under 23 °C and 50% RH by applying 1 V AC voltage between the support and a platinum electrode.",
+        "The member was left to stand at 85% RH for 6 hours to evaluate charge supply and fogging reduction in high-speed processes."
+      ],
+      "technical_relevance": "Establishes target electrical impedance profiles for matrix-domain rubber systems (including NBR) to ensure rapid charge transport and prevent toner charge variation."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US11474442B2",
+        "patent_title": "Electrophotographic apparatus, process cartridge, and cartridge set",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2022",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Utilizes a conductive member with a matrix-domain rubber structure (where NBR can be the domain or matrix rubber) to prevent abnormal discharge and white spots in halftone images.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Matrix volume resistivity (R1): Greater than 1.00x10^12 ohm-cm",
+          "Domain volume resistivity (R2): Smaller than R1",
+          "Toner dielectric loss tangent: At least 0.0027",
+          "Toner load: 350 g",
+          "Rubbing load: 55 g/cm^2",
+          "Environmental conditions: Low-temperature, low-humidity (15 °C, 10% RH)"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 1: A process cartridge was prepared with a conductive member in the charging unit and filled with 350 g of toner.",
+        "Halftone density uniformity was evaluated in a low-temperature, low-humidity environment (15.0 °C, 10.0% RH) and a very low-temperature, low-humidity environment.",
+        "Halftone density retention was evaluated in a high-temperature, high-humidity environment (85.0% RH).",
+        "Rubbing test: Halftone patch regions were rubbed 10 times with lens-cleaning paper under a load of 55 g/cm^2, and post-rubbing density retention was measured (target >= 75%)."
+      ],
+      "technical_relevance": "Details the environmental and physical testing of matrix-domain rubber charging rollers, showing how high-resistivity matrices combined with conductive domains prevent charge accumulation and abnormal discharge."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US11286376B2",
+        "patent_title": "Process for regenerating a monolithic, macro-structural, inter-penetrating …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2022",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Discloses a method for preparing a modified rubber matrix (which can include NBR) via phase reticulation induced sulfidic metathesis.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Elastomers: Two or more (e.g., virgin natural rubber, SBR, BR, or GTR-derived elastomer)",
+          "Laminate average spacing: 10 nm to 5 microns",
+          "Sheet thickness: 10 to 70 microns",
+          "Anisotropy ratio (length/width tensile strength): 1.1:1 to 3:1",
+          "Organometallic compound: Copper acetate (or Co2+, Ni2+, Zn2+, Mn2+ salts)",
+          "Phase change temperature of salt: 100-150 °C"
+        ]
+      },
+      "experimental_evidence": [
+        "General Procedure 1: Ground tire rubber particles (GTRP) are subjected to sulfidic metathesis using an organometallic compound (e.g., copper acetate) in an electromechanical reactor.",
+        "The process dissociates transverse sulfuric bridges from pendant elastomer bonds, forming an interpenetrating network of two or more elastomers.",
+        "The resulting matrix is formed into sheets of 10 to 70 microns thickness, vacuum-heat fused, and oriented at 30 to 45 degrees to the anisotropic grain of adjacent sheets, exhibiting a tensile strength anisotropy of 1.1:1 to 3:1."
+      ],
+      "technical_relevance": "Provides a method to chemically restructure vulcanized rubber networks, allowing the blending of different elastomer backbones (such as NBR and SBR/NR) into a cohesive, high-performance interpenetrating network."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US10131726B2",
+        "patent_title": "Ethylene/α-olefin/non-conjugated polyene copolymer, and production process and …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2018",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Discloses blends of ethylene/alpha-olefin copolymers with diene rubbers (including NBR) to improve weatherability, thermal resistance, and dynamic properties.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Ethylene/alpha-olefin molar ratio: 55/45 to 85/15",
+          "Non-conjugated polyene (VNB) weight fraction: 0.07% to 10% by weight",
+          "Polymerization feed rates: Ethylene (50 g/h), Propylene (38 g/h), VNB (6.1 g/h)",
+          "Polymerization time: 30 min",
+          "Resin formulation: Copolymer (30 or 50 parts), SBR 1502 (70 or 50 parts)",
+          "Organic peroxide: Dicumyl peroxide (3.4 parts of a 40% dilution)",
+          "Electron beam irradiation dose: 60 kGy"
+        ]
+      },
+      "experimental_evidence": [
+        "Preparation 1 & 2: Ethylene (50 g/h), propylene (38 g/h), and 5-vinyl-2-norbornene (VNB, 6.1 g/h) were continuously polymerized for 30 min to obtain the copolymer.",
+        "Example 14: Formulated a resin component with 30 or 50 parts copolymer and 70 or 50 parts SBR 1502, subjected to electron beam irradiation at a scheduled surface dose of 60 kGy, and evaluated under loads of 50%, 100%, and 145%.",
+        "Example 16: Added 3.4 parts by mass of a 40% dilution of dicumyl peroxide to the rubber blend, banded the mixture, and vulcanized under loads of 50%, 100%, and 145%."
+      ],
+      "technical_relevance": "Describes the synthesis of low-branching EPDM copolymers and their blending with diene rubbers (such as NBR) to achieve fast co-crosslinking and high dynamic fatigue resistance without phase separation."
+    },
+    {
+      "patent_details": {
+        "patent_number": "EP2057205B1",
+        "patent_title": "Production of meta-block copolymers by polymer segment interchange",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "EP",
+        "publication_year": "2017",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Discloses the synthesis of meta-block copolymers via cross-metathesis of ethylenically unsaturated polymers, specifically exemplifying the use of hydrogenated nitrile butadiene rubber (HNBR).",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Polymer reagents: Partially-hydrogenated polybutadiene (HPBD) and partially-hydrogenated nitrile/butadiene rubber (HNBR)",
+          "Polymer amounts: 0.25 g each",
+          "Solvent: Toluene",
+          "Reaction Temperature: 95 °C or 105 °C",
+          "Catalyst: Grubbs II metathesis catalyst (8 mg or 9 mg)",
+          "Unsaturated polymer reagent ethylenic unsaturation: 0.001 to 10 mole percent",
+          "Extraction solvent: Tetrahydrofuran (30 ml or 50 ml)"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 1: A toluene solution containing 0.25 g each of HPBD and HNBR was warmed to 95 °C, and 8 mg of Grubbs II catalyst was added. Volatiles were removed under reduced pressure to recover 0.45 g of product. SAXS data showed no microphase order at 300 °C, consistent with a random block distribution.",
+        "Example 6: A toluene solution of 0.25 g fumaryl-modified polycarbonate and 0.25 g poly(ethylene-co-octene-co-butadiene) was warmed to 105 °C, and 9 mg of Grubbs II catalyst was added, yielding 0.47 g of polymer product showing microphase order at 300 °C.",
+        "Example 7: A toluene solution of 0.10 g poly(ethylene-co-butadiene) and 0.40 g poly(ethylene-co-octene-co-butadiene) was warmed to 105 °C, yielding 0.47 g of recovered polymer analyzed by CRYSTAF.",
+        "Example 8: Recovered product was extracted with 30 ml THF overnight to remove non-metathesized unsaturated poly(ethylene oxide), showing microphase order at 280 °C.",
+        "Example 10: Recovered 0.71 g of polymer product and extracted with 50 ml THF overnight."
+      ],
+      "technical_relevance": "Demonstrates a segment-interchange metathesis process to prepare block copolymers containing HNBR segments, allowing the customization of block lengths and physical properties (e.g., Tg, Tm) of nitrile rubber derivatives."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US10870724B2",
+        "patent_title": "High heat monomers and methods of use thereof",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2020",
+        "priority_date": null,
+        "legal_status": null,
+        "polymer_type": null,
+        "relevance_to_target": "Discloses high-purity epoxides and preparation methods (using epichlorohydrin, which is also a monomer in some NBR-hybrid systems) to achieve low viscosity and high thermal performance.",
+        "relevance_tier": "PRIMARY"
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Monomers: Epichlorohydrin (ECH) and PPPBP",
+          "PPPBP/ECH ratio: 0.01/0.06 to 0.01/0.145 (mol/mol)",
+          "Base: 50% aq sodium hydroxide (1.2 g)",
+          "Catalyst/Phase transfer agent: TBAB (1.61 g)",
+          "Reaction Temperature: 75 °C, 80 °C, or 90 °C",
+          "Reaction time prior to base addition: 40 min",
+          "Base addition time: 2.5 hours",
+          "Stirring time: 8 to 12 hours at 20-24 °C",
+          "Purity: 95% or greater (up to 99% by HPLC)",
+          "Oligomer impurity content: Less than or equal to 1%"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 4: Epichlorohydrin and PPPBP were reacted at temperatures of 75 °C, 80 °C, or 90 °C with PPPBP/ECH ratios of 0.01/0.06 to 0.01/0.145. 1.2 g of 50% aq NaOH was added dropwise over 2.5 hours. Stirring was continued for 8-12 hours at 20-24 °C. Purity was determined to be 70.6% to 75.4% by HPLC with 21% to 27% oligomer content.",
+        "Example 5: Evaluated viscosity of epoxy resins with 97% purity (3% oligomer) vs 88% purity (12% oligomer) at temperatures from 115 °C to 140 °C, showing a 32-33% viscosity increase for the lower purity resin.",
+        "Formulation: Curable compositions prepared with 16.5% or 15-17% excess epoxy equivalents, showing 23% higher impact strength and 38% decreased water absorption compared to tetra-functional epoxy controls."
+      ],
+      "technical_relevance": "Provides synthesis and purification methods for epichlorohydrin-based monomers, which are highly relevant to the production of epichlorohydrin-modified nitrile rubber hybrids and high-performance thermosets."
+    }
+  ],
+  "cross_patent_comparison": [
+    "Monomer Content and Ratios: US7919563B2 focuses on low-acrylonitrile HNBR with 1-18% acrylonitrile content. US11137716B2 utilizes Nipol DN401LL, a commercial low-acrylonitrile NBR with approximately 18% acrylonitrile content. Other patents like US11971683B2 utilize N215SL, which represents a medium-low acrylonitrile grade.",
+    "Polymerization and Modification Processes: Olefin metathesis is a key recurring theme. US7919563B2 uses olefin metathesis (Grubbs' catalyst) for molecular weight reduction of HNBR. EP2057205B1 uses segment-interchange metathesis (Grubbs II) to create HNBR-containing block copolymers. US12486386B2 and US11286376B2 use sulfidic metathesis to delaminate and restructure vulcanized rubber matrices.",
+    "Compounding and Morphology: US11137716B2, US11971683B2, US11586121B2, and US11474442B2 all focus on matrix-domain structures for electrophotographic rollers, where NBR is compounded with epichlorohydrin or acrylic polyols to achieve a high volume resistivity ratio (matrix/domain >= 10^5) and highly spherical domains to prevent electrical field concentration.",
+    "Nanocomposites and Fillers: US9376537B2 utilizes emulsion compounding with ion flocculation to disperse graphene oxide in NBR latex, while US20230015442A1 discusses the challenges of dry-compounding lignin as a nano-filler in NBR and proposes melt-flowable biolignin alternatives."
+  ],
+  "conclusion": "In conclusion, the patent evidence demonstrates that low-acrylonitrile NBR and HNBR (1-18% acrylonitrile) can be precisely synthesized and modified to meet demanding physical and electrical specifications. The use of ruthenium-catalyzed olefin metathesis represents the state-of-the-art for reducing Mooney viscosity while maintaining microstructural integrity. For advanced applications, such as electrophotographic charging members, compounding low-acrylonitrile NBR into matrix-domain structures with a volume resistivity ratio of at least 1.00x10^5 is highly recommended to ensure uniform charge transfer. Future development should leverage emulsion compounding and liquid-phase metathesis to seamlessly integrate nanomaterials and bio-fillers, thereby expanding the performance envelope of nitrile rubber composites.",
+  "references": [
+    "US7919563B2 | Low molecular weight hydrogenated nitrile rubber | Not disclosed in the available patent text. | US | 2011 | https://patents.google.com/patent/US7919563B2/en",
+    "EP3715957B1 | Electro-conductive member, process cartridge image forming apparatus and a … | Not disclosed in the available patent text. | EP | 2022 | https://patents.google.com/patent/EP3715957B1/en",
+    "US11340553B2 | Process cartridge and electrophotographic apparatus | Not disclosed in the available patent text. | US | 2022 | https://patents.google.com/patent/US11340553B2/en",
+    "US12486386B2 | Process for regenerating a monolithic, macro-structural, inter-penetrating … | Not disclosed in the available patent text. | US | 2025 | https://patents.google.com/patent/US12486386B2/en",
+    "US20230015442A1 | Method for separating and recovering lignin and meltable flowable biolignin … | Not disclosed in the available patent text. | US | 2023 | https://patents.google.com/patent/US20230015442A1/en",
+    "US10869391B2 | Garment-type electronic device and method for producing same | Not disclosed in the available patent text. | US | 2020 | https://patents.google.com/patent/US10869391B2/en",
+    "US11971683B2 | Electrophotographic electro-conductive member, process cartridge, and … | Not disclosed in the available patent text. | US | 2024 | https://patents.google.com/patent/US11971683B2/en",
+    "US11137716B2 | Process cartridge and electrophotographic apparatus | Not disclosed in the available patent text. | US | 2021 | https://patents.google.com/patent/US11137716B2/en",
+    "US9376537B2 | Process for preparing completely delaminated graphene oxide/rubber … | Not disclosed in the available patent text. | US | 2016 | https://patents.google.com/patent/US9376537B2/en",
+    "US11586121B2 | Electrophotographic electro-conductive member, process cartridge, and … | Not disclosed in the available patent text. | US | 2023 | https://patents.google.com/patent/US11586121B2/en",
+    "US11474442B2 | Electrophotographic apparatus, process cartridge, and cartridge set | Not disclosed in the available patent text. | US | 2022 | https://patents.google.com/patent/US11474442B2/en",
+    "US11286376B2 | Process for regenerating a monolithic, macro-structural, inter-penetrating … | Not disclosed in the available patent text. | US | 2022 | https://patents.google.com/patent/US11286376B2/en",
+    "US10131726B2 | Ethylene/α-olefin/non-conjugated polyene copolymer, and production process and … | Not disclosed in the available patent text. | US | 2018 | https://patents.google.com/patent/US10131726B2/en",
+    "EP2057205B1 | Production of meta-block copolymers by polymer segment interchange | Not disclosed in the available patent text. | EP | 2017 | https://patents.google.com/patent/EP2057205B1/en",
+    "US10870724B2 | High heat monomers and methods of use thereof | Not disclosed in the available patent text. | US | 2020 | https://patents.google.com/patent/US10870724B2/en"
+  ]
+}

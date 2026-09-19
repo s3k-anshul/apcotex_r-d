@@ -1,0 +1,478 @@
+[
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US5770660A/en",
+      "patent_number": "US5770660A",
+      "patent_title": "Continuous polymerization process for producing NBR rubber having a high bound \u2026",
+      "assignee": "Not disclosed",
+      "publication_year": "1998",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "12",
+      ")",
+      "What is claimed is:",
+      "1. A continuous process for polymerizing acrylonitrile and butadiene monomers to produce substantially consistent composition and component distribution NBR rubbers having a bound acrylonitrile content of about fifty percent by weight comprising the steps of:",
+      "continuously charging quantities of acrylonitrile monomer and butadiene monomer in a ratio of about 80 parts acrylonitrile to 20 parts\u00b110% butadiene and quantities of at least one polymerization initiator, water and at least one emulsifying agent to a first reaction vessel in amounts effective to produce a latex;",
+      "continuously copolymerizing the acrylonitrile and butadiene monomers in the first reaction vessel to achieve and maintain a ratio of unconverted monomers in the range of about 70 to 90 parts acrylonitrile to about 30 to 10 parts butadiene;",
+      "continuously transferring the copolymerized acrylonitrile and butadiene, acrylonitrile monomer, butadiene monomer, polymerization initiator, water and emulsifying agent from the first reaction vessel to a second reaction vessel;",
+      "continuously charging additional monomer consisting essentially of butadiene to the second reaction vessel effective to maintain a ration of unconverted monomers in the range of about 70 to 90 parts acrylonitrile to about 30 to 10 parts butadiene; and",
+      "continuing the steps of copolymerizing, transferring and adding butadiene until the total quantity of butadiene added is equal to the amount necessary to obtain monomer conversion of about 75% to 90% and final copolymer composition of about 50% acrylonitrile in a last reaction vessel."
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "EXAMPLE I",
+        "example_type": "Extracted Example",
+        "title": "EXAMPLE I",
+        "raw_text": "EXAMPLE I\nIn this Example, a conventional batch process was employed using the quantities of reagents specified in Table II. A single quantity of 21 parts butadiene monomer was added to the batch reactor with 54 parts acrylonitrile monomer. This amount of butadiene was sufficient to reach 50.2 percent conversion, about 2.4 times the parts of butadiene charged, rather than the maximum conversion based on 75 parts per hundred total monomer. Shortstop was added after all the butadiene was consumed and copolymerization stopped. The resulting polymer contained 59.5 percent by weight bound acrylonitrile. This example shows that a conventional batch process can produce high bound acrylonitrile with the limitations of low monomer conversion (67 percent of the monomer charged) and widely varying monomer ratio.\nEXAMPLE II\nIn this Example, a batch process was employed in which 37 parts butadiene monomer were added to 54 parts acrylonitrile monomer in two increments. Initially, 21 parts butadiene monomer were charged to the batch reactor with the entire quantity of acrylonitrile monomer. Upon conversion of 35 percent of the total monomer to copolymer, an additional 16 parts butadiene monomer were added. The combined amount of butadiene was sufficient to reach 73.3 percent conversion, about 2 times the parts of butadiene charged, rather than the maximum conversion based on 91 parts per hundred total monomer. Shortstop was added after all the butadiene was consumed and copolymerization stopped. The resulting polymer contained 52.6 percent by weight bound acrylonitrile. This example shows that a two-increment batch process with a limited amount of butadiene can produce high bound acrylonitrile with improved monomer conversion, 81 percent of the monomer charged. However, the monomer ratio still varies widely due to the complete consumption of butadiene with an excess of acrylonitrile.\nEXAMPLE III\nAcrylonitrile and butadiene were charged as in Example II, and polymerization was allowed to proceed to a maximum conversion of 73.6 percent before shortstop was added. A bound acrylonitrile content of 54.9 percent in the copolymer was obtained.\nEXAMPLE IV\nA batch process was employed in which 46 parts of butadiene were added to 54 parts acrylonitrile in three increments. Initially, 21 parts butadiene monomer were charged to the batch reactor with the entire quantity of acrylonitrile monomer. Upon conversion of 35 percent total monomer to copolymer, an additional 16 parts butadiene monomer were added to the batch reactor. Subsequently, when 65 percent of the total monomer had been converted, an additional 9 parts butadiene monomer were added to the batch reactor. The reaction was shortstopped at 85.2 percent conversion before all butadiene was consumed and copolymerization stopped. The bound acrylonitrile content of the copolymer was 50.5 percent. This example shows that three increments of butadiene are preferred to two increments to achieve high bound acrylonitrile at high conversion of monomer without depletion of butadiene.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "EXAMPLE V",
+        "example_type": "Extracted Example",
+        "title": "EXAMPLE V",
+        "raw_text": "EXAMPLE V\nIn this Example, 56 parts acrylonitrile were charged with a total of 43 parts butadiene monomer, added in four increments. The initial butadiene charge consisted of 22 parts, and upon conversion of 32 percent of the total monomer, an additional 8 parts butadiene monomer were added. Subsequently, at conversions of 52 and 72 percent of the total monomer, an additional 7 and 6 parts butadiene monomer were added. Polymerization was shortstopped at a final conversion of 81.9 percent. The bound acrylonitrile content resulting from this conversion was 50.2 percent.\nEXAMPLE VI\nAcrylonitrile and butadiene were charged and polymerized as in Example V. A final conversion of 86.8 percent of total monomer resulted in a bound acrylonitrile content of 50.6 percent.\nEXAMPLE VII\nIn a continuous process with 5 reaction vessels, 56 parts acrylonitrile and 20 parts butadiene were continuously charged in a first reaction vessel. A steady-state conversion of 24 percent was maintained in the first vessel. An additional 6 parts butadiene were continuously charged to a second reaction vessel in which a steady-state conversion of 40 percent was maintained. A third increment of 6 parts butadiene was continuously charged to a third reaction vessel in which a steady-state conversion of 56 percent was maintained. Fourth and fifth increments of 6 parts butadiene were continuously charged to fourth and fifth reaction vessels in which steady-state conversions of 72 and 82 percent were maintained. The latex was shortstopped at 82 percent conversion as it exited the final reactor. The bound acrylonitrile content was 48.8%.\nAs summarized in Table V, the tensile strength and environmental resistance properties resultant in the continuously produced NBR are substantially superior to those found in batch processed NBR. In Batch Process 1, three increments of butadiene monomer were charged to a single reactor, with second and third charges added after a target conversion was attained. Batch Process 2 represents a commercial product also employing a batch process and believed to employ incremental additions of butadiene monomer. Continuous Process represents the continuous process of NBR copolymerization of the present invention.\nMany of the advantages of the method according to the present invention are illustrated by the data in Table V. For example, the continuous process NBR has a substantially higher tensile strength and elastic modulus than either of the batch processed copolymers. Similarly, the reduction in tensile strength resulting from immersion in fuels is in most cases substantially reduced for the continuous process NBR as compared to those for batch processed NBR. Swelling associated with this fuel exposure is also reduced for the continuous process NBR, and fuel permeation is considerably reduced.\nTABLE V                                 \n__________________________________________________________________________\n                                BATCH BATCH CONTINUOUS                    \nPOLYMER TYPE                    PROCESS 1                                 \n                                      PROCESS 2                           \n                                            PROCESS                       \n__________________________________________________________________________\nFINAL POLYMER PROPERTIES                                                  \nBound AN (% w/w)                46    47    47.2                          \nRaw Mooney Viscosity            --.sup.1                                  \n                                      45    48                            \nM.sub.n /1000                   --    66.3  57.5                          \nM.sub.w /1000                   --    312   273                           \nM.W.D.                          --    4.71  4.75                          \nM.sub.z /10.sup.6               --    12.4  2.66                          \nM.sub.z+1 /10.sup.6             --    60.2  15.5                          \nCMPD Mooney Viscosity           58    49    70                            \nMOONEY SCORCH (at 270\u00b0 F.)                                         \nMin to 5 Pt rise                9.6   10.8  10.6                          \nMin Reading                     20    15    23                            \nRHEOGRAPH PROPERTIES (Model OPR, 325\u00b0 F., 30 minutes)              \nMin Torque (in-lb)              5.9   3.7   5.7                           \nMax Torque (in-lb)              81.3  79.0  99.3                          \nT2, (min)                       1.94  1.95  2.09                          \nT90, (min)                      6.29  4.77  7.70                          \nCure Rate (in-lb/min)           15.0  23.2  14.6                          \nPRESS CURE (at 325\u00b0 F.)                                            \nTensile strength (psi)                                                    \nat 15 min                       1995  1859  2174                          \nat 25 min                       1952  1910  2271                          \nElongation (percent)                                                      \nat 15 min                       394   384   392                           \nat 25 min                       387   383   385                           \nModulus (100 percent)                                                     \nat 15 min                       717   585   750                           \nat 25 min                       733   624   795                           \nModulus (300 percent)                                                     \nat 15 min                       1546  1348  1661                          \nat 25 min                       1545  1408  1762                          \nFREON PERMEATION (lb/ft/yr, 1/2\" hose)                                    \n                                1.03  1.19  0.62                          \nFUEL EXPOSURE                                                             \nAfter immersion in Gasohol (80/20 Gasoline/Methanol, 70 hrs at room temp) \nChange in tensile               -59.6 -62.7 -60.8                         \nstrength (percent)                                                        \nChange in Elongation            -36.6 -25.9 -29.6                         \n(percent)                                                                 \nVolume Change (percent)         40.5  33.8  33.4                          \nAfter immersion in Sour Gasoline (70 hrs at room temp)                    \nChange in tensile               -43.0 -51.8 -44.6                         \nstrength (percent)                                                        \nChange in Elongation            -20.9 -18.5 -11.9                         \n(percent)                                                                 \nVolume Change (percent)         28.6  23.8  25.9                          \nAfter immersion in Fuel B (70 hrs at room temp)                           \nChange in tensile               -28.3 -40.3 -25.0                         \nstrength (percent)                                                        \nChange in Elongation            -10.4 -18.0 -8.7                          \n(percent)                                                                 \nVolume Change (percent)         16.5  16.1  9.6                           \nAfter immersion in Fuel C (70 hrs at room temp)                           \nChange in tensile               -44.9 -51.8 -39.8                         \nstrength (percent)                                                        \nChange in Elongation            -24.7 -24.7 -12.1                         \n(percent)                                                                 \nVolume Change (percent)         30.8  24.1  24.9                          \nPERMEATION BY FUEL C            82.8  55.1  46.7                          \n(g/m/day)                                                                 \nOIL EXPOSURE (70 hrs at 212\u00b0 F.)                                   \nAfter immersion in No. 1 Oil                                              \nChange in tensile               22.2  -4.5  -1.6                          \nstrength (percent)                                                        \nChange in Elongation            -20.4 -24.9 -24.5                         \n(percent)                                                                 \nVolume Change (percent)         -5.1  -4.2  -5.1                          \nAfter immersion in No. 3 Oil                                              \nChange in tensile               6.3   0.2   -0.3                          \nstrength (percent)                                                        \nChange in Elongation            -23.4 -16.8 -20.4                         \n(percent)                                                                 \nVolume Change (percent)         -0.4  0.7   -2.1                          \nOVEN AGING (70 hrs)                                                       \nat 257\u00b0 F.                                                         \nChange in tensile               13.5  7.8   7.0                           \nstrength (percent)                                                        \nChange in Elongation            -31.6 -30.4 -38.0                         \n(percent)                                                                 \nat 300\u00b0 F.                                                         \nChange in tensile               3.8   -3.8  -7.5                          \nstrength (percent)                                                        \nChange in Elongation            -70.7 -58.0 -79.5                         \n(percent)                                                                 \nLOW TEMPERATURE RETRACTION      -10.9 -7.7  -7.2                          \nTemperature of 0 percent retraction                                       \n__________________________________________________________________________\n \"--\" indicates that data was not available\nThe present invention has been described with respect to certain embodiments and conditions, which are not meant to and should not be construed to limit the invention. Those skilled in the art will understand that variations from the embodiments and conditions described herein may be made without departing from the invention as claimed in the appended claims.",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "Continuous polymerization process for producing NBR rubber having a high bound content of acrylonitrile \n       \nAbstract\nAn improved continuous process for the production of nitrile butadiene rubber with high bound acrylonitrile is provided wherein incremental amounts of butadiene monomer are continuously added in each of a plurality of reaction vessels to obtain a copolymer having superior environmental resistance and tensile strength properties.\nClaims (\n12\n)\nWhat is claimed is:\n1. A continuous process for polymerizing acrylonitrile and butadiene monomers to produce substantially consistent composition and component distribution NBR rubbers having a bound acrylonitrile content of about fifty percent by weight comprising the steps of:\ncontinuously charging quantities of acrylonitrile monomer and butadiene monomer in a ratio of about 80 parts acrylonitrile to 20 parts\u00b110% butadiene and quantities of at least one polymerization initiator, water and at least one emulsifying agent to a first reaction vessel in amounts effective to produce a latex;\ncontinuously copolymerizing the acrylonitrile and butadiene monomers in the first reaction vessel to achieve and maintain a ratio of unconverted monomers in the range of about 70 to 90 parts acrylonitrile to about 30 to 10 parts butadiene;\ncontinuously transferring the copolymerized acrylonitrile and butadiene, acrylonitrile monomer, butadiene monomer, polymerization initiator, water and emulsifying agent from the first reaction vessel to a second reaction vessel;\ncontinuously charging additional monomer consisting essentially of butadiene to the second reaction vessel effective to maintain a ration of unconverted monomers in the range of about 70 to 90 parts acrylonitrile to about 30 to 10 parts butadiene; and\ncontinuing the steps of copolymerizing, transferring and adding butadiene until the total quantity of butadiene added is equal to the amount necessary to obtain monomer conversion of about 75% to 90% and final copolymer composition of about 50% acrylonitrile in a last reaction vessel.\n2. The continuous process of claim 1, wherein the quantity of butadiene monomer charged to the first reaction vessel is about one-fourth the quantity of acrylonitrile monomer charged.\n3. The continuous process of claim 1, wherein the polymerization initiator is a redox initiator.\n4. The continuous process of claim 1, wherein the polymerization initiator is a thermal initiator.\n5. The continuous process of claim 1, wherein the emulsifying agent is an anionic emulsifier.\n6. The continuous process of claim 1, further comprising the step of adding a shortstopping agent to terminate polymerization in the last reaction vessel.\n7. The continuous process of claim 1, wherein the shortstopping agent is added at a conversion of not greater than 90 parts of total monomer.\n8. The continuous process of claim 1, wherein the shortstopping agent is sodium dimethyldithiocarbamate or diethyl hydroxyl amine or a mixture of the two.\n9. The continuous process of claim 1 including the steps of recovering the nitrile butadiene rubber produced by coagulating the polymer latex with aqueous solutions of acid or salt to give processable polymer crumb.\n10. The continuous process of claim 9 in which the coagulation serum has a pH of 3 and contains 3 parts per hundred rubber of aluminum sulfate.\n11. The continuous process of claim 9 in which calcium chloride is the coagulation salt.\n12. The continuous process of claim 9 including the further steps of dewatering, pelletizing and partitioning the polymer."
+  },
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US10385647B2/en",
+      "patent_number": "US10385647B2",
+      "patent_title": "Swellable rubber compositions",
+      "assignee": "Not disclosed",
+      "publication_year": "2019",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "24",
+      ")",
+      "The invention claimed is:",
+      "1. A swellable rubber composition comprising:",
+      "a nitrile elastomer;",
+      "a butadiene rubber;",
+      "a sulfur curing agent;",
+      "a silica; and",
+      "a powder super absorbent polymer,"
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "Example 1",
+        "example_type": "Extracted Example",
+        "title": "Example 1",
+        "raw_text": "Example 1\nPackers having one or more of the materials listed in Composition B within the identified ranges were prepared and tested. Tests were conducted in 5% brine and 16% brine. Both of the packers were prepared and tested under similar conditions.\nThe packer tested in 16% brine was prepared and tested as follows. The base pipe was five feet in length and had an outer diameter of 4.5 inches. The swellable rubber was applied to the base pipe using a wrapping technique. The outer diameter after adding the swellable rubber formulation was about 5.7 inches. Diameter of the packer was measured in one foot increments from the low pressure side to the high pressure side. The swellable rubber formulation was cured at 330 degrees Fahrenheit at a pressure of 70 psi for 2.5 hours. After curing, the hardness was measured at random locations, and the hardness was from about 86 to 92 Shore A. The packer was inspected, and no bonding issues were detected. The packer was placed in 16% brine solution at a temperature of 275 degrees Fahrenheit and at a pressure of about 300 psi for multiple days. The packer was then subjected to a differential pressure of at least 5000 psi before being removed and inspected. The above described data and measurements are reproduced below in Table 13.\nTABLE 13\nData and Measurements of Example 1\nBase Pipe OD (in)\n4.5\u2033\nPacker OD (in)\n5.7\u2033\nFluid Type\nRecord the Rubber Type\nComposition B (above)\nElement Length (Feet)\n5\nTemperature (\u00b0 F.)\n275\nSalinity (%)\n16%\nRefresh Schedule (Hours)\n0\nPressure Requirements (PSI)\n5000\nExpected Contact Time (Days)\n5\nTime to Apply Pressure (Days)\n17\nManufacturing\nCalendar Wrap\nTemperature (\u00b0 F.)\n330\nPressure (PSI)\n70\nTime Duration (hrs.)\n2.5\nNylon Wrap Pull (Pounds)\n100\nDia. #0 (in):\n5.69\nDia. #1 (in):\n5.7\nDia. #2 (in):\n5.7\nDia. #3 (in):\n5.7\nDia. #4 (in):\n5.7\nDia. #5 (in):\n5.69\nHardness\n92\nHardness\n90\nHardness\n89\nTest. #1:\nTest #2:\nTest #3:\nHardness\n88\nHardness\n86\nHardness\n90\nTest. #4:\nTest #5:\nTest #6:\nThe outer diameter after swelling was around 6 inches. Diameter of the packer was measured in one foot increments from the low pressure side to the high pressure side. The Shore A hardness varied from about 32 to 48. After being subjected to the test conditions for multiple days, the swelled packer was able to withstand a differential pressure of greater than 5000 psi. Measurements on the packer after the test are reproduced below in Table 14. Graphical representations of test results are depicted in\nFIGS. 11A-B\n. As shown in\nFIG. 11A\n, pressure was incrementally applied up to a pressure differential between the high pressure side and the low pressure side of over 5000 psi, and the pressure differential was maintained for over one hour. As shown in\nFIG. 11B\n, pressure of over 5000 psi was instantaneously applied up to a pressure differential between the high pressure side and the low pressure side of over 5000 psi, and the pressure differential was maintained for over one hour.\nTABLE 14\nMeasurements on a Packer after a Test\nDia. #0 (in):\nN/A\nDia. #1 (in):\nN/A\nDia. #2 (in):\nN/A\nDia. #3 (in):\n6\nDia. #4 (in):\n6\nDia. #5 (in):\n6.03\n0:00 (Top)\n3:00\n6:00\n9:00\nHardness Test. #1:\n36\n32\n42\n42\nHardness Test. #2:\n37\n42\n40\n42\nHardness Test. #3:\n42\n42\n38\n40\nHardness Test. #4:\n42\n42\n36\n35\nHardness Test. #5:\n46\n8\n7\n3\nHardness Test. #6:\n43\n2\n2\n2\nThe packer tested in 5% brine was prepared and tested as follows. The base pipe was five feet in length and had an outer diameter of 4.5 inches. The swellable rubber was applied to the base pipe using a wrapping technique. The outer diameter after adding of the swellable rubber formulation was about 5.7 inches. Diameter of the packer was measured in one foot increments from the low pressure side to the high pressure side. The swellable rubber formulation was cured at 330 degrees Fahrenheit at a pressure of 70 psi for 2.5 hours. After curing, the hardness was measured at random locations and the hardness was from about 90 to 95 Shore A. The packer was inspected, and no bonding issues were detected. The packer was placed in 5% brine solution at a temperature of 275 degrees Fahrenheit and a pressure of over 5000 psi for multiple days. The packer was then removed and inspected. The above described data is reproduced below in Table 15.\nTABLE 15\nMeasurements and Data of a Swellable Rubber Formulation\nBase Pipe OD (in)\n4.5\u2033\nPacker OD (in)\n5.7\u2033\nFluid Type\nRecord the Rubber Type\nComposition B (above)\nElement Length (Feet)\n5\nTemperature (\u00b0 F.)\n275\nSalinity (%)\n5%\nRefresh Schedule (Hours)\n0\nPressure Requirements (PSI)\n5000\nExpected Contact Time (Days)\n2\nTime to Apply Pressure (Days)\n8\nManufacturing\nCalendar Wrap\nTemperature (\u00b0 F.)\n330\nPressure (PSI)\n70\nTime Duration (hrs.)\n2.5\nNylon Wrap Pull (Pounds)\n100\nDia. #0 (in):\n5.69\nDia. #1 (in):\n5.69\nDia. #2 (in):\n5.7\nDia. #3 (in):\n5.7\nDia. #4 (in):\n5.7\nDia. #5 (in):\n5.7\nHardness\n91\nHardness\n91\nHardness\n95\nTest. #1:\nTest #2:\nTest #3:\nHardness\n2\nHardness\n2\nHardness\n90\nTest. #4:\nTest #5:\nTest #6:\nThe outer diameter after swelling was about 6 inches. Diameter of the packer was measured in one foot increments from the low pressure side to the high pressure side. The Shore A hardness varied from about 32 to 50. After being subjected to the test conditions for multiple days the swelled packer was able to withstand a differential pressure of greater than 5000 psi. Measurements on the packer after the test are reproduced below in Table 16. A graphical representation of test results are depicted in\nFIG. 12\n. As shown in\nFIG. 12\n, pressure was incrementally applied up to a pressure differential between the high pressure side and the low pressure side of over 5000 psi, and the pressure differential was maintained for over one hour.\nTABLE 16\nMeasurements and Data of a Swellable Rubber Formulation\nDia. #0 (in):\nN/A\nDia. #1 (in):\n5.98\nDia. #2 (in):\n5.98\nDia. #3 (in):\n5.98\nDia. #4 (in):\n5.97\nDia. #5 (in):\n6.05\n0:00 (Top)\n3:00\n6:00\n9:00\nHardness Test. #1:\n37\n37\n3\n2\nHardness Test. #2:\n35\n0\n5\n3\nHardness Test. #3:\n39\n7\n3\n3\nHardness Test. #4:\n35\n2\n8\n4\nHardness Test. #5:\n47\n6\n0\n1\nHardness Test. #6:\n43\n2\n2\n8",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 2",
+        "example_type": "Extracted Example",
+        "title": "Example 2",
+        "raw_text": "Example 2\nSamples of swellable packers were prepared using SAPs with three different particles sizes. Pucks of the swellable packers were produced based on the formulation set forth in Composition A. A first composition was prepared based on Composition A using powder SAP at 110 Phr, 130 Phr, 150 Phr and 170 Phr loads. A second composition was prepared based on Composition A using a medium size granular SAP at 110 Phr, 130 Phr, 150 Phr and 170 Phr loads. A third composition was prepared based on Composition A using a large size granular SAP at 110 Phr, 130 Phr, 150 Phr and 170 Phr loads. The types of SAPs used and the particles sizes are set forth in Table 5 below. The particle size distributions of the SAPs in Table 16 were measured from the actual lots used in this example.\nTABLE 16\nSAP Particle Size Comparisons\nParticle size (\u03bcm)\nPowder\nMedium Granular\nLarge Granular\nMean\n35.33\n298.67\n666.23\nMedian\n5\n261\n652\nStd dev\n10.61\n97.72\n161.09\nThe sample pucks were tested at 200 degrees Fahrenheit in a solution with 5% brine by volume and in a solution with 16% brine by volume. The sample pucks were also tested at 275 degrees Fahrenheit in a solution with 5% brine by volume and in a solution with 16% by volume brine. The test results from this test are set forth below in Table 17.\nTABLE 17\nTest Results for Example 2\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\nPowder SAP\n110 phr\n130 phr\n150 phr\n170 phr\nMedium Granular SAP\n110 phr\n130 phr\n150 phr\n170 phr\nLarge Granular SAP\n110 phr\n130 phr\n150 phr\n170 phr\nPhysical Properties\nTensile Strength\n781\n502\n391\n686\n421\n401\n542\n390\n336\n655\n378\n294\nElongation\n360\n339\n289\n224\n429\n238\n223\n403\n164\n66\n219\n256\nHardness (shore A)\n93\n88\n89\n91\n87\n95\n94\n91\n95\n95\n94\n93\nSpecific Gravity\n1.26\n1.26\n1.25\n1.30\n1.27\n1.28\n1.27\n1.28\n1.29\n1.28\n1.29\n1.29\nSAP Leaching, 0%/200\u00b0 F./7 days\nJar Mass (M\nj\n)\n180.1\n178.33\n180.08\n178.36\n180.23\n180.14\n178.21\n180.03\n178.34\n178.44\n180.14\n180.16\nButton Mass (M\ng\n)\n15.26\n15.21\n14.93\n15.52\n15.43\n15.96\n15.81\n15.45\n15.34\n16.04\n15.69\n15.47\nTotal Mass After Drying (M\nfinal\n)\n180.69\n180.7\n183.85\n179.42\n183.48\n185.06\n179.48\n183.17\n183.48\n179.75\n184.75\n185.7\nSAP Mass (M\nSAP\n)\n0.59\n2.37\n3.77\n1.06\n3.25\n4.92\n1.27\n3.14\n5.14\n1.31\n4.61\n5.54\nLeaching % (L)\n3.87\n15.58\n25.25\n6.83\n21.06\n30.83\n8.03\n20.32\n33.51\n8.17\n29.38\n35.81\nPuck Swelling\n200\u00b0 F., 5% brine\nDay 4\n38.63\n35.75\n35.08\n45.97\n44.31\n76.89\n52.85\n57.02\n57.06\n62.62\n44.75\n82.9\nSwell (%)\n200\u00b0 F., 16% brine\nDay 4\n22.08\n25.17\n30.68\n26.53\n32.66\n36.02\n32.59\n37.11\n36.36\n37.49\n29.43\n43.47\nSwell (%)\n275\u00b0 F., 5% brine\nDay 4\n55.26\n54.59\n62.57\n63.37\n77\n76.89\n71.25\n84.56\n100.62\n81.33\n80.53\n98.67\nSwell (%)\n275\u00b0 F., 16% brine\nDay 4\n30.2\n39.9\n35.62\n36.27\n41.9\n39.73\n32.59\n48.16\n55.04\n54.21\n40.39\n70.52\nSwell (%)\nFIGS. 2A-C\n,\n3\nA-C,\n4\nA-C, and\n5\nA-C depict graphical representations of some of the test results using composition A.\nFIGS. 2A-2C, 4A-4C, and 5A-5B\nshow that, in simulated downhole conditions of 200\nFahrenheit\n5% brine, 275\nFahrenheit\n5% brine, and 275 Fahrenheit 16% brine, the compositions comprising medium and large granular SAPs swelled faster and had a higher percent swell (volume) as compared to the compositions comprising powder SAPs at respective varying loads.\nFIGS. 3A-3C\ndemonstrate that, in simulated downhole conditions of 200 Fahrenheit 16% brine, compositions comprising medium and large granular SAP swell more similarly to compositions comprising powder SAPs at respective varying loads. The data shown in\nFIGS. 3A-3C\nis expected, as 200 Fahrenheit 16% brine conditions is considered to be a challenging environment for swelling, e.g., these conditions result in a slower swelling rate and smaller swelling volume compared to less saline conditions and higher temperatures. As shown in the results in\nFIGS. 2A-2C, 4A-4C, and 5A-5C\n, it is expected that, if the test at 200 Fahrenheit 16% brine was performed for more hours, the larger granular SAP at the higher loads would show a higher percent swell and a faster swell than the powder SAP. Accordingly, these tests results demonstrate that one of ordinary skill in the art would be encouraged to select medium or large granular SAP for packer elastomers to achieve the fastest swell rates and highest swell volumes as compared to powdered SAP.\nFurther testing comparing powder SAP, medium granular SAP, and large granular SAP was conducted. As used herein, one method for measuring the leaching of SAP from Composition A is as follows. However, other methods may also be used. The rubber is molded into a button of about 15 g. The exact mass of the button is measured and recorded. The button is placed in a container of known mass with about 375 mL distilled water. The button must be completely immersed in the water. The container is sealed and placed in an oven at about 200 degrees Fahrenheit for about 7 days. At this time, the rubber button is removed. Leached SAP on the surface of the button is scraped into the jar. The jar is placed back in the oven for about 3 days to evaporate the water, leaving dried SAP. The mass of the jar+SAP is measured and the mass of the jar is subtracted from this value, providing the mass of SAP that has leached from the rubber button. The percent leaching is calculated by dividing the leached SAP mass from the initial mass of the rubber button. It was discovered that granular SAPs demonstrate a significantly higher percentage of leaching as compared to powder SAPs. For example, as shown in\nFIG. 7A\n, the composition comprising the larger granular SAP exhibited leaching of about 25% for the lowest SAP loading, and the percent leaching increased for the composition comprising the larger granular SAP as the SAP loading increased (i.e., up to greater than about 35% leaching at SAP loading of about 170 Phr). The composition comprising the medium granular SAP exhibited leaching of about 15% for the lowest SAP loading, and the percent leaching increased for the composition comprising the medium granular SAP as the SAP loading increased (i.e., up to about 30% leaching at SAP loading of about 170). Unexpectedly, the composition comprising the powder SAP exhibited leaching of less than about 5% for the lowest SAP loading. The percent leaching increased for the composition comprising the powder SAP as the SAP loading increased (i.e., up to less than about 10% leaching at SAP loading of about 170). However, the rate of leaching increase as the SAP loading increased for the composition comprising the powder SAP was surprisingly and observably less than the rate of leaching increase as the SAP loading increased for the granular SAPs. Notably, the powdered SAP samples leach by less than half the amount of both of the granular SAPs.\nFIG. 7B\ndepicts a photograph of a leach test on the three cured compositions. In this example, the test was conducted in distilled water at 200 about degrees Fahrenheit for about 7 days. The left jar contains a swellable composition having the powder SAP, and no visible evidence of leaching can be observed. The middle jar contains a swellable composition having the medium granular SAP, and considerable leaching can be observed. The right jar contains a swellable composition having the large granular SAP, and substantial leaching can be observed, so much so that the composition no longer contacts the bottom of the jar and is suspended in the solution.\nAs another example,\nFIGS. 7C-E\ndepict the effect of leaching on cured swellable compositions.\nFIG. 7C\nshows a puck prior to swell testing. Leaching can reduce the swell potential of a cured composition and create a higher likelihood of perforations in the composition (e.g., which can lead to failure of the composition, such as when the composition is stressed). The left puck sample in\nFIGS. 7D-E\ncontains a swellable composition comprising the large granular SAP with a load of 150 Phr. As shown in\nFIG. 7D\n, the surface of the left puck sample comprising large granular SAP is highly pitted and rough due at least in part to leaching. Further,\nFIG. 7E\nshows that the left puck sample comprising large granular SAP has torn from the ring. The middle puck sample in\nFIGS. 7D-E\nwith a load of 150 Phr contains a swellable composition comprising the medium granular SAP. As shown in\nFIG. 7D\n, the surface of the middle puck sample comprises some perforations in the composition, though not to the extent as seen in the left puck sample. Furthermore, as shown in\nFIG. 7E\n, tearing from the ring is less visible in the middle sample as compared to the left sample. The right puck sample in\nFIGS. 7D-E\ncontains a swellable composition comprising the powder SAP with a load of 150 Phr. As shown in\nFIG. 7D\n, the right puck sample surface is substantially smooth no visible perforations. Similarly,\nFIG. 7E\ndoes not show any tearing of the composition from the ring in the right puck. Additionally, it was surprisingly noticed that the amount of swell of the right puck appeared to be similar to the left and middle pucks (large and medium granular SAPs). Accordingly, as disclosed herein (and surprisingly), the use of SAP powdered grades in exemplary embodiments results in swellable packers with acceptable amounts of swell as well as suitable physical properties such that these packers may be used in high temperature and/or high pressure well bores applications.\nIt was discovered that high levels of leaching and/or less flexibility in the swellable composition with granular SAP particles. Leaching can reduce the swell potential of a swellable composition, and it can create tears and/or perforations in the rubber. These tears and/or perforations may produce weak points, which lead to failure when the rubber is stressed.\nFIG. 10\nis a failed packer illustrating that the rubber has been ripped off down the length of the rubber when it was exposed to high pressure. The leaching data in\nFIGS. 7D-E\nand the failed packer in\nFIG. 10\ndemonstrate that the physical properties of swellable packers can generally deteriorate with high loads of granular SAPs.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 3",
+        "example_type": "Extracted Example",
+        "title": "Example 3",
+        "raw_text": "Example 3\nFIGS. 6A-C\ndepict percent swell versus SAP loading for swellable packers exposed to a solution with 5% brine by volume at 200 degrees Fahrenheit for four days, which were created, in part, using data from Example 2 (Composition A). Based on the data, a linear, or substantially linear, relationship between percent swell and SAP loading is depicted for powder SAP, medium granular SAP, and large granular SAP. The predicted compounding level to achieve 75% swell for the three SAPs is illustrated in\nFIGS. 6A-C\n.\nAs depicted in\nFIG. 6A\n, the predicted SAP loading to achieve a 75% swell using the powder SAP is about 205 Phr. A maximum load level for the powder SAP has not been determined, but it is greater than the predicted load to achieve a 75% swell in four days in the aforementioned environment of about 205 Phr. Therefore, it is predicted that a 75% swell in four days in the aforementioned environment is attainable for a swellable composition using powder SAP.\nFIG. 6B\ndepicts the predicted SAP loading to achieve a 75% swell using the medium granular SAP as about 190 Phr. In this example, the maximum load for medium granular SAP in such swellable compositions was determined to be about 170 Phr (e.g., due at least in part to the amount of leaching that would occur at medium granular SAP at loads of greater than 170 Phr). Therefore, it is predicted that a 75% swell in four days in the aforementioned environment may not be attainable for a swellable composition using only medium granular SAP.\nFIG. 6C\ndepicts the predicted SAP loading to achieve a 75% swell using the large granular SAP as about 160 Phr. In this example, the maximum load for large granular SAP in such swellable compositions was determined to be about 150 Phr. Therefore, it is predicted that a 75% swell in four days in the aforementioned environment may not be attainable for a swellable composition using only large granular SAP.\nAccordingly, it was surprisingly discovered that increasing the quantity of powder SAP beyond the max load of the medium or large granular SAP in a swelling composition resulted in the powder SAP composition having improved swelling rate and volume characteristics along with improved physical characteristics (no tearing or perforations). Moreover, the 205 Phr powder SAP composition was easily combined and had no manufacturing problems. Medium or large granular SAP could not be combined with the swelling composition to achieve the 75% swell in four days (e.g., the granular SAP falls out of the formula and becomes unmanageable).",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 4",
+        "example_type": "Extracted Example",
+        "title": "Example 4",
+        "raw_text": "Example 4\nTwo puck samples of a swellable composition were prepared with 205 Phr of the powder SAP. The powder SAP was mixed using an internal mixer (e.g., which can assist in fly loss). One composition contained 10% of NBR rubber (Nipol DN3350). The other composition contained 10% of HNBR (Zetpol 2030L). The resulting compositions exhibited excellent green strength and acceptable milling and manipulation properties. Data relating to these two compositions is reproduced in Table 18 below. As predicted in Example 3, 205 Phr loading of the powder SAP achieves 75% swell within four days in a solution having 5% brine by volume at 200 degrees Fahrenheit. The composition having HNBR (Zetpol 2030) exhibited a greater swell rate after four days in three of the four environments. Use of HNPR (Zetpol 2030) may offer improved thermal stability at higher temperatures and may further minimize leaching. As depicted in\nFIG. 8\n, the swell rate of swellable compositions comprising powder SAP increased as the SAP loading increased.\nFIG. 9\ndepicts the two puck samples exposed to a solution having 16% brine by volume at 275 degrees Fahrenheit after one week of testing. The left puck sample used 10% NBR rubber (Nipol DN3350), and the right puck sample used 10% HNBR (Zetpol 2030L).\nTABLE 18\n205 Phr of Powder\nSAP Swell Data\n205 phr,\n205 phr,\n10\n% DN3350\n10% HNBR\n96\nhour\n200\u00b0 F., 5% brine\n75.8\n77.8\nSwell %\n200\u00b0 F., 16% brine\n46.5\n47.2\n275\u00b0 F., 5% brine\n98.4\n96.0\n200\u00b0 F., 16% brine\n65.4\n66.9\nAs depicted in\nFIG. 8\n, the swell rate of swellable compositions comprising powder SAP increased as the SAP loading increased.\nFurther advantages of the claimed subject matter will become apparent from the following examples describing certain embodiments of the claimed subject-matter.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 1A",
+        "example_type": "Extracted Example",
+        "title": "Example 1A",
+        "raw_text": "Example 1A\nA method of sealing a region between a wall and a swellable packer-conduit assembly, wherein the swellable packer-conduit assembly comprises a conduit and a swellable packer at least partially surrounding the outer surface of the conduit, the method comprising: locating the swellable packer-conduit assembly in a region with a surrounding wall; permitting the swellable packer-conduit assembly to be exposed to water, water based fluid, and/or formation water while the swellable packer-conduit assembly is surrounded by the surrounding wall; permitting the swellable packer-conduit assembly to be exposed to heat while the swellable packer-conduit assembly is surrounded by the surrounding wall; waiting for a duration of time such that the swellable packer can swell to substantially seal the region between the surrounding wall and the swellable packer-conduit assembly. In some embodiments, a swellable packer may seal an annular region between a wellbore wall and a swellable packer-conduit assembly.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 2A",
+        "example_type": "Extracted Example",
+        "title": "Example 2A",
+        "raw_text": "Example 2A\nThe method of Example 1A, wherein the swellable packer comprises a powder super absorbent polymer present in at least about 150 Phr, 175 Phr, 197 Phr, 200 Phr, 205 Phr or 225 Phr.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 3A",
+        "example_type": "Extracted Example",
+        "title": "Example 3A",
+        "raw_text": "Example 3A\nThe method of Example 1A or 2A, wherein the heat comprises a temperature of about 200 degrees Fahrenheit.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 4A",
+        "example_type": "Extracted Example",
+        "title": "Example 4A",
+        "raw_text": "Example 4A\nThe method of Example 1A or 2A, wherein the heat comprises a temperature of about 275 degrees Fahrenheit.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 5A",
+        "example_type": "Extracted Example",
+        "title": "Example 5A",
+        "raw_text": "Example 5A\nThe method of one or more of Examples 1A-4A, wherein the water, water based fluid, and/or formation water is an about 5% weight/volume brine solution.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 6A",
+        "example_type": "Extracted Example",
+        "title": "Example 6A",
+        "raw_text": "Example 6A\nThe method of one or more of Examples 1A-4A, wherein the water, water based fluid, and/or formation water is an about 16% weight/volume brine solution.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 7A",
+        "example_type": "Extracted Example",
+        "title": "Example 7A",
+        "raw_text": "Example 7A\nThe method of one or more Examples 1A-6A, wherein the swellable packer swells by at least about 50%, 60%, 65%, 70%, 75%, 80%, or 90% by volume.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 8A",
+        "example_type": "Extracted Example",
+        "title": "Example 8A",
+        "raw_text": "Example 8A\nThe method of one or more of Examples 1A-7A, wherein the duration of time is about 2, 3, 4, or 5 days.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 9A",
+        "example_type": "Extracted Example",
+        "title": "Example 9A",
+        "raw_text": "Example 9A\nThe method of one or more of Examples 1A-8A, wherein the seal between the surrounding wall and the swelled swellable packer-conduit assembly can withstand being subjected to a pressure of at least about 3000, 4000, 5000, 6000, 70000, or 8000 psi.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 10A",
+        "example_type": "Extracted Example",
+        "title": "Example 10A",
+        "raw_text": "Example 10A\nThe method of one or more Examples 1A-9A, wherein the swellable packer comprises a swellable rubber composition comprising:\n(i) a combination of an elastomer, a butadiene rubber, a sulfur curing agent, a silica, and a powder super absorbent polymer;\n(ii) a combination of a nitrile elastomer, a rubber, a sulfur curing agent, a silica, and a powder super absorbent polymer; or\n(iii) a combination of at least one nitrile rubber elastomer, at least one styrene butadiene rubber, carbon black, dioctyl phthalate, fumed silica, zinc oxide, an antiozonant, an antidegradant, a tackifier, sulfur, tetramethylthiuram disulfide, an inhibitor, at least one powder super absorbent polymer, and stearic acid.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 11A",
+        "example_type": "Extracted Example",
+        "title": "Example 11A",
+        "raw_text": "Example 11A\nThe method of one or more Examples 1A-10A, wherein the seal between the surrounding wall and the swelled swellable packer-conduit assembly can withstand being subjected to pressures of at least about 5000 psi and temperatures of at least about 200 degrees Fahrenheit and maintain the seal.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 12A",
+        "example_type": "Extracted Example",
+        "title": "Example 12A",
+        "raw_text": "Example 12A\nThe method of one or more Examples 1A-10A, wherein the seal between the surrounding wall and the swelled swellable packer-conduit assembly can withstand being subjected to pressures of at least about 5000 psi and temperatures of at least about 275 degrees Fahrenheit and maintain the seal.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 1B",
+        "example_type": "Extracted Example",
+        "title": "Example 1B",
+        "raw_text": "Example 1B\nA method of sealing a region between a wellbore wall and a swellable packer-conduit assembly, wherein the swellable packer-conduit assembly comprises a conduit and a swellable packer at least partially surrounding the outer surface of the conduit, the method comprising: locating the swellable packer-conduit assembly in a region of the wellbore; permitting the swellable packer-conduit assembly to be exposed to water, water based fluid, and/or formation water while the swellable packer-conduit assembly is in the wellbore; permitting the swellable packer-conduit assembly to be exposed to heat while the swellable packer-conduit assembly is in the wellbore; waiting for a duration of time such that the swellable packer can swell to substantially seal the region between the wellbore wall and the swellable packer-conduit assembly.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 2B",
+        "example_type": "Extracted Example",
+        "title": "Example 2B",
+        "raw_text": "Example 2B\nThe method of Example 1B, wherein the swellable packer comprises a powder super absorbent polymer present in at least about 150 Phr, 175 Phr, 197 Phr, 200 Phr, 205 Phr or 225 Phr.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 3B",
+        "example_type": "Extracted Example",
+        "title": "Example 3B",
+        "raw_text": "Example 3B\nThe method of Example 1B or 2B, wherein the heat comprises a temperature of about 200 degrees Fahrenheit.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 4B",
+        "example_type": "Extracted Example",
+        "title": "Example 4B",
+        "raw_text": "Example 4B\nThe method of Example 1B or 2B, wherein the heat comprises a temperature of about 275 degrees Fahrenheit.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 5B",
+        "example_type": "Extracted Example",
+        "title": "Example 5B",
+        "raw_text": "Example 5B\nThe method of one or more of Examples 1B-4B, wherein the water, water based fluid, and/or formation water is an about 5% weight/volume brine solution.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 6B",
+        "example_type": "Extracted Example",
+        "title": "Example 6B",
+        "raw_text": "Example 6B\nThe method of one or more of Examples 1B-4B, wherein the water, water based fluid, and/or formation water is an about 16% weight/volume brine solution.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 7B",
+        "example_type": "Extracted Example",
+        "title": "Example 7B",
+        "raw_text": "Example 7B\nThe method of one or more Examples 1B-6B, wherein the swellable packer swells by at least about 50%, 60%, 65%, 70%, 75%, 80%, or 90% by volume.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 8B",
+        "example_type": "Extracted Example",
+        "title": "Example 8B",
+        "raw_text": "Example 8B\nThe method of one or more of Examples 1B-7B, wherein the duration of time is about 2, 3, 4, or 5 days.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 9B",
+        "example_type": "Extracted Example",
+        "title": "Example 9B",
+        "raw_text": "Example 9B\nThe method of one or more of Examples 1B-8B, wherein the seal between the wellbore wall and the swelled swellable packer-conduit assembly can withstand being subjected to a pressure of at least about 3000, 4000, 5000, 6000, 7000, or 8000 psi.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 10B",
+        "example_type": "Extracted Example",
+        "title": "Example 10B",
+        "raw_text": "Example 10B\nThe method of one or more Examples 1B-9B, wherein the swellable packer comprises a swellable rubber composition comprising:\n(i) a combination of an elastomer, a butadiene rubber, a sulfur curing agent, a silica, and a powder super absorbent polymer;\n(ii) a combination of a nitrile elastomer, a rubber, a sulfur curing agent, a silica, and a powder super absorbent polymer; or\n(iii) a combination of at least one nitrile rubber elastomer, at least one styrene butadiene rubber, carbon black, dioctyl phthalate, fumed silica, zinc oxide, an antiozonant, an antidegradant, a tackifier, sulfur, tetramethylthiuram disulfide, an inhibitor, at least one powder super absorbent polymer, and stearic acid.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 11B",
+        "example_type": "Extracted Example",
+        "title": "Example 11B",
+        "raw_text": "Example 11B\nThe method of one or more Examples 1B-10B, wherein the seal between the wellbore wall and the swelled swellable packer-conduit assembly can withstand being subjected to pressures of at least about 5000 psi and temperatures of at least about 200 degrees Fahrenheit and maintain the seal.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 12B",
+        "example_type": "Extracted Example",
+        "title": "Example 12B",
+        "raw_text": "Example 12B\nThe method of one or more Examples 1B-10B, wherein the seal between the wellbore wall and the swelled swellable packer-conduit assembly can withstand being subjected to pressures of at least about 5000 psi and temperatures of at least about 275 degrees Fahrenheit and maintain the seal.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 1C",
+        "example_type": "Extracted Example",
+        "title": "Example 1C",
+        "raw_text": "Example 1C\nA swellable rubber composition comprising: an elastomer; a butadiene rubber; a sulfur curing agent; a silica; and a powder super absorbent polymer.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 2C",
+        "example_type": "Extracted Example",
+        "title": "Example 2C",
+        "raw_text": "Example 2C\nA swellable rubber composition comprising: a nitrile elastomer; a rubber; a sulfur curing agent; a silica; and a powder super absorbent polymer.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 3C",
+        "example_type": "Extracted Example",
+        "title": "Example 3C",
+        "raw_text": "Example 3C\nA swellable rubber composition comprising: at least one nitrile rubber elastomer; at least one styrene butadiene rubber; carbon black; dioctyl phthalate; fumed silica; zinc oxide; an antiozonant; an antidegradant; a tackifier; sulfur; tetramethylthiuram disulfide; an inhibitor; at least one powder super absorbent polymer; and stearic acid.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 4C",
+        "example_type": "Extracted Example",
+        "title": "Example 4C",
+        "raw_text": "Example 4C\nThe swellable rubber composition of one or more of Examples 1C-3C, wherein the powder super absorbent polymer is present in about 125 to 175 Phr.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 5C",
+        "example_type": "Extracted Example",
+        "title": "Example 5C",
+        "raw_text": "Example 5C\nThe swellable rubber composition of one or more of Examples 1C-4C, wherein the powder super absorbent polymer is present in about 170 to 210 Phr.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 6C",
+        "example_type": "Extracted Example",
+        "title": "Example 6C",
+        "raw_text": "Example 6C\nThe swellable rubber composition of one or more of Examples 1C-5C, wherein the powder super absorbent polymer is present in at least about 150 Phr, 175 Phr, 200 Phr or 225 Phr.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 7C",
+        "example_type": "Extracted Example",
+        "title": "Example 7C",
+        "raw_text": "Example 7C\nThe swellable rubber composition of one or more of Examples 1C-6C, wherein the powder super absorbent polymer and at least one granular super absorbent polymer is present in the swellable rubber; and wherein the powder super absorbent polymer comprises at least 50%, 60%, 70%, 80%, 90%, or 95% by weight of a total super absorbent polymer incorporated into the swellable rubber.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 8C",
+        "example_type": "Extracted Example",
+        "title": "Example 8C",
+        "raw_text": "Example 8C\nThe swellable rubber composition of one or more of Examples 1C-7C, wherein the total super absorbent polymer is selected such that, after curing, a cured swellable rubber packer is capable of expanding in water and/or brine without compromising the physical properties of the rubber and/or without significantly leaching and/or without significantly perforating.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 9C",
+        "example_type": "Extracted Example",
+        "title": "Example 9C",
+        "raw_text": "Example 9C\nThe swellable rubber composition of one or more of Examples 1C-8C, wherein the powder super absorbent polymer has an average particle size of about 10 to 120 \u03bcm or about 20 to 100 \u03bcm, (e.g., about 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115 or 120 \u03bcm).",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 10C",
+        "example_type": "Extracted Example",
+        "title": "Example 10C",
+        "raw_text": "Example 10C\nThe swellable rubber composition of one or more of Examples 1C-9C, wherein the powder super absorbent polymer has an average particle size of less than or equal to about 20, 30, 40, 50, 60, 70, 80, 90, 100, 110 or 120 \u03bcm.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 11C",
+        "example_type": "Extracted Example",
+        "title": "Example 11C",
+        "raw_text": "Example 11C\nThe water swellable rubber composition of one or more of Examples 1C-10C, wherein the powder super absorbent polymer consists essentially of particle sizes of less than or equal to about 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120 or 130 \u03bcm.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 12C",
+        "example_type": "Extracted Example",
+        "title": "Example 12C",
+        "raw_text": "Example 12C\nThe swellable rubber composition of one or more of Examples 1C-11C, further comprising about 120 to 220 (e.g., 120, 125, 130, 135, 140, 145, 150, 155, 160, 165, 170, 175, 180, 185, 190, 195, 200, 205, 210, 215, 220) Phr of powder super absorbent polymer.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 13C",
+        "example_type": "Extracted Example",
+        "title": "Example 13C",
+        "raw_text": "Example 13C\nThe swellable rubber composition of one or more of Examples 1C-12C, wherein the powder super absorbent polymer comprises one or more of the following: poly-electrolytes, polyacyrlates (e.g., sodium polyacrylate), polyacryamide-co-polyacrylates (e.g., polyacryamide-co-potassium acrylate), polyacrylamides (e.g., potassium polyacrylamide) and/or acrylic acids.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 14C",
+        "example_type": "Extracted Example",
+        "title": "Example 14C",
+        "raw_text": "Example 14C\nThe swellable rubber composition of one or more of Examples 1C-13C, wherein the granular super absorbent polymer comprises one or more of the following: poly-electrolytes, polyacyrlates (e.g., sodium polyacrylate), polyacryamide-co-polyacrylates (e.g., polyacryamide-co-potassium acrylate), polyacrylamides (e.g., potassium polyacrylamide) and/or acrylic acids.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 15C",
+        "example_type": "Extracted Example",
+        "title": "Example 15C",
+        "raw_text": "Example 15C\nThe swellable rubber composition of one or more of Examples 1C-13C, wherein the powder super absorbent polymer is a potassium polyacrylate polyacrylamide copolymer that has a mean particle size of about 35 \u03bcm, a median particles size of about 35 \u03bcm with a standard deviation of about 10 \u03bcm and substantial no particles over about 75 \u03bcm in the powder.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 16C",
+        "example_type": "Extracted Example",
+        "title": "Example 16C",
+        "raw_text": "Example 16C\nThe swellable rubber composition of one or more of Examples 1C-15C, wherein the swellable rubber composition after curing is configured to swell by at least about 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100%, 110%, 120%, 130%, 140%, 150%, 160%, 170%, 180%, 190%, 200%, 210%, 220%, 230%, 240% or 250% by volume in an about 5% weight/volume brine solution without substantially compromising the physical properties of the cured rubber and/or without significantly leaching and/or without significantly perforating.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 17C",
+        "example_type": "Extracted Example",
+        "title": "Example 17C",
+        "raw_text": "Example 17C\nThe swellable rubber composition of one or more of Examples 1C-16C, wherein the swellable rubber composition after curing is configured to swell by at least about 10%, or at least about 20%, or at least about 30%, or at least about 40%, or at least about 50%, or at least about 60%, or at least about 70%, or at least about 80%, or at least about 90%, or at least about 100%, or at least about 110%, or at least about 120%, or at least about 130%, or at least about 140%, or at least about 150%, or at least about 160%, or at least about 170%, or at least about 180%, or at least about 190%, or at least about 200%, or at least about 210%, or at least about 220%, or at least about 230%, or at least about 240% or at least about 250% by volume in an about 16% weight/volume brine solution without substantially compromising the physical properties of the rubber and/or without significantly leaching and/or without significantly perforating.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 18C",
+        "example_type": "Extracted Example",
+        "title": "Example 18C",
+        "raw_text": "Example 18C\nThe swellable rubber composition of one or more of Examples 1C-17C, wherein the swellable rubber composition after curing is configured to swell while being subjected to a temperature of about 200 degrees Fahrenheit.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 19C",
+        "example_type": "Extracted Example",
+        "title": "Example 19C",
+        "raw_text": "Example 19C\nThe swellable rubber composition of one or more of Examples 1C-17C, wherein the water swellable rubber composition after curing is configured to swell while being subjected to a temperature of about 275 degrees Fahrenheit.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 20C",
+        "example_type": "Extracted Example",
+        "title": "Example 20C",
+        "raw_text": "Example 20C\nThe swellable rubber composition of one or more of Examples 1C-19C, wherein the swellable rubber composition after curing is configured to swell while being subjected to a pressure of at least about 3000, 4000, 5000, 6000, 7000, or 8000 psi.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 21C",
+        "example_type": "Extracted Example",
+        "title": "Example 21C",
+        "raw_text": "Example 21C\nThe swellable rubber composition of one or more of Examples 1C-20C, wherein the swellable rubber composition after curing is configured to substantially swell within 2, 3, 4 or 5 days.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 22C",
+        "example_type": "Extracted Example",
+        "title": "Example 22C",
+        "raw_text": "Example 22C\nThe swellable rubber composition of one or more of Examples 1C-21C, wherein the swellable rubber composition after curing has a Shore A hardness of at least 20, 25 or 30.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 23C",
+        "example_type": "Extracted Example",
+        "title": "Example 23C",
+        "raw_text": "Example 23C\nThe swellable rubber composition of one or more of Examples 1C-21C, wherein the swellable rubber composition after curing and substantially swelling has a Shore A hardness of at least 20, 25 or 30.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 24C",
+        "example_type": "Extracted Example",
+        "title": "Example 24C",
+        "raw_text": "Example 24C\nA swellable packer comprising: a conduit, and a swellable rubber composition according to one or more of Examples 1C-23C, wrapped around at least a portion of the conduit and cured.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 25C",
+        "example_type": "Extracted Example",
+        "title": "Example 25C",
+        "raw_text": "Example 25C\nA swellable packer manufactured by causing the swellable rubber composition of one or more of Examples 1C-23C to cure after the swellable rubber composition has been wrapped around at least a portion of the conduit.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 26C",
+        "example_type": "Extracted Example",
+        "title": "Example 26C",
+        "raw_text": "Example 26C\nA method of sealing a region between wellbore wall and the swellable packer-conduit assembly, wherein the swellable packer-conduit assembly comprises a conduit and a swellable packer at least partially surrounding the outer surface of the conduit, comprising: locating a swellable packer-conduit assembly in a region of the wellbore in a manner so as to seal said space upon swelling of the swellable body, the swellable body being susceptible to being in contact with water, water based fluid, and/or formation water present in the wellbore, according to one or more of Examples 1C-23C.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 5",
+        "example_type": "Extracted Example",
+        "title": "Example 5",
+        "raw_text": "Example 5\nDesign Experiment to Test Low Acrylonitrile Polymers\nFour swellable rubber compositions comprising an elastomer, a butadiene rubber, a sulfur curing agent, a filler, and a super absorbent polymer were analyzed for effects of varying polymer structures, filler systems, and a binary sulfur and peroxide cure system, wherein the effects comprise harness, swelling, and aging properties. In the four swellable rubber compositions, the distribution of cure chemicals (e.g., sulfur curing agent and peroxide) were the same, but various distributions of ACN nitrile polymers were prepared and compared to various SBR 1502 polymers. Table 18 illustrates the compositions of four various swellable rubber compositions.\nTABLE 18\nPolymer Distribution\n1\n2\n3\n4\nStyrene Butadiene Rubber (SBR) 1502\n90\n0\n90\n0\nLow Acrylonitrile (ACN)\nNitrile\n0\n90\n0\n90\nHydrogenated Nitrile Butadiene Rubber (HNBR)\n10\n10\n10\n10\nVarious filler systems were used for each of the four swellable rubber compositions, wherein the filler systems comprise carboxymethyl cellulose (CMC), tricalcium phosphate, and standard SAP, as illustrated in Table 19.\nSwellable rubber compositions\n1 and 2 incorporate carboxymethylcellulose and tricalcium phosphate. In some embodiments, incorporation of carboxymethylcellulose and/or tricalcium phosphate may improve the absorption of divalent cations, trivalent cations, divalent anions, and trivalent anions. According to some embodiments, standard SAP may work best with monovalent ions.\nTABLE 19\nSwellable Filler Distribution\n1\n2\n3\n4\nCarboxymethyl Cellulose\n100\n100\n0\n0\nTricalcium Phosphate\n50\n50\n0\n0\nStandard SAP\n50\n50\n200\n200\nFour swellable rubber compositions were mixed with a Moriyama mixer and then tested initially for physical and rheological properties. Swell pucks were then molded and swell testing at 200\u00b0 F. in 5% brine was conducted. Low temperature and high salinity testing was also conducted. After three weeks of allowing the mixed material to sit, the physical and rheological properties were retested and new swell pucks were molded. A 200\u00b0 F. in 5% brine swell test was conducted again to compare a change in physical and rheological properties.\nTable 20 illustrates the change in the durometer of four swellable rubber compositions from the initial time point to about three weeks after the initial time point.\nSwellable rubber compositions\n2 and 4 retain hardness properties after three weeks.\nTABLE 20\nChange in Durometer After 3 Weeks\nAll Testing Slabs Cured for 45 minutes at 300\u00b0 F.\n1 After\n2 After\n3 After\n4 After\n1 Initial\n3\nWeeks\n2 Initial\n3\nWeeks\n3 Initial\n3\nWeeks\n4 Initial\n3 Weeks\nShore A\n91\n88\n93\n94\n88\n84\n90\n90\nSwellable rubber compositions\n2 and/or 4, which contain low ACN nitrile, exhibit a higher initial cross link density in comparison to\nswellable rubber compositions\n3 and/or 4, which contain the SBR.\nSwellable rubber compositions\n1 and 2 that contain the CMC and tricalcium phosphate exhibit highly increased cross link density, which may be due to the filler interaction during curing.\nSwellable rubber composition\n4 exhibits a reduced viscosity after the time period, which may indicate that the material should still flow easily during processing.\nFIGS. 13, 14, 15, and 16\nare graphs that illustrate the compound comparisons.\nSwellable rubber compositions 1-4 do not exhibit a reduction in swelling properties after the aging period for the materials as shown in Table 21.\nSwellable rubber compositions\n3 and/or 4 with just the SAP exhibit significantly higher swell rates in comparison to\nswellable rubber compositions\n1 and/or 2 with a combination of swellable fillers. The aging comparison for swellable rubber compositions 1-4 is illustrated in\nFIGS. 17, 18, 19, and 20\n.\nTABLE 21\nChange in Rheological Data After 3 Weeks\nRheometer MDR, 4 minutes at 350\u00b0 F., 1\u00b0\nArc\n1 After\n2 After\n3 After\n4 After\n1 Initial\n3\nWeeks\n2 Initial\n3\nWeeks\n3 Initial\n3\nWeeks\n4 Initial\n3 Weeks\nML, lb-in\n8.79\n8.48\n15.14\n15.44\n7.40\n6.21\n9.39\n7.68\nTs2, m:s\n0:40\n0:40\n0:38\n0:38\n0:44\n0:50\n0:43\n0:47\nTC90, m:s\n2:51\n2:47\n2:59\n3:03\n2:43\n2:55\n2:50\n2:47\nMH, lb-in\n23.86\n23.15\n31.95\n32.61\n18.63\n15.93\n24.59\n17.73\nTemperature swell date for swellable rubber compositions 1-4 is exhibited in Table 22. Testing of swellable rubber compositions 1-4 was performed at 40\u00b0 F. in 5% brine.\nSwellable rubber composition\n3 exhibited the best swell properties in comparison to the other swellable rubber compositions.\nTABLE 22\nChange in Swell Properties After 3 Weeks\nSwell Testing at 200\n1 After\n2 After\n3 After\n4 After\n1 Initial\n3\nWeeks\n2 Initial\n3\nWeeks\n3 Initial\n3\nWeeks\n4 Initial\n3 Weeks\nInitial\n0.0%\n0.0%\n0.0%\n0.0%\n0.0%\n0.0%\n0.0%\n0.0%\n4 hours\n8.4%\n10.7%\n9.3%\n10.2%\n15.5%\n14.7%\n12.9\n10.5\n8 hours\n11.3%\n12.6%\n11.9%\n12.5%\n20.4%\n18.4%\n17.7\n16.7\n1 day\n20.1%\n22.6%\n21.7%\n23.2%\n37.4%\n35.5%\n32.9\n37.1\n2 days\n29.8%\n33.7%\n32.3%\n34.9%\n51.7%\n51.4%\n47.3\n54.1\n3 days\n34.5%\n38.9%\n36.8%\n40.6%\n58.3%\n58.2%\n55.2\n63.1\n4 days\n40.9%\n45.9%\n44.8%\n48.6%\n68.3%\n66.5%\n67.5\n77.7\n7 days\n53.8%\n59.1%\n60.2%\n63.4%\n96.4%\n95.3%\n96.7\n102.7\nTable 23 illustrates the high salinity swell date for swellable rubber compositions 1-4. Testing of swellable rubber compositions 1-4 was performed at 275\u00b0 F. in 23% brine. Swellable rubber compositions with the standard SAP exhibited significantly improved swell results in comparison to swellable rubber compositions with a combination of CMC and tricalcium phosphate.\nTABLE 23\nHigh Salinity Swell Data\nContact\nPressure\nPressure\n275\u00b0 F.\n(6 in)\n(6.25)\n(6.65)\nShore A\nDays\nGrowth %\nSC-I-54_1\nWater-23%\n14\n63\n277\n38\n6.93\n31.5%\nSC-I-54_2\nWater-23%\n14\n53\n199\n38\n6.93\n30.0%\nSC-I-54_3\nWater-23%\n2\n5\n12\n9\n6.93\n82.5%\nSC-I-54_4\nWater-23%\n2\n4.5\n11\n13\n6.93\n86.1%\nTable 24 illustrates low temperature swell data for swellable rubber compositions 1-4. Testing of swellable rubber compositions 1-4 was performed at 40\u00b0 F. in 5% brine.\nSwellable rubber composition\n3 exhibits the highest growth % (i.e., swell) in comparison to\nswellable rubber compositions\n1, 2, and 4.\nTABLE 24\nLow Temperature Swell Data\nContact\nPressure\nPressure\n275\u00b0 F.\n(6 in)\n(6.25)\n(6.65)\nShore A\nDays\nGrowth %\nSC-I-54_1\nWater-5%\n45\n133\n360\n26\n15.18\n22.5%\nSC-I-54_2\nWater-5%\n80\n228\n646\n36\n15.18\n16.9%\nSC-I-54_3\nWater-5%\n16\n45\n114\n9\n15.18\n37.0%\nSC-I-54_4\nWater-5%\n25.5\n62\n143\n16\n15.18\n29.6%",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 6",
+        "example_type": "Extracted Example",
+        "title": "Example 6",
+        "raw_text": "Example 6\nSpecific Example Embodiments of a Swellable Rubber Composition\nA swellable rubber composition may be configured to have one or more of the desired qualities disclosed in this application including, for example, swellability, density of crosslinks, tolerance of salinity, curing temperature, among others, by adjusting the composition of one or more components. Examples of swellable compositions are provided in Table 25.\nTABLE 25\nSwellable Rubber Compositions\nFormulation (wt. %)\nA\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\nN\nO\nP\nNitrile\n22.5\n20\n22\n30\n30\n20\n25\n23\n15\n18\n20\n34\n19\n24\n21\n21\nHNBR\n3.0\n4.0\n3.5\n2.0\n4.0\n4.0\n3.0\n5.0\n2.0\n1.5\n2.7\n1.0\n3.5\n3.3\n3.1\n7.4\nTackifier\n0.7\n0.8\n0.6\n0.2\n1.0\n0.9\n0.7\n0.5\n0.8\n0.9\n1.0\n1.1\n0.8\n0.6\n0.2\n0.3\nZinc Oxide\n2.6\n2.0\n3.1\n2.0\n2.5\n2.0\n2.0\n2.4\n2.2\n1.9\n1.7\n2.1\n2.4\n1.8\n1.7\n3.0\nAntidegradant\n0.4\n0.5\n0.75\n0.5\n0.6\n0.7\n0.5\n0.3\n0.5\n0.8\n0.2\n0.4\n0.7\n1.1\n0.6\n0.3\nSilica\n5.8\n5.0\n5.0\n5.5\n5.9\n10\n6.0\n6.4\n6.0\n15\n4.2\n6.5\n8.2\n9.1\n5.7\n5.2\nAntiozonant\n0.3\n0.1\n0.45\n0.3\n0.4\n0.4\n0.2\n0.1\n0.3\n0.2\n0.3\n0.2\n0.1\n0.4\n0.1\n0.6\nA phthalate\n2.5\n1.5\n1.5\n1.0\n2.0\n2.5\n2.0\n1.7\n1.9\n1.7\n1.8\n2.1\n2.0\n1.6\n1.7\n2.0\nCarbon black\n1.5\n1.5\n2.5\n2.5\n2.0\n2.5\n2.0\n2.4\n2.2\n2.2\n1.9\n2.1\n2.2\n2.0\n1.9\n2.4\nSodium polyacrylate cross\n57.2\n59.3\n56.3\n52.3\n45\n50\n54.3\n53.5\n64.6\n54.7\n45.8\n47\n56\n51\n58\n50\nlinked with acrylamide\nPolybutadiene\n1.0\n3.5\n2.5\n2.0\n3.5\n4.5\n3.0\n3.3\n2.2\n1.9\n1.5\n2.0\n3.2\n3.3\n3.5\n4.5\nA disulfide\n0.4\n0.2\n0.2\n0.1\n0.3\n0.3\n0.1\n0.2\n0.3\n0.2\n0.1\n0.2\n0.3\n0.4\n0.5\n1.0\nSulfur\n0.4\n0.2\n0.3\n0.2\n0.3\n0.4\n0.1\n0.1\n0.4\n0.5\n0.3\n0.2\n0.6\n0.4\n0.2\n0.3\nStearic acid\n0.7\n0.5\n0.4\n0.4\n0.5\n0.5\n0.3\n0.4\n0.5\n0.1\n0.2\n0.4\n0.5\n0.4\n0.3\n0.1\nPeroxide\n1.0\n0.9\n0.9\n1.0\n1.0\n1.0\n0.8\n0.7\n1.1\n0.4\n0.6\n0.7\n0.5\n0.6\n1.5\n1.9",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "Swellable rubber compositions \n       \nAbstract\nThis disclosure relates to swellable compositions, such as those, for example, comprising super absorbent polymers.\nClaims (\n24\n)\nThe invention claimed is:\n1. A swellable rubber composition comprising:\na nitrile elastomer;\na butadiene rubber;\na sulfur curing agent;\na silica; and\na powder super absorbent polymer,\nwherein the powder super absorbent polymer is a potassium polyacrylate polyacrylamide copolymer.\n2. The swellable rubber composition of\nclaim 1\n, wherein the powder super absorbent polymer is present in about 125 Phr to about 175 Phr.\n3. The swellable rubber composition of\nclaim 1\n, wherein the powder super absorbent polymer is present in about 170 Phr to about 210 Phr.\n4. The swellable rubber composition of\nclaim 1\n, wherein the powder super absorbent polymer is present in at least about 150 Phr, about 175 Phr, about 200 Phr or about 225 Phr.\n5. The swellable rubber composition of\nclaim 1\n, wherein the powder super absorbent polymer is present in the swellable rubber composition; and wherein the powder super absorbent polymer comprises at least about 50%, about 60%, about 70%, about 80%, about 90%, or about 95% by weight of a total super absorbent polymer incorporated into the swellable rubber composition.\n6. The swellable rubber composition of\nclaim 1\n, wherein a total super absorbent polymer is selected such that, after curing, a cured swellable rubber packer is capable of expanding in water and/or brine without compromising physical properties of the swellable rubber composition and/or without leaching and/or without perforating.\n7. The swellable rubber composition of\nclaim 1\n, wherein the powder super absorbent polymer has an average particle size of about 10 \u03bcm to about 120 \u03bcm or about 20 \u03bcm to about 100 \u03bcm.\n8. The swellable rubber composition of\nclaim 1\n, wherein the powder super absorbent polymer has an average particle size of less than or equal to about 20 \u03bcm, about 30 \u03bcm, about 40 \u03bcm, about 50 \u03bcm, about 60 \u03bcm, about 70 \u03bcm, about 80 \u03bcm, about 90 \u03bcm, about 100 \u03bcm, about 110 \u03bcm or about 120 \u03bcm.\n9. The swellable rubber composition of\nclaim 1\n, wherein the powder super absorbent polymer consists essentially of particle sizes of less than or equal to about 20 \u03bcm, about 30 \u03bcm, about 40 \u03bcm, about 50 \u03bcm, about 60 \u03bcm, about 70 \u03bcm, about 80 \u03bcm, about 90 \u03bcm, about 100 \u03bcm, about 110 \u03bcm, about 120 \u03bcm or about 130 \u03bcm.\n10. The swellable rubber composition of\nclaim 1\n, wherein the powder super absorbent polymer is present about 120 Phr to about 220 Phr.\n11. The swellable rubber composition of\nclaim 1\n, wherein the swellable rubber composition further comprises one or more of the following: poly-electrolytes, polyacyrlates, polyacrylamides, and/or acrylic acids.\n12. The swellable rubber composition of\nclaim 5\n, wherein the swellable rubber composition further comprises one or more of the following: poly-electrolytes, polyacyrlates, polyacrylamides and/or acrylic acids.\n13. The swellable rubber composition of\nclaim 1\n, wherein the powder super absorbent polymer has a mean particle size of about 35 \u03bcm, a median particle size of about 35 \u03bcm with a standard deviation of about 10 \u03bcm, and no particles over about 63 \u03bcm in the powder.\n14. The swellable rubber composition of\nclaim 1\n, wherein the swellable rubber composition, after curing, is configured to swell by at least about 10%, about 20%, about 30%, about 40%, about 50%, about 60%, about 70%, about 80%, about 90%, about 100%, about 110%, about 120%, about 130%, about 140%, about 150%, about 160%, about 170%, about 180%, about 190%, about 200%, about 210%, about 220%, about 230%, about 240% or about 250% by volume in an about 5% weight/volume brine solution without compromising physical properties of the cured swellable rubber composition and/or without leaching and/or without perforating.\n15. The swellable rubber composition of\nclaim 1\n, wherein the swellable rubber composition, after curing, is configured to swell by at least about 10%, about 20%, about 30%, about 40%, about 50%, about 60%, about 70%, about 80%, about 90%, about 100%, about 110%, about 120%, about 130%, about 140%, about 150%, about 160%, about 170%, about 180%, about 190%, about 200%, about 210%, about 220%, about 230%, about 240% or about 250% by volume in an about 16% weight/volume brine solution without compromising physical properties of the swellable rubber composition and/or without leaching and/or without perforating.\n16. The swellable rubber composition of\nclaim 1\n, wherein the swellable rubber composition, after curing, is configured to swell while being subjected to a temperature of about 200 degrees Fahrenheit.\n17. The swellable rubber composition of\nclaim 1\n, wherein the swellable rubber composition, after curing, is configured to swell while being subjected to a temperature of about 275 degrees Fahrenheit.\n18. The swellable rubber composition of\nclaim 1\n, wherein the swellable rubber composition, after curing, is configured to swell while being subjected to a pressure of at least about 3000 psi, about 4000 psi, about 5000 psi, about 6000 psi, about 7000 psi, or about 8000 psi.\n19. The swellable rubber composition of\nclaim 1\n, wherein the swellable rubber composition, after curing, is configured to swell within about 2 days, about 3 days, about 4 days or about 5 days.\n20. The swellable rubber composition of\nclaim 1\n, wherein the swellable rubber composition, after curing, has a Shore A hardness of at least about 20, about 25 or about 30.\n21. The swellable rubber composition of\nclaim 1\n, wherein the swellable rubber composition, after curing and swelling, has a Shore A hardness of at least about 20, about 25 or about 30.\n22. A method of curing the swellable rubber composition of\nclaim 1\n, the method comprising:\ncombining the swellable rubber composition with a curing composition comprising at least one sulfur curing agent and at least one peroxide agent, to form a mixture; and\nexposing the mixture to conditions comprising a temperature, the temperature comprising at least about 275\u00b0 F.\n23. A method of sealing an annular region between a swellable packer-conduit assembly comprising the swellable rubber composition of\nclaim 1\nand a wellbore wall, the method comprising:\ncontacting at least a portion of the swellable packer-conduit assembly with a sufficient amount of a water based fluid to permit the swellable rubber composition to swell.\n24. A method of sealing a region between a swellable packer-conduit assembly comprising a conduit and the swellable rubber composition of\nclaim 1\nand a wellbore wall, wherein the conduit has an outer surface and the swellable rubber composition of\nclaim 1\nat least partially surrounds the outer surface of the conduit, the method comprising: locating the swellable packer-conduit assembly in a region of a wellbore in a manner so as to seal said region upon swelling of the swellable rubber composition, the swellable rubber composition being susceptible to being in contact with water, water based fluid and/or formation water present in the wellbore wall."
+  }
+]

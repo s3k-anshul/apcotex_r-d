@@ -1,0 +1,125 @@
+pn=EP2316860B1
+title=Nitrile rubbers 
+       
+examples_chars=148825
+desc_chars=152276
+--- EXAMPLES FIELD HEAD ---
+example in the form of mixtures of organic peroxides, hydroperoxides or persulfates as oxidizing agents with reducing agents such as sodium dithionite or Rongalit (sodium formaldehyde sulfoxylate). Metal salts are optionally used as a cocatalyst, preferably with the addition of suitable complexing agents such as sodium ethylenediaminetetraacetate, sodium nitrilotriacetate, isophthalic acid, trisodium phosphate or tetrapotassium diphosphate. Whether and, if appropriate, what influence the initiator system has on the properties of the rubber has not been investigated and is ignored.
+In
+EP-A-0 692 496
+,
+EP-A-0 779 301
+und
+EP-A-0 779 300
+der Zeon Corporation werden jeweils Nitrilkautschuke auf Basis eines ungesättigten Nitrils und eines konjugierten Diens beschrieben. Gemeinsam ist allen Nitrilkautschuken, dass sie 10-60 Gew.% ungesättigtes Nitril und eine Mooney-Viskosität im Bereich von 15-150 bzw. gemäß
+EP-A-0 692 496
+von 15-65 besitzen und alle mindestens 0,03 mol einer speziellen C
+12
+-C
+16
+-Alkylthio-Gruppe pro 100 mol Monomer-Einheiten aufweisen. Die Herstellung der Nitrilkautschuke erfolgt jeweils in Gegenwart eines entsprechend aufgebauten C
+12
+-C
+16
+-Alkylthiols als Molekulargewichtsregler, der als "Chain transfer agent" fungiert und somit als Endgruppe in die Polymerketten eingebaut wird. In den beschriebenen Patentanmeldungen wird die Polymerisation durch nicht näher festgelegte organische Peroxide, Redox-Initiatoren, Azoverbindungen oder Persulfate gestartet. Ein etwaiger Einfluß des Initiatorsystems auf die Eigenschaften des Kautschuks wird nicht betrachtet.
+In
+EP-A-0 692 496
+.
+EP-A-0 779 301
+and
+EP-A-0 779 300
+The Zeon Corporation describes nitrile rubbers based on an unsaturated nitrile and a conjugated diene. Common to all nitrile rubbers is that they contain 10-60% by weight of unsaturated nitrile and have a Mooney viscosity in the range of 15-150, or respectively
+EP-A-0 692 496
+of 15-65 and all having at least 0.03 moles of a specific C
+12
+-C
+16
+alkylthio group per 100 moles of monomeric units. The preparation of the nitrile rubbers is carried out in the presence of a correspondingly constructed C
+12
+-C
+16
+-alkylthiol as a molecular weight regulator, which acts as a "chain transfer agent" and is thus incorporated as an end group in the polymer chains. In the described patent applications, the polymerization is characterized by unspecified organic peroxides,  Redox initiators, azo compounds or persulfates started. Any influence of the initiator system on the properties of the rubber is not considered.
+In
+US-A-2,451,180
+der Goodrich Company wird die Polymerisation zwecks Herstellung von Poly-1,3-butadienen und Copolymeren von 1,3-Butadien mit weiteren copolymerisierbaren Monomeren wie z.B. Acrylnitril unter Verwendung kleiner Mengen von wasserlöslischen Metallsalzen der Gruppe VIII des Mendelejewschen Periodensystems auf Basis von Eisen, Kobalt, Nickel, Palladium, Osmium, Platin etc. beschrieben. Eisen-, Kobalt- und Nickelsalze werden als bevorzugte Salze genannt. Als typische Beispiele solcher Salze werden allgemein Chloride, Nitrate, lodide, Bromide, Sulfate, Sulfite, Nitrite, Thiocyanate von Eisen, Kobalt, Nickel und anderen Gruppe VIII Metallen aufgezählt, sofern sie wasserlöslich sind. Im Hinblick auf Metalle, die in mehr als einer Oxidationsstufe vorkommen können, wird allgemein ausgeführt, diese könnten sowohl in der oxidierten als auch der reduzierten Form verwendet werden z.B. als Eisen(II)sulfat oder Eisen(III)sulfat. Es wird ausgeführt, dass bei Einsatz dieser Metallsalze, unabhängig davon, ob weitere gängige Initiatoren und Beschleuniger zugegen sind oder nicht, eine erhebliche Erhöhung der Polymerisationsgeschwindigkeit auf wenige Stunden beobachtet wird und ferner bei einer niedrigen Temperatur von 20 bis 30°C polymerisiert werden könne, was zu Polymeren mit verbesserten Eigenschaften, insbesondere einer verbesserten Bruchdehnung ("Elongation at break") und Bruchfestigkeit ("Tensile Strength") führe.
+--- EXAMPLE-LIKE LINES IN examples field ---
+0: example in the form of mixtures of organic peroxides, hydroperoxides or persulfates as oxidizing agents with reducing agents such as sodium dithionite or Rongalit (sodium formaldeh
+40: The Goodrich Company discloses the polymerization to produce poly-1,3-butadienes and copolymers of 1,3-butadiene with other copolymerizable monomers such as acrylonitrile using sma
+52: The company Dow Chemical Company describes the emulsion polymerization of rubbers in the presence of α- or β-conidendrol (naphtho (2,3-c) furan-1 (3H) -one). The α- or β-conidendro
+60: Both NBR and HNBR have been firmly established in the field of specialty elastomers for many years. They have an excellent property profile in terms of excellent oil resistance, go
+106: In the aforementioned publications of the prior art, there is no disclosure or indication as to whether and, if appropriate, in what form a radical emulsion polymerization can infl
+140: For example, carboxyl-containing, copolymerizable termonomers, preferably α, β-unsaturated monocarboxylic acids, their esters or amides, α, β-unsaturated dicarboxylic acids, their 
+178: -alkoxyalkyl esters of acrylic acid or of methacrylic acid, very particularly preferably methoxymethyl (meth) acrylate, ethoxyethyl (meth) acrylate and methoxyethyl (meth) acrylate
+180: Other esters of the α, β-unsaturated monocarboxylic acids are, for example, polyethylene glycol (meth) acrylate, polypropylene glycol (meth) acrylate, glycidyl (meth) acrylate,  Ep
+238: . These are, for example, alkyl, preferably C
+281: Examples of
+334: It is also possible to use as further copolymerizable monomers radically polymerizable compounds containing per molecule two or more olefinic double bonds. Examples of such polyuns
+456: Examples of suitable reducing agents
+500: As anionic emulsifiers and fatty acids can be used. These contain 6 to 22 C atoms per molecule. They can be fully saturated or contain one or more double bonds in the molecule. Exa
+510: Examples of such sulfonates, sulfates and phosphates are Na lauryl sulfate, Na alkyl sulfonate, Na alkylarylsulfonate, Na salts methylenverbrückter arylsulfonates, Na salts of alky
+512: Neutral emulsifiers are derived from addition products of ethylene oxide and propylene oxide on compounds with sufficiently acidic hydrogen. These include, for example, phenol, alk
+526: The emulsion polymerization can be carried out in the presence of molecular weight regulators. For example, find C
+530: mercaptans either individually or as a mixture application. Such molecular weight regulators are commercially available, for example from Phillips. The use of a mixture of C
+534: The polymerization time is in the range of 4 hours to 15 hours and depends essentially on the acrylonitrile content of the monomer mixture and the polymerization temperature. The p
+591: If a discoloration of the rubber is of no importance, also aminic aging inhibitor z. B. mixtures of diaryl-p-phenylenediamines (DTPD), octylated diphenylamine (ODPA), phenyl-α-naph
+613: Suitable examples are sodium chloride, potassium chloride, calcium chloride, magnesium chloride, sodium nitrate, potassium nitrate, sodium sulfate, potassium sulfate, sodium bicarb
+621: In addition to at least one salt selected from the group defined above, precipitants may also be used in the coagulation. Suitable precipitation aids are, for example, water-solubl
+623: Examples of nonionic polymeric precipitation aids are modified cellulose such as hydroxyalkyl cellulose or methyl cellulose and adducts of ethylene oxide and propylene oxide on com
+625: Examples of anionic polymeric precipitation aids are the homopolymers and copolymers of (meth) acrylic acid, maleic acid, maleic anhydride, etc. The sodium salt of polyacrylic acid
+647: For the precipitation, a precipitating agent or precipitation aid may additionally be added. For example, the alkali metal salts of inorganic acids known to those skilled in the ar
+663: are, for example, peroxidic crosslinkers such as bis (2,4-dichlorobenzyl) peroxide, dibenzoyl peroxide, bis (4-chlorobenzoyl) peroxide, 1,1-bis (t-butylperoxy) -3,3,5-trimethylcylo
+665: It may be advantageous, in addition to these peroxidic crosslinkers, to use further additives with the aid of which the crosslinking yield can be increased. For example, triallyl i
+671: Suitable sulfur donors are, for example, dimorpholyl disulfide (DTDM), 2-morpholinodithiobenzothiazole (MBSS), caprolactam disulfide, dipentamethylene thiuram tetrasulfide (DPTT), 
+679: As dithiocarbamates can be used, for example: ammonium dimethyldithiocarbamate, sodium diethyldithiocarbamate (SDEC), Natriumdibutyl-dithiocarbamate (SDBC), zinc dimethyldithiocarb
+681: As thiurams, there may be used, for example, tetramethylthiuram disulfide (TMTD), tetramethylthiuram monosulfide (TMTM), dimethyldiphenylthiuram disulfide, tetrabenzylthiuram disul
+683: As thiazoles, there may be used, for example, 2-mercaptobenzothiazole (MBT), dibenzothiazyl disulfide (MBTS), zinc mercaptobenzothiazole (ZMBT) and copper 2-mercaptobenzothiazole.
+685: Examples of sulfenamide derivatives which can be used are: N-cyclohexyl-2-benzothiazyl sulfenamide (CBS), N-tert-butyl-2-benzthiazyl sulfenamide (TBBS), N, N'-dicyclohexyl-2-benzth
+687: As xanthates, there may be used, for example, sodium dibutylxanthogenate, zinc isopropyldibutylxanthogenate and zinc dibutylxanthogenate.
+689: Examples of bi- or polycyclic amines which may be used are: 1,8-diazabicyclo [5.4.0] undec-7-ene (DBU), 1,5-diazabicyclo [4.3.0] non-5-ene (DBN), 1,4-diazabicyclo [2.2.2] octane (D
+691: As guanidine derivatives can be used, for example: diphenylguanidine (DPG), di-o-tolylguanidine (DOTG) and o-tolylbiguanide (OTBG).
+701: Examples of dithiophosphates which can be used are: zinc dialkydithiophosphates (chain length of the alkyl radicals C
+711: For example, dithiobiscaprolactam can be used as caprolactam.
+713: As thiourea derivatives, for example, N, N'-diphenylthiourea (DPTU), diethylthiourea (DETU) and ethylene thiourea (ETU) can be used.
+715: Also suitable as additives are, for example: zinc diamine diisocyanate, hexamethylenetetramine, 1,3-bis (citraconimidomethyl) benzene and cyclic disulfanes.
+717: In the case of hydroxyl-containing nitrile rubbers, it is possible to use a diisocyanate crosslinking as a further crosslinking method, it being possible for the diisocyanates used
+719: In the case of carboxyl-containing nitrile rubbers, a polyamine crosslinking method can be used as a further crosslinking method, the polyamines used containing at least 2 amino gr
+731: These include, for example, the typical and art-known substances such as fillers, filler activators, antiozonants, anti-aging agents, antioxidants, processing aids, extender oils, 
+733: As fillers, for example, carbon black, silica, barium sulfate, titanium dioxide, zinc oxide, calcium oxide, calcium carbonate, magnesium oxide, alumina, iron oxide, aluminum hydrox
+735: Suitable filler activators are, in particular, organic silanes, for example vinyltrimethyloxysilane, vinyldimethoxymethylsilane, vinyltriethoxysilane, vinyltris (2-methoxyethoxy) s
+763: For example, the metathesis is off
+791: The catalysts used are usually based on rhodium, ruthenium or titanium, but it is also possible to use platinum, iridium, palladium, rhenium, ruthenium, osmium, cobalt or copper ei
+856: known  The selective hydrogenation can be achieved, for example, in the presence of a rhodium- or ruthenium-containing catalyst. It is possible, for example, to use a catalyst of t
+912: Examples of co-catalysts can be found, for example, in
+929: Examples
+933: Inventive Examples and Comparative Examples
+1065: The preparation of the nitrile rubbers AF used in the following examples series was carried out according to the recipes and polymerization conditions given in Table 1, all startin
+1370: (Inventive Example and Comparative Example)
+1449: The preparation of the nitrile rubbers G and H used in the following examples was carried out according to the base formulation given in Table 3, all starting materials in parts by
+1566: The solid rubbers obtained had the properties given in Table 4, which were determined as indicated for Examples A to F.
+1608: Table 5 shows here that the nitrile terpolymers obtained with the specific Fe (II) chloride based redox system clearly have a more uniform monomer distribution (indicated by the lo
+1614: (Inventive Example and Comparative Example)
+--- LINE-START EXAMPLE HEADINGS IN examples ---
+0: example in the form of mixtures of organic peroxides, hydroperoxides or persulfates as oxidizing agents with reducing agents such as sodium dithionite or Rongalit (sodium formaldeh
+281: Examples of
+456: Examples of suitable reducing agents
+510: Examples of such sulfonates, sulfates and phosphates are Na lauryl sulfate, Na alkyl sulfonate, Na alkylarylsulfonate, Na salts methylenverbrückter arylsulfonates, Na salts of alky
+623: Examples of nonionic polymeric precipitation aids are modified cellulose such as hydroxyalkyl cellulose or methyl cellulose and adducts of ethylene oxide and propylene oxide on com
+625: Examples of anionic polymeric precipitation aids are the homopolymers and copolymers of (meth) acrylic acid, maleic acid, maleic anhydride, etc. The sodium salt of polyacrylic acid
+685: Examples of sulfenamide derivatives which can be used are: N-cyclohexyl-2-benzothiazyl sulfenamide (CBS), N-tert-butyl-2-benzthiazyl sulfenamide (TBBS), N, N'-dicyclohexyl-2-benzth
+689: Examples of bi- or polycyclic amines which may be used are: 1,8-diazabicyclo [5.4.0] undec-7-ene (DBU), 1,5-diazabicyclo [4.3.0] non-5-ene (DBN), 1,4-diazabicyclo [2.2.2] octane (D
+701: Examples of dithiophosphates which can be used are: zinc dialkydithiophosphates (chain length of the alkyl radicals C
+912: Examples of co-catalysts can be found, for example, in
+929: Examples
+current_regex_split_count=0
+--- UNIQUE HEADING-ISH FORMATS ---
+'example in the form of mixtures of organic peroxides, hydroperoxides or persulfates as oxidizing agents with reducing ag'
+'Examples of'
+'Examples of suitable reducing agents'
+'Examples of such sulfonates, sulfates and phosphates are Na lauryl sulfate, Na alkyl sulfonate, Na alkylarylsulfonate, N'
+'Examples of nonionic polymeric precipitation aids are modified cellulose such as hydroxyalkyl cellulose or methyl cellul'
+'Examples of anionic polymeric precipitation aids are the homopolymers and copolymers of (meth) acrylic acid, maleic acid'
+'Examples of sulfenamide derivatives which can be used are: N-cyclohexyl-2-benzothiazyl sulfenamide (CBS), N-tert-butyl-2'
+'Examples of bi- or polycyclic amines which may be used are: 1,8-diazabicyclo [5.4.0] undec-7-ene (DBU), 1,5-diazabicyclo'
+'Examples of dithiophosphates which can be used are: zinc dialkydithiophosphates (chain length of the alkyl radicals C'
+'Examples of co-catalysts can be found, for example, in'
+'Examples'

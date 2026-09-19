@@ -1,0 +1,102 @@
+{
+  "title": "High Acrylonitrile NBR Patent Research Report",
+  "abstract": "This report provides a concise technical summary of the research scope and target compound High Acrylonitrile NBR, analyzing 1 primary patent and no competitor patents or website sources. The major technical approaches observed include the use of metathesis reactions and various parameters such as temperature, pressure, and catalysts. Key process trends identified include the importance of temperature control and the use of specific catalysts.",
+  "research_type": "Polymerization",
+  "primary_patents": [
+    {
+      "patent_details": {
+        "patent_number": "CN103403034",
+        "patent_title": "Functionalized nitrile rubber and its preparation",
+        "assignee": "Not disclosed",
+        "jurisdiction": "CN",
+        "publication_year": "2016-05-04",
+        "material_type": "Nitrile rubber",
+        "relevance_to_target": "Relevant to High Acrylonitrile NBR"
+      },
+      "technical_method": {
+        "section_title": "Polymerization Method",
+        "parameters": [
+          {
+            "name": "Nitrile",
+            "value": "1 g",
+            "unit": null,
+            "context": "Used in the metathesis reaction",
+            "source_section": "复分解反应的实施"
+          },
+          {
+            "name": "Temperature",
+            "value": "20",
+            "unit": "°C",
+            "context": "Reaction temperature",
+            "source_section": "本发明的方法是在从-20℃到120℃的范围内、优选从0℃到100℃，更优选从10℃到70℃的温度下进"
+          },
+          {
+            "name": "Under",
+            "value": "5",
+            "unit": "hours",
+            "context": "Reaction time",
+            "source_section": "The reaction is typically complete within 5 hours"
+          },
+          {
+            "name": "Up",
+            "value": "50",
+            "unit": "%",
+            "context": "Partial hydrogenation",
+            "source_section": "In the case of partial hydrogenation, preferably a"
+          },
+          {
+            "name": "Cocatalysts",
+            "value": "33",
+            "unit": "parts by weight",
+            "context": "Based on 100 parts by weight of the nitrile rubber",
+            "source_section": "Based on 100 parts by weight of the nitrile rubber"
+          },
+          {
+            "name": "But",
+            "value": "2",
+            "unit": "parts by weight",
+            "context": "Based on 100 parts by weight of the nitrile rubber",
+            "source_section": "Based on 100 parts by weight of the nitrile rubber"
+          },
+          {
+            "name": "Cocatalyst",
+            "value": "5",
+            "unit": "parts by weight",
+            "context": "Based on 100 parts by weight of the nitrile rubber",
+            "source_section": "Based on 100 parts by weight of the nitrile rubber"
+          },
+          {
+            "name": "Temperature",
+            "value": "100",
+            "unit": "°C",
+            "context": "Reaction temperature",
+            "source_section": "by causing the action of hydrogen on the nitrile r"
+          },
+          {
+            "name": "Pressure",
+            "value": "150",
+            "unit": "bar",
+            "context": "Reaction pressure",
+            "source_section": "by causing the action of hydrogen on the nitrile r"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "The reaction was started by adding 50 mg (2.95*10^-4 mol) of the metathesis catalyst to a solution of 1 g of nitrile rubber in 20 ml of dichloromethane.",
+        "The reaction mixture was then stirred at room temperature for 5 hours.",
+        "The yield of the reaction was 2.4 g (17.8 mmol, 58%)."
+      ],
+      "technical_relevance": "This patent is relevant to High Acrylonitrile NBR as it describes a method for the preparation of functionalized nitrile rubber, which is a key component of High Acrylonitrile NBR."
+    }
+  ],
+  "competitor_patents": [],
+  "website_sources": [],
+  "cross_patent_comparison": [
+    "The use of metathesis reactions is a common technical approach in the preparation of High Acrylonitrile NBR.",
+    "Temperature control is an important parameter in the preparation of High Acrylonitrile NBR."
+  ],
+  "conclusion": "The preparation of High Acrylonitrile NBR involves the use of metathesis reactions and various parameters such as temperature, pressure, and catalysts. The use of specific catalysts and temperature control are key factors in the preparation of High Acrylonitrile NBR.",
+  "references": [
+    "[CN103403034](https://patents.google.com/patent/CN103403034A/en) - Functionalized nitrile rubber and its preparation"
+  ]
+}

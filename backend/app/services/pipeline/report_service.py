@@ -16,7 +16,9 @@ from xhtml2pdf import pisa
 from app.services.llm.llm_client import llm_client
 from app.services.pipeline.schemas import (
     ReportPatentEvidence, PatentResearchReport, LLMPatentResearchReport,
-    ReportPatent, ReportPatentDetails, ReportPatentMethodology, PatentExtraction
+    ReportPatent, ReportPatentDetails, ReportPatentMethodology, PatentExtraction,
+    MediumAndWaterRoleEvidence, DynamicTargetAttributeEvidence,
+    ReportComparisonDimension,
 )
 from app.services.prompts.patent_prompts import (
     REPORT_GENERATION_SYSTEM_PROMPT,
@@ -24,6 +26,107 @@ from app.services.prompts.patent_prompts import (
 )
 
 logger = logging.getLogger(__name__)
+
+_NO_WATER_SUMMARY = (
+    "No water-related process step disclosed in the extracted evidence."
+)
+_NOT_DISCLOSED_VALUE = "Not disclosed in extracted evidence"
+_DEFAULT_TARGET_LABEL = "Target Attribute"
+
+
+def resolve_target_attribute_label(
+    attribute_constraint: Optional[str] = None,
+    research_profile: Optional[object] = None,
+) -> str:
+    """
+    Derive the dynamic target-attribute label from the research strategy.
+    Priority: explicit attribute_constraint → strategy target_attributes → generic fallback.
+    Compound-agnostic: no material-specific branching.
+    """
+    constraint = (attribute_constraint or "").strip()
+    if constraint and constraint.lower() not in ("none", "null", "n/a"):
+        return constraint
+
+    attrs: list = []
+    if research_profile is None:
+        pass
+    elif isinstance(research_profile, dict):
+        attrs = research_profile.get("target_attributes") or []
+    elif isinstance(research_profile, str):
+        text = research_profile.strip()
+        if text:
+            try:
+                import json as _json
+                parsed = _json.loads(text)
+                if isinstance(parsed, dict):
+                    attrs = parsed.get("target_attributes") or []
+            except Exception:
+                attrs = []
+    else:
+        attrs = list(getattr(research_profile, "target_attributes", None) or [])
+
+    for item in attrs:
+        if isinstance(item, str) and item.strip():
+            return item.strip()
+        label = getattr(item, "label", None) or getattr(item, "name", None)
+        if label and str(label).strip():
+            return str(label).strip()
+
+    return _DEFAULT_TARGET_LABEL
+
+
+def _normalize_medium_and_water_role(
+    raw: Optional[MediumAndWaterRoleEvidence],
+) -> MediumAndWaterRoleEvidence:
+    if raw is None:
+        return MediumAndWaterRoleEvidence(summary=_NO_WATER_SUMMARY, water_present=False)
+    summary = (raw.summary or "").strip()
+    if not summary or summary.lower() in ("unknown", "null", "n/a", "none"):
+        summary = _NO_WATER_SUMMARY
+    return MediumAndWaterRoleEvidence(
+        core_reaction_medium=(raw.core_reaction_medium or "").strip(),
+        water_present=bool(raw.water_present),
+        water_roles=list(raw.water_roles or []),
+        summary=summary,
+        evidence=list(raw.evidence or []),
+    )
+
+
+def _normalize_target_attribute(
+    raw: Optional[DynamicTargetAttributeEvidence],
+    label: str,
+) -> DynamicTargetAttributeEvidence:
+    if raw is None:
+        return DynamicTargetAttributeEvidence(
+            label=label,
+            value=_NOT_DISCLOSED_VALUE,
+            status="not_found",
+            material_context="",
+            belongs_to_target=False,
+            evidence=[],
+        )
+    belongs = bool(getattr(raw, "belongs_to_target", False))
+    value = (raw.value or "").strip()
+    status = (raw.status or "").strip().lower() or "not_found"
+    material_context = (getattr(raw, "material_context", None) or "").strip()
+    # Ownership invariant: values that do not belong to the requested target are not reported as target properties.
+    if not belongs:
+        value = _NOT_DISCLOSED_VALUE
+        status = "not_found"
+    elif not value or value.lower() in ("unknown", "null", "n/a", "none", ""):
+        value = _NOT_DISCLOSED_VALUE
+        status = "not_found"
+        belongs = False
+    attr_label = (raw.label or "").strip() or label
+    return DynamicTargetAttributeEvidence(
+        label=attr_label,
+        value=value,
+        status=status,
+        material_context=material_context,
+        belongs_to_target=belongs and value != _NOT_DISCLOSED_VALUE,
+        evidence=list(raw.evidence or []) if belongs else [],
+    )
+
 
 class ReportService:
     def __init__(self):
@@ -36,7 +139,9 @@ class ReportService:
         patent_manifest: List[str] = None,
         secondary_candidates: list = None,
         original_input: str = "",
-        research_profile: str = ""
+        research_profile: str = "",
+        attribute_constraint: Optional[str] = None,
+        target_attribute_label: Optional[str] = None,
     ) -> tuple:
         """Generate the structured report via LLM using the aggregated extractions."""
         import time
@@ -46,6 +151,12 @@ class ReportService:
 
         from app.services.pipeline.report_evidence_service import ReportEvidenceService
         svc = ReportEvidenceService()
+
+        resolved_label = (target_attribute_label or "").strip() or resolve_target_attribute_label(
+            attribute_constraint=attribute_constraint,
+            research_profile=research_profile,
+        )
+        constraint_for_prompt = (attribute_constraint or "").strip() or "None"
 
         effective_provider_limit = getattr(settings, 'REPORT_PROVIDER_SAFE_LIMIT', 100000)
         overhead = getattr(settings, 'REPORT_EVIDENCE_OVERHEAD_TOKENS', 4000)
@@ -61,9 +172,10 @@ class ReportService:
                 research_profile="dummy",
                 extractions_data="",
                 patent_manifest="",
-                secondary_manifest="None",
                 primary_count=0,
-                patent_count=0
+                patent_count=0,
+                target_attribute_label=resolved_label,
+                attribute_constraint=constraint_for_prompt,
             )
         )
         overhead_total = sys_tokens + base_tokens
@@ -113,12 +225,14 @@ class ReportService:
             extractions_data=extractions_data,
             patent_manifest=manifest_str,
             primary_count=primary_count,
-            patent_count=patent_count
+            patent_count=patent_count,
+            target_attribute_label=resolved_label,
+            attribute_constraint=constraint_for_prompt,
         )
 
         logger.info(
-            "REPORT PAYLOAD\nPatents: %d\nEvidence tokens: %d\nSystem tokens: %d\nTotal input tokens: %d\nConfigured limit: %d",
-            len(extractions), est_tokens, overhead_total, total_prompt_tokens, effective_provider_limit
+            "REPORT PAYLOAD\nPatents: %d\nEvidence tokens: %d\nSystem tokens: %d\nTotal input tokens: %d\nConfigured limit: %d\nTarget attribute label: %s",
+            len(extractions), est_tokens, overhead_total, total_prompt_tokens, effective_provider_limit, resolved_label
         )
 
         t0 = time.time()
@@ -150,6 +264,9 @@ class ReportService:
                     llm_analysis_by_pn[pn] = pa
 
             methodology_patents = []
+            medium_values: Dict[str, str] = {}
+            attribute_values: Dict[str, str] = {}
+
             for ext in extractions:
                 details = ReportPatentDetails(
                     patent_number=ext.patent_number,
@@ -183,14 +300,37 @@ class ReportService:
                             s += f" ({p.context})"
                         params.append(s)
 
+                medium_role = _normalize_medium_and_water_role(
+                    getattr(llm_pa, "medium_and_water_role", None) if llm_pa else None
+                )
+                target_attr = _normalize_target_attribute(
+                    getattr(llm_pa, "target_attribute", None) if llm_pa else None,
+                    resolved_label,
+                )
+                # Force strategy label (prevent model drift / cross-run bleed)
+                target_attr.label = resolved_label
+
+                params.append(f"Medium & Water Role: {medium_role.summary}")
+                params.append(f"{target_attr.label}: {target_attr.value}")
+
+                medium_values[ext.patent_number] = medium_role.summary
+                attribute_values[ext.patent_number] = target_attr.value
+
                 methodology = ReportPatentMethodology(dynamic_parameters=params)
 
                 # Experimental evidence: use LLM example_highlights, fall back to deterministic examples
                 evidence = []
                 if llm_pa and getattr(llm_pa, 'example_highlights', []):
-                    evidence = list(llm_pa.example_highlights)
-                else:
-                    # Deterministic fallback: technical_findings first, then example params
+                    # Drop unhelpful parser-placeholder bullets the model sometimes invents
+                    for h in llm_pa.example_highlights:
+                        hl = (h or "").strip()
+                        if not hl:
+                            continue
+                        low = hl.lower()
+                        if "not detected by parser" in low or "not structurally extracted" in low:
+                            continue
+                        evidence.append(hl)
+                if not evidence:
                     for findings in ext.technical_findings:
                         evidence.append(findings)
                     for ex in ext.examples:
@@ -199,22 +339,76 @@ class ReportService:
                         )
                         if param_strs:
                             evidence.append(f"{ex.example_id}: {param_strs}")
+                        elif getattr(ex, "raw_text", None):
+                            snippet = (ex.raw_text or "").strip().split("\n", 1)[0][:240]
+                            evidence.append(f"{ex.example_id}: {snippet}")
+                    for sec in ext.synthesis_sections[:3]:
+                        title = getattr(sec, "section_title", "Process section") or "Process section"
+                        snippet = (getattr(sec, "raw_text", "") or "").strip().replace("\n", " ")[:240]
+                        if snippet:
+                            evidence.append(f"{title}: {snippet}")
+                    for note in ext.limitations_or_missing_data:
+                        if note and note not in evidence:
+                            evidence.append(note)
 
                 methodology_patents.append(ReportPatent(
                     patent_details=details,
                     polymerization_method=methodology,
-                    experimental_evidence=evidence if evidence else ["No experimental evidence extracted from available evidence."],
-                    technical_relevance=getattr(llm_pa, 'technical_relevance', '') or "Selected via deterministic pipeline scoring."
+                    experimental_evidence=evidence if evidence else [
+                        "No segmented worked-example sections were available; "
+                        "see methodology parameters and source evidence for process details."
+                    ],
+                    technical_relevance=getattr(llm_pa, 'technical_relevance', '') or "Selected via deterministic pipeline scoring.",
+                    medium_and_water_role=medium_role,
+                    target_attribute=target_attr,
                 ))
             
+            comparison_dimensions = [
+                ReportComparisonDimension(
+                    parameter_name="Medium & Water Role",
+                    values=medium_values,
+                ),
+                ReportComparisonDimension(
+                    parameter_name=resolved_label,
+                    values=attribute_values,
+                ),
+            ]
+
             final_report = PatentResearchReport(
                 title=report_obj.title or "PATENT RESEARCH REPORT",
                 abstract=report_obj.abstract or "No abstract provided.",
                 methodology_patents=methodology_patents,
+                secondary_patents=[],
                 cross_patent_comparison=report_obj.cross_patent_comparison,
                 conclusion=report_obj.conclusion,
-                references=report_obj.references
+                references=report_obj.references,
+                dynamic_target_attribute_label=resolved_label,
+                comparison_dimensions=comparison_dimensions,
             )
+
+            # Authoritative manifest: drop phantom patents from LLM references
+            allowed = {ev.patent_number for ev in extractions}
+            if patent_manifest:
+                allowed |= set(patent_manifest)
+            cleaned_refs = []
+            for ref in final_report.references or []:
+                ref_pn = ref.split("|")[0].strip() if "|" in ref else str(ref).strip()
+                if ref_pn in allowed:
+                    cleaned_refs.append(ref)
+                else:
+                    logger.warning(
+                        "[REPORT] Dropping phantom reference not in selected manifest: %s",
+                        ref_pn,
+                    )
+            final_report.references = cleaned_refs or sorted(allowed)
+
+            # Methodology patents are built only from extractions — assert no extras
+            for mp in final_report.methodology_patents:
+                pn = getattr(mp.patent_details, "patent_number", "")
+                if pn and pn not in allowed:
+                    logger.error(
+                        "[REPORT] Unexpected methodology patent %s not in manifest", pn
+                    )
 
             logger.info(
                 "[REPORT] RESPONSE_RECEIVED | Latency: %.1fs | Provider: %s | "
@@ -249,8 +443,15 @@ class ReportService:
         lines.append("\n## 2. METHODOLOGY")
         lines.append("### PRIMARY PATENT EVIDENCE")
 
-        primary_patents = getattr(report, 'methodology_patents', [])
-        secondary_patents = getattr(report, 'secondary_patents', [])
+        primary_patents = getattr(report, 'methodology_patents', []) or []
+        # secondary_patents are intentionally ignored — selected primary manifest only.
+
+        if not primary_patents:
+            lines.append(
+                "\nNo patents from the authoritative selected primary manifest were available. "
+                "This reflects selection criteria outcomes (identity / qualifier / centrality), "
+                "not a claim that no related patents exist in the literature."
+            )
 
         for idx, patent in enumerate(primary_patents):
             lines.append(f"\n#### Patent {idx + 1}")
@@ -276,6 +477,18 @@ class ReportService:
             else:
                 lines.append("- No polymerization parameters disclosed.")
 
+            medium_role = getattr(patent, "medium_and_water_role", None)
+            if medium_role and getattr(medium_role, "summary", None):
+                lines.append("\n**Medium & Water Role**")
+                lines.append(f"- {medium_role.summary}")
+                if getattr(medium_role, "core_reaction_medium", None):
+                    lines.append(f"- Core reaction medium: {medium_role.core_reaction_medium}")
+
+            target_attr = getattr(patent, "target_attribute", None)
+            if target_attr and getattr(target_attr, "label", None):
+                lines.append(f"\n**{target_attr.label}**")
+                lines.append(f"- {target_attr.value or _NOT_DISCLOSED_VALUE}")
+
             lines.append("\n**Relevant Experimental Evidence**")
             if patent.experimental_evidence:
                 for ev in patent.experimental_evidence:
@@ -286,42 +499,61 @@ class ReportService:
             lines.append("\n**Technical Relevance**")
             lines.append(patent.technical_relevance or "No technical relevance provided.")
 
-        if secondary_patents:
-            lines.append("\n### SUPPORTING / RELATED PATENTS (SECONDARY)")
-            for idx, patent in enumerate(secondary_patents):
-                lines.append(f"\n#### Supporting Patent {idx + 1}")
+        # Dynamic comparison table (Medium & Water Role + strategy attribute)
+        comparison_dims = getattr(report, "comparison_dimensions", None) or []
+        if primary_patents and comparison_dims:
+            lines.append("\n### PATENT COMPARISON TABLE")
+            headers = ["Patent", "Applicant", "Priority"]
+            for dim in comparison_dims:
+                headers.append(getattr(dim, "parameter_name", None) or dim.get("parameter_name", ""))
+            headers.append("Key Findings")
+            lines.append("| " + " | ".join(headers) + " |")
+            lines.append("| " + " | ".join(["---"] * len(headers)) + " |")
+            for patent in primary_patents:
                 pd = patent.patent_details
-                lines.append(f"- Patent Number: {pd.patent_number or 'Not available from source'}")
-                lines.append(f"- Patent Title: {pd.patent_title or 'Not available from source'}")
-                lines.append(f"- Assignee: {pd.assignee or 'Not available from source'}")
-                lines.append(f"- Jurisdiction: {pd.jurisdiction or 'Not available from source'}")
-                lines.append(f"- Classification: SECONDARY (Synthesis relevant; constraints not confirmed)")
-                lines.append(f"- Technical Note: {patent.technical_relevance or 'Supporting patent.'}")
+                row = [
+                    pd.patent_number or "",
+                    pd.assignee or "",
+                    getattr(pd, "priority_date", None) or pd.publication_year or "",
+                ]
+                for dim in comparison_dims:
+                    values = getattr(dim, "values", None) or (dim.get("values") if isinstance(dim, dict) else {}) or {}
+                    row.append(values.get(pd.patent_number, _NOT_DISCLOSED_VALUE))
+                finding = ""
+                if patent.experimental_evidence:
+                    finding = patent.experimental_evidence[0][:120]
+                row.append(finding)
+                lines.append("| " + " | ".join(row) + " |")
 
         # Cross-patent comparison — only when enough primary evidence
         lines.append("\n## 3. CROSS-PATENT COMPARISON & SYNTHESIS TRENDS")
         if len(primary_patents) >= 2 and report.cross_patent_comparison:
             for point in report.cross_patent_comparison:
                 lines.append(f"- {point}")
+        elif len(primary_patents) == 0:
+            lines.append(
+                "- No patents from the authoritative selected primary manifest were "
+                "available for comparison. This reflects selection criteria outcomes "
+                "(identity / qualifier / centrality), not a claim that no related "
+                "patents exist in the literature."
+            )
         elif len(primary_patents) < 2:
             lines.append(
-                "- No qualifying primary patents were identified under the configured "
-                "target material relevance criteria. Cross-patent quantitative "
-                "trends were therefore not generated."
+                "- Fewer than two selected primary patents were available, so "
+                "cross-patent quantitative trends were not generated."
             )
         else:
             lines.append("- No cross-patent comparison data provided.")
 
-        # Conclusion
+        # Conclusion — always section 4 when present
+        lines.append("\n## 4. CONCLUSION")
         if report.conclusion:
-            lines.append("\n## 4. CONCLUSION")
             lines.append(report.conclusion)
-            next_section = 5
         else:
-            next_section = 4
+            lines.append("No conclusion provided.")
 
         # References — from validated evidence set only
-        lines.append(f"\n## {next_section}. REFERENCES")
+        lines.append("\n## 5. REFERENCES")
         if report.references:
             for ref in report.references:
                 lines.append(f"- {ref}")
@@ -426,15 +658,16 @@ class ReportService:
         doc.add_paragraph(_safe(report.abstract))
 
         # Methodology / Primary Patents
-        primary_patents = getattr(report, 'methodology_patents', [])
-        secondary_patents = getattr(report, 'secondary_patents', [])
+        primary_patents = getattr(report, 'methodology_patents', []) or []
 
-        doc.add_heading('2. Primary Patent Evidence', level=2)
+        doc.add_heading('2. Methodology', level=2)
+        doc.add_heading('Primary Patent Evidence', level=3)
 
         if not primary_patents:
             doc.add_paragraph(
-                'No qualifying primary patents were identified under the configured '
-                'target material relevance criteria.'
+                'No patents from the authoritative selected primary manifest were available. '
+                'This reflects selection criteria outcomes (identity / qualifier / centrality), '
+                'not a claim that no related patents exist in the literature.'
             )
         else:
             for idx, patent in enumerate(primary_patents):
@@ -465,6 +698,16 @@ class ReportService:
                 else:
                     doc.add_paragraph('No polymerization parameters disclosed.')
 
+                medium_role = getattr(patent, "medium_and_water_role", None)
+                if medium_role and getattr(medium_role, "summary", None):
+                    doc.add_heading('Medium & Water Role', level=4)
+                    doc.add_paragraph(_safe(medium_role.summary))
+
+                target_attr = getattr(patent, "target_attribute", None)
+                if target_attr and getattr(target_attr, "label", None):
+                    doc.add_heading(_safe(target_attr.label), level=4)
+                    doc.add_paragraph(_safe(target_attr.value or _NOT_DISCLOSED_VALUE))
+
                 # Experimental evidence
                 doc.add_heading('Relevant Experimental Evidence', level=4)
                 if patent.experimental_evidence:
@@ -477,53 +720,51 @@ class ReportService:
                 doc.add_heading('Technical Relevance', level=4)
                 doc.add_paragraph(_safe(patent.technical_relevance))
 
-        # Secondary patents section
-        if secondary_patents:
-            doc.add_heading('Supporting / Related Patents (Secondary)', level=2)
-            doc.add_paragraph(
-                'These patents are related to target synthesis but specific constraint relevance was not '
-                'confirmed from available title and abstract data.'
-            )
-            for idx, patent in enumerate(secondary_patents):
+        comparison_dims = getattr(report, "comparison_dimensions", None) or []
+        if primary_patents and comparison_dims:
+            doc.add_heading('Patent Comparison Table', level=3)
+            headers = ["Patent", "Applicant"] + [
+                getattr(d, "parameter_name", "") for d in comparison_dims
+            ]
+            table = doc.add_table(rows=1, cols=len(headers))
+            table.style = 'Table Grid'
+            for i, h in enumerate(headers):
+                table.rows[0].cells[i].text = _safe(h)
+            for patent in primary_patents:
                 pd = patent.patent_details
-                doc.add_heading(f'Supporting Patent {idx + 1}: {_safe(pd.patent_number)} — {_safe(pd.patent_title)}', level=3)
-                meta = [
-                    ('Patent Number', pd.patent_number),
-                    ('Title', pd.patent_title),
-                    ('Assignee', pd.assignee),
-                    ('Jurisdiction', pd.jurisdiction),
-                    ('Publication Year', pd.publication_year),
-                    ('Relevance Classification', 'SECONDARY'),
-                ]
-                _add_metadata_table(doc, meta)
-                doc.add_heading('Technical Note', level=4)
-                doc.add_paragraph(_safe(patent.technical_relevance))
+                row = table.add_row().cells
+                row[0].text = _safe(pd.patent_number)
+                row[1].text = _safe(pd.assignee)
+                for i, dim in enumerate(comparison_dims):
+                    values = getattr(dim, "values", {}) or {}
+                    row[i + 2].text = _safe(values.get(pd.patent_number, _NOT_DISCLOSED_VALUE))
 
         # Cross-patent comparison
         doc.add_heading('3. Cross-Patent Comparison & Synthesis Trends', level=2)
         if len(primary_patents) >= 2 and report.cross_patent_comparison:
             for point in report.cross_patent_comparison:
                 doc.add_paragraph(_safe(point), style='List Bullet')
+        elif len(primary_patents) == 0:
+            doc.add_paragraph(
+                'No patents from the authoritative selected primary manifest were available '
+                'for comparison. This reflects selection criteria outcomes, not absence of '
+                'related literature.'
+            )
         elif len(primary_patents) < 2:
             doc.add_paragraph(
-                'No qualifying primary patents were identified under the configured '
-                'target material relevance criteria. Cross-patent quantitative '
-                'trends were therefore not generated.'
+                'Fewer than two selected primary patents were available, so cross-patent '
+                'quantitative trends were not generated.'
             )
         else:
             doc.add_paragraph('Insufficient comparable evidence for cross-patent trend analysis.')
 
         # Conclusion
+        doc.add_heading('4. Conclusion', level=2)
         conclusion = getattr(report, 'conclusion', None)
-        if conclusion:
-            doc.add_heading('4. Conclusion', level=2)
-            doc.add_paragraph(_safe(conclusion))
-            ref_section_num = 5
-        else:
-            ref_section_num = 4
+        doc.add_paragraph(_safe(conclusion) if conclusion else 'No conclusion provided.')
 
         # References
-        doc.add_heading(f'{ref_section_num}. References', level=2)
+        doc.add_heading('5. References', level=2)
         if report.references:
             for ref in report.references:
                 doc.add_paragraph(_safe(ref), style='List Bullet')
@@ -551,11 +792,19 @@ class ReportService:
             (ok, errors) where ok=True means all checks passed.
         """
         errors = []
-        secondary_manifest = secondary_manifest or []
-        all_manifest = set(primary_manifest) | set(secondary_manifest)
+        # Secondary patents are not part of the report contract; ignore any leftover list.
+        _ = secondary_manifest
+        all_manifest = set(primary_manifest)
 
-        primary_patents = getattr(report, 'methodology_patents', [])
-        secondary_patents = getattr(report, 'secondary_patents', [])
+        primary_patents = getattr(report, 'methodology_patents', []) or []
+        secondary_patents = getattr(report, 'secondary_patents', None) or []
+
+        # Check 0: Report must not contain supporting/related/secondary patents
+        if secondary_patents:
+            errors.append(
+                f"CHECK FAIL: Report contains {len(secondary_patents)} secondary/related "
+                "patent(s); only the selected primary manifest is allowed."
+            )
 
         # Check 1: Every primary patent has a publication_number
         for p in primary_patents:
@@ -580,14 +829,14 @@ class ReportService:
                 "cross_patent_comparison is non-empty (requires >= 2)."
             )
 
-        # Check 5: Every reference must be from the manifest
+        # Check 5: Every reference must be from the primary manifest
         for ref in report.references:
             # References format: 'PatentNumber | ...'
             ref_pn = ref.split('|')[0].strip() if '|' in ref else ref.strip()
             if ref_pn and all_manifest and ref_pn not in all_manifest:
                 errors.append(f"CHECK FAIL: Reference '{ref_pn}' not in evidence manifest.")
 
-        # Check 6: Primary patent numbers match manifest
+        # Check 6: Primary patent numbers match manifest exactly (no extras, no missing)
         report_primary_pns = {
             getattr(p.patent_details, 'patent_number', '') for p in primary_patents
         }
@@ -595,6 +844,9 @@ class ReportService:
         missing = manifest_set - report_primary_pns
         if missing:
             errors.append(f"CHECK FAIL: Missing patents in report: {sorted(missing)}")
+        extras = report_primary_pns - manifest_set
+        if extras:
+            errors.append(f"CHECK FAIL: Extra patents not in selected manifest: {sorted(extras)}")
 
         ok = len(errors) == 0
         if ok:

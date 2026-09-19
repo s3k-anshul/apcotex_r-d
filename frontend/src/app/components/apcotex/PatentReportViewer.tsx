@@ -143,6 +143,24 @@ export function PatentReportViewer() {
                 <p style={{ color: '#6B7280', fontStyle: 'italic', marginBottom: 24 }}>No polymerization parameters disclosed.</p>
               )}
 
+              {patent.medium_and_water_role?.summary && (
+                <div style={{ marginBottom: 24 }}>
+                  <h5 style={{ fontSize: "12pt", fontWeight: 600, margin: "0 0 8px 0", color: '#374151' }}>Medium & Water Role</h5>
+                  <p style={{ margin: 0, color: '#111827' }}>{patent.medium_and_water_role.summary}</p>
+                </div>
+              )}
+
+              {(patent.target_attribute?.label || report.dynamic_target_attribute_label) && (
+                <div style={{ marginBottom: 24 }}>
+                  <h5 style={{ fontSize: "12pt", fontWeight: 600, margin: "0 0 8px 0", color: '#374151' }}>
+                    {patent.target_attribute?.label || report.dynamic_target_attribute_label}
+                  </h5>
+                  <p style={{ margin: 0, color: '#111827' }}>
+                    {patent.target_attribute?.value || 'Not disclosed in extracted evidence'}
+                  </p>
+                </div>
+              )}
+
               {/* Experimental Evidence */}
               {patent.experimental_evidence && patent.experimental_evidence.length > 0 && (
                 <div style={{ marginBottom: 24 }}>
@@ -306,10 +324,10 @@ export function PatentReportViewer() {
           {competitorPatents.length > 0 ? (websiteSources.length > 0 ? "5. Cross-Patent Comparison & Trends" : "4. Cross-Patent Comparison & Trends") : (websiteSources.length > 0 ? "4. Cross-Patent Comparison & Trends" : "3. Cross-Patent Comparison & Trends")}
         </h2>
 
-        {primaryPatents.length < 2 ? (
+        {primaryPatents.length < 2 && comparisonDimensions.length === 0 ? (
           <p style={{ color: '#6B7280', fontStyle: 'italic' }}>
             {primaryPatents.length === 0
-              ? 'No qualifying primary patents were identified under the configured Low Acrylonitrile NBR relevance criteria. Cross-patent quantitative trends were therefore not generated.'
+              ? 'No qualifying primary patents were identified under the configured relevance criteria. Cross-patent quantitative trends were therefore not generated.'
               : 'At least two primary patents are required for cross-patent trend analysis. Only one primary patent was identified.'}
           </p>
         ) : comparisonDimensions.length > 0 ? (
@@ -320,6 +338,7 @@ export function PatentReportViewer() {
                 <thead>
                   <tr>
                     <th style={{ border: `1px solid ${BORDER}`, padding: '10px 12px', background: '#F3F4F6', fontWeight: 600 }}>Patent</th>
+                    <th style={{ border: `1px solid ${BORDER}`, padding: '10px 12px', background: '#F3F4F6', fontWeight: 600 }}>Applicant</th>
                     {comparisonDimensions.map((dim: any, i: number) => (
                       <th key={i} style={{ border: `1px solid ${BORDER}`, padding: '10px 12px', background: '#F3F4F6', fontWeight: 600 }}>
                         {dim.parameter_name}
@@ -331,18 +350,20 @@ export function PatentReportViewer() {
                 <tbody>
                   {primaryPatents.map((patent: any, idx: number) => {
                     const details = patent.patent_details || {};
+                    const finding = (patent.experimental_evidence && patent.experimental_evidence[0]) || '';
                     return (
                       <tr key={idx}>
                         <td style={{ border: `1px solid ${BORDER}`, padding: '8px 12px', fontWeight: 500 }}>{details.patent_number}</td>
+                        <td style={{ border: `1px solid ${BORDER}`, padding: '8px 12px' }}>{details.assignee || ''}</td>
                         {comparisonDimensions.map((dim: any, i: number) => {
-                          const value = dim.values?.[details.patent_number] || 'Not disclosed';
+                          const value = dim.values?.[details.patent_number] || 'Not disclosed in extracted evidence';
                           return (
                             <td key={i} style={{ border: `1px solid ${BORDER}`, padding: '8px 12px' }}>
                               {value}
                             </td>
                           );
                         })}
-                        <td style={{ border: `1px solid ${BORDER}`, padding: '8px 12px' }}></td>
+                        <td style={{ border: `1px solid ${BORDER}`, padding: '8px 12px' }}>{finding}</td>
                       </tr>
                     );
                   })}
@@ -350,6 +371,10 @@ export function PatentReportViewer() {
               </table>
             </div>
           </>
+        ) : primaryPatents.length < 2 ? (
+          <p style={{ color: '#6B7280', fontStyle: 'italic' }}>
+            At least two primary patents are required for cross-patent trend analysis. Only one primary patent was identified.
+          </p>
         ) : (
           <p style={{ color: '#6B7280', fontStyle: 'italic', marginBottom: 16 }}>Insufficient comparable evidence was available to identify a reliable cross-patent trend.</p>
         )}

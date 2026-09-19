@@ -1,0 +1,384 @@
+{
+  "title": "PATENT RESEARCH REPORT",
+  "abstract": "No abstract provided.",
+  "methodology_patents": [
+    {
+      "patent_details": {
+        "patent_number": "EP2478021B1",
+        "patent_title": "Nitrile rubbers and production of same in organic solvents",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "EP",
+        "publication_year": "2015",
+        "polymer_type": null,
+        "relevance_to_target": "Directly describes the synthesis of nitrile rubbers (NBR) in organic solvents using free-radical polymerization in the presence of RAFT regulators, which is highly relevant for producing well-defined high-acrylonitrile NBR."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Monomer 1: Acrylonitrile 35.6 g (Examples 24-25)",
+          "Monomer 2: 1,3-Butadiene 57.3 g (62 phm, Examples 24-25)",
+          "Pressure: 3 bar",
+          "Temperature: 100 °C",
+          "Time: 6 hours",
+          "Initiator: Vazo 88 (128 mg)",
+          "Solvent: Dimethylacetamide (5 ml)"
+        ]
+      },
+      "experimental_evidence": [
+        "Examples 24-25 utilize Dibenzoyltrithiocarbonat as a RAFT regulator, 35.6 g of acrylonitrile, and 57.3 g of 1,3-butadiene (62 phm) metered under 3 bar pressure.",
+        "The polymerization is initiated at 100 °C using Vazo 88 as the initiator.",
+        "In Examples 18, 20, and 23, 128 mg of Vazo 88 (0.15 phm) dissolved in 5 ml of dimethylacetamide is post-dosed after 2.5 and 6 hours of polymerization time."
+      ],
+      "technical_relevance": "Provides a solution-based free-radical polymerization method for NBR using RAFT agents to control molecular weight and polydispersity, which is highly relevant for synthesizing well-defined high-acrylonitrile NBR."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US8470422B2",
+        "patent_title": "Nitrile rubber article having natural rubber characteristics",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2013",
+        "polymer_type": null,
+        "relevance_to_target": "Discloses a blend of acrylonitrile terpolymers with an overall acrylonitrile content of 17 to 45% by weight, which covers the high-acrylonitrile NBR range."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Acrylonitrile content: 17 to 45% by weight",
+          "Methacrylic acid content: less than 15% by weight",
+          "Butadiene content: Remaining balance"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 12 describes a carboxylated nitrile-butadiene rubber latex formulation composed of a blend of a first and second acrylonitrile terpolymer.",
+        "The blended terpolymers have an acrylonitrile content between 17% and 45% by weight, methacrylic acid content less than 15% by weight, and the balance being butadiene.",
+        "The resulting elastomeric article (e.g., a thin soft-nitrile glove) exhibits an elastic modulus of 3 to 6 MPa and a tensile strength of 30 to 58 MPa."
+      ],
+      "technical_relevance": "Demonstrates the formulation and mechanical properties of NBR/XNBR latex blends containing up to 45% acrylonitrile (high-acrylonitrile NBR range) for dipping applications."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US11795308B2",
+        "patent_title": "Rubber compositions comprising polysaccharides",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2023",
+        "polymer_type": null,
+        "relevance_to_target": "Mentions diene-based elastomers (which can include NBR) compounded with polysaccharides for improved processability and green properties."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Glass transition temperature (Tg): below -30 °C",
+          "Polysaccharide degree of polymerization: 55 to 10,000"
+        ]
+      },
+      "experimental_evidence": [
+        "No specific experimental examples disclosed in the supplied evidence."
+      ],
+      "technical_relevance": "Offers compounding strategies for diene elastomers (like NBR) using renewable polysaccharide fillers to reduce rolling resistance and improve wet traction."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US7041761B2",
+        "patent_title": "Functionalized monomers for synthesis of rubbery polymers",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2006",
+        "polymer_type": null,
+        "relevance_to_target": "Describes copolymerization of conjugated dienes with functionalized monomers, which is technically applicable to NBR functionalization."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Monomer concentration: 20 % in hexane",
+          "Polymerization temperature: 0 °C to 150 °C",
+          "Conversion: 65 % (shortstopped)",
+          "Initiator: Anionic initiator (e.g., n-butyllithium)",
+          "Butadiene ratio: 80 % (or 90 %)",
+          "Styrene ratio: 19 % (or 9 %)"
+        ]
+      },
+      "experimental_evidence": [
+        "Examples 103-105 describe linear polymerization of a premix containing 1% pyrrolidinoethyl styrene (PES), 19% styrene, and 80% butadiene in hexane.",
+        "Example 122 details emulsion polymerization of 580 g styrene, 22.5 g PES (92% purity), and 4.5 g tert-dodecylmercaptan, initiated with pinane hydroperoxide (44% active) at 10 °C, shortstopped at 65% conversion after 7 hours.",
+        "Example 124 details emulsion polymerization of 3245 g styrene, 59.8 g PES, and 16.0 g tert-dodecylmercaptan, initiated with pinane hydroperoxide (55% active) at 10 °C, shortstopped at 65% conversion after 6.25 hours, and coagulated at pH 3-4 using 10% sulfuric acid."
+      ],
+      "technical_relevance": "Provides detailed emulsion and solution polymerization methodologies for functionalizing diene-based rubbers, which can be adapted for functionalizing high-acrylonitrile NBR."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US5567815A",
+        "patent_title": "Teritary amine containing antonic initiators used in preparing polymers and …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "1996",
+        "polymer_type": null,
+        "relevance_to_target": "Discloses anionic initiator systems for diene polymerization to introduce tertiary amine functional sites, relevant to NBR modification."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Hexane solvent: 2000 g",
+          "Microstructure - Cis-1,4: 36.5 %",
+          "Microstructure - Trans: 52.7 %",
+          "Microstructure - Vinyl: 10.8 %",
+          "Molecular weight (Mw): 140,700",
+          "Polydispersity (Mw/Mn): 1.31"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 1 describes treating a nitrogen-purged reactor with a hexane rinse containing 10 mmoles of organolithium initiator.",
+        "The resulting polybutadiene has a molecular weight of 140,700, a Mw/Mn of 1.31, and a microstructure containing 36.5% cis-1,4, 52.7% trans, and 10.8% vinyl units."
+      ],
+      "technical_relevance": "Introduces functionalized anionic initiators that can be used to initiate diene polymerizations, offering a method to incorporate tertiary amine groups at the chain ends of NBR."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US7592409B2",
+        "patent_title": "Styrene acrylonitrile isoprene triblock copolymer",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2009",
+        "polymer_type": null,
+        "relevance_to_target": "Discloses controlled free-radical emulsion polymerization of acrylonitrile-containing copolymers, highly relevant to NBR."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Butadiene conversion: 50 % (for low PDI 1.1-1.5)",
+          "Initiator: Fe-EDTA complex (1.0% solution) / pinane hydroperoxide (44% solution)",
+          "Acrylonitrile (AN) content: 29.8% to 39.6% (covering high-acrylonitrile range)",
+          "Reaction time: 2 to 5.5 hours",
+          "Solids content: 22.7% to 38.9%"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 44 describes the controlled emulsion polymerization of styrene-butadiene-styrene using dibenzyl trithiocarbonate (DBTTC) as a control agent, achieving low PDI (1.1-1.5) below 50% butadiene conversion.",
+        "Other examples utilize Fe-EDTA complex and pinane hydroperoxide (44% solution) to initiate polymerization at room temperature.",
+        "Monomer compositions include acrylonitrile (AN) at 29.8% to 39.6% conversion levels, demonstrating controlled radical polymerization of acrylonitrile-containing systems."
+      ],
+      "technical_relevance": "Demonstrates controlled/living radical emulsion polymerization (using RAFT/DBTTC) of acrylonitrile and dienes, which is directly applicable to synthesizing block or narrow-dispersity high-acrylonitrile NBR."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US9708523B2",
+        "patent_title": "Swellable spacer fluids and associated methods",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2017",
+        "polymer_type": null,
+        "relevance_to_target": "Discusses swellable elastomers and grafting of unsaturated organic acids, which can be applied to NBR for oilfield applications."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Swelling time: 24 to 96 hours",
+          "Volume increase: 60% (24 hrs) to 172% (96 hrs)",
+          "Fluorine content: 67 % (Viton AL 200)"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 2 demonstrates the swelling behavior of a crosslinked gel structure, showing a volume increase of 60% (320 cc) at 24 hours, 78% (356 cc) at 48 hours, and up to 172% over longer durations.",
+        "The synthesis passages describe grafting unsaturated organic acids (like maleic acid) onto rubbers to enhance swelling properties."
+      ],
+      "technical_relevance": "Provides methods for modifying rubbers (including potential NBR applications) via acid grafting to create swellable elastomer systems for subterranean sealing."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US10731020B2",
+        "patent_title": "Rubber composition for vulcanization molding, process for manufacturing the …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2020",
+        "polymer_type": null,
+        "relevance_to_target": "Mentions base rubbers with Mooney viscosity ML(1+4) of 5 to 90 at 100 °C, which is typical for NBR processing."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Mooney viscosity ML(1+4): 5 to 90 at 100 °C"
+        ]
+      },
+      "experimental_evidence": [
+        "No specific experimental examples disclosed in the supplied evidence."
+      ],
+      "technical_relevance": "Focuses on the compounding and vulcanization molding of lightweight rubbers, providing processing parameters (Mooney viscosity) relevant to high-acrylonitrile NBR compounding."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US6693160B1",
+        "patent_title": "Functionalized monomers for synthesis of rubbery polymers",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2004",
+        "polymer_type": null,
+        "relevance_to_target": "Describes synthesis of amine-functionalized monomers and their copolymerization with dienes, applicable to NBR."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Butadiene ratio: 80 %",
+          "Styrene ratio: 19 %",
+          "Monomer concentration: 20 % in hexane",
+          "DVB conversion: 73% to 80%",
+          "Polymerization time: 100 minutes"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 14 describes preparing a 25/75 SBR containing 0.5 wt% of 2-(N-hexamethyleneimino)-methyl 1,3-butadiene, monitoring polymerization at 0, 5, 15, 30, and 90 minutes, with a total polymerization time of 100 minutes.",
+        "Example 22 describes preparing a high-trans 10/90 SBR containing 0.5% pyrrolidine functional groups, achieving 96% total monomer conversion, with a microstructure of 74.5% trans-1,4 and 7.6% polystyrene.",
+        "Example 33 details reacting 1030 g of 80% divinylbenzene (824 g pure DVB) with 528 ml of dry pyrrolidine, initiated with n-butyllithium, achieving 73% to 80% conversion of DVB."
+      ],
+      "technical_relevance": "Discloses synthesis of amine-functionalized monomers that can be copolymerized with butadiene and acrylonitrile to produce functionalized high-acrylonitrile NBR with improved filler interaction."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US12460111B2",
+        "patent_title": "Reinforcing fibers and production method therefor, and molded article using …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2025",
+        "polymer_type": null,
+        "relevance_to_target": "Describes modified conjugated diene rubbers with hydrogen-bonding functional groups, which can include modified NBR."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Hydrogen-bonding functional groups: 2 to 150 per molecule on average"
+        ]
+      },
+      "experimental_evidence": [
+        "No specific experimental examples disclosed in the supplied evidence."
+      ],
+      "technical_relevance": "Explains how to modify conjugated diene rubbers with hydrogen-bonding functional groups to improve adhesion to hydrophilic fibers, a technique useful for NBR-fiber composites."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US8746397B2",
+        "patent_title": "Foam cushion for headphones",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2014",
+        "polymer_type": null,
+        "relevance_to_target": "Mentions polymeric foam cores with glass transition temperatures (Tg) at -45 °C and -20 °C to -30 °C, which overlap with NBR Tg ranges."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Glass transition temperature (Tg): -45 °C (first) and -20 °C to -30 °C (second)",
+          "Relative humidity for testing: 37% to 40%",
+          "Ambient temperature: 21 °C"
+        ]
+      },
+      "experimental_evidence": [
+        "No specific experimental examples disclosed in the supplied evidence."
+      ],
+      "technical_relevance": "Provides context on the thermal properties (Tg) and environmental testing of elastomeric foam materials, which is relevant to the low-temperature performance of NBR."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US11078093B2",
+        "patent_title": "Surfactant-assisted synthesis of surface-functionalized nanoparticle-polymer …",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2021",
+        "polymer_type": null,
+        "relevance_to_target": "Uses polyacrylonitrile (PAN), the homopolymer of the NBR co-monomer, in electrospun composites."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Nanoparticle size: ~3 nm (amorphous iron oxide)",
+          "Surfactant: Sodium dodecyl sulfate (SDS)"
+        ]
+      },
+      "experimental_evidence": [
+        "No specific experimental examples disclosed in the supplied evidence."
+      ],
+      "technical_relevance": "Highlights the processing and surface-functionalization of acrylonitrile-based polymers (PAN) using surfactants like SDS, which is relevant to emulsion polymerization and latex stability of high-acrylonitrile NBR."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US8791192B2",
+        "patent_title": "Resin composition, molded article, and production methods thereof",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2014",
+        "polymer_type": null,
+        "relevance_to_target": "Mentions ABS resin (acrylonitrile-butadiene-styrene), which is structurally related to NBR."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Polylactic acid content: 100 parts by weight",
+          "ABS resin content: 100 parts by weight",
+          "Foaming agent: Liquefied butane gas (2.0 parts)",
+          "Sampling time: 20 minutes after start"
+        ]
+      },
+      "experimental_evidence": [
+        "Examples 17, 18, and 19 describe compounding 100 parts of polylactic acid with 100 parts of ABS resin (SANTAC or KRALASTIC), 0.1 parts distearyl, and 0.05 parts trimethyl additives.",
+        "Example 20 describes extrusion foaming of a polyethylene/polylactic acid blend using 2.0 parts of liquefied butane gas injected into the cylinder."
+      ],
+      "technical_relevance": "Demonstrates compounding of acrylonitrile-containing thermoplastics (ABS) with biopolymers, offering insights into the blend morphology and processing of acrylonitrile-based elastomer blends."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US10227421B2",
+        "patent_title": "Chemically functionalized renewed rubber composition",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2019",
+        "polymer_type": null,
+        "relevance_to_target": "Discusses devulcanization and recycling of cured rubbers, which can include NBR."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Loading level: 3% to 5% (for conventional devulcanized rubber)"
+        ]
+      },
+      "experimental_evidence": [
+        "No specific experimental examples disclosed in the supplied evidence."
+      ],
+      "technical_relevance": "Provides methods for recycling and functionalizing cured elastomers, which is highly relevant to the sustainable reuse of high-acrylonitrile NBR waste."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US9879153B2",
+        "patent_title": "Anti-icing composite",
+        "assignee": "Not disclosed in the available patent text.",
+        "jurisdiction": "US",
+        "publication_year": "2018",
+        "polymer_type": null,
+        "relevance_to_target": "Mentions polymerization of fluorocopolymers and diisocyanates, showing advanced polymerization techniques."
+      },
+      "polymerization_method": {
+        "dynamic_parameters": [
+          "Solid content: 41.5% to 85%",
+          "Initiator flow rate: 1.0 ml/minute",
+          "Reaction time: 24 hours (ambient)",
+          "PTFE yield: 88 %",
+          "TFE pressure: 12 Bars"
+        ]
+      },
+      "experimental_evidence": [
+        "Example 1 describes polymerization of 925 g tert-butyl acetate, 552 g Versatic 9 vinyl ester, and 87 g hydroxypropyl vinyl ether, charged with TFE under 12 Bars of pressure, initiated with di-t-amyl peroxide.",
+        "Example 2 describes a fluorinated polyol polymerization in 800 g THF with 200 g vinyl monomer, 51 g hydroxypropyl monomer, and 508 g TFE, yielding 750 g of fluorocopolymer.",
+        "Example 3 describes reacting 500 g of the fluorocopolymer with 44 g of isophorone diisocyanate in toluene, yielding 510 g of prepolymer with 59.6% solid content."
+      ],
+      "technical_relevance": "Discloses solution polymerization of highly resistant fluorocopolymers, which provides methodological parallels for solvent-based polymerization of high-acrylonitrile NBR."
+    }
+  ],
+  "cross_patent_comparison": [
+    "Monomer Content Ranges: Acrylonitrile content varies from standard levels up to high-acrylonitrile ranges (17% to 45% by weight in US8470422B2, and approximately 30% to 40% in US7592409B2 and EP2478021B1). High-acrylonitrile NBR typically targets the upper end of these ranges (>35% AN) to maximize oil and chemical resistance.",
+    "Polymerization Processes: The patents reveal a transition from traditional emulsion and solution polymerization to advanced controlled/living radical polymerizations. EP2478021B1 utilizes solution polymerization in organic solvents (e.g., dimethylacetamide) with RAFT agents, while US7592409B2 demonstrates controlled radical emulsion polymerization using dibenzyl trithiocarbonate (DBTTC) as a control agent.",
+    "Initiator Systems: Traditional systems rely on redox pairs or thermal initiators like pinane hydroperoxide (US7041761B2, US7592409B2) and Vazo 88 (EP2478021B1). Anionic polymerization approaches (US7041761B2, US5567815A, US6693160B1) utilize organolithium initiators, often functionalized with tertiary amines to introduce chain-end modifications.",
+    "Emulsifier and Solvent Systems: Emulsion processes utilize traditional surfactants like rosin acid salts and sodium naphthalenesulfonate-formaldehyde dispersants (Daxad 14B in US7041761B2). Solution processes employ polar solvents like dimethylacetamide (EP2478021B1) or non-polar solvents like hexane (US7041761B2, US5567815A) depending on whether the mechanism is free-radical or anionic.",
+    "Functionalization Trends: A strong trend exists toward incorporating functionalized monomers (such as pyrrolidinoethyl styrene or amine-functionalized vinyl monomers in US7041761B2 and US6693160B1) to improve interaction with silica or carbon black fillers, enhancing the mechanical and dynamic properties of the vulcanizates."
+  ],
+  "references": [
+    "EP2478021B1 | Nitrile rubbers and production of same in organic solvents | Not disclosed | EP | 2015 | https://patents.google.com/patent/EP2478021B1/en",
+    "US8470422B2 | Nitrile rubber article having natural rubber characteristics | Not disclosed | US | 2013 | https://patents.google.com/patent/US8470422B2/en",
+    "US11795308B2 | Rubber compositions comprising polysaccharides | Not disclosed | US | 2023 | https://patents.google.com/patent/US11795308B2/en",
+    "US7041761B2 | Functionalized monomers for synthesis of rubbery polymers | Not disclosed | US | 2006 | https://patents.google.com/patent/US7041761B2/en",
+    "US5567815A | Teritary amine containing antonic initiators used in preparing polymers and … | Not disclosed | US | 1996 | https://patents.google.com/patent/US5567815A/en",
+    "US7592409B2 | Styrene acrylonitrile isoprene triblock copolymer | Not disclosed | US | 2009 | https://patents.google.com/patent/US7592409B2/en",
+    "US9708523B2 | Swellable spacer fluids and associated methods | Not disclosed | US | 2017 | https://patents.google.com/patent/US9708523B2/en",
+    "US10731020B2 | Rubber composition for vulcanization molding, process for manufacturing the … | Not disclosed | US | 2020 | https://patents.google.com/patent/US10731020B2/en",
+    "US6693160B1 | Functionalized monomers for synthesis of rubbery polymers | Not disclosed | US | 2004 | https://patents.google.com/patent/US6693160B1/en",
+    "US12460111B2 | Reinforcing fibers and production method therefor, and molded article using … | Not disclosed | US | 2025 | https://patents.google.com/patent/US12460111B2/en",
+    "US8746397B2 | Foam cushion for headphones | Not disclosed | US | 2014 | https://patents.google.com/patent/US8746397B2/en",
+    "US11078093B2 | Surfactant-assisted synthesis of surface-functionalized nanoparticle-polymer … | Not disclosed | US | 2021 | https://patents.google.com/patent/US11078093B2/en",
+    "US8791192B2 | Resin composition, molded article, and production methods thereof | Not disclosed | US | 2014 | https://patents.google.com/patent/US8791192B2/en",
+    "US10227421B2 | Chemically functionalized renewed rubber composition | Not disclosed | US | 2019 | https://patents.google.com/patent/US10227421B2/en",
+    "US9879153B2 | Anti-icing composite | Not disclosed | US | 2018 | https://patents.google.com/patent/US9879153B2/en"
+  ]
+}

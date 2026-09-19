@@ -1,0 +1,324 @@
+[
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US10759885B2/en",
+      "patent_number": "US10759885B2",
+      "patent_title": "Hydrogenated branched conjugated diene copolymer, rubber composition and \u2026",
+      "assignee": "Not disclosed",
+      "publication_year": "2020",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "21",
+      ")",
+      "The invention claimed is:",
+      "1. A pneumatic tire produced by processing a rubber composition comprising a copolymer of a hydrogenated branched conjugated diene copolymer in a liquid form, a rubber component consisting of a styrene-butadiene rubber, and a carbon black,",
+      "wherein the hydrogenated branched conjugated diene copolymer is produced by copolymerizing a branched conjugated diene compound and a vinyl compound to form a branched conjugated diene copolymer and hydrogenating the branched conjugated diene copolymer, a copolymerization ratio of the branched conjugated diene compound is 1 to 99% by weight, a copolymerization ratio of the vinyl compound is 99 to 1% by weight, the branched conjugated diene compound is myrcene and farnesene, the vinyl compound is styrene, and the rubber composition includes 20 to 100 parts by weight of the hydrogenated branched conjugated diene copolymer and 1 part by weight or more of the carbon black based on 100 parts by weight of the rubber component consisting of the styrene-butadiene rubber.",
+      "2. The pneumatic tire of",
+      "claim 1",
+      ", wherein a Mooney viscosity ML",
+      "1+4"
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "Preparation Example 1",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 1",
+        "raw_text": "Preparation Example 1\n-1 (Synthesis of Copolymer 1)\nInto a 3-liter pressure resistant stainless steel vessel having been subjected to drying and replacement with nitrogen, 2000 ml of hexane, 110 g of butadiene, 90 g of styrene, and 0.22 mmol of TMEDA were poured, and further, 35 mmol of n-butyllithium (n-BuLi) was added thereto, followed by 5-hour polymerization reaction at 50\u00b0 C. After the lapse of five hours, 1.15 ml of 1M isopropanol/hexane solution was added dropwise to terminate the reaction. After cooling, the reaction solution was subjected to air-drying overnight and then further drying under reduced pressure for two days. Thus, 200 g of Copolymer 1 was obtained. The degree of polymerization (percentage of dry weight/charged amount) was nearly 100%.\n-2\n(1) Copolymer 1 obtained above and the above-mentioned various chemicals for preparation of a rubber composition (except sulfur and vulcanization accelerator) were kneaded at 150\u00b0 C. for five minutes in a Banbury mixer in accordance with the formulation shown in Table 2, and a kneaded product was obtained. Sulfur and vulcanization accelerator were added to the kneaded product, followed by 12-minute kneading at 170\u00b0 C. using an open roll to obtain Unvulcanized Rubber Composition 1.\n(2) Unvulcanized Rubber Composition obtained in (1) above was subjected to extrusion processing to a shape of a tire tread and molding with other members on a tire molding machine, thus forming an unvulcanized tire. This unvulcanized tire was subjected to 20-minute press-vulcanization at 170\u00b0 C. in a vulcanizer to obtain a tire. Then, by introducing air in the tire, Pneumatic Tire 1 was obtained.\nPreparation Examples 2-2 to 10-2\nThe respective starting compounds were subjected to processing in the same manner as in Preparation Example 1-2 in accordance with the formulation shown in Table 2 to obtain the respective Unvulcanized Rubber Compositions 2 to 10 and Pneumatic Tires 2 to 10.\n3. Results\n<Copolymer>\nWith respect to the obtained Copolymers 1 to 10, weight-average molecular weight Mw, number-average molecular weight Mn, glass transition temperature Tg, Mooney viscosity and copolymerization ratio (1) were measured by the following methods. The results are shown in Table 1.\n(Measurement of Weight-Average Molecular Weight Mw, Number-Average Molecular Weight Mn)\nMw and Mn were measured with an apparatus GPC-8000 Series available from TOSO CORPORATION and a differential refractometer as a detector, and were converted based on standard polystyrene.\n(Measurement of Glass Transition Temperature (Tg))\nWith respect to each copolymer, measurement was carried out using a differential scanning calorimeter (DSC) at a heat-up rate of 10\u00b0 C./min from an initial temperature of \u2212150\u00b0 C. to a final temperature of 150\u00b0 C. to calculate Tg.\n(Processability)\nWith respect to each copolymer, a Mooney viscosity ML\n1+4\n(130\u00b0 C.) thereof was measured using a Mooney viscosity tester in accordance with JIS K 6300 \u201cTest Method of Unvulcanized Rubber\u201d. After pre-heating to 130\u00b0 C. for one minute, under this temperature condition, a large rotor was rotated and after a lapse of four minutes, the Mooney viscosity ML\n1+4\n(130\u00b0 C.) was measured. It is indicated that the smaller the Mooney viscosity is, the better the processability is.\n(Copolymerization Ratio (1) of Branched Conjugated Diene Compound (1))\nThe copolymerization ratio (1) (% by weight) was measured by a usual method using a pyrolysis gas chromatography (PGC). Namely, a calibration curve of a purified branched conjugated diene compound (1) was prepared, and % by weight of the branched conjugated diene compound (1) in the copolymer was calculated using an area ratio of a pyrolyzate derived from the branched conjugated diene compound (1) which was obtained by PGC. In the pyrolysis chromatography, a system comprising a gas chromatograph mass spectrometer GCMS-QP5050A available from Shimadzu Corporation and a pyrolyzer JHP-330 available from Japan Analytical Industry Co., Ltd. was used.\nTABLE 1\n-1\n2-1\n3-1\n4-1\n5-1\n6-1\n7-1\n8-1\n9-1\n10-1\nCopolymer\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n(% by weight)\nMyrcene\n0\n0\n0\n0\n55\n55\n20\n20\n20\n20\nButadiene\n55\n55\n0\n0\n0\n0\n35\n35\n0\n0\nIsoprene\n0\n0\n55\n55\n0\n0\n0\n0\n35\n35\nStyrene\n45\n45\n45\n45\n45\n45\n45\n45\n45\n45\nHydrogenation ratio (%)\n0\n50\n0\n50\n0\n50\n0\n50\n0\n50\nMw\n5000\n5000\n5113\n4900\n5320\n5400\n5200\n5200\n5369\n5420\nMn\n4800\n4900\n4789\n4800\n5120\n5332\n4905\n4720\n4880\n4920\nMw/Mn\n1.0\n1.1\n1.1\n1.0\n1.0\n1.0\n1.0\n1.1\n1.1\n1.1\nTg (\u00b0 C.)\n\u221213.4\n\u221214.0\n\u22125.1\n\u22126.0\n\u221220.6\n\u221219.0\n\u221215.1\n\u221216.2\n\u221210.1\n\u22129.2\nMooney viscosity\n43\n47\n52\n59\n32\n38\n37\n39\n36\n40\nML\n1+4\n(130\u00b0 C.)\nCopolymerization ratio (l)\n\u2014\n\u2014\n\u2014\n\u2014\n55.0\n55.0\n20.0\n20.0\n20.0\n20.0\n(% by weight)\nIn the Table, \u201c\u2014\u201d indicates that there was no detection. (hereinafter the same)\n<Rubber Compositions and Tires>\nThe following tests were carried out using Unvulcanized Rubber Compositions 1 to 10 and Pneumatic Tires 1 to 10 obtained above. The results are shown in Table 2.\n(Processability)\nTest pieces of a given size were prepared from each of the above unvulcanized rubber compositions, and a Mooney viscosity ML\n1+4\n(130\u00b0 C.) thereof was measured using a Mooney viscosity tester in accordance with JIS K 6300 \u201cTest Method of Unvulcanized Rubber\u201d. The test piece was pre-heated to 130\u00b0 C. for one minute and under this temperature condition, a large rotor was rotated and after a lapse of four minutes, the Mooney viscosity ML\n1+4\n(130\u00b0 C.) was measured. It is indicated that the smaller the Mooney viscosity is, the better the processability is.\n(Grip Performance)\nIn-vehicle running was carried out on a test course of an asphalt road surface using each pneumatic tire obtained above. A test driver evaluated stability control at steering in ten levels. It is indicated that the larger the value is, the more superior the grip performance is.\n(Abrasion Resistance)\nTest running was carried out 20 rounds of a test course using each pneumatic tire. A depth of a groove of the tire before and after the running was measured, and assuming that the abrasion resistance index of Pneumatic Tire 1 is 100, the depth of a groove of each pneumatic tire is represented by an index. It is indicated that the larger the value is, the higher and the more superior the abrasion resistance is.\n(Bleed Resistance)\nA surface of each pneumatic tire was observed and a degree of bleeding of an oily substance was evaluated with naked eyes.\n\u25ef: No bleeding\n\u0394: Slightly bleeding\nX: Vigorously bleeding\nTABLE 2\n-2\n2-2\n3-2\n4-2\n5-2\n6-2\n7-2\n8-2\n9-2\n10-2\nBlending amount\n(part by weight)\nSBR\n150\n150\n150\n150\n150\n150\n150\n150\n150\n150\nCopolymer 1\n50\nCopolymer 2\n50\nCopolymer 3\n50\nCopolymer 4\n50\nCopolymer 5\n50\nCopolymer 6\n50\nCopolymer 7\n50\nCopolymer 8\n50\nCopolymer 9\n50\nCopolymer 10\n50\nCarbon black\n100\n100\n100\n100\n100\n100\n100\n100\n100\n100\nAntioxidant\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\nStearic acid\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\nZinc oxide\n1.4\n1.4\n1.4\n1.4\n1.4\n1.4\n1.4\n1.4\n1.4\n1.4\nSulfur\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\nVulcanization accelerator\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\nResults of evaluation\nMooney viscosity ML\n1+4\n49.7\n49.6\n55.2\n56.2\n42.0\n43.3\n44.5\n41.9\n42.6\n42.1\n(130\u00b0 C.)\nGrip performance\n5\n6\n6\n7\n8\n10\n8\n9\n8\n10\nAbrasion resistance\n100\n109\n101\n110\n105\n104\n107\n124\n118\n128\nBleed resistance\n\u25ef\n\u25ef\n\u25ef\n\u25ef\n\u25ef\n\u25ef\n\u25ef\n\u25ef\n\u25ef\n\u25ef\nAs shown in Table 2, in Preparation Examples 5 to 10 in which the myrcene copolymer was blended, the Mooney viscosity is low and processability is improved. As shown, especially in Preparation Examples 6, 8 and 10 in which the hydrogenated myrcene copolymer was blended, processability is good, and also grip performance, abrasion resistance and bleed resistance are good.\n(B) Hydrogenated Farnesene Copolymer\n1. Synthesis of Copolymer",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 2",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 2",
+        "raw_text": "Preparation Example 2\n-1 (Synthesis of Copolymer 2)\nInto a 1-liter pressure resistant stainless steel vessel, 200 g of Copolymer 1 obtained above, 300 g of THF and 10 g of 10% palladium carbon were poured, and replacement with nitrogen was carried out, followed by replacing with hydrogen to bring the inside pressure to 5.0 kgf/cm\n2\nand then reacting at 80\u00b0 C. After the termination of the reaction, the reaction solution was filtrated to remove the palladium carbon, and the filtrate was subjected to air drying overnight and further drying under reduced pressure for two days. Thus, 200 g of Copolymer 2 was obtained. The degree of hydrogenation was 50%.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 3",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 3",
+        "raw_text": "Preparation Example 3\n-1 (Synthesis of Copolymer 3)\nInto a 1-liter glass vessel having been subjected to drying and replacement with nitrogen, 500 ml of hexane, 46 g of THF and 45 mmol of n-butyllithium (n-BuLi) were poured, followed by polymerization reaction while adding a mixture of 100 ml of hexane, 150 g of isoprene and 125 g of styrene dropwise into the reaction vessel over two hours. Immediately after completion of the addition of the mixture dropwise, 20 ml of 2M isopropanol/hexane solution was added dropwise to terminate the reaction. After cooling, the reaction solution was subjected to air-drying overnight and then further drying under reduced pressure for two days. Thus, 275 g of Copolymer 3 was obtained. The degree of polymerization was nearly 100%.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 4",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 4",
+        "raw_text": "Preparation Example 4\n-1 (Synthesis of Copolymer 4)\n200 Grams of Copolymer 3 was subjected to processing in the same manner as in Preparation Example 2-1 to obtain 200 g of Copolymer 4.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 5",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 5",
+        "raw_text": "Preparation Example 5\n-1 (Synthesis of Copolymer 5)\nInto a 1-liter glass vessel having been subjected to drying and replacement with nitrogen, 500 ml of hexane, 46 g of THF and 40 mmol of n-butyllithium (n-BuLi) were poured, followed by polymerization reaction while adding a mixture of 100 ml of hexane, 150 g of myrcene and 125 g of styrene dropwise into the reaction vessel over two hours. Immediately after completion of the addition of the mixture dropwise, 10 ml of 2M isopropanol/hexane solution was added dropwise to terminate the reaction. After cooling, the reaction solution was subjected to air-drying overnight and then further drying under reduced pressure for two days. Thus, 275 g of Copolymer 5 was obtained. The degree of polymerization was nearly 100%.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 6",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 6",
+        "raw_text": "Preparation Example 6\n-1 (Synthesis of Copolymer 6)\n200 Grams of Copolymer 5 was subjected to processing in the same manner as in Preparation Example 2-1 to obtain 200 g of Copolymer 6.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 7",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 7",
+        "raw_text": "Preparation Example 7\n-1 (Synthesis of Copolymer 7)\nInto a 1-liter pressure resistant stainless steel vessel having been subjected to drying and replacement with nitrogen, 500 ml of hexane, 46 g of THF and 40 mmol of n-butyllithium (n-BuLi) were poured, followed by polymerization reaction while adding a mixture of 100 ml of hexane, 95 g of butadiene, 55 g of myrcene and 125 g of styrene dropwise into the reaction vessel over two hours. Immediately after completion of the addition of the mixture dropwise, 10 ml of 2M isopropanol/hexane solution was added dropwise to terminate the reaction. The obtained reaction solution was subjected to air-drying overnight and then further drying under reduced pressure for two days. Thus, 275 g of Copolymer 7 was obtained. The degree of polymerization was nearly 100%.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 8",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 8",
+        "raw_text": "Preparation Example 8\n-1 (Synthesis of Copolymer 8)\n200 Grams of Copolymer 7 was subjected to processing in the same manner as in Preparation Example 2-1 to obtain 200 g of Copolymer 8.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 9",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 9",
+        "raw_text": "Preparation Example 9\n-1 (Synthesis of Copolymer 9)\nProcessing was carried out in the same manner as in Preparation Example 7-1 except that 95 g of isoprene was used instead of 95 g of butadiene to obtain 275 g of Copolymer 9. The degree of polymerization was nearly 100%.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 10",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 10",
+        "raw_text": "Preparation Example 10\n-1 (Synthesis of Copolymer 10)\n200 Grams of Copolymer 9 was subjected to processing in the same manner as in Preparation Example 2-1 to obtain 200 g of Copolymer 8.\n2. Preparation of Rubber Compositions and Tires",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 11",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 11",
+        "raw_text": "Preparation Example 11\n-1 (Synthesis of Copolymer 11)\nInto a 3-liter pressure resistant stainless steel vessel having been subjected to drying and replacement with nitrogen, 2000 ml of hexane, 110 g of butadiene, 90 g of styrene, and 0.22 mmol of TMEDA were poured, and further, 35 mmol of n-butyllithium (n-BuLi) was added thereto, followed by 5-hour polymerization reaction at 50\u00b0 C. After the lapse of five hours, 1.15 ml of 1M isopropanol/hexane solution was added dropwise to terminate the reaction. After cooling, the reaction solution was subjected to air-drying overnight and then further drying under reduced pressure for two days. Thus, 200 g of Copolymer 11 was obtained. The degree of polymerization (percentage of dry weight/charged amount) was nearly 100%.\n-2\n(1) Copolymer 11 obtained above and the above-mentioned various chemicals for preparation of a rubber composition (except sulfur and vulcanization accelerator) were kneaded at 150\u00b0 C. for five minutes in a Banbury mixer in accordance with the formulation shown in Table 4, and a kneaded product was obtained. Sulfur and vulcanization accelerator were added to the kneaded product, followed by 12-minute kneading at 170\u00b0 C. using an open roll to obtain Unvulcanized Rubber Composition 11.\n(2) Unvulcanized Rubber Composition obtained in (1) above was subjected to extrusion processing to a shape of a tire tread and molding with other members on a tire molding machine, thus forming an unvulcanized tire. This unvulcanized tire was subjected to 20-minute press-vulcanization at 170\u00b0 C. in a vulcanizer to obtain a tire. Then, by introducing air in the tire, Pneumatic Tire 11 was obtained.\nPreparation Examples 12-2 to 20-2\nThe respective starting compounds were subjected to processing in the same manner as in Preparation Example 11-2 in accordance with the formulation shown in Table 4 to obtain the respective Unvulcanized Rubber Compositions 12 to 20 and Pneumatic Tires 12 to 20.\n3. Results\n<Copolymer>\nWith respect to the obtained Copolymers 11 to 20, weight-average molecular weight Mw, number-average molecular weight Mn, glass transition temperature Tg, Mooney viscosity and copolymerization ratio (1) were measured by the following methods. The results are shown in Table 3.\n(Measurement of Weight-Average Molecular Weight Mw, Number-Average Molecular Weight Mn)\nMw and Mn were measured with an apparatus GPC-8000 Series available from TOSO CORPORATION and a differential refractometer as a detector, and were converted based on standard polystyrene.\n(Measurement of Glass Transition Temperature (Tg))\nWith respect to each copolymer, measurement was carried out using a differential scanning calorimeter (DSC) at a heat-up rate of 10\u00b0 C./min from an initial temperature of \u2212150\u00b0 C. to a final temperature of 150\u00b0 C. to calculate Tg.\n(Processability)\nWith respect to each copolymer, a Mooney viscosity ML\n1+4\n(130\u00b0 C.) thereof was measured using a Mooney viscosity tester in accordance with JIS K 6300 \u201cTest Method of Unvulcanized Rubber\u201d. After pre-heating to 130\u00b0 C. for one minute, under this temperature condition, a large rotor was rotated and after a lapse of four minutes, the Mooney viscosity ML\n1+4\n(130\u00b0 C.) was measured. It is indicated that the smaller the Mooney viscosity is, the better the processability is.\n(Copolymerization Ratio (1) of Branched Conjugated Diene Compound (1))\nThe copolymerization ratio (1) (% by weight) was measured by a usual method using a pyrolysis gas chromatography (PGC). Namely, a calibration curve of a purified branched conjugated diene compound (1) was prepared, and % by weight of the branched conjugated diene compound (1) in the copolymer was calculated using an area ratio of a pyrolyzate derived from the branched conjugated diene compound (1) which was obtained by PGC. In the pyrolysis chromatography, a system comprising a gas chromatograph mass spectrometer GCMS-QP5050A available from Shimadzu Corporation and a pyrolyzer JHP-330 available from Japan Analytical Industry Co., Ltd. was used.\nTABLE 3\n-1\n12-1\n13-1\n14-1\n15-1\n16-1\n17-1\n18-1\n19-1\n20-1\nCopolymer\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n(% by weight)\nFarnesene\n0\n0\n0\n0\n55\n55\n20\n20\n20\n20\nButadiene\n55\n55\n0\n0\n0\n0\n35\n35\n0\n0\nIsoprene\n0\n0\n55\n55\n0\n0\n0\n0\n35\n35\nStyrene\n45\n45\n45\n45\n45\n45\n45\n45\n45\n45\nHydrogenation ratio (%)\n0\n50\n0\n50\n0\n50\n0\n50\n0\n50\nMw\n5000\n5000\n5113\n4900\n5420\n5332\n5221\n5224\n5212\n5201\nMn\n4800\n4900\n4789\n4800\n5210\n5320\n5198\n5187\n4742\n4753\nMw/Mn\n1.0\n1.1\n1.1\n1.0\n1.0\n1.0\n1.0\n1.0\n1.1\n1.1\nTg (\u00b0 C.)\n\u221213.4\n\u221214.0\n\u22125.1\n\u22126.0\n\u221221.2\n\u221218.8\n\u221215.2\n\u221214.2\n\u221212.1\n\u221211.8\nMooney viscosity\n43\n47\n52\n59\n17\n21\n23\n25\n24\n26\nML\n1+4\n(130\u00b0 C.)\nCopolymerization ratio (l)\n\u2014\n\u2014\n\u2014\n\u2014\n55.0\n55.0\n20.0\n20.0\n20.0\n20.0\n(% by weight)\n<Rubber Compositions and Tires>\nThe following tests were carried out using Unvulcanized Rubber Compositions 11 to 20 and Pneumatic Tires 11 to 20 obtained above. The results are shown in Table 4.\n(Processability)\nTest pieces of a given size were prepared from each of the above unvulcanized rubber compositions, and a Mooney viscosity ML\n1+4\n(130\u00b0 C.) thereof was measured using a Mooney viscosity tester in accordance with JIS K 6300 \u201cTest Method of Unvulcanized Rubber\u201d. The test piece was pre-heated to 130\u00b0 C. for one minute and under this temperature condition, a large rotor was rotated and after a lapse of four minutes, the Mooney viscosity ML\n1+4\n(130\u00b0 C.) was measured. It is indicated that the smaller the Mooney viscosity is, the better the processability is.\n(Grip Performance)\nIn-vehicle running was carried out on a test course of an asphalt road surface using each pneumatic tire obtained above. A test driver evaluated stability control at steering in ten levels. It is indicated that the larger the value is, the more superior the grip performance is.\n(Abrasion Resistance)\nTest running was carried out 20 rounds of a test course using each pneumatic tire. A depth of a groove of the tire before and after the running was measured, and assuming that the abrasion resistance index of Pneumatic Tire 11 is 100, the depth of a groove of each pneumatic tire is represented by an index. It is indicated that the larger the value is, the higher and the more superior the abrasion resistance is.\n(Bleed Resistance)\nA surface of each pneumatic tire was observed and a degree of bleeding of an oily substance was evaluated with naked eyes.\n\u25ef: No bleeding\n\u0394: Slightly bleeding\nX: Vigorously bleeding\nTABLE 4\n-2\n12-2\n13-2\n14-2\n15-2\n16-2\n17-2\n18-2\n19-2\n20-2\nBlending amount\n(part by weight)\nSBR\n150\n150\n150\n150\n150\n150\n150\n150\n150\n150\nCopolymer 11\n50\nCopolymer 12\n50\nCopolymer 13\n50\nCopolymer 14\n50\nCopolymer 15\n50\nCopolymer 16\n50\nCopolymer 17\n50\nCopolymer 18\n50\nCopolymer 19\n50\nCopolymer 20\n50\nCarbon black\n100\n100\n100\n100\n100\n100\n100\n100\n100\n100\nAntioxidant\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\nStearic acid\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\nZinc oxide\n1.4\n1.4\n1.4\n1.4\n1.4\n1.4\n1.4\n1.4\n1.4\n1.4\nSulfur\n1\n1\n1\n1\n1\n1\n1\n1\n1\n1\nVulcanization accelerator\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\nResults of evaluation\nMooney viscosity ML\n1+10\n49.7\n49.6\n55.2\n56.2\n42.0\n38.2\n45.2\n47.5\n49.6\n50.1\n(130\u00b0 C.)\nGrip performance\n5\n6\n6\n7\n8\n9\n7\n8\n8\n8\nAbrasion resistance\n100\n109\n101\n110\n112\n134\n112\n120\n117\n128\nBleed resistance\n\u25ef\n\u25ef\n\u25ef\n\u25ef\n\u25ef\n\u25ef\n\u25ef\n\u25ef\n\u25ef\n\u25ef\nAs shown in Table 4, in any of Preparation Examples 15 to 20 in which the farnesene copolymer was blended, the Mooney viscosity is low and processability is improved compared with polymers in which the farnesene copolymer was replaced with butadiene or isoprene being the conjugated diene compound. As shown, especially in Preparation Examples 16, 18 and 20 in which the hydrogenated farnesene copolymer was blended, processability is good, and also grip performance, abrasion resistance and bleed resistance are good.\nINDUSTRIAL APPLICABILITY\nThe present invention can provide a novel branched conjugated copolymer or hydrogenated branched conjugated copolymer being useful for improving processability as a rubber component for a tire, and by using these copolymers, can provide a rubber composition for a tire enhancing both of abrasion resistance and grip performance to a high level and exhibiting excellent processability. Further, in the case of using the hydrogenated branched conjugated copolymer, the rubber composition for a tire inhibiting generation of bleeding can be provided.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 12",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 12",
+        "raw_text": "Preparation Example 12\n-1 (Synthesis of Copolymer 12)\nInto a 1-liter pressure resistant stainless steel vessel, 200 g of Copolymer 11 obtained above, 300 g of THF and 10 g of 10% palladium carbon were poured, and replacement with nitrogen was carried out, followed by replacing with hydrogen to bring the inside pressure to 5.0 kgf/cm\n2\nand then reacting at 80\u00b0 C. After the termination of the reaction, the reaction solution was filtrated to remove the palladium carbon, and the filtrate was subjected to air drying overnight and further drying under reduced pressure for two days. Thus, 200 g of Copolymer 12 was obtained. The degree of hydrogenation was 50%.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 13",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 13",
+        "raw_text": "Preparation Example 13\n-1 (Synthesis of Copolymer 13)\nInto a 1-liter glass vessel having been subjected to drying and replacement with nitrogen, 500 ml of hexane, 46 g of THF and 45 mmol of n-butyllithium (n-BuLi) were poured, followed by polymerization reaction while adding a mixture of 100 ml of hexane, 150 g of isoprene and 125 g of styrene dropwise into the reaction vessel over two hours. Immediately after completion of the addition of the mixture dropwise, 20 ml of 2M isopropanol/hexane solution was added dropwise to terminate the reaction. After cooling, the reaction solution was subjected to air-drying overnight and then further drying under reduced pressure for two days. Thus, 275 g of Copolymer 13 was obtained. The degree of polymerization was nearly 100%.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 14",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 14",
+        "raw_text": "Preparation Example 14\n-1 (Synthesis of Copolymer 14)\n200 Grams of Copolymer 13 were subjected to processing in the same manner as in Preparation Example 12-1 to obtain 200 g of Copolymer 14.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 15",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 15",
+        "raw_text": "Preparation Example 15\n-1 (Synthesis of Copolymer 15)\nInto a 1-liter glass vessel having been subjected to drying and replacement with nitrogen, 500 ml of hexane, 46 g of THF and 40 mmol of n-butyllithium (n-BuLi) were poured, followed by polymerization reaction while adding a mixture of 100 ml of hexane, 150 g of farnesene and 125 g of styrene dropwise into the reaction vessel over two hours. Immediately after completion of the addition of the mixture dropwise, 10 ml of 2M isopropanol/hexane solution was added dropwise to terminate the reaction. After cooling, the reaction solution was subjected to air-drying overnight and then further drying under reduced pressure for two days. Thus, 275 g of Copolymer 15 was obtained. The degree of polymerization was nearly 100%.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 16",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 16",
+        "raw_text": "Preparation Example 16\n-1 (Synthesis of Copolymer 16)\n200 Grams of Copolymer 15 was subjected to processing in the same manner as in Preparation Example 12-1 to obtain 200 g of Copolymer 16.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 17",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 17",
+        "raw_text": "Preparation Example 17\n-1 (Synthesis of Copolymer 17)\nProcessing was carried out in the same manner as in Preparation Example 15-1 except that 55 g of farnesene and 95 g of butadiene were used instead of 150 g of farnesene to obtain 275 g of Copolymer 17. The degree of polymerization was nearly 100%.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 18",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 18",
+        "raw_text": "Preparation Example 18\n-1 (Synthesis of Copolymer 18)\n200 Grams of Copolymer 17 was subjected to processing in the same manner as in Preparation Example 12-1 to obtain 200 g of Copolymer 18.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 19",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 19",
+        "raw_text": "Preparation Example 19\n-1 (Synthesis of Copolymer 9)\nProcessing was carried out in the same manner as in Preparation Example 17-1 except that isoprene was used instead of butadiene to obtain 275 g of Copolymer 19. The degree of polymerization was nearly 100%.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 20",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 20",
+        "raw_text": "Preparation Example 20\n-1 (Synthesis of Copolymer 20)\n200 Grams of Copolymer 19 was subjected to processing in the same manner as in Preparation Example 12-1 to obtain 200 g of Copolymer 20.\n2. Preparation of Rubber Compositions and Tires",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "Hydrogenated branched conjugated diene copolymer, rubber composition and pneumatic tire \n       \nAbstract\nA pneumatic tire produced by processing a rubber composition including a hydrogenated branched conjugated diene copolymer produced by copolymerizing a branched conjugated diene compound and a vinyl compound to form a branched conjugated diene copolymer and hydrogenating the branched conjugated diene copolymer. The branched conjugated diene compound is represented by formula (1),\nwhere R\n1\nis an aliphatic hydrocarbon having 6 to 11 carbon atoms, the vinyl compound is represented by formula (3),\nwhere R\n4\nis a hydrogen atom, an aliphatic hydrocarbon group having 1 to 3 carbon atoms, an alicyclic hydrocarbon group having 3 to 8 carbon atoms, or an aromatic hydrocarbon group having 6 to 10 carbon atoms.\nClaims (\n21\n)\nThe invention claimed is:\n1. A pneumatic tire produced by processing a rubber composition comprising a copolymer of a hydrogenated branched conjugated diene copolymer in a liquid form, a rubber component consisting of a styrene-butadiene rubber, and a carbon black,\nwherein the hydrogenated branched conjugated diene copolymer is produced by copolymerizing a branched conjugated diene compound and a vinyl compound to form a branched conjugated diene copolymer and hydrogenating the branched conjugated diene copolymer, a copolymerization ratio of the branched conjugated diene compound is 1 to 99% by weight, a copolymerization ratio of the vinyl compound is 99 to 1% by weight, the branched conjugated diene compound is myrcene and farnesene, the vinyl compound is styrene, and the rubber composition includes 20 to 100 parts by weight of the hydrogenated branched conjugated diene copolymer and 1 part by weight or more of the carbon black based on 100 parts by weight of the rubber component consisting of the styrene-butadiene rubber.\n2. The pneumatic tire of\nclaim 1\n, wherein a Mooney viscosity ML\n1+4\n(130\u00b0 C.) of the rubber composition to which the hydrogenated branched conjugated diene copolymer is blended is lower compared with a Mooney viscosity ML\n1+4\n(130\u00b0 C.) of a rubber composition comprising a polymer having the same weight-average molecular weight as the branched conjugated diene copolymer and prepared by replacing the branched conjugated diene compound by at least one of 1,3-butadiene and isoprene.\n3. The pneumatic tire of\nclaim 1\n, wherein the hydrogenated branched conjugated diene copolymer has a weight-average molecular weight of 2,000 to 200,000.\n4. The pneumatic tire of\nclaim 1\n, wherein the hydrogenated branched conjugated diene copolymer has a hydrogenation ratio of 10 to 90%.\n5. The pneumatic tire of\nclaim 1\n, wherein the copolymerization ratio of the vinyl compound is 40% by weight or more.\n6. The pneumatic tire of\nclaim 4\n, wherein the copolymerization ratio of the vinyl compound is 40% by weight or more.\n7. The pneumatic tire of\nclaim 3\n, wherein the hydrogenated branched conjugated diene copolymer has a hydrogenation ratio of 10 to 90%.\n8. The pneumatic tire of\nclaim 1\n, wherein the processing comprises forming a tread comprising the rubber composition and vulcanizing an unvulcanized tire comprising the tread.\n9. The pneumatic tire of\nclaim 3\n, wherein the copolymerization ratio of the vinyl compound is 40% by weight or more.\n10. The pneumatic tire of\nclaim 1\n, wherein the rubber composition includes 30 to 70 parts by weight of the hydrogenated branched conjugated diene copolymer based on 100 parts by weight of the rubber component consisting of the styrene-butadiene rubber.\n11. The pneumatic tire of\nclaim 1\n, wherein the hydrogenated branched conjugated diene copolymer has a weight-average molecular weight of 3,000 to 100,000.\n12. The pneumatic tire of\nclaim 1\n, wherein the hydrogenated branched conjugated diene copolymer has a hydrogenation ratio of 30 to 70%.\n13. The pneumatic tire of\nclaim 3\n, wherein the processing comprises forming a tread comprising the rubber composition and vulcanizing an unvulcanized tire comprising the tread.\n14. The pneumatic tire of\nclaim 1\n, wherein the hydrogenated branched conjugated diene copolymer has a glass transition temperature of \u221280\u00b0 C. to 110\u00b0 C.\n15. The pneumatic tire of\nclaim 1\n, wherein the hydrogenated branched conjugated diene copolymer is produced by copolymerizing a conjugated diene compound, the branched conjugated diene compound and the vinyl compound to form the branched conjugated diene copolymer and hydrogenating the branched conjugated diene copolymer, the conjugated diene compound is at least one of 1,3-butadiene and isoprene, a copolymerization ratio of the conjugated diene compound is greater than 0% by weight and less than 99% by weight, and the copolymerization ratio of the vinyl compound is less than 99% by weight.\n16. The pneumatic tire of\nclaim 1\n, wherein the hydrogenated branched conjugated diene copolymer is produced by copolymerizing a conjugated diene compound, the branched conjugated diene compound and the vinyl compound to form the branched conjugated diene copolymer and hydrogenating the branched conjugated diene copolymer, the conjugated diene compound is at least one of 1,3-butadiene, isoprene, and 2,3-dimethyl-1,3-butadiene, a copolymerization ratio of the conjugated diene compound is greater than 0% by weight and less than 99% by weight, and the copolymerization ratio of the vinyl compound is less than 99% by weight.\n17. The pneumatic tire of\nclaim 3\n, wherein the rubber composition includes 30 to 70 parts by weight of the hydrogenated branched conjugated diene copolymer based on 100 parts by weight of the rubber component consisting of the styrene-butadiene rubber.\n18. The pneumatic tire of\nclaim 3\n, wherein the hydrogenated branched conjugated diene copolymer has a hydrogenation ratio of 30 to 70%.\n19. The pneumatic tire of\nclaim 3\n; wherein the hydrogenated branched conjugated diene copolymer has a glass transition temperature of \u221280\u00b0 C. to 110\u00b0 C.\n20. The pneumatic tire of\nclaim 4\n, wherein the processing comprises forming a tread comprising the rubber composition and vulcanizing an unvulcanized tire comprising the tread.\n21. The pneumatic tire of\nclaim 4\n, wherein the rubber composition includes 30 to 70 parts by weight of the hydrogenated branched conjugated diene copolymer based on 100 parts by weight of the rubber component consisting of the styrene-butadiene rubber."
+  },
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US11549003B2/en",
+      "patent_number": "US11549003B2",
+      "patent_title": "Copolymer, rubber composition, and method of preparing the same",
+      "assignee": "Not disclosed",
+      "publication_year": "2023",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "9",
+      ")",
+      "What is claimed is:",
+      "1. A copolymer, comprising:",
+      "a first part comprising an aromatic vinyl-based monomer and a conjugated diene-based monomer; and",
+      "a second part comprising an aromatic vinyl-based monomer and a conjugated diene-based monomer,",
+      "wherein the content of the aromatic vinyl-based monomer is 38 to 42% by weight based on a total weight of the copolymer, and",
+      "the copolymer satisfies Equation 1 below:",
+      "V"
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "Preparation Example 1",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 1",
+        "raw_text": "Preparation Example 1\nA mixture of 1,680 g of cyclohexane as a solvent, 122.3 g of styrene as an aromatic vinyl-based monomer, 143 g of 1,3-butadiene as a conjugated diene-based monomer, 6.2 g of 1-(4-vinylbenzyl)pyrrolidine as the third monomer, 6.3 g of ditetrahydrofurylpropane (DTHFP) as a randomizing agent, and 3.2 g of piperidine was charged into a 10 L reactor under a nitrogen atmosphere and mixed therein, and 6.3 g of n-butyllithium was fed into the reactor dropwise to react with impurities until the color of the mixture turned yellow. Next, 9.1 g of n-butyllithium was immediately added to the reactor via a pump to initiate adiabatic temperature-rise polymerization.\nWhen a reaction temperature rose 30\u00b0 C. from an initiation temperature, 38.1 g of 1,3-butadiene was added for 5 minutes in an in-situ manner. After 2 minutes, 1.1 molar equivalents of triethoxysilylpropyldiethylamine, based on a total weight of the monomers, was added for 5 minutes, followed by terminating the polymerization. As a result, a copolymer was obtained.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 2",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 2",
+        "raw_text": "Preparation Example 2\n1,680 g of cyclohexane as a solvent, 123.1 g of styrene as an aromatic vinyl-based monomer, 144.3 g of 1,3-butadiene as a conjugated diene-based monomer, 6.3 g of 1-(4-vinylbenzyl)pyrrolidine as the third monomer, 7.2 g of ditetrahydrofurylpropane as a randomizing agent, and 3.2 g of piperidine were charged into a 10 L reactor under a nitrogen atmosphere and mixed therein, and 6.4 g of n-butyllithium was fed into the reactor dropwise to react with impurities until the color of the mixture turned yellow. Next, 9.2 g of n-butyllithium was immediately added to the reactor via a pump to initiate adiabatic temperature-rise polymerization.\nWhen a reaction temperature rose 30\u00b0 C. from an initiation temperature, 38.0 g of 1,3-butadiene was added for 5 minutes in an in-situ manner. After 2 minutes, 1.1 molar equivalents of triethoxysilylpropyldiethylamine, based on a total weight of the monomers, was added for 5 minutes, followed by terminating the polymerization. As a result, a copolymer was obtained.\nExamples 1 to 4\nThe copolymer (solution styrene-butadiene rubber, SSBR) of Preparation Example 1 or 2, silica, and other components were mixed in a 500 cc lab mixer according to compositions summarized in Table 1 below, thereby preparing a rubber composition. A mixed rubber was prepared from the rubber composition using an open twin-screw roll mill, and then vulcanized at 165\u00b0 C. for 20 minutes, thereby producing a rubber specimen.\nTABLE 1\nComposition",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 1",
+        "example_type": "Extracted Example",
+        "title": "Example 1",
+        "raw_text": "Example 1\nPreparation\n\u2014\n100\n75\nMooney viscosity of\n100\n115\ncompound (@100\u00b0 C.)\nPayne (\u0394G\u2032)\n100\n166\nHardness\n100\n97\nModulus upon 300%\n100\n121\nelongation\nTensile strength\n100\n103\nElongation percentage\n100\n99\nLambourn abrasion\n100\n98\ncharacteristic\nRebound resilience\n100\n98\nWet grip (tan\u03b4@0\u00b0 C.)\n100\n117\nRolling resistance\n100\n106\n(tan\u03b4@60\u00b0 C.)\nE\u2033@0\u00b0 C.\n100\n125\nE\u2032@60\u00b0 C.\n100\n84\nHandling property\n100\n84\n(E*)@60\u00b0 C.\nTABLE 6\nClassification",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 2",
+        "example_type": "Extracted Example",
+        "title": "Example 2",
+        "raw_text": "Example 2\nHigh-cis BR\n\u2014\n25\n\u2014\n25\nStearic acid\n2\n2\n2\n2\nZinc oxide\n3\n3\n3\n3\nSilica\n80\n80\n80\n80\nOil\n10\n10\n10\n10\nSi-69\n6.4\n6.4\n6.4\n6.4\nCZ\n1\n1\n1\n1\nDPG\n1.5\n1.5\n1.5\n1.5\nSulfur\n1.5\n1.5\n1.5\n1.5\n(units: parts by weight)\nHigh-cis BR: KBR01, manufactured by KUMHO PETROCHEMICAL\nSilica: Degussa 7000GR\nSi-69: Bis-(triethoxysilylpropyl)tetrasulfide\nOil: TDEA Oil\nCZ: N-cyclohexyl benzothiazolyl sulfenamide\nDPG: 1,3-diphenylguanidine\nComparative Examples 1 to 4\nRubber specimens were manufactured under conditions summarized in Table 2 below in the same manner as in the examples. SLR6430 manufactured by Trinseo was used as\nSSBR\n1, and SE-7274 manufactured by Sumitomo was used as\nSSBR\n2.\nTABLE 2\nComparative\nComparative\nComparative\nComparative\nComposition\nSSBR\n1\nSSBR\n2\nStyrene content\n40\n40\n40\n38\n(%)\nBlock styrene\n0\n0\n0\n0\ncontent\n(%)\nVinyl content (%)\n26\n33\n25\n33\nMolecular weight\n1.10\n1.14\n1.78\n1.57\ndistribution\n(M\nw\n/M\nn\n, MWD)\nWeight average\n180,000\n181,000\n360,000\n157,000\nmolecular weight\n(g/mol)\nModification\nModified\nModified\nNon-modified\nModified\nTABLE 4\nPreparation\nPreparation\nClassification\nTotal styrene content in\n40\n40\ncopolymer (%)\nTotal vinyl content in\n26\n33\ncopolymer (%)\nTotal weight average\n180,000\n181,000\nmolecular weight of\ncopolymer (g/mol)\nFirst\nblock styrene content\n30\n30\n(%)\nFirst block vinyl content (%)\n35\n38\nFirst block weight average\n80,000\n90,000\nmolecular weight (g/mol)\nSecond\nblock styrene content\n50\n50\n(%)\nSecond block vinyl content\n19\n28\n(%)\nSecond block weight average\n100,000\n90,000\nmolecular weight (g/mol)\nCopolymer microstructure and content analysis: Analyzed using a nuclear magnetic resonance (NMR) spectrometer manufactured by Bruker. As a sample, chloroform-d was used.\nWeight average molecular weight and molecular weight distribution: Measured by gel permeation chromatography (GPC) according to a polystyrene standard measurement method.\nCompound Mooney viscosity\n100\n110\n(@100\u00b0 C.)\nPayne (\u0394G\u2032)\n100\n114\nHardness\n100\n98\nModulus upon 300%\n100\n108\nelongation\nTensile strength\n100\n105\nElongation percentage\n100\n108\nLambourn abrasion\n100\n99\ncharacteristic\nRebound resilience\n100\n92\nWet grip (tan\u03b4@0\u00b0 C.)\n100\n106\nRolling resistance\n100\n105\n(tan\u03b4@60\u00b0 C.)\nE\u2033@0\u00b0 C.\n100\n122\nE\u2032@60\u00b0 C.\n100\n103\nHandling property\n100\n102\n(E*)@60\u00b0 C.\nTABLE 7\nClassification",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 3",
+        "example_type": "Extracted Example",
+        "title": "Example 3",
+        "raw_text": "Example 3\n(@100\u00b0 C.)\n100\n107\nPayne (\u0394G\u2032)\n100\n145\nHardness\n100\n100\nModulus upon 300%\n100\n101\nelongation\nTensile strength\n100\n105\nElongation percentage\n100\n108\nLambourn abrasion\n100\n99\ncharacteristic\nRebound resilience\n100\n102\nWet grip (tan\u03b4@0\u00b0 C.)\n100\n106\nRolling resistance\n100\n112\n(tan\u03b4@60\u00b0 C.)\nE\u2033@0\u00b0 C.\n100\n80\nE\u2032@60\u00b0 C.\n100\n94\nHandling property\n100\n94\n(E*)@60\u00b0 C.\nTABLE 8\nClassification",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 4",
+        "example_type": "Extracted Example",
+        "title": "Example 4",
+        "raw_text": "Example 4\nPreparation\n100\n75\n\u2014\n\u2014\nSSBR\n1\n100\n75\n\u2014\n\u2014\nSSBR\n2\n\u2014\n100\n75\nHigh-cis BR\n\u2014\n25\n\u2014\n25\nStearic acid\n2\n2\n2\n2\nZinc oxide\n3\n3\n3\n3\nSilica\n80\n80\n80\n80\nOil\n10\n10\n10\n10\nSi-69\n6.4\n6.4\n6.4\n6.4\nCZ\n1\n1\n1\n1\nDPG\n1.5\n1.5\n1.5\n1.5\nSulfur\n1.5\n1.5\n1.5\n1.5\n(units: parts by weight)\nCompound Mooney viscosity\n100\n105\n(@100\u00b0 C.)\nPayne (\u0394G\u2032)\n100\n122\nHardness\n100\n100\nModulus upon 300%\n100\n101\nelongation\nTensile strength\n100\n104\nelongation percentage\n100\n100\nLambourn abrasion\n100\n100\ncharacteristic\nRebound resilience\n100\n98\nWet grip (tan\u03b4@0\u00b0 C.)\n100\n105\nRolling resistance\n100\n109\n(tan\u03b4@60\u00b0 C.)\nE\u2033@0\u00b0 C.\n100\n109\nE\u2032@60\u00b0 C.\n100\n106\nHandling property\n100\n106\n(E*@60\u00b0 C.)\nThe properties of Table 5 to 8 were measured as follows:\nCompound Mooney viscosity (@ 100\u00b0 C.): A unvulcanized blend was attached to the front and back of a rotor, and the rotor was mounted on a rotary viscometer (MOONEY MV2000, manufactured by ALPHA Technologies). The rotor was started after preheating up to 100\u00b0 C. for the first 1 minute, and a viscosity change in the blend was measured for 4 minutes to measure a compound Mooney viscosity expressed as ML\n1+4\n@ 100\u00b0 C.\nPayne (\u0394G\u2032): A difference in G\u2032 values was measured in a strain rate range of 0.28 to 40% at 60\u00b0 C. using a measuring device (RPA2000, manufactured by ALPHA Technologies) to confirm a silica dispersion degree.\nHardness: Measured using a SHORE-A hardness tester.\nTensile strength, elongation percentage, and modulus upon 300% elongation: Measured using a universal test machine (UTM) according to ASTM 3189 Method B.\nLambourn abrasion characteristic: A specimen was brought into direct contact with a grinding stone using a Lambourn abrasion tester to measure an abrasion degree.\nRebound resilience: Measured according to ISO 4662-86.\nDynamic property values (tan \u03b4, E\u2033, E\u2032, E*) of vulcanized rubber: Analyzed at a frequency of 10 Hz under a strain condition of 0.2 using a\nDTMA\n5 instrument manufactured by Rheometic.\nComparing Examples 1 to 4 to Comparative Examples 1 to 4, it can be confirmed that the copolymer prepared according to an embodiment of the present disclosure has significantly high compatibility with the high-cis butadiene rubber (high-cis BR), thus exhibiting excellent properties when mixed with the high-cis BR. This is considered to occur because the copolymers prepared in the Preparation Examples 1 and 2 include the first block having high compatibility with the butadiene rubber. When an appropriate amount of 1,3-butadiene is additionally added in an in-situ manner after preparing the first block having a high vinyl content upon preparation of the copolymer, a styrene content in the whole copolymer may be increased while inhibiting formation of block styrene. In addition, a diblock copolymer including the first block, which has satisfactory compatibility with a butadiene rubber due to a relatively high vinyl content, and the second block, which has excellent properties due to a relatively low vinyl content and high styrene content, may be prepared.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Experimental Example 1",
+        "example_type": "Extracted Example",
+        "title": "Experimental Example 1",
+        "raw_text": "Experimental Example 1\nThe properties of the SSBRs used in Examples 1 to 4 and Comparative Examples 1 to 4 were measured and summarized in Table 3 below.\nThe copolymers prepared in Preparation Examples 1 and 2 were diblock copolymers having two different microstructures (blocks). The characteristics of each of the blocks were measured and summarized in Table 4 below.\nTABLE 3\nPreparation\nPreparation\nClassification",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Experimental Example 2",
+        "example_type": "Extracted Example",
+        "title": "Experimental Example 2",
+        "raw_text": "Experimental Example 2\nThe properties of the rubber specimens of Examples 1 to 4 and Comparative Examples 1 to 4 were analyzed and summarized in Tables 5 to 8 below. The properties of the rubber specimens of the examples were converted to have higher values as properties are superior, based on the properties of the rubber specimens of the comparative examples, and summarized in Tables 5 to 8 below.\nTABLE 5\nClassification",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 1",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 1",
+        "raw_text": "Comparative Example 1\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 2",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 2",
+        "raw_text": "Comparative Example 2\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 3",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 3",
+        "raw_text": "Comparative Example 3\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 4",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 4",
+        "raw_text": "Comparative Example 4\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Experimental Example 3",
+        "example_type": "Extracted Example",
+        "title": "Experimental Example 3",
+        "raw_text": "Experimental Example 3\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Preparation Example 3",
+        "example_type": "Extracted Example",
+        "title": "Preparation Example 3",
+        "raw_text": "Preparation Example 3\nsatisfying the characteristics shown in Table 9 were prepared in the same manner as in Preparation Examples 1 and 2. The styrene content of each block was controlled by varying the ratio of initially added aromatic vinyl monomers to conjugated diene monomers and the timing of addition of the conjugated diene monomers Rubber specimen (A) was manufactured in the same manner as in Example 4, except that Preparation Example 3 was used instead of Preparation Example 2.\nRubber specimen (B) was manufactured in the same manner as in Comparative Example 4 using\nSSBR\n2.\nThe microstructure distribution in specimens (A) and (B) is shown in\nFIG.\n3\n.\nTABLE 9\nClassification\nSSBR\n2\nTotal styrene content in\n38\n40\ncopolymer (%)\nTotal vinyl content in\n33\n33\ncopolymer (%)\nBlock (a) styrene content (%)\n\u2014\n39\nBlock (a) vinyl content (%)\n\u2014\n35\nBlock (b) styrene content (%)\n\u2014\n44\nBlock (b) vinyl content (%)\n\u2014\n25\n(Blocks (a) and (b) are the same as the first and second blocks, respectively.)\nReferring\nFIG.\n3\n, in the case of the copolymer prepared according to an embodiment of the present disclosure, block (a) having a low styrene content is distributed near the HBR, and block (b) having a high styrene content is distributed far from the HBR. Thus, the block (a) having a relatively high vinyl content may have relatively high compatibility with butadiene rubber, thereby improving compatibility of the entire copolymer with HBR. Moreover, the block (b) having a high styrene content may have relatively low compatibility with butadiene rubber, thereby improving incompatibility of the entire copolymer with HBR. This Janus characteristic such as both high and low compatibility with HBR may be help to increase handling and wet-grip properties, respectively. On the other hand,\nSSBR\n2 has a low vinyl ratio in the entire copolymer, and thus has poor compatibility with HBR.\nComparative Examples 5 to 6 and Example 5\nRubber specimens were manufactured under conditions summarized in Table 10 below in the same manner as in the examples 1 to 4. The rubber specimens of Comparative Examples 5 to 6 and Examples 5 were measured by transmission electron microscope (TEM) and the results are shown in\nFIG.\n4\n.\nTABLE 10\nComparative\nComparative\nComposition",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 5",
+        "example_type": "Extracted Example",
+        "title": "Example 5",
+        "raw_text": "Example 5\nSSBR\n1\n75\n\u2014\n\u2014\nSSBR\n2\n\u2014\n75\n\u2014\nPreparation Example\n\u2014\n\u2014\n75\n1\nNatural rubber (NR)\n25\n25\n25\nStearic acid\n2\n2\n2\nZinc oxide\n3\n3\n3\nSilica\n80\n80\n80\nOil\n10\n10\n10\nSi-69\n6.4\n6.4\n6.4\nCZ\n1\n1\n1\nDPG\n1.5\n1.5\n1.5\nSulfur\n1.5\n1.5\n1.5\n(units: parts by weight)\nReferring to\nFIG.\n4\n, it can be confirmed that the copolymer prepared according to an embodiment of the present disclosure in Example 5 has excellent compatibility with the natural rubber (NR), thus uniformly dispersed with the NR.\nOn the other hand, Comparative Examples 5 and 6 prepared by combining the conventional high styrene SSBR and natural rubber can be confirmed that the agglomeration occurred due to poor compatibility with each other.\nAs apparent from the above description, the present disclosure provides a copolymer having excellent compatibility with a conjugated diene-based polymer while having a high aromatic vinyl-based monomer content.\nAnother aspect of the present disclosure provides a rubber composition suitable for production of a high-performance tire, and a method of preparing the rubber composition.\nIt should be understood that the effects of the present disclosure are not limited to the effects described above, but include all effects that can be deduced from the detailed description of the present disclosure or the constitution of the disclosure described in the claims.\nThe aforementioned description of the present disclosure is provided by way of example and those skilled in the art will understand that the present disclosure can be easily changed or modified into other specified forms without change or modification of the technical spirit or essential characteristics of the present disclosure. Therefore, it should be understood that the aforementioned examples are only provided by way of example and not provided to limit the present disclosure. For example, each of constituents described as a single form may be separately implemented and, similarly, constituents described as being separated may be implemented in a combined form.\nIt should be understood that the scope of the present disclosure is defined by the following claims and the disclosure is to cover all modifications, equivalents, and alternatives falling within the spirit and scope of the disclosure as defined by the claims.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 6",
+        "example_type": "Extracted Example",
+        "title": "Example 6",
+        "raw_text": "Example 6\n",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "Copolymer, rubber composition, and method of preparing the same \n       \nAbstract\nDisclosed is a copolymer including a first part including an aromatic vinyl-based monomer and a conjugated diene-based monomer; and a second part including an aromatic vinyl-based monomer and a conjugated diene-based monomer, wherein the content of the aromatic vinyl-based monomer is 35 to 45% by weight based on a total weight of the copolymer, and the copolymer satisfies Equation 1 below:\nV\n1\n>V\n2\n<Equation 1>\nwherein V\n1\nis a vinyl content in the first part, and V\n2\nis a vinyl content in the second part.\nClaims (\n9\n)\nWhat is claimed is:\n1. A copolymer, comprising:\na first part comprising an aromatic vinyl-based monomer and a conjugated diene-based monomer; and\na second part comprising an aromatic vinyl-based monomer and a conjugated diene-based monomer,\nwherein the content of the aromatic vinyl-based monomer is 38 to 42% by weight based on a total weight of the copolymer, and\nthe copolymer satisfies Equation 1 below:\nV\n1\n>V\n2\n<Equation 1>\nwherein V\n1\nis a vinyl content in the first part, and\nV\n2\nis a vinyl content in the second part;\nwherein V\n1\nis 35 to 38% by weight, and V\n2\nis 19 to 28% by weight;\nwherein a total vinyl content in the copolymer is 26 to 33% by weight, and\nwherein the copolymer has a molecular weight distribution of 1.0 to 1.2.\n2. The copolymer according to\nclaim 1\n, wherein a content of the aromatic vinyl-based monomer of the first part is 15 to 45% by weight, and\na content of the aromatic vinyl-based monomer of the second part is 35 to 65% by weight.\n3. The copolymer according to\nclaim 1\n, wherein a weight ratio of the first part to the second part is 1:0.5 to 1.5.\n4. The copolymer according to\nclaim 1\n, wherein the copolymer has a weight average molecular weight of 100,000 to 250,000.\n5. The copolymer according to\nclaim 1\n, wherein a content of an aromatic vinyl-based block in the copolymer is 1% by weight or less.\n6. The copolymer according to\nclaim 1\n, wherein at least a portion of the copolymer is modified with one selected from the group consisting of piperidine, 1-[(4-ethylphenyl)methyl]-pyrrolidine, 1-(4-vinylbenzyl)pyrrolidine, N1-(3-(dimethylamino)propyl)-N3,N3-dimethyl-N1-(4-vinylbenzyl)propane-1,3-diamine, N1-(3-(dimethylamino)propyl)-N3,N3-dimethyl-N1-(4-vinylphenethyl)propane1,3-diamine, N1-(2-(dimethylamino)ethyl)-N2,N2-dimethyl-N1-(4-vinylbenzyl)ethane-1,2-diamine; N1-(3-(diethylamino)propyl)-N3,N3-diethyl-N1-(4-vinylbenzyl)propane-1,3-diamine, triethoxysilylpropyldiethylamine, 3-glycidoxypropyldimethyldimethoxysilane, dimethyldichlorosilane, trimethylchlorosilane, methyldichlorosilane, methyltrichlorosilane, phenyltrichlorosilane, vinyltrichlorosilane, and a combination of two or more thereof.\n7. A rubber composition, comprising:\nthe copolymer according to\nclaim 1\n; and\na conjugated diene-based polymer.\n8. The rubber composition according to\nclaim 7\n, wherein the polymer is high-cis-1,4-polybutadiene or natural rubber.\n9. The rubber composition according to\nclaim 7\n, wherein a weight ratio of the copolymer to the polymer is 1 to 5:1."
+  }
+]

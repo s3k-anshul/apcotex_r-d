@@ -1,0 +1,150 @@
+[
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/EP3243844B1/en",
+      "patent_number": "EP3243844B1",
+      "patent_title": "Method for preparing styrene-butadiene rubber having low combined styrene \u2026",
+      "assignee": "Not disclosed",
+      "publication_year": "2022",
+      "jurisdiction": "EP",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "6",
+      ")",
+      "A method for preparing low styrene-butadiene rubber having a combined styrene content of 1% by weight to 15% by weight using a mixture of an aliphatic organic acid and a sulfonate-based compound as an emulsifier in preparing the low styrene-butadiene rubber,",
+      "wherein the aliphatic organic acid is used in acid form,",
+      "wherein the sulfonate-based compound includes one type selected from the group consisting of alkyl aryl sulfonates, alkali metal alkyl sulfates, sulfonated alkyl esters, and combinations thereof,",
+      "wherein the sulfonate-based compound is used in 0.1 parts by weight to 5 parts by weight with respect to 100 parts by weight of a monomer for preparing the low styrene-butadiene rubber.",
+      "The method for preparing low styrene-butadiene rubber of Claim 1, wherein the low styrene-butadiene rubber has a combined styrene content of 5% by weight to 10% by weight.",
+      "The method for preparing low styrene-butadiene rubber of Claim 1, wherein the aliphatic organic acid has a linear or branched alkyl group with 12 to 18 carbon atoms.",
+      "The method for preparing low styrene-butadiene rubber of Claim 1, wherein the aliphatic organic acid includes one type selected from the group consisting of oleic acid, lauric acid, myristic acid, palmitic acid, stearic acid, eicosanoic acid and combinations thereof."
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "Example 1:",
+        "example_type": "Extracted Example",
+        "title": "Example 1:",
+        "raw_text": "Example 1:\nPreparation of Low Styrene-Butadiene-Based Rubber\nLow styrene-butadiene rubber latex was prepared through emulsion polymerization at 10\u00b0C by adding 3.5 parts by weight of an aliphatic organic acid (fatty acid (company name: LG Household and Health Care Ltd., product name: elofad TP 200), 0.5 parts by weight of sodium 1-(n-alkyl-naphthalene-4-sulfonate (SANS), 0.05 parts by weight of an initiator, 0.5 parts by weight of a molecular weight regulator and 200 parts by weight of water with respect to 100 parts by weight of a monomer formed with 94 parts by weight of 1,3-butadiene and 6 parts by weight of styrene in a reaction container. As for the termination of the reaction, the reaction was terminated when a conversion ratio reached 80%.\nTo 100 parts by weight (solid) of the obtained low styrene-butadiene rubber latex, 2 parts by weight of calcium chloride was added, the temperature was raised to 70\u00b0C, and the result was aged for 20 minutes and then cooled to obtain coagulation. After washing the result 2 to 3 times with ion exchange water to remove the residual monomer, the result was dehydrated using a filter. Subsequently, the result was dried using a roll dryer to prepare low styrene-butadiene rubber.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 2:",
+        "example_type": "Extracted Example",
+        "title": "Example 2:",
+        "raw_text": "Example 2:\nPreparation of Low Styrene-Butadiene-Based Rubber\nLow styrene-butadiene rubber was prepared in the same manner as in Example 1 except that the content of the aliphatic organic acid and the content of the SANS used were 1.5 parts by weight and 1.0 parts by weight, respectively.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 3:",
+        "example_type": "Extracted Example",
+        "title": "Example 3:",
+        "raw_text": "Example 3:\nPreparation of Low Styrene-Butadiene-Based Rubber\nLow styrene-butadiene rubber was prepared in the same manner as in Example 1 except that the content of the aliphatic organic acid and the content of the SANS used were each 2.0 parts by weight.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 1:",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 1:",
+        "raw_text": "Comparative Example 1:\nPreparation of Low Styrene-Butadiene-Based Rubber\nLow styrene-butadiene rubber was prepared in the same manner as in Example 1 except that 4.0 parts by weight of the aliphatic organic acid was used alone.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 2:",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 2:",
+        "raw_text": "Comparative Example 2:\nPreparation of Low Styrene-Butadiene-Based Rubber\nLow styrene-butadiene rubber was prepared in the same manner as in Example 1 except that 4.0 parts by weight of the SANS was used alone.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 3:",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 3:",
+        "raw_text": "Comparative Example 3:\nPreparation of Low Styrene-Butadiene-Based Rubber\nLow styrene-butadiene rubber was prepared in the same manner as in Example 1 except that 4.0 parts by weight of rosin acid was used alone.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 4:",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 4:",
+        "raw_text": "Comparative Example 4:\nPreparation of Low Styrene-Butadiene-Based Rubber\nLow styrene-butadiene rubber was prepared in the same manner as in Example 1 except that the aliphatic organic acid and rosin acid were used each in 2.0 parts by weight.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 5:",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 5:",
+        "raw_text": "Comparative Example 5:\nPreparation of Low Styrene-Butadiene-Based Rubber\nLow styrene-butadiene rubber was prepared in the same manner as in Example 1 except that the SANS and rosin acid were used each in 2.0 parts by weight.\nTest Example 1: Measurement on Properties of Low Styrene-Butadiene-Based Rubber\nProperties of the low styrene-butadiene rubber obtained in the examples and the comparative examples were evaluated as follows, and the results are shown in the following Table 1.\n- Polymerization time: polymerization time represents time taken to reach a conversion ratio of 55% through emulsion polymerization, and as for the conversion ratio, monomer to polymer conversion may be identified through measuring a total solid content.\n- Produced coagulation (%): produced coagulation was measured by weight of produced coagulation in reactor/weight of total monomers introduced*100.\n[Table 1]\nCategory\nEmulsifier Content (Parts by Weight)\nProperties\nAliphatic Organic Acid\nSANS\nRosin Acid\nPolymerization Time (hr)\nProduced Coagulation (% by Weight)",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 1",
+        "example_type": "Extracted Example",
+        "title": "Example 1",
+        "raw_text": "Example 1\n3.5\n0.5\n-\n7.1\n0.02\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 2",
+        "example_type": "Extracted Example",
+        "title": "Example 2",
+        "raw_text": "Example 2\n1.5\n1.0\n-\n7.9\n0.01\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 3",
+        "example_type": "Extracted Example",
+        "title": "Example 3",
+        "raw_text": "Example 3\n2.0\n2.0\n-\n7.5\n0.005\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 1",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 1",
+        "raw_text": "Comparative Example 1\n4.0\n-\n-\n7.5\n0.3\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 2",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 2",
+        "raw_text": "Comparative Example 2\n-\n4.0\n-\n14\n0.005\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 3",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 3",
+        "raw_text": "Comparative Example 3\n-\n-\n4.0\n9.0\n0.5\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 4",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 4",
+        "raw_text": "Comparative Example 4\n2.0\n-\n2.0\n8.2\n0.4\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 5",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 5",
+        "raw_text": "Comparative Example 5\n-\n2.0\n2.0\n10\n0.05\nWhen referring to Table 1, the polymerization was completed in approximately 7 hours of polymerization time when mixing an aliphatic organic acid and a sulfate-based compound according to the present disclosure, and it was seen that a polymerization reaction rate decreased compared to Comparative Examples 1 to 5.\nIn addition, in the content of the produced coagulation, the content was very small of 0.005% by weight in Example 3, and it was seen that the produced low styrene-butadiene rubber had excellent stability.\nTest Example 2: Formed Rubber Article and Property Measurement\n(1) Preparation of Rubber Mixture\nEach of the styrene butadiene rubber coagulation prepared in the examples and the comparative examples and high styrene-butadiene rubber (combined styrene content 85%, particle size 100 nm to 200 nm) were mixed in a weight ratio or 2:8 according to the ASTM D3187 using a Banbury mixer. For the obtained mixture, properties were measured as follows.\n(2) Property Measurement\nThe following properties were evaluated using the specimens obtained in (1), and the results are shown in the following Table 2.\n<Mixture Properties>\n* Mooney viscosity (MV): Mooney viscosity was measured based on the DIN 53523/3.\n* Condition of mixing thermal stability evaluation\nMilling was carried out to a thickness of 0.2 mm in a 160\u00b0C roller (amount of specimen 200 g) and aged specimens were collected at an interval of 1.5, 5, 10, 15, 20, 25, 30, 40, 50 and 60 minutes to evaluate color stability when mixed. The evaluation was performed using a 5-point scale, and the grade being lower in the C to 5 points means a decrease in the mixing thermal stability.\n<Vulcanization Property (MDR: Moving Die Rheometer)>:\nvulcanization profiles and relating analysis data thereof were measured in a Monsanto MDR2000 Rheometer in accordance with the ASTM D5289-95.\n* T5: time taken to reach 5% vulcanization was measured (160\u00b0C, 3 minutes).\n* Vmax (vulcanization rate): Vmax means maximum torque required for 100% vulcanization.\n<Mechanical Properties>\n* Tensile strength (TS, kgf/cm\n2\n) : tensile strength of the vulcanizate obtained after vulcanizing the mixture for 45 minutes at 145\u00b0C was measured.\n* Elongation (%) : elongation of the vulcanizate obtained after vulcanizing the mixture for 45 minutes at 145\u00b0C was measured.\n* 100% modulus: modulus at 100% elongation of the vulcanizate obtained after vulcanizing the mixture for 45 minutes at 145\u00b0C was measured.\n* Hardness: in order to measure hardness of the prepared vulcanizate, Durometer hardness (JIS A, Shore type) was used in accordance with the ASTM D2240. The vulcanized specimen was prepared to have a thickness of minimum 6 mm, and after placing a needle perpendicular to a measuring surface of the specimen, hardness was measured 3 times at the specimen center with a load of approximately 2 kg (19.6 N), and an average value was calculated.\n[Table 2]\nProperties of Rubber Mixture\nMV\n40\n44\n423\n45\n40\n43\n46\n41\nMixing Thermal Stability (5 Point Scale)\n5\n5\n5\n2.5\n4.5\n3\n3.5\n4.0\nMDR (160\u00b0C, 30 min)\nT5 (min)\n1.14\n1.13\n1.17\n1.08\n1.50\n1.70\n1.17\n1.6\nVmax (N.M)\n23.7\n25.1\n24.3\n23.0\n19.1\n20.5\n24.1\n21.0\nMechanical Property\nTensile Strength (kg/cm\n2\n)\n192\n189\n181\n185\n156\n167\n189\n179\nElongation (%)\n346\n374\n295\n344\n275\n277\n374\n362\n100% Modulus\n57\n58\n56\n51\n52\n55\n51\n45\nHardness\n81\n80\n80\n78\n77\n77\n78\n77\nBased on the results of Table 1, it was seen that the rubber of Example 1 prepared using the emulsifier content ratio according to the present disclosure had relatively low Mooney viscosity and had excellent thermal stability after mixing.\nSuch a result becomes obvious when comparing this result with the results of Comparative Examples 1 to 5 using other emulsifiers.\nParticularly, in the results of mechanical properties, the rubber of Examples 1 to 3 had excellent tensile strength, elongation and modulus properties compared to the rubber of Comparative Examples 1 to 5, and particularly, hardness was enhanced by 2 to 3 or higher.\nAccordingly, it was seen that, when using both an aliphatic organic acid and SANS as an emulsifier as in the present disclosure, mixing stability with high styrene-butadiene copolymer is enhanced and properties of a finally obtained formed rubber article are enhanced.\n[Industrial Applicability]\nIn the above descriptions, the tire represents any one selected from among tires for automobiles, tires for buses, tires for trucks, tires for aircrafts and tires for motorcycles.",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "Method for preparing styrene-butadiene rubber having low combined styrene content \n       \n\nClaims (\n6\n)\nA method for preparing low styrene-butadiene rubber having a combined styrene content of 1% by weight to 15% by weight using a mixture of an aliphatic organic acid and a sulfonate-based compound as an emulsifier in preparing the low styrene-butadiene rubber,\nwherein the aliphatic organic acid is used in acid form,\nwherein the sulfonate-based compound includes one type selected from the group consisting of alkyl aryl sulfonates, alkali metal alkyl sulfates, sulfonated alkyl esters, and combinations thereof,\nwherein the sulfonate-based compound is used in 0.1 parts by weight to 5 parts by weight with respect to 100 parts by weight of a monomer for preparing the low styrene-butadiene rubber.\nThe method for preparing low styrene-butadiene rubber of Claim 1, wherein the low styrene-butadiene rubber has a combined styrene content of 5% by weight to 10% by weight.\nThe method for preparing low styrene-butadiene rubber of Claim 1, wherein the aliphatic organic acid has a linear or branched alkyl group with 12 to 18 carbon atoms.\nThe method for preparing low styrene-butadiene rubber of Claim 1, wherein the aliphatic organic acid includes one type selected from the group consisting of oleic acid, lauric acid, myristic acid, palmitic acid, stearic acid, eicosanoic acid and combinations thereof.\n(Original) The method for preparing low styrene-butadiene rubber of Claim 1, wherein the aliphatic organic acid is used in 0.5 parts by weight to 7 parts by weight with respect to 100 parts by weight of a monomer for preparing the low styrene-butadiene rubber.\nThe method for preparing low styrene-butadiene rubber of Claim 1, wherein, as the emulsifier, the aliphatic organic acid and the sulfonate-based compound are used in a weight ratio of 1:1 to 10:1.",
+    "examples_detection_note": ""
+  }
+]

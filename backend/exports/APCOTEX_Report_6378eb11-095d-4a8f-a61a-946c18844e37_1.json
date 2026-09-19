@@ -1,0 +1,45 @@
+[
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US6313232B1/en",
+      "patent_number": "US6313232B1",
+      "patent_title": "Continuous addition of tin halides to solution SBR",
+      "assignee": "Bridgestone Corporation",
+      "publication_year": "2001",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "7",
+      ")",
+      "What is claimed is:",
+      "1. A method of producing a diene polymer comprising the step of continuously introducing into the reactor a conjugated diene monomer or a mixture of a conjugated diene monomer and a vinylaromatic hydrocarbon monomer in a hydrocarbon solvent, a polymerization initiator comprising an organolithium compound while continuously adding at least one tin compound to the polymerization reactor at a point when the degree of polymerization has reached between 25% and 80%.",
+      "2. A method of claim",
+      "1",
+      ", wherein the organolithium compound is selected from the group consisting of alkyllithium, alkylenedilithium, phenyllithium and stilbenedilithium and the organotin compound is represented by the formula R",
+      "1",
+      "4\u2212z"
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "Comparative Example",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example",
+        "raw_text": "Comparative Example\nThree portions of approximately 300-400 g. each of the polymer cement were withdrawn from the transfer line out of the polymerization reactor in the above-described polymerization (before the second addition of the tin compound) into three nitrogen purged bottles.\nControl: Isopropanol was added to the polymer cement in a bottle to terminate the polymerization and then 1% by weight of 3,6-di-tert butyl-p-cresol antioxidant was added.\nSample A: To the polymer cement in another bottle was added Bu\n3\nSnCl as a 10% by weight solution in hexane in a molar amount (based on the chloride) equivalent to 0.04 g. of active lithium per 100 g. of monomer. The bottle was mixed for 15-30 minutes until the color disappeared indicating the completion of the reaction. Then isopropanol and 1% by weight of 2,6-di-tert butyl-p-cresol were added.\nSample B: To the polymer cement in the third bottle was added SnCl\n4\nas a 10% by weight solution in hexane in a molar amount (based on the chloride) equivalent to 0.04 g. of active lithium per 100 g. of monomer. The bottle was mixed for 15-30 minutes until the color disappeared indicating the completion of the reaction. Then isopropanol and 1% by weight of BHT were added.\nThe above samples were drum dried to remove the solvents and each sample was compounded as described below.\nAdditives\nParts\nNatural Rubber\n25\nCarbon Black\n48.5\nZnO\n25\nWax\n1.0\nHydrocarbon Resin (Piccotate)\n2.0\nAmine Antioxidant (Santoflex 13)\n0.95\nStearic Acid\n2.0\nAro Oil\n6\nNap Oil\n5\nCBS Accelerator (n-cyclohexyl-2-\n1.4\nbenzothiazole sulfonamide\nDPG Accelerator (diaphenyl guanidine)\n0.15\nSulfur\n1.5\nCompounding: 75 parts by weight of each of the above described sample was compounded by adding to the samples the above listed additives in the amount noted in parts by weight, except for the accelerators and sulfur, and mixing in a Brabender mixer for 6 minutes at 90\u00b0 C. Thereafter to the resulting compound were added the two accelerators and sulfur and they were mixed for 1 minute and 30 seconds at 105\u00b0 C.\nThe following standard tests were performed on the above described three samples that were compounded as described above.\nDynastat Test\nThis was conducted on Dynastat II at 50\u00b0 C. This test indicates the hysteresis loss which relates to rolling resistance in a tire; the higher the test value, the greater the hysteresis loss, i.e., the rolling resistance is worse.\nResults:\nControl\n0.168\nSample A\n0.150 (12.0% improvement)\nSample B\n0.147 (14.3% improvement)\nStrain Sweep Test\nThe tests were conducted on the Rheometrics RDA 700 at 25\u00b0 C. using samples of 9.3 mm in diameter \u00d715.5 mm high obtained from the above-described compounded stock samples. The test was started at 0.25% of strain applied to the samples and increased by 0.25% strain until reaching 14.7% strain, recording the data at each strain level. The below reported test result for each sample was obtained by deducting the G\u2032 value at low strain (1%) from the G\u2032 value at high strain (14.7%).\nThis \u201cdelta G\u2032\u201d or \u201cPayne Effect\u201d relates to the microdispersion of the carbon black. The higher the delta G\u2032, the worse the microdispersion and the higher the rolling resistance. G\u2032 is defined as the elastic storage modulus and, in this case, at low strains is actually a measure of the modulus of the carbon black network.\nControl Sample:\n1.682 dyne/cm\n2\n\u00d7 l0\n\u22127\nSample A:\n1.144 dyne/cm\n2\n\u00d7 10\n\u22127\n(32% improvement)\nSample B:\n1.268 dyne/cm\n2\n\u00d7 l0\n\u22127\n(25% improvement)\nThis test data shows the rolling resistance; the lower the value, the lower the rolling resistance.\nWhen the Polymerization Example is repeated employing tin dichloride, dibutyltin chloride, tetraallyltin or tetraphenyltin as the tin compound added to the polymerization vessel and tin tetrachloride, tin dichloride, tetraallyltin or tetraphenyltin as the tin compound added to the polymerization mixture after it has been withdrawn from the polymerization vessel, substantially similar results are obtained.",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "Continuous addition of tin halides to solution SBR \n       \nAbstract\nA method of continuously polymerizing a conjugated diene monomer and a vinyl aromatic hydrocarbon monomer in a hydrocarbon solvent by using an organolithium initiator, adding to the polymerization mixture a tin compound and again adding a tin compound after the polymerization mixture has been withdrawn from the polymerization vessel. The resulting diene polymers possess a significantly reduced Payne Effect and a substantial reduction (over 10%) in tan delta at 50\u00b0 C. which results in tires having decreased hysteresis loss, excellent wear resistance and rolling resistance and good wet skid resistance.\nClaims (\n7\n)\nWhat is claimed is:\n1. A method of producing a diene polymer comprising the step of continuously introducing into the reactor a conjugated diene monomer or a mixture of a conjugated diene monomer and a vinylaromatic hydrocarbon monomer in a hydrocarbon solvent, a polymerization initiator comprising an organolithium compound while continuously adding at least one tin compound to the polymerization reactor at a point when the degree of polymerization has reached between 25% and 80%.\n2. A method of claim\n1\n, wherein the organolithium compound is selected from the group consisting of alkyllithium, alkylenedilithium, phenyllithium and stilbenedilithium and the organotin compound is represented by the formula R\n1\n4\u2212z\nSnX\nz\nand SnX\nz\nwhere R\n1\nis alkyl having 1 to 8 carbon atoms, X is a halogen and z is an integer from 1 to 4.\n3. A method of claim\n2\nwherein the organotin compound is selected from the group consisting of tin tetrachloride, dibutyltin dichloride and tributyltin chloride and the first addition of a tin compound is at a point when the degree of polymerization has reached between 50% and 80%.\n4. A method of claim\n1\nwherein another dose of a tin compound is added inline after withdrawing the polymerization mixture from the polymerization vessel but before the polymerization mixture is piped into a holding tank.\n5. A method of producing a polymer according to claim\n2\nwherein the polymer is a polymer of butadiene or a copolymer of butadiene and styrene.\n6. A method of claim\n2\n, wherein a halogenated tin compound is continuously added to the polymerization vessel in an amount of less than 0.5 to 0.12 or more mol equivalent based on 1 mol equivalent of the lithium at the active end of the polymer.\n7. A method of claim\n4\n, wherein the tin compound is continuously added to the line withdrawing the polymerization mixture form the polymerization vessel in an amount of less than 0.5 to 0.12 or more mol equivalent based on 1 mol equivalent of the lithium at the active end of the polymer.",
+    "examples_detection_note": ""
+  }
+]

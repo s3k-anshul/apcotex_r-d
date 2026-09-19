@@ -1,0 +1,242 @@
+{
+  "title": "PATENT RESEARCH REPORT",
+  "abstract": "This technical report synthesizes polymerization and synthesis data from six key patents focusing on Low Acrylonitrile Nitrile Butadiene Rubber (Low ACN NBR). The scope of this research covers the production of nitrile rubbers with bound acrylonitrile contents typically ranging from 27.9% to 36.6%. The selected patent landscape reveals two primary technical focuses: first, low-temperature (7&deg;C to 8&deg;C) emulsion polymerization processes utilizing redox initiator systems (such as diisopropylbenzene hydroperoxide or p-menthane hydroperoxide combined with iron(II) salts) and incremental chain-transfer agent (TDM) dosing to control molecular weight and Mooney viscosity; second, highly controlled post-polymerization coagulation and washing processes. A significant portion of the patent art focuses on adjusting latex pH and selecting specific coagulation salts (magnesium chloride, calcium chloride, or sodium chloride) to regulate the residual cation profile (ion index) of the final rubber. This precise ion control is shown to directly optimize vulcanization kinetics, reduce Mooney scorch, and improve the corrosion resistance and aging properties of the resulting vulcanizates.",
+  "methodology_patents": [
+    {
+      "patent_details": {
+        "patent_number": "US9650502",
+        "patent_title": "Process for the preparation of nitrile rubbers",
+        "assignee": "Not disclosed in the analyzed patent evidence",
+        "jurisdiction": "US",
+        "publication_year": "2017",
+        "polymer_type": "Low Acrylonitrile Nitrile Butadiene Rubber (NBR)",
+        "relevance_to_target": "Discloses a low-temperature emulsion polymerization process for NBR with low bound ACN (27.9% - 28.1%) using incremental additions of t-dodecyl mercaptan (TDM) to control Mooney viscosity."
+      },
+      "polymerization_method": {
+        "polymerization_process": "Cold emulsion polymerization",
+        "monomer_system": "Acrylonitrile and Butadiene",
+        "monomer_ratio": "500 g ACN / 4.37 kg Butadiene (approx. 10.3 wt% ACN in feed) or 815 g ACN / 4.0 kg Butadiene (approx. 16.9 wt% ACN in feed)",
+        "water_amount": "9.92 kg deionized water",
+        "emulsifier": "Potassium stearate and DNMK (disproportionated rosin acid potassium salt)",
+        "emulsifier_loading": "0.53 kg of 5.4 wt% potassium stearate solution, 0.440 kg DNMK",
+        "initiator": "Diisopropylbenzene hydroperoxide (DIHP) and Sodium formaldehyde sulfoxylate (FSS)",
+        "initiator_loading": "6 g DIHP, 139 g FSS aqueous solution",
+        "catalyst_activator": "Not disclosed in the analyzed patent evidence",
+        "chain_transfer_agent": "t-Dodecyl mercaptan (TDM)",
+        "chain_transfer_dosage": "18.72 g initially, with booster additions of 2.34 g at 37% and 59% conversion (or 21.85 g initially and 5.45 g booster)",
+        "polymerization_temperature": "7&deg;C",
+        "pressure": "Not disclosed in the analyzed patent evidence",
+        "ph": "Latex pH of 8.5 - 8.6",
+        "reaction_time": "7 hours",
+        "conversion": "70% (stopped with hydroxylamine sulfate)",
+        "coagulation_conditions": "Coagulated using magnesium sulfate (4 kg saturated solution in 43 kg water) at elevated temperature, followed by washing at pH 11.5-11.8 (using KOH)",
+        "post_treatment": "Filtered and dried in an air oven at 100&deg;C for 24 hours (residual humidity < 1%)",
+        "raw_polymer_properties": "Bound ACN content of 27.9% - 28.1% (Latex A/C) or 33.9% (Latex B); Mooney viscosity of 29.0 - 60.5 (ML 1+4 @ 100&deg;C)"
+      },
+      "experimental_evidence": [
+        "Latex A was prepared with 500 g ACN, 4.37 kg butadiene, and 18.72 g TDM, yielding 28.1% bound ACN and 60.5 Mooney viscosity.",
+        "Latex C was prepared similarly to Latex A, yielding 27.9% bound ACN and 29.0 Mooney viscosity.",
+        "Latex B was prepared with 815 g ACN, 4.0 kg butadiene, and 21.85 g TDM, yielding 33.9% bound ACN and 32.1 Mooney viscosity.",
+        "Coagulation was performed using magnesium sulfate, followed by washing at pH 11.5-11.8 with KOH to control residual emulsifier and ash content."
+      ],
+      "technical_relevance": "Demonstrates a low-temperature (7&deg;C) emulsion polymerization process for low-ACN nitrile rubbers (27.9-28.1% bound ACN) using incremental additions of TDM to control molecular weight and Mooney viscosity."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US9034992",
+        "patent_title": "Nitrile rubbers which optionally contain alkylthio terminal groups and which ...",
+        "assignee": "Not disclosed in the analyzed patent evidence",
+        "jurisdiction": "US",
+        "publication_year": "2015",
+        "polymer_type": "Nitrile Butadiene Rubber (NBR)",
+        "relevance_to_target": "Focuses on the post-polymerization processing, latex coagulation, and vulcanization of nitrile rubbers to optimize aging and corrosion properties."
+      },
+      "polymerization_method": {
+        "polymerization_process": "Emulsion polymerization (implied by latex processing)",
+        "monomer_system": "Not disclosed in the analyzed patent evidence",
+        "monomer_ratio": "Not disclosed in the analyzed patent evidence",
+        "water_amount": "Not disclosed in the analyzed patent evidence",
+        "emulsifier": "Not disclosed in the analyzed patent evidence",
+        "emulsifier_loading": "Not disclosed in the analyzed patent evidence",
+        "initiator": "Not disclosed in the analyzed patent evidence",
+        "initiator_loading": "Not disclosed in the analyzed patent evidence",
+        "catalyst_activator": "Not disclosed in the analyzed patent evidence",
+        "chain_transfer_agent": "Not disclosed in the analyzed patent evidence",
+        "chain_transfer_dosage": "Not disclosed in the analyzed patent evidence",
+        "polymerization_temperature": "Not disclosed in the analyzed patent evidence",
+        "pressure": "Not disclosed in the analyzed patent evidence",
+        "ph": "Not disclosed in the analyzed patent evidence",
+        "reaction_time": "Not disclosed in the analyzed patent evidence",
+        "conversion": "Not disclosed in the analyzed patent evidence",
+        "coagulation_conditions": "Coagulation of 25 L of latex using magnesium chloride and an acid-ashed gelatin (viscosity 92.1 cP, IEP 8.7 in 10% aqueous solution)",
+        "post_treatment": "Vulcanization at 160&deg;C under 120 bar hydraulic pressure for 30 minutes",
+        "raw_polymer_properties": "Mooney sheets subjected to hot air aging at 100&deg;C for 48 hours; vulcanizates evaluated for stress at 300% elongation, tensile strength, and elongation at break"
+      },
+      "experimental_evidence": [
+        "Latex A (25 L) was coagulated using a magnesium chloride solution containing dissolved acid-ashed gelatin (10% strength aqueous solution, viscosity 92.1 cP, IEP 8.7).",
+        "Vulcanized test specimens were prepared at 160&deg;C under 120 bar pressure for 30 minutes.",
+        "Corrosion testing of sealing rings was conducted between sand-blasted aluminum plates at 80% relative humidity and 70&deg;C."
+      ],
+      "technical_relevance": "Highlights the use of specific coagulation aids (gelatin in magnesium chloride solution) to control the ion index and improve the vulcanization and corrosion properties of NBR."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US7923518",
+        "patent_title": "Nitrile rubbers",
+        "assignee": "Not disclosed in the analyzed patent evidence",
+        "jurisdiction": "US",
+        "publication_year": "2011",
+        "polymer_type": "Nitrile Butadiene Rubber (NBR)",
+        "relevance_to_target": "Part of a family of patents addressing the synthesis and ion-index control of nitrile rubbers."
+      },
+      "polymerization_method": {
+        "polymerization_process": "Emulsion polymerization (implied)",
+        "monomer_system": "Not disclosed in the analyzed patent evidence",
+        "monomer_ratio": "Not disclosed in the analyzed patent evidence",
+        "water_amount": "Not disclosed in the analyzed patent evidence",
+        "emulsifier": "Not disclosed in the analyzed patent evidence",
+        "emulsifier_loading": "Not disclosed in the analyzed patent evidence",
+        "initiator": "Not disclosed in the analyzed patent evidence",
+        "initiator_loading": "Not disclosed in the analyzed patent evidence",
+        "catalyst_activator": "Not disclosed in the analyzed patent evidence",
+        "chain_transfer_agent": "Not disclosed in the analyzed patent evidence",
+        "chain_transfer_dosage": "Not disclosed in the analyzed patent evidence",
+        "polymerization_temperature": "Not disclosed in the analyzed patent evidence",
+        "pressure": "Not disclosed in the analyzed patent evidence",
+        "ph": "Not disclosed in the analyzed patent evidence",
+        "reaction_time": "Not disclosed in the analyzed patent evidence",
+        "conversion": "Not disclosed in the analyzed patent evidence",
+        "coagulation_conditions": "Not disclosed in the analyzed patent evidence",
+        "post_treatment": "Not disclosed in the analyzed patent evidence",
+        "raw_polymer_properties": "Not disclosed in the analyzed patent evidence"
+      },
+      "experimental_evidence": [
+        "No specific experimental parameters are disclosed in the provided text for this patent."
+      ],
+      "technical_relevance": "Represents the foundational patent family for controlling the cation concentration and ion ratios in nitrile rubbers to optimize vulcanization kinetics."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US8389623",
+        "patent_title": "Nitrile rubbers",
+        "assignee": "Not disclosed in the analyzed patent evidence",
+        "jurisdiction": "US",
+        "publication_year": "2013",
+        "polymer_type": "Nitrile Butadiene Rubber (NBR)",
+        "relevance_to_target": "Investigates the effect of coagulation salt type (e.g., CaCl2 vs. MgCl2) and cation concentration on Mooney scorch, vulcanization rate, and mechanical properties of NBR."
+      },
+      "polymerization_method": {
+        "polymerization_process": "Emulsion polymerization (implied by latex coagulation)",
+        "monomer_system": "Not disclosed in the analyzed patent evidence",
+        "monomer_ratio": "Not disclosed in the analyzed patent evidence",
+        "water_amount": "Not disclosed in the analyzed patent evidence",
+        "emulsifier": "Not disclosed in the analyzed patent evidence",
+        "emulsifier_loading": "Not disclosed in the analyzed patent evidence",
+        "initiator": "Not disclosed in the analyzed patent evidence",
+        "initiator_loading": "Not disclosed in the analyzed patent evidence",
+        "catalyst_activator": "Not disclosed in the analyzed patent evidence",
+        "chain_transfer_agent": "Not disclosed in the analyzed patent evidence",
+        "chain_transfer_dosage": "Not disclosed in the analyzed patent evidence",
+        "polymerization_temperature": "Not disclosed in the analyzed patent evidence",
+        "pressure": "Not disclosed in the analyzed patent evidence",
+        "ph": "Not disclosed in the analyzed patent evidence",
+        "reaction_time": "Not disclosed in the analyzed patent evidence",
+        "conversion": "Not disclosed in the analyzed patent evidence",
+        "coagulation_conditions": "Coagulated using calcium chloride (CaCl2) or magnesium chloride (MgCl2)",
+        "post_treatment": "Vulcanization at 160&deg;C under 120 bar hydraulic pressure for 30 minutes",
+        "raw_polymer_properties": "Mooney scorch, vulcanization rate (t90 - t10), and stress at 300% elongation (7.0 - 10.2 MPa)"
+      },
+      "experimental_evidence": [
+        "Nitrile rubbers were processed in a 1.5 L mechanical laboratory mixer using 100 parts by weight of NBR.",
+        "Coagulation with CaCl2 resulted in specific cation concentrations (e.g., 1190-1290 ppm Ca) and vulcanizate properties (stress at 300% elongation of 7.0-10.2 MPa, elongation at break of 608-651%).",
+        "Coagulation with magnesium chloride yielded latices with lower Mooney scorch, shorter vulcanization times, and higher stress at 300% elongation compared to non-inventive rubbers."
+      ],
+      "technical_relevance": "Demonstrates that the choice of coagulation salt (MgCl2 vs. CaCl2) and the resulting cation ratio in the rubber significantly influence Mooney scorch and vulcanization rates."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US8436091",
+        "patent_title": "Nitrile rubbers",
+        "assignee": "Not disclosed in the analyzed patent evidence",
+        "jurisdiction": "US",
+        "publication_year": "2013",
+        "polymer_type": "Nitrile Butadiene Rubber (NBR) / Carboxylated NBR (XNBR)",
+        "relevance_to_target": "Discloses a low-temperature emulsion polymerization process using a specific redox initiator system (Trigonox NT 50 and Fe(II) chloride or sulfate) to produce NBR with controlled ACN content and Mooney viscosity."
+      },
+      "polymerization_method": {
+        "polymerization_process": "Cold emulsion polymerization",
+        "monomer_system": "Butadiene, Acrylonitrile, and 2-Hydroxyethyl methacrylate (HEMA)",
+        "monomer_ratio": "Butadiene: 61.4, Acrylonitrile: 36, HEMA: 2.6 parts by weight",
+        "water_amount": "220 parts by weight (total water); 2.1 kg water for 1.25 kg monomer autoclave batches",
+        "emulsifier": "Sodium lauryl sulphate (Texapon K-12)",
+        "emulsifier_loading": "3.0 parts by weight (range 0.2 to 15 parts by weight)",
+        "initiator": "p-Menthane hydroperoxide (Trigonox NT 50) and Fe(II)SO4 or Fe(II)Cl2 redox system with Rongalit C",
+        "initiator_loading": "0.02 parts by weight Trigonox NT 50; Premix containing 0.986 g Fe(II)SO4*7H2O or 0.845 g Fe(II)Cl2*4H2O and 2.0 g Rongalit C in 400 g water",
+        "catalyst_activator": "EDTA (equimolar to Fe(II)), Na2SO4 (0.12 parts by weight)",
+        "chain_transfer_agent": "t-DDM (tertiary dodecyl mercaptan)",
+        "chain_transfer_dosage": "0.54 parts by weight",
+        "polymerization_temperature": "8.0&deg;C &plusmn; 0.5&deg;C",
+        "pressure": "50 bar to 150 bar (for hydrogenation, if applicable)",
+        "ph": "7.0 &plusmn; 1.0",
+        "reaction_time": "6.5 to 7.0 hours",
+        "conversion": "84.2% to 86.1% (stopped with diethylhydroxylamine)",
+        "coagulation_conditions": "Latex admixed with 50% dispersion of Vulkanox BKF (0.3 wt% on NBR solids) before coagulation",
+        "post_treatment": "Stabilized with Wingstay 29/Naugawhite dispersion (0.18 parts by weight)",
+        "raw_polymer_properties": "Bound ACN content of 35.3% - 36.6%; Mooney viscosity of 25 - 142 MU (ML 1+4 @ 100&deg;C); Tg of -23.1&deg;C to -25.8&deg;C"
+      },
+      "experimental_evidence": [
+        "Nitrile rubber G (using FeSO4 premix) achieved 86.1% conversion in 7.0 hours, yielding a polymer with 36% ACN.",
+        "Nitrile rubber H (using FeCl2 premix) achieved 84.2% conversion in 6.5 hours.",
+        "The use of FeCl2 instead of FeSO4 in the redox system resulted in distinct polymer properties, showing the sensitivity of the redox catalyst system."
+      ],
+      "technical_relevance": "Provides a detailed recipe for low-temperature emulsion polymerization of NBR with ~36% ACN using a p-menthane hydroperoxide/Fe(II) redox system to control conversion and molecular weight."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US8664340",
+        "patent_title": "Nitrile rubbers",
+        "assignee": "Not disclosed in the analyzed patent evidence",
+        "jurisdiction": "US",
+        "publication_year": "2014",
+        "polymer_type": "Nitrile Butadiene Rubber (NBR)",
+        "relevance_to_target": "Investigates the impact of latex pH adjustment and coagulation salt type (NaCl vs. CaCl2) on the ion index and subsequent vulcanization rate of NBR."
+      },
+      "polymerization_method": {
+        "polymerization_process": "Emulsion polymerization (implied by latex processing)",
+        "monomer_system": "Not disclosed in the analyzed patent evidence",
+        "monomer_ratio": "Not disclosed in the analyzed patent evidence",
+        "water_amount": "Not disclosed in the analyzed patent evidence",
+        "emulsifier": "Not disclosed in the analyzed patent evidence",
+        "emulsifier_loading": "Not disclosed in the analyzed patent evidence",
+        "initiator": "Not disclosed in the analyzed patent evidence",
+        "initiator_loading": "Not disclosed in the analyzed patent evidence",
+        "catalyst_activator": "Not disclosed in the analyzed patent evidence",
+        "chain_transfer_agent": "Not disclosed in the analyzed patent evidence",
+        "chain_transfer_dosage": "Not disclosed in the analyzed patent evidence",
+        "polymerization_temperature": "Not disclosed in the analyzed patent evidence",
+        "pressure": "Not disclosed in the analyzed patent evidence",
+        "ph": "Latex pH adjusted to 5.8 (using HCl) or 8.4 - 9.5 (using KOH) before coagulation",
+        "reaction_time": "Not disclosed in the analyzed patent evidence",
+        "conversion": "Not disclosed in the analyzed patent evidence",
+        "coagulation_conditions": "Coagulated using NaCl (15-26 wt% salt) or CaCl2 (0.3-1.2 wt% salt) at temperatures of 20&deg;C to 50&deg;C",
+        "post_treatment": "Vulcanized in a 1.5 L laboratory mixer and evaluated for vulcanization rate (t90 - t10) and mechanical properties",
+        "raw_polymer_properties": "Ion indices (Ca, Na, Mg, K levels); vulcanizates show stress at 30% elongation of 4.2 - 10.2 MPa and elongation at break of 535 - 651%"
+      },
+      "experimental_evidence": [
+        "Latex pH was adjusted using 5% aqueous KOH or 5% aqueous HCl before coagulation.",
+        "Coagulation with NaCl (e.g., examples C6-C9) required higher salt concentrations (15-26 wt%) and resulted in higher residual sodium levels (up to 960 ppm).",
+        "Coagulation with CaCl2 (e.g., examples C10-C13) required much lower salt concentrations (0.3-1.2 wt%) and resulted in high calcium levels (~1200 ppm) and higher vulcanization rates."
+      ],
+      "technical_relevance": "Demonstrates how pre-coagulation pH adjustment and salt selection (NaCl vs. CaCl2) control the residual ion profile, directly affecting the vulcanization rate and mechanical performance."
+    }
+  ],
+  "cross_patent_comparison": [],
+  "references": [
+    "US9650502, Process for the preparation of nitrile rubbers, Not disclosed, US, 2017, [Google Patents](https://patents.google.com/patent/US9650502B2)",
+    "US9034992, Nitrile rubbers which optionally contain alkylthio terminal groups and which ..., Not disclosed, US, 2015, [Google Patents](https://patents.google.com/patent/US9034992B2)",
+    "US7923518, Nitrile rubbers, Not disclosed, US, 2011, [Google Patents](https://patents.google.com/patent/US7923518B2)",
+    "US8389623, Nitrile rubbers, Not disclosed, US, 2013, [Google Patents](https://patents.google.com/patent/US8389623B2)",
+    "US8436091, Nitrile rubbers, Not disclosed, US, 2013, [Google Patents](https://patents.google.com/patent/US8436091B2)",
+    "US8664340, Nitrile rubbers, Not disclosed, US, 2014, [Google Patents](https://patents.google.com/patent/US8664340B2)"
+  ]
+}

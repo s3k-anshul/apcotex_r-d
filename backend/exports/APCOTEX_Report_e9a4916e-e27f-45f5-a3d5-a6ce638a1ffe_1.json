@@ -1,0 +1,44 @@
+[
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/EP3604355B1/en",
+      "patent_number": "EP3604355B1",
+      "patent_title": "Method for producing carboxylated nitrile rubber",
+      "assignee": "Not disclosed",
+      "publication_year": "2021",
+      "jurisdiction": "EP",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "4",
+      ")",
+      "A method for producing a carboxyl group-containing nitrile rubber, comprising the steps of:",
+      "polymerizing a monomer mixture comprising an \u03b1,\u03b2-ethylenically unsaturated nitrile monomer and a carboxyl group-containing monomer in a solvent;",
+      "terminating a polymerization reaction by adding a nitrous acid salt and a water-insoluble hydroquinone as polymerization terminators to the polymerization system when a predetermined polymerization conversion ratio is achieved, thereby obtaining a dispersion of the carboxyl group-containing nitrile rubber having a pH of 7 or below; and",
+      "coagulating the dispersion of the carboxyl group-containing nitrile rubber, thereby obtaining the carboxyl group-containing nitrile rubber in the solid state,",
+      "wherein the amount of the nitrous acid salt to be used is 0.15 parts by weight or less relative to 100 parts by weight of the monomer mixture used in the polymerization reaction.",
+      "The method for producing a carboxyl group-containing nitrile rubber according to claim 1, wherein the water-insoluble hydroquinone is added in the form of a dispersion in which the water-insoluble hydroquinone is dispersed in water.",
+      "The method for producing a carboxyl group-containing nitrile rubber according to claim 1 or 2, wherein the amount of the water-insoluble hydroquinone to be used is 0.1 to 1.0 part by weight relative to 100 parts by weight of the monomer mixture used in the polymerization reaction."
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "Comparative Example\n1",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example\n1",
+        "raw_text": "Comparative Example\n1\n2\n3\n4\n5\n6\n1\n2\n3\n4\n5\n6\n7\nPolymerizatio n Condition\nMonomers\nAcrylonitrile\n(parts)\n25\n25\n25\n25\n25\n25\n25\n25\n25\n25\n25\n25\n25\n1,3-Butadiene\n(parts)\n68\n68\n68\n68\n68\n68\n68\n68\n68\n68\n68\n68\n68\nMethacrylic acid\n(parts)\n7\n7\n7\n7\n7\n7\n7\n7\n7\n7\n7\n7\n7\nPolymerization Terminators\nSodium nitrite\n(parts)\n0.025\n0.05\n0.05\n0.15\n0.1\n0.05\n-\n-\n-\n0.025\n0.05\n0.2\n0.2\n2,5-Di-t-amylhydroquinone\n(parts)\n0.4\n0.4\n0.2\n0.4\n0.1\n0.2\n-\n-\n-\n-\n-\n-\n0.2\nHydroxylamine sulfate\n(parts)\n-\n-\n-\n-\n-\n-\n0.2\n-\n-\n-\n-\n-\n-\nDiethylhydroxyamine\n(parts)\n-\n-\n-\n-\n-\n-\n-\n0.2\n-\n-\n-\n-\n-\nMethylhydroquinone\n(parts)\n-\n-\n-\n-\n-\n-\n-\n-\n0.2\n-\n-\n-\n-\npH of latex of carboxyl group-containing nitrile rubber\n4.2\n3.8\n5.5\n4.5\n5.3\n5.5\n3.9\n3.8\n4.4\n4.2\n5.6\n4.5\n4.1\nPolymerization termination effect\nPolymerization conversion ratio after addition of polymerization terminator\n(%)\n65\n65\n65\n65\n65\n80\n65\n65\n65\n65\n65\n65\n65\nIncrease in polymerization conversion ratio after storage at 5\u00b0C (\u0394conv\n_5\u00b0C\n)\n(%)\n0.4\n0.2\n0.3\n-0.2\n0.7\n0.1\n8.6\n1.3\n16.7\n3.5\n1.2\n-0.1\n0.1\nIncrease in polymerization conversion ratio after storage at 50\u00b0C (\u0394conv\n_50\u00b0C\n)\n(%)\n0.8\n0.1\n0.9\n0.5\n0.2\n0.0\n20.2\n31.3\n32.5\n17.7\n10.4\n0.4\n0.0\nIncrease in Mooney viscosity after storage at 5\u00b0C (\u0394ML\n_5\u00b0C\n)\n0.4\n0.2\n0.5\n0.1\n1.1\n0.2\n9.0\n1.0\n17.0\n8.0\n1.3\n0.1\n0.7\nIncrease in Mooney viscosity after storage at 50\u00b0C (\u0394ML\n_50\u00b0C\n)\n0.5\n0.2\n0.1\n0.4\n1\n0.5\n30\n21\n43\n18\n8\n0.5\n1\nDiscoloration of latex of carboxyl group-containing nitrile rubber\nA\nA\nA\nA\nA\nA\nB\nA\nA\nA\nA\nF\nF\nScorch stability of carboxyl group-containing nitrile rubber (scorch time, t5)\n(min)\n9.1\n9.3\n10.3\n9.2\n10.4\n9.4\n10.5\n10.8\n10.1\n10.9\n11\n10.1\n10.7\nTable 1 shows that if the nitrous acid salt and the water-insoluble hydroquinone were used in combination and the amount of the nitrous acid salt used was 0.15 parts by weight or less relative to 100 parts by weight of the monomer mixture used in the polymerization reaction, the values of the increase in polymerization conversion ratio after storage at 5\u00b0C (\u0394Conv\n_5\u00b0C\n), the increase in polymerization conversion ratio after storage at 50\u00b0C (\u0394Conv\n_50\u00b0C\n), the increase in Mooney viscosity after storage at 5\u00b0C (\u0394ML\n_5\u00b0C\n), and the increase in Mooney viscosity after storage at 50\u00b0C (\u0394ML\n_50\u00b0C\n) were all low and a sufficient polymerization termination effect was obtained. Table 1 also shows that the discoloration of the obtained carboxyl group-containing nitrile rubbers was significantly reduced (Examples 1 to 6).\nMeanwhile, if polymerization terminator(s) other than the nitrous acid salt and the water-insoluble hydroquinone was(were) used as the polymerization terminators, the values of the increase in polymerization conversion ratio after storage at 5\u00b0C (\u0394Conv\n_5\u00b0C\n), the increase in polymerization conversion ratio after storage at 50\u00b0C (\u0394Conv\n_50\u00b0C\n), the increase in Mooney viscosity after storage at 5\u00b0C (\u0394ML\n_5\u00b0C\n), and the increase in Mooney viscosity after storage at 50\u00b0C (\u0394ML\n_50\u00b0C\n) were all high and a sufficient polymerization termination effect was not obtained (Comparative Examples 1 to 3).\nFurther, if the nitrous acid salt was used alone and the amount thereof used was 0.15 parts by weight or less relative to 100 parts by weight of the monomer mixture used in the polymerization reaction, the polymerization termination effect was not sufficient. On the other hand, if the amount of the nitrous acid salt used was greater than 0.15 parts by weight, the obtained carboxyl group-containing nitrile rubber had undesired discoloration (Comparative Examples 4 to 6).\nFurther, if the nitrous acid salt and the water-insoluble hydroquinone were used in combination and the amount of the nitrous acid salt used was greater than 0.15 parts by weight relative to 100 parts by weight of the monomer mixture used in the polymerization reaction, the obtained carboxyl group-containing nitrile rubber had undesired discoloration (Comparative Example 7).",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "Method for producing carboxylated nitrile rubber \n       \n\nClaims (\n4\n)\nA method for producing a carboxyl group-containing nitrile rubber, comprising the steps of:\npolymerizing a monomer mixture comprising an \u03b1,\u03b2-ethylenically unsaturated nitrile monomer and a carboxyl group-containing monomer in a solvent;\nterminating a polymerization reaction by adding a nitrous acid salt and a water-insoluble hydroquinone as polymerization terminators to the polymerization system when a predetermined polymerization conversion ratio is achieved, thereby obtaining a dispersion of the carboxyl group-containing nitrile rubber having a pH of 7 or below; and\ncoagulating the dispersion of the carboxyl group-containing nitrile rubber, thereby obtaining the carboxyl group-containing nitrile rubber in the solid state,\nwherein the amount of the nitrous acid salt to be used is 0.15 parts by weight or less relative to 100 parts by weight of the monomer mixture used in the polymerization reaction.\nThe method for producing a carboxyl group-containing nitrile rubber according to claim 1, wherein the water-insoluble hydroquinone is added in the form of a dispersion in which the water-insoluble hydroquinone is dispersed in water.\nThe method for producing a carboxyl group-containing nitrile rubber according to claim 1 or 2, wherein the amount of the water-insoluble hydroquinone to be used is 0.1 to 1.0 part by weight relative to 100 parts by weight of the monomer mixture used in the polymerization reaction.\nThe method for producing a carboxyl group-containing nitrile rubber according to any one of claims 1 to 3, wherein the weight ratio of the amount of the nitrous acid salt to be used to the amount of the water-insoluble hydroquinone to be used is within the range from 1:0.5 to 1:100."
+  }
+]

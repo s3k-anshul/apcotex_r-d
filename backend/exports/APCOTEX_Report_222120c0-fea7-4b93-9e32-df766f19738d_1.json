@@ -1,0 +1,552 @@
+[
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US11347156B2/en",
+      "patent_number": "US11347156B2",
+      "patent_title": "Electro-conductive member for electrophotography, process cartridge for \u2026",
+      "assignee": "Canon Kabushiki Kaisha",
+      "publication_year": "2022",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "11",
+      ")",
+      "What is claimed is:",
+      "1. An electro-conductive member for electrophotography, comprising:",
+      "an electro-conductive support and an electro-conductive layer in this order;",
+      "the electro-conductive layer comprising a matrix and domains, the matrix having a volume resistivity of 1.0\u00d710",
+      "8",
+      "\u03a9\u00b7cm or higher, and comprising a first rubber composition that contains a cross-linked product of a first rubber; and",
+      "the domains being electro-conductive and dispersed in the matrix, each of the domains having a volume resistivity of 1.0\u00d710"
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "EXAMPLE",
+        "example_type": "Extracted Example",
+        "title": "EXAMPLE",
+        "raw_text": "EXAMPLE\nThe present disclosure will be specifically described below with reference to Examples, but the present disclosure is not limited to the structure embodied in the Examples. Note that in the following description, \u201c%\u201d regarding a quantitative ratio is based on mass, unless otherwise specified.\nFirst, starting materials which are used in Examples and Comparative Examples will be described.\n<NBR>\nNBR (1) (trade name: JSR NBR N260S, nitrile content: 15%, SP value: 17.2 (J/cm\n3\n)\n0.5\n, manufactured by JSR Corporation, and abbreviated expression: N260S)\nNBR (2) (trade name: JSR NBR N220S, nitrile content: 41.5%, SP value: 20.6 (J/cm\n3\n)\n0.5\n, manufactured by JSR Corporation, and abbreviated expression: N220S)\nNBR (3) (trade name: Nipol DN302, nitrile content: 27.5%, SP value: 18.8 (J/cm\n3\n)\n0.5\n, manufactured by Zeon Corporation, and abbreviated expression: DN302)\nNBR (4) (trade name: Nipol DN401LL, nitrile content: 18.0%, SP value: 17.4 (J/cm\n3\n)\n0.5\n, manufactured by Zeon Corporation, and abbreviated expression: DN401LL)\nNBR (5) (trade name: Nipol N230S, nitrile content: 35%, SP value: 20.0 (J/cm\n3\n)\n0.5\n, manufactured by Zeon Corporation, and abbreviated expression: N230S)\nNBR (6) (trade name: JSR NBR N202S, nitrile content: 40.0%, SP value: 20.4 (J/cm\n3\n)\n0.5\n, manufactured by JSR Corporation, and abbreviated expression: N202S)\n<Isoprene Rubber>\nIsoprene (1) (trade name: Nipol 2200, SP value: 16.8 (J/cm\n3\n)\n0.5\n, manufactured by Zeon Corporation, and abbreviated expression: IR2200)\n<SBR>\nSBR (1) (trade name: Asaprene 303, styrene content: 45%, SP value: 17.4 (J/cm\n3\n)\n0.5\n, manufactured by Asahi Kasei Corp., and abbreviated expression: A303)\nSBR (2) (trade name: Tufdene 2000R, styrene content: 25%, SP value: 17.0 (J/cm\n3\n)\n0.5\n, manufactured by Asahi Kasei Corp., and abbreviated expression: T2000R)\nSBR (3) (trade name: Tufdene 1000, styrene content: 18%, SP value: 16.8 (J/cm\n3\n)\n0.5\n, manufactured by Asahi Kasei Corp., and abbreviated expression: T1000)\nSBR (4) (trade name: Nipol NS612, styrene content: 15%, SP value: 16.6 (J/cm\n3\n)\n0.5\n, manufactured by ZS Elastomers Co. Ltd., and abbreviated expression: NS612)\nSBR (5) (trade name: Tufdene 4850, styrene content: 40%, SP value: 17.2 (J/cm\n3\n)\n0.5\n, manufactured by Asahi Kasei Corp., and abbreviated expression: T4850)\n<Butadiene Rubber BR>\nButadiene rubber (1) (trade name: UBEPOL BR130B, SP value: 16.8 (J/cm\n3\n)\n0.5\n, manufactured by Ube Industries, Ltd., and abbreviated expression: BR130B)\n<Chloroprene rubber (CR)>\nChloroprene rubber (trade name: SKYPRENE B31, SP value: 17.4 (J/cm\n3\n)\n0.5\n, manufactured by Tosoh Corporation, and abbreviated expression: B31)\n<EPDM (Ethylene-propylene-diene ternary copolymer)>\nEPDM (1) (trade name: EPT4045, SP value: 16.4 (J/cm\n3\n)\n0.5\n, manufactured by Mitsui Chemicals, Inc.)\nEPDM (2) (trade name: Esprene P524, SP value: 15.8 (J/cm\n3\n)\n0.5\n, manufactured by Sumitomo Chemical Company)\n<Epichlorohydrin Rubber (EO-EP-AGE Ternary Co-Compound)>\nHydrin (trade name: Epichlomer CG, SP value: 18.5 (J/cm\n3\n)\n0.5\n, manufactured by Osaka Soda Co., Ltd.)\n<Electro-Conductive Particle>\nCarbon black (1) (trade name: Toka Black #5500, manufactured by Tokai Carbon Co., Ltd., and abbreviated expression: #5500)\nCarbon black (2) (trade name: Toka Black #7360SB, manufactured by Tokai Carbon Co., Ltd., and abbreviated expression: #7360SB)\n<Vulcanizing Agent>\nVulcanizing agent (1) (trade name: SULFAX200S, sulfur content 99.5%, manufactured by Tsurumi Chemical Industry Co., Ltd.)\nVulcanizing agent (2) (trade name: Sanmix S-80N, sulfur content 80%, NBR masterbatch, manufactured by Sanshin Chemical Industry Co., Ltd.)\nVulcanizing agent (3) (trade name: SULFAXSB,\nsulfur content\n50%, SBR masterbatch, manufactured by Tsurumi Chemical Industry Co., Ltd.)\nVulcanizing agent (4) (trade name: KyowaMag MF30, purity 99.7%, magnesium oxide, manufactured by Kyowa Chemical Industry Co., Ltd., and abbreviated expression: MgO)\n<Vulcanization Accelerator>\nVulcanization accelerator (1) (trade name: NOCCELER DM-P, di-2-benzothiazolyl disulfide, manufactured by Ouchi Shinko Chemical Industrial Co., Ltd., and abbreviated expression: DM)\nVulcanization accelerator (2) (trade name: Sanceler TT, tetramethylthiuram disulfide, manufactured by Sanshin Chemical Industry Co., Ltd., and abbreviated expression: TT)\nVulcanization accelerator (3) (trade name: Sanceler TBZTD, tetrabenzylthiuram disulfide, manufactured by Sanshin Chemical Industry Co., Ltd., and abbreviated expression: TBZTD)\nVulcanization accelerator (4) (trade name: NOCCELER CZ-G, tetrabenzylthiuram disulfide, manufactured by Ouchi Shinko Chemical Industrial Co., Ltd., and abbreviated expression: CZ)\nVulcanization accelerator (5) (trade name: NOCCELER M-P(M), mercaptobenzothiazole, Ouchi Shinko Chemical Industrial Co., Ltd., and abbreviated expression: M)\nVulcanization accelerator (6) (trade name: NOCCELER NS-P, N-tert-butyl-2-benzothiazolyl sulfenamide, manufactured by Ouchi Shinko Chemical Industrial Co., Ltd., and abbreviated expression: NS)\nVulcanization accelerator (7) (trade name: Sanceler 22-C, 2-imidazoline-2-thiol, manufactured by Sanshin Chemical Industry Co., Ltd., and abbreviated expression: ETU)\nVulcanization accelerator (8) (trade name: NOCCELER TRA, dipentamethylenethiuram tetrasulfide, manufactured by Ouchi Shinko Chemical Industrial Co., Ltd., and abbreviated expression: TRA)\nVulcanization accelerator (9) (trade name: NOCCELER D, 1,3-diphenylguanidine, manufactured by Ouchi Shinko Chemical Industrial Co., Ltd., and abbreviated expression: DP)\nVulcanization accelerator (10) (trade name: Sanceler PZ, dithiocarbamate, manufactured by Sanshin Chemical Industry Co., Ltd., and abbreviated expression: PZ)\nMember's\nidentification\nresistance\nsize\ndomains\nDomain\nresistance\nunattended\nof electric\nnumber\nnumber\nresult\n(\u03a9 \u00b7 cm)\n(\u03bcm)\n(\u03bcm)\nuniformity\n(\u03a9 \u00b7 cm)\nMD-1\nset\nresistance\n1\n1\nDM/TT\n2.80E\u221203\n0.8\n0.3\n0.29\n8.90E\u221215\n49\nC\n2.1\n2\n2\n1.00E\u221201\n3.7\n2.4\n0.57\n1.00E\u221215\n58\nC\n2.3\n3\n3\n3.90E\u221202\n2.3\n1.8\n0.41\n9.40E\u221215\n50\nB\n2.0\n4\n4\n5.40E\u221203\n0.9\n0.3\n0.31\n8.10E\u221210\n54\nC\n2.4\n5\n5\n5.60E\u221203\n2.1\n1.9\n0.42\n2.10E\u221209\n57\nC\n2.3\n6\n6\n8.60E\u221201\n1.8\n1.5\n0.32\n1.10E\u221216\n59\nC\n2.2\n7\n7\n1.80E\u221202\n0.6\n0.3\n0.14\n5.40E\u221212\n62\nB\n2.0\n8\n8\nETU/TRA\n1.10E\u221202\n1.6\n0.7\n0.34\n6.40E\u221215\n63\nC\n2.7\n9\n9\n5.40E\u221203\n1.4\n0.7\n0.29\n3.40E\u221210\n71\nC\n2.6\n10\n10\nDM/TT\n8.60E\u221202\n0.9\n0.3\n0.31\n2.00E\u221212\n58\nC\n2.5\n11\n11\n1.90E\u221203\n0.7\n0.3\n0.27\n2.40E\u221215\n53\nC\n2.4\n12\n12\nDM/TBZTD\n1.10E\u221204\n0.3\n0.2\n0.12\n1.20E\u221213\n60\nB\n2.1\n13\n13\n8.90E\u221203\n0.5\n0.3\n0.15\n1.10E\u221213\n61\nB\n2.0\n14\n14\n7.40E\u221203\n1.2\n0.6\n0.24\n9.60E\u221212\n63\nA\n1.8\n15\n15\n5.10E\u221203\n2.4\n1.9\n0.45\n1.10E\u221214\n63\nB\n2.1\n16\n16\n2.80E\u221203\n3.9\n2.6\n0.57\n2.40E\u221214\n64\nC\n2.4\n17\n17\n3.40E\u221203\n2.8\n1.8\n0.35\n6.40E\u221212\n68\nB\n2.1\n18\n18\n6.10E\u221203\n2.0\n1.5\n0.34\n2.10E\u221212\n70\nA\n1.8\n19\n19\n1.10E\u221203\n0.2\n0.1\n0.09\n9.80E\u221210\n59\nB\n2.1\n20\n20\n2.50E\u221203\n0.8\n0.3\n0.08\n1.40E\u221210\n57\nB\n2.0\n21\n21\n1.00E\u221203\n0.5\n0.3\n0.07\n1.30E\u221210\n60\nB\n2.1\n22\n22\n9.80E\u221202\n2.1\n1.2\n0.27\n9.60E\u221208\n62\nA\n1.7\n23\n23\n6.70E\u221202\n2.4\n1.3\n0.34\n2.40E\u221208\n68\nB\n2.1\n24\n24\n1.80E\u221203\n2.9\n1.5\n0.40\n1.00E\u221208\n64\nC\n2.3\n25\n25\n5.40E\u221202\n1.8\n1.1\n0.28\n1.20E\u221209\n71\nB\n2.1\n26\n26\nNS/TBZTD\n3.80E\u221203\n0.4\n0.3\n0.12\n2.30E\u221213\n63\nA\n1.5\n27\n27\nCZ/TBZTD\n4.60E\u221203\n0.4\n0.3\n0.13\n2.80E\u221213\n64\nA\n1.4\n28\n28\nM/TBZTD\n2.40E\u221203\n0.4\n0.3\n0.18\n1.30E\u221213\n62\nB\n2.0\n29\n29\nDP/TBZTD\n1.90E\u221203\n0.5\n0.4\n0.20\n8.60E\u221212\n60\nB\n2.2\n30\n30\nNS/TBZTD\n7.50E\u221202\n2.0\n1.4\n0.34\n1.30E\u221209\n62\nA\n1.6\n31\n31\nCZ/TBZTD\n6.80E\u221202\n1.9\n1.1\n0.33\n1.50E\u221209\n63\nA\n1.6\n32\n32\nM/TBZTD\n8.40E\u221202\n2.1\n1.6\n0.35\n9.90E\u221208\n61\nB\n2.0\n33\n33\nDP/TBZTD\n5.50E\u221202\n2.2\n1.6\n0.36\n7.80E\u221208\n59\nC\n2.3\n34\n34\nCZ/TBZTD\n6.90E\u221202\n2.2\n1.2\n0.34\n1.70E\u221209\n58\nB\n1.9\n35\n35\n7.20E\u221202\n2.3\n1.1\n0.35\n1.80E\u221209\n59\nA\n1.5\n36\n36\n6.00E\u221202\n1.8\n0.9\n0.32\n1.40E\u221209\n66\nA\n1.7\n37\n37\n5.40E\u221200\n1.5\n0.9\n0.33\n1.60E\u221209\n67\nB\n2.1\n38\n38\nDM/TBZTD\n2.10E\u221202\n2.6\n1.6\n0.33\n4.30E\u221211\n85\nC\n2.5\n39\n39\n1.00E\u221203\n2.1\n1.2\n0.27\n1.10E\u221209\n62\nB\n1.8",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 1",
+        "example_type": "Extracted Example",
+        "title": "Example 1",
+        "raw_text": "Example 1\n(1. Manufacture of Unvulcanized Domain Composition)\n[1-1. Preparation of Unvulcanized Domain Composition]\nThe types and amounts of materials shown in Table 1 were mixed with each other by a pressure kneader, and an unvulcanized domain composition was obtained.\nTABLE 1\nRaw materials for unvulcanized domain composition\nBlended amount\nRaw material name\n(parts by mass)\nRaw rubber\nNBR\n100\n(Trade name: JSR NBR N260S\nmanufactured by JSR Corporation)\nElectron\nCarbon black\n60\nconductive\n(trade name: TokaBlack #5500\nagent\nmanufactured by Tokai Carbon\nCo., Ltd.)\nVulcanization\nZinc oxide\n5\naccelerating\n(trade name: Zinc White\naid\nmanufactured by Sakai Chemical\nIndustry Co., Ltd.)\nProcessing aid\nZinc stearate\n2\n(trade name: SZ-2000\nmanufactured by Sakai Chemical\nIndustry Co., Ltd.)\n[1-2. Preparation of Unvulcanized Rubber Composition]\nThe types and amounts of materials shown in Table 2 were mixed with each other by a pressure kneader, and an unvulcanized rubber composition was obtained.\nTABLE 2\nRaw materials for unvulcanized rubber composition\nBlended amount\nRaw material name\n(parts by mass)\nRaw rubber\nUnvulcanized domain composition\n30\nRaw rubber\nPolyisoprene\n70\n(trade name: Nipol 2200NS\nmanufactured by Zeon Corporation)\nFiller\nCalcium carbonate\n40\n(trade name:\nNANOX #\n30\nmanufactured by Maruo Calcium\nCo., Ltd.)\nVulcanization\nZinc oxide\n5\naccelerating\n(trade name: Zinc White\naid\nmanufactured by Sakai Chemical\nIndustry Co., Ltd.)\nProcessing aid\nZinc stearate\n2\n(trade name: SZ-2000\nmanufactured by Sakai Chemical\nIndustry Co., Ltd.)\nThe types and amounts of materials shown in Table 3 were mixed with each other in an open roll, and a rubber composition for molding of an electro-conductive member was prepared.\nTABLE 3\nRubber composition for molding of electro-conductive member\nBlended amount\nRaw material name\n(parts by mass)\nRaw rubber\nUnvulcanized rubber composition\n100\nVulcanizing\nDispersive sulfur\n3\nagent\n(trade name: SULFAX 200S,\nsulfur content 99.5%,\nmanufactured by Tsurumi Chemical\nIndustry Co., Ltd.)\nVulcanization\nDi-2-\nbenzothiazolyl disulfide\n2\naccelerator (1)\n(trade name: NOCCELER DM-P\nmanufactured by\nOuchi Shinko Chemical\nIndustrial Co., Ltd.)\nVulcanization\nTetramethylthiuram disulfide\n0.5\naccelerator (2)\n(trade name: Sanceler TT\nmanufactured by Sanshin Chemical\nIndustry Co., Ltd.)\n<2. Molding of Electro-Conductive Member>\nA round bar of free-cutting steel was prepared, which had a total length of 252 mm and an outer diameter of 6 mm, and of which the surface was subjected to electroless nickel plating. Next, Metalok U-20 (trade name, manufactured by Toyokagaku Kenkyusho Co., Ltd.) of an adhesive was applied onto the whole circumference in a range of 230 mm except for 11 mm at both ends of the above round bar, with the use of a roll coater. In the present example, the round bar onto which the above adhesive was applied was used as an electro-conductive support.\nNext, a die having an inner diameter of 12.5 mm was attached to the tip of a cross head extruder which had a supply mechanism for an electro-conductive support and a discharge mechanism for an unvulcanized rubber roller, temperatures of the extruder and the cross head were adjusted at 80\u00b0 C., and a conveyance speed of the electro-conductive shaft body was adjusted to 60 mm/sec. Under these conditions, an unvulcanized rubber composition was supplied from an extruder, thereby the outer circumferential portion of the electro-conductive support was coated with the unvulcanized rubber composition in the cross head, and an unvulcanized rubber roller was obtained.\nNext, the above unvulcanized rubber roller was placed in a hot air vulcanizing furnace at 170\u00b0 C., and the unvulcanized rubber composition was vulcanized by being heated there for 60 minutes; and a roller was obtained which had an electro-conductive layer formed on the outer circumferential portion of the electro-conductive support. After that, both ends of the electro-conductive layer were cut off by 10 mm each, and the length of the electro-conductive resin layer portion in the longitudinal direction was set at 231 mm.\nFinally, the surface of the electro-conductive layer was polished with a rotating grindstone. Thereby, an electro-conductive member (1) was obtained of which diameters at positions of 90 mm apart from the central portion to both ends side were each 8.44 mm, the diameter in the central portion was 8.5 mm, and the amount of the crown was 60 \u03bcm.\nThe electro-conductive members (2) to (39) were produced in the same manner as the electro-conductive member (1) except that the starting materials shown in Table 4-1 and Table 4-2 were used. Table 4-1 and Table 4-2 show the parts by mass and physical properties of the starting materials which were used for the production of each of the electro-conductive members. In addition, the electro-conductive member (39) was produced in the same manner as the electro-conductive member (22), except for having used the materials shown in Table 4-1 and Table 4-2, having been extruded so as to become a straight shape (crown 0 \u03bcm), and having been subjected to polishing treatment.\nTABLE 4-1\nUnvulcanized rubber composition for domain\nUnvulcanized rubber composition for matrix\nElectro-\nSecond rubber\nElectro-conductive\nFirst rubber\nDomain\nconductive\nType\nparticle\nType\nFiller\ncontent\nmember\nof\nAbbreviated\nAbbreviated\nNumber\nof\nAbbreviated\nAbbreviated\nNumber\n(% by\nNumber\nrubber\nexpression\nexpression\nof parts\nrubber\nexpression\nexpression\nof parts\nmass)\n1\nNBR\nN260S\n#5500\n60\nIR\nIR2200\n#30\n40\n30\n2\nNBR\nN220S\n#5500\n60\n#30\n40\n30\n3\nDN302\n#5500\n60\n#30\n40\n30\n4\nIR\nIR2200\n#5500\n70\nNBR\nN260S\n#30\n30\n20\n5\n#5500\n70\nN230S\n#30\n40\n20\n6\nSBR\nA303\n#7360SB\n80\nIR\nIR0310KU\n#30\n40\n30\n7\nIR\nIR2200\n#7360SB\n80\nSBR\nT2000R\n#30\n40\n30\n8\nCR\nB31\n#5500\n60\nIR\nIR2200\n#30\n40\n30\n9\nIR\nIR2200\n#5500\n70\nCR\nB31\n#30\n40\n25\n10\nBR\nBR130B\n#5500\n75\nSBR\nA303\n#30\n40\n30\n11\nSBR\nA303\n#5500\n65\nBR\nBR130B\n#30\n40\n30\n12\nNBR\nN260S\n#7360SB\n60\nSBR\nT2000R\n#30\n40\n30\n13\nDN401LL\n#7360SB\n60\n#30\n40\n30\n14\nDN302\n#7360SB\n60\n#30\n40\n30\n15\nN230S\n#7360SB\n60\nT1000\n#30\n40\n25\n16\nN220S\n#7360SB\n60\nNS612\n#30\n30\n25\n17\nN202S\n#7360SB\n60\nT4850\n#30\n30\n25\n18\nN230S\n#7360SB\n60\nA303\n#30\n30\n25\n19\nSBR\nT2000R\n#5500\n65\nNBR\nN2605\n#30\n30\n25\n20\nT1000\n#5500\n65\nDN401LL\n#30\n50\n25\n21\nT2000R\n#5500\n65\n#30\n50\n25\n22\n#5500\n65\nN230S\n#30\n40\n20\n23\nT4850\n#5500\n65\nN202S\n#30\n40\n20\n24\nNS612\n#5500\n65\nN220S\n#30\n40\n20\n25\nA303\n#5500\n65\nN230S\n#30\n40\n25\n26\nNBR\nDN401LL\n#7360SB\n60\nSBR\nT2000R\n#30\n40\n30\n27\n#7360SB\n60\n#30\n40\n30\n28\n#7360SB\n60\n#30\n40\n30\n29\n#7360SB\n60\n#30\n40\n30\n30\nSBR\nT2000R\n#5500\n65\nNBR\nN230S\n#30\n40\n20\n31\n#5500\n65\n#30\n40\n20\n32\n#5500\n65\n#30\n40\n20\n33\n#5500\n65\n#30\n40\n20\n34\n#5500\n65\n#30\n40\n12\n35\n#5500\n65\n#30\n40\n15\n36\n#5500\n65\n#30\n40\n40\n37\n#5500\n65\n#30\n40\n42\n38\nNS612\n#5500\n65\nN220S\n#30\n80\n20\n39\nSBR\nT2000R\n#5500\n65\nNBR\nN230S\n#30\n40\n20\nTABLE 4-2\nRubber composition for forming electro-conductive member\nElectro-\nVulcanizing agent\nVulcanizing agent\nVulcanization\nVulcanization\nconductive\n(1)\n(2)\naccelerator (1)\naccelerator (2)\nShape\nmember\nName of\nNumber\nName of\nNumber\nAbbreviated\nNumber\nAbbreviated\nNumber\nCrown\nNumber\nproduct\nof parts\nproduct\nof parts\nexpression\nof parts\nexpression\nof parts\n(\u03bcm)\n1\nSULFAX\n3\n\u2014\n\u2014\nDM\n2\nTT\n0.5\n60\n2\n200S\n3\n\u2014\n\u2014\n3\n3\n\u2014\n\u2014\n4\n3\n\u2014\n\u2014\n5\n3\n\u2014\n\u2014\n6\n3\n\u2014\n\u2014\n7\n3\n\u2014\n\u2014\n8\nSULFAX\n1\nMgO\n4\nETU\n1\nTRA\n0.7\n60\n9\n200S\n1\n10\nSULFAX\n3\n\u2014\n\u2014\nDM\n2\nTT\n0.5\n11\n200S\n3\n\u2014\n\u2014\n12\nSULFAX\n4.2\nS-80\n1.1\nDM\n2\nTBZTD\n0.5\n60\n13\nSB\n4.2\nNBR\n1.1\n14\n4.2\n1.1\n15\n4.5\n0.9\n16\n4.5\n0.9\n17\n4.5\n0.9\n18\n4.5\n0.9\n19\nS-80\n2.8\nSULFAX\n1.5\nDM\n2\nTBZTD\n0.5\n60\n20\nNBR\n2.8\nSB\n1.5\n21\n2.8\n1.5\n22\n3\n1.2\n23\n3\n1.2\n24\n3\n1.2\n25\n2.8\n1.5\n26\nSULFAX\n4.2\nS-80\n1.1\nNS\n1.5\nTBZTD\n0.5\n60\n27\nSB\n4.2\nNBR\n1.1\nCZ\n28\n4.2\n1.1\nM\n29\n4.2\n1.1\nDP\n30\nS-80\n3\nSULFAX\n1.2\nNS\n31\nNBR\n3\nSB\n1.2\nCZ\n32\n3\n1.2\nM\n33\n3\n1.2\nDP\n34\n3.3\n0.7\nCZ\n35\n3.2\n0.9\n36\n2.3\n2.4\n37\n2.2\n2.5\n38\n3\n1.2\nDM\n2\nTBZTD\n0.5\n39\nS-80\n3\nSULFAX\n1.2\nDM\n2\nTBZTD\n0.5\n0\nNBR\nSB\n<3. Characteristics Evaluation>\nSubsequently, the electro-conductive members according to Examples and Comparative Examples were subjected to the following evaluations.\n[3-1] Identification of Chemical Structure of Rubber/Confirmation of Existence of Sulfur\nThe chemical structure of domains and matrices can be specified by a combination of conventional analytical methods such as solid-state NMR and pyrolysis gas chromatography (hereinafter also referred to as \u201cPy-GC\u201d) with TEM-EELS (electron energy loss spectroscopy).\nFirst, two types of rubbers contained in the domain and the matrix which were contained in the electro-conductive layer were identified with the use of the solid-state NMR. After that, an ultra-thin layer slice of 100 nm or thinner was prepared from an electro-conductive layer, for TEM analysis, while a cryomicrotome (trade name \u201cLeica EMFCS\u201d, manufactured by Leica Microsystems K.K.) was used as a cutting apparatus and a cutting temperature was set at \u2212100\u00b0 C. After that, the obtained ultra-thin layer slice of the electro-conductive layer was dyed with osmium oxide or dyed with ruthenium oxide, and the resultant slice was analyzed by TEM-EELS (trade name: H-7100FA, manufactured by Hitachi High-Technologies Corporation). At this time, images were taken so that contrast differences were each formed among the domain, the matrix and the electro-conductive particle.\nDyeing with the ruthenium oxide selectively dyes an amorphous portion of a lamella, and accordingly rubber having a benzene ring such as a styrene skeleton is dyed, and is observed to be dark in an electronic image. In addition, dying with the osmium oxide dyes the rubber by reacting with double bonds in the rubber, and accordingly rubber having many double bonds, such as isoprene, is dyed, and is observed to be dark in an electronic image. From the contrast difference between the domain and the matrix at this time, and from an elemental mapping analysis of sulfur, nitrogen, chlorine and the like, it is possible to specify the chemical structure of each of the cross-linked products in the rubbers which are contained in the domain and the matrix, and to determine a sulfur content therein.\nFor example, when the ultra-thin layer slice of the electro-conductive layer of which the presence of NBR and SBR was confirmed in the electro-conductive layer by the solid-state NMR was dyed with ruthenium oxide, and the resultant slice was observed by the TEM-EELS, the matrix-domain structure was confirmed. In addition, the rubber of the matrix was observed to be darker than the rubber which constituted the domain containing the electro-conductive particle, in an electronic image. In addition, at the same time, an elemental mapping analysis was performed; and among the detected elements, only seven elements of C, O, N, S, Cl, Mg, and a metal of a metal oxide added as a filler (for example, Ca derived from calcium carbonate) were selected, and the images were captured. At this time, it was confirmed that N derived from acrylonitrile was detected only in the domain region. Accordingly, it was specified that the rubber constituting the domain was NBR, and the rubber constituting the matrix was SBR. Furthermore, it was confirmed that S was detected on the whole surfaces of the domain and the matrix. Accordingly, it was confirmed that sulfur was contained in the electro-conductive layer.\nFurthermore, the ultra-thin layer slice of the electro-conductive layer in which NBR and isoprene were confirmed to exist in the electro-conductive layer by the solid-state NMR or the Py-GC was dyed with osmium oxide, and the resultant slice was observed by TEM-EELS. At this time, the rubber of the matrix was observed to be darker than the rubber which constituted the domain containing the electro-conductive particle, in an electronic image. In addition, at the same time, the elemental mapping analysis was performed, and the image was captured. At this time, it was confirmed that N derived from acrylonitrile was detected only in the domain region. Accordingly, it was specified that the rubber constituting the domain was NBR, and the rubber constituting the matrix was isoprene. Furthermore, it was confirmed that S was detected on the whole surfaces of the domain and the matrix. Accordingly, it was confirmed that sulfur was contained in the electro-conductive layer. The Examples and the Comparative Examples were evaluated as in the example shown above. The results are shown in Table 5-1, Table 5-2 and Table 8.\n3-1-1. Solid-State NMR Measurement Method\nThe electro-conductive layer was batched off; and then the resultant layer was frost-shattered, was packed in a sample tube for solid-state NMR, of which the outer diameter was 3.2 mm, and was analyzed by an NMR apparatus (apparatus name: NMR spectrometer ECX 500 II, manufactured by JOEL RESONANCE Inc). A\n13\nC-NMR spectrum was measured under the following conditions, and thereby the chemical structure of the rubber was identified which was contained in the electro-conductive layer.\nMeasurement Condition\nObserved nucleus:\n13\nC;\nWaiting time period: 5 seconds;\nMAS speed: 15 kHz; and\nNumber of integration: 256 times.\n3-1-2. Py-GC Measurement Method\nAs for the Py-GC, a pyrolysis apparatus (apparatus name: PY-2020, manufactured by Frontier Laboratories Ltd.) was directly connected to an inlet of a gas chromatograph (apparatus name: 6890A, manufactured by Agilent Technologies, Inc.), and thereby the measurement was performed.\nThe electro-conductive layer was batched off; then approximately 300 \u03bcg of the sample was weighed in a platinum sample cup, and was placed on a pyrolysis apparatus; and the sample cup was dropped freely into a pyrolysis furnace which was kept at 550\u00b0 C. A pyrolysis product which was generated at that time was separated by a separation column, the resultant product was subjected to detection by a flame ionization detector, and a pyrogram was obtained. Furthermore, the electro-conductive layer was measured under the same conditions; the pyrolysis product was subjected to detection by an atomic emission detector, and pyrograms of carbon and sulfur were obtained; peaks were identified with the use of mass spectrometry; and thereby the chemical structure of the rubber was identified and the presence or absence of the sulfur cross-link was determined. The peaks were identified by use of the mass spectrometer. The measurement conditions are as follows.\nMeasurement Condition\nInlet temperature: 300\u00b0 C.;\nDetector temperature: 320\u00b0 C.;\nCarrier gas: He (split ratio 50:1); and\nGC oven temperature: 50\u00b0 C. (2 min)\u219210\u00b0 C./min\u2192320\u00b0 C. (10 min).\n3-1-3. TEM-EELS\nMeasurement Condition\nAcceleration voltage: 100 kV;\nObservation magnification: 10000 times; and\nBeam diameter: 2 nm.\n[3-2] Confirmation of Matrix-Domain Structure\nIn order to confirm whether a matrix-domain structure can be suitably formed, the following confirmation was performed. An ultra-thin slice of the electro-conductive layer produced in the TEM-EELS measurement was photographed at 1,000 times with the use of a scanning type electron microscope (SEM) (trade name: S-4800, manufactured by Hitachi High\n[... TRUNCATED DUE TO LENGTH ...]",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Examples 2",
+        "example_type": "Extracted Example",
+        "title": "Examples 2",
+        "raw_text": "Examples 2\nto 39\nSimilarly to the electro-conductive member (1) of Example 1, the above characteristics of the electro-conductive layer were evaluated for the electro-conductive members (2) to (39). In addition, images were formed while the electro-conductive members (2) to (39) were each used as charging members, and the images were evaluated. Tables 5 and 6 show the results of the evaluation for various characteristics and the image evaluation, in Examples 2 to 39.\nTABLE 5-1\nDynamic\nDynamic\nRubber\nDifference\nCon-\nviscoelasticity\nviscoelasticity\ncom-\nStyrene\nNitrile\nbetween\nfirmation\nDomain\n80 Hz\n0.1 Hz\nEx-\nposition\nMatrix\ncontent\ncontent\nSP\nof matrix-\nvolume\nTan\u03b4 1/\nTan\u03b4 1/\nam-\nMember's\nfor\ncom-\n(% by\n(% by\nvalues\ndomain\nfraction\nTan\u03b4\nTan\u03b4\nTan\u03b4 2\nTan\u03b4\nTan\u03b4\nTan\u03b4 2\nple\nnumber\ndomain\nposition\nmass)\nmass)\n(J/cm\n3\n)\n0.5\nstructure\n(vol %)\n2\n1\n(A)\n2\n1\n(B)\n1\n1\nNBR\nIR\n\u2014\n14.2\n0.2\n\u25cb\n28.7\n0.18\n0.11\n0.57\n0.39\n0.09\n0.23\n2\n2\n\u2014\n40.8\n3.9\n\u25cb\n29.1\n0.25\n0.11\n0.46\n0.51\n0.09\n0.17\n3\n3\n\u2014\n26.1\n1.9\n\u25cb\n28.9\n0.24\n0.12\n0.50\n0.42\n0.09\n0.21\n4\n4\nIR\nNBR\n\u2014\n15.0\n0.3\n\u25cb\n20.6\n0.26\n0.27\n1.04\n0.45\n0.38\n0.84\n5\n5\n\u2014\n33.8\n2.9\n\u25cb\n20.2\n0.26\n0.19\n0.73\n0.45\n0.26\n0.58\n6\n6\nSBR\nIR\n43.4\n\u2014\n0.5\n\u25cb\n30.0\n0.25\n0.12\n0.48\n0.44\n0.12\n0.27\n7\n7\nIR\nSBR\n39.2\n\u2014\n0.4\n\u25cb\n29.7\n0.27\n0.12\n0.45\n0.45\n0.14\n0.31\n8\n8\nCR\nIR\n\u2014\n\u2014\n0.7\n\u25cb\n26.8\n0.27\n0.12\n0.45\n0.57\n0.09\n0.16\n9\n9\nIR\nCR\n\u2014\n\u2014\n0.6\n\u25cb\n28.3\n0.26\n0.20\n0.76\n0.45\n0.12\n0.27\n10\n10\nBR\nSBR\n42.8\n\u2014\n0.6\n\u25cb\n29.6\n0.25\n0.12\n0.48\n0.51\n0.14\n0.27\n11\n11\nSBR\nBR\n43.1\n\u2014\n0.6\n\u25cb\n29.8\n0.24\n0.11\n0.46\n0.45\n0.08\n0.18\n12\n12\nNBR\nSBR\n24.2\n15.0\n0.2\n\u25cb\n29.1\n0.18\n0.13\n0.70\n0.32\n0.20\n0.63\n13\n13\n24.1\n17.6\n0.6\n\u25cb\n29.3\n0.20\n0.13\n0.64\n0.35\n0.19\n0.54\n14\n14\n23.8\n26.8\n1.9\n\u25cb\n29.2\n0.24\n0.13\n0.53\n0.36\n0.17\n0.47\n15\n15\n16.4\n32.9\n2.9\n\u25cb\n24.2\n0.26\n0.12\n0.47\n0.33\n0.15\n0.45\n16\n16\n14.8\n40.6\n4.0\n\u25cb\n23.8\n0.25\n0.11\n0.45\n0.41\n0.18\n0.44\n17\n17\n39.6\n39.6\n3.3\n\u25cb\n23.7\n0.22\n0.15\n0.68\n0.36\n0.19\n0.53\n18\n18\n43.8\n33.6\n2.4\n\u25cb\n23.9\n0.26\n0.17\n0.66\n0.32\n0.25\n0.78\n19\n19\nSBR\nNBR\n24.2\n14.9\n0.2\n\u25cb\n25.9\n0.23\n0.16\n0.69\n0.20\n0.21\n1.05\n20\n20\n17.4\n17.6\n0.7\n\u25cb\n25.2\n0.20\n0.17\n0.84\n0.17\n0.23\n1.35\n21\n21\n24.2\n17.3\n0.5\n\u25cb\n25.4\n0.23\n0.17\n0.72\n0.29\n0.21\n0.72\n22\n22\n23.9\n34.1\n2.9\n\u25cb\n20.6\n0.21\n0.21\n1.00\n0.24\n0.33\n1.38\n23\n23\n38.6\n39.5\n3.3\n\u25cb\n20.7\n0.28\n0.25\n0.89\n0.34\n0.39\n1.15\n24\n24\n14.9\n40.4\n4.0\n\u25cb\n20.8\n0.19\n0.27\n1.42\n0.26\n0.42\n1.62\n25\n25\n43.2\n34.6\n2.5\n\u25cb\n25.3\n0.30\n0.21\n0.68\n0.36\n0.34\n0.94\n26\n26\nNBR\nSBR\n23.9\n17.5\n0.6\n\u25cb\n30.6\n0.19\n0.13\n0.67\n0.21\n0.11\n0.52\n27\n27\n24.2\n17.3\n0.5\n\u25cb\n30.4\n0.17\n0.12\n0.71\n0.20\n0.10\n0.50\n28\n28\n24.0\n17.4\n0.6\n\u25cb\n30.7\n0.18\n0.12\n0.65\n0.25\n0.10\n0.40\n29\n29\n24.0\n17.2\n0.6\n\u25cb\n30.5\n0.20\n0.11\n0.55\n0.33\n0.10\n0.30\n30\n30\nSBR\nNBR\n23.7\n33.9\n2.9\n\u25cb\n19.4\n0.21\n0.20\n0.96\n0.15\n0.28\n1.87\n31\n31\n23.5\n34.1\n2.9\n\u25cb\n19.2\n0.19\n0.18\n0.99\n0.13\n0.23\n1.77\n32\n32\n23.6\n33.6\n2.8\n\u25cb\n19.3\n0.21\n0.20\n0.96\n0.15\n0.25\n1.67\n33\n33\n23.7\n33.8\n2.9\n\u25cb\n19.2\n0.19\n0.18\n0.97\n0.13\n0.23\n1.77\n34\n34\n23.8\n33.4\n2.8\n\u25cb\n11.5\n0.23\n0.20\n0.87\n0.13\n0.27\n2.08\n35\n35\n23.8\n33.8\n2.8\n\u25cb\n14.4\n0.19\n0.19\n1.02\n0.13\n0.23\n1.77\n36\n36\n23.9\n33.6\n2.8\n\u25cb\n38.2\n0.18\n0.18\n0.98\n0.13\n0.23\n1.77\n37\n37\n24.2\n34.3\n2.9\n\u25cb\n40.5\n0.19\n0.20\n1.04\n0.13\n0.23\n1.77\n38\n38\n15.4\n39.2\n4.0\n\u25cb\n21.6\n0.19\n0.38\n2.00\n0.26\n0.72\n2.77\n39\n39\n24.2\n34.2\n2.9\n\u25cb\n20.5\n0.21\n0.21\n1.00\n0.34\n0.39\n1.15\nTABLE 6\nVulcanization\nDomain\nDistance\nMatrix\naccelerator\nvolume\nDomain\nbetween\nvolume\nRank of\nUnevenness",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 40",
+        "example_type": "Extracted Example",
+        "title": "Example 40",
+        "raw_text": "Example 40\nAn electro-conductive member B1 was manufactured in the same manner as that in Example 39, except that the diameter of the electro-conductive support was changed to 5 mm, and the outer diameter of the electro-conductive member after having been polished was set at 10.0 mm.\nNext, the electro-conductive member B1 was used as a transfer member, and was subjected to the following evaluation. Regarding the characteristic evaluation, the same evaluation as in Example 1 was performed. Regarding the image evaluation, the following evaluation was performed. First, in order to condition the electro-conductive member B1 to the measurement environment, the electro-conductive member B1 was left in an environment at a temperature of 23\u00b0 C. and a relative humidity of 50% for 48 hours. Next, as an electrophotographic image forming apparatus, an electrophotographic type of laser printer (trade name: Laserjet M608dn, manufactured by HP Inc.) was prepared. Then, an electro-conductive member B1 was incorporated as a transfer member. As for the photosensitive drum incorporated in the process cartridge, the same photosensitive drum was used as that which was used in the evaluation of the electro-conductive members (1) to (39). In addition, as for the charging member, the same charging member was used as that which was used in the evaluation of the electro-conductive member (22). In addition, the laser printer was altered so that an abutting pressure between the photosensitive drum and the electro-conductive member B1 became 1250 gf (12.26 N), by adjusting a length of a spring of a bearing component which supported the electro-conductive member.\nIn order to evaluate the image in a high-speed process, the laser printer was altered so that the number of output sheets per unit time became 75 sheets/minute on A4 size paper, which was more than the original number of output sheets. At this time, an output speed of the recording medium was set at 370 mm/sec, and the image resolution was set at 1,200 dpi. In addition, the laser printer was left in an environment of 23\u00b0 C. and 50% RH for 48 hours. After that, in the same environment, 20000 sheets of images were continuously output.\nThe output electrophotographic image was such that characters of the letter \u201cE\u201d of the alphabet having a size of 4 points were formed on A4 size paper to reach a printing rate of 1.0%. After that, the laser printer was left for 12 hours in the state of having been stopped and in the same environment, then the charging member was replaced with a new electro-\nconductive member\n18, and 20 sheets of halftone images were output. Thus, the unattended set image was evaluated.\nAfter that, the unattended set streak image was evaluated under the same conditions as in the above [4-1]. After that, under the same conditions as in [4-2], the unevenness of the electric resistance of the abutting portion of the electro-conductive member B1 on the photosensitive drum and the non-abutting portion was measured. Table 7 shows the results of the characteristic evaluation and image evaluation of the electro-conductive member B1.\nTABLE 7\nEvaluation of electro-conductive member B1\nPhysical\nCrown amount (\u03bcm)\n0\nproperties\nRubber composition for domain\nSBR\nMatrix composition\nNBR\nConfirmation of matrix-domain structure\n\u25ef\nDomain volume fraction (vol %)\n20.6\nSulfur vulcanization Presence or absence\nPresence\nStyrene content (% by mass)\n23.8\nNitrile content (% by mass)\n34.2\nDifference between SP values ((J/cm\n3\n)\n0.5\n)\n2.9\nDynamic viscoelasticity 80 Hz\ntan\u03b42\n0.208\ntan\u03b41\n0.208\ntan\u03b41/tan\u03b42\n1\nDynamic viscoelasticity 0.1 Hz\ntan\u03b42\n0.24\ntan\u03b41\n0.33\ntan\u03b41/tan\u03b42\n1.38\nVulcanization accelerator identification result\nDM/TBZTD\nDomain volume resistance\n\u03a9 \u00b7 cm\n9.80E+02\nDomain size\n\u03bcm\n2.1\nDistance between domains\n\u03bcm\n1.2\nDomain uniformity\n0.27\nMatrix volume resistance\n\u03a9 \u00b7 cm\n9.50E+08\nMD-1 hardness (\u00b0)\n62\nImage\nRank of unattended set\nA\nevaluation\nUnevenness of resistance\n1.9",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 1",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 1",
+        "raw_text": "Comparative Example 1\nAn electro-conductive member C1 was manufactured and evaluated in the same manner as that in Example 1, except that EPDM (1) was used as the raw rubber material for the domain, and hydrin was used as the raw rubber material for the matrix. Table 8 shows the evaluation results.\nIn the present Comparative Example, it was confirmed that a matrix-domain structure was formed, but both of the domain and the matrix are constituted by a non-diene rubber. Because of this, a chemical bond between the matrix and the domain could not be sufficiently obtained, and it is assumed that a difference in the discharge characteristics occurred between the abutting portion on the photosensitive drum and the non-abutting portion, due to the change of the structure such as the agglomeration of the domains with each other. In addition, the tan \u03b41/tan \u03b42 in the high frequency region (80 Hz) was low. Because of this, the electro-conductive layer was not able to sufficiently recover from deformation at the time of continuous printing.\nAs a result, the unevenness of the resistance, which was measured after the evaluation of the unattended set image, became as very large as 3.6, and the unattended set image became rank D.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 2",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 2",
+        "raw_text": "Comparative Example 2\nAn electro-conductive member C2 was manufactured and evaluated in the same manner as that in Example 1, except that the raw rubber material for the domain was changed to isoprene (1), and the raw rubber material for the matrix was changed to SBR (3). Table 8 shows the evaluation results.\nIn the present Comparative Example, the difference between the SP values of the rubbers which constitute the domain and the matrix was 0, and it could not be confirmed whether the matrix-domain structure was formed. As a result, the electro-conductive member C2 could not form a three-dimensional network via cross-links at the interface between the domain and the matrix, and became a structure which could not exhibit an excellent effect of suppressing the mechanical distortion against the external force. In addition, the electro-conductive particle was mixed in the matrix, and thereby the matrix could not exhibit the excellent rubber elasticity.\nAs a result, the unevenness of the resistance which was measured after the evaluation of the unattended set image became 3.3, and the unattended set image became rank D. For information, as for the present Comparative Example, the blended ratio of the electro-conductive particle and the filler which were originally contained in the domain and the matrix could not be analyzed, because the rubbers of the domain and the matrix resulted in dissolving into each other. Because of this, the rubber sheet constituting the domain and the matrix could not be reproduced, and the dynamic viscoelasticity could not be measured. The volume fractions of the domain in Table 8 describe volume ratios of isoprene which was identified by the chemical structure analysis.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 3",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 3",
+        "raw_text": "Comparative Example 3\nAn electro-conductive member C3 was manufactured and evaluated in the same manner as that in Example 1, except that the raw rubber material for the domain was changed to EPDM (2), and the raw rubber material for the matrix was changed to NBR (5). Table 8 shows the evaluation results.\nIn the present Comparative Example, it was confirmed that the matrix-domain structure was formed, but the rubber constituting the domain was EPDM of the non-diene rubber. The monomer derived from a diene skeleton which is contained in the EPDM is extremely small, and accordingly the chemical bond between the matrix and the domain cannot be sufficiently obtained. In addition, because the chemical structures of the domain and the matrix are greatly different in monomer units, the value of tan \u03b41/tan \u03b42 in a high frequency region (80 Hz) is low. Because of this, the electro-conductive layer was not able to sufficiently recover from deformation at the time of continuous printing.\nIn addition, a difference between the SP values of the rubber in the domain and the matrix was as very large as 4.2, and the dispersion of the domains became ununiform, and the electro-conductive member C3 became a configuration which could not exhibit a sufficient responsiveness to the deformation.\nAs a result, the unevenness of the resistance, which was measured after the evaluation of the unattended set image, became as very large as 3.5, and the unattended set image became rank D. This is assumed to be because a significant difference was caused in discharge characteristics between the abutting portion on the photosensitive drum and the non-abutting portion, due to a change of the structure such as agglomeration of domains with each other, which were ununiformly dispersed and had a large size.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 4",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 4",
+        "raw_text": "Comparative Example 4\nAn electro-conductive member C4 was manufactured and evaluated in the same manner as that in Example 11, except that the vulcanization accelerator (1) was changed to the vulcanization accelerator (9) (PZ). Table 8 shows the evaluation results.\nIn the present Comparative Example, it was confirmed that the matrix-domain structure was formed. Furthermore, it was also confirmed that the rubbers constituting the domain and the matrix were SBR and BR of the diene-based rubber, respectively. However, the value of tan \u03b41/tan \u03b42 in the high frequency region (80 Hz) was extremely low. Because of this, the electro-conductive layer was not able to sufficiently recover from deformation at the time of continuous printing, This is assumed to be because the affinity between the vulcanization accelerator and the rubbers constituting the domain and the matrix is insufficient, and cross-linking reactions in the inside of the domain, the inside of the matrix and at the matrix-domain interface became ununiform.\nAs a result, the unevenness of the resistance which was measured after the evaluation of the unattended set image became 3.1, and the unattended set image became rank D.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 5",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 5",
+        "raw_text": "Comparative Example 5\nAn electro-conductive member C5 was manufactured and evaluated in the same manner as that in Example 38, except that the vulcanization accelerator (1) was changed to the vulcanization accelerator (9) (PZ). Table 8 shows the evaluation results.\nIn the present Comparative Example, it was confirmed that the matrix-domain structure was formed. Furthermore, it was also confirmed that the rubbers constituting the domain and the matrix was SBR and NBR of the diene-based rubber, respectively. However, the value of tan \u03b41/tan \u03b42 in the high frequency region (80 Hz) was extremely high, and the matrix-domain structure became a configuration in which there was a remarkably large bias in the relaxation behaviors of the mechanical distortion, which occurred at the time of continuous printing.\nSpecifically, the matrix-domain structure has a configuration in which the distortion accumulated in the matrix becomes insufficiently relaxed. Because of this, it is assumed that the matrix could not exhibit the excellent rubber elasticity, the responsiveness to the deformation was remarkably lowered which was caused by the external force, and a change of the matrix-domain structure occurred. This is considered to be because the affinity between the vulcanization accelerator and the rubbers constituting the domain and the matrix was insufficient, in the same manner as that in Comparative Example 4.\nAs a result, the unevenness of the resistance which was measured after the evaluation of the unattended set image became 3.2, and the unattended set image became rank D.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 6",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 6",
+        "raw_text": "Comparative Example 6\nAn electro-conductive member C6 was manufactured and evaluated in the same manner as that in Example 1, except that the raw rubber material for the domain was changed to NBR (3), and the raw rubber material for the matrix was changed to NBR (4). Table 8 shows the evaluation results.\nIn the present Comparative Example, it could not be confirmed that the matrix-domain structure was formed. In addition, as a result of the analysis of the chemical structure, only NBR was detected as the rubber. Accordingly, the electro-conductive member C6 could not form a three-dimensional network via cross-links at the interface between the domain and the matrix, and became a configuration which could not exhibit an excellent effect of suppressing the mechanical distortion against the external force. In addition, the electro-conductive particle was mixed in the matrix, and thereby the matrix could not exhibit the excellent rubber elasticity.\nAs a result, the unevenness of the resistance which was measured after the evaluation of the unattended set image became 3.4, and the unattended set image became rank D. For information, as for the present Comparative Example, the blended ratio of the electro-conductive particle and the filler which were originally contained in the domain and the matrix could not be analyzed, because the rubbers of the domain and the matrix completely dissolved into each other. Because of this, the rubber sheets constituting the domain and the matrix could not be reproduced, and the dynamic viscoelasticities could not be measured. In addition, the SP value could not be analyzed. Accordingly, as for the difference between the SP values in Table 8, the difference between the SP values of the two types of NBR is described as reference data, which were used in the present Comparative Example.\nTABLE 8",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example",
+        "raw_text": "Comparative Example\n1\n2\n3\n4\n5\n6\nNumber of electro-conductive member\nC1\nC2\nC3\nC4\nC5\nC6\nPhysical\nRubber composition for domain\nType of rubber\nEPDM1\nMixture of IR and\nEPDM2\nSBR\nSBR\nNBR alone\nproperties\nMatrix composition\nType of rubber\nHydrin\nSBR\nNBR\nBR\nNBR\nConfirmation of matrix-domain structure\n\u25cb\n\u00d7\n\u25cb\n\u25cb\n\u25cb\n\u00d7\nDomain volume fraction\nvol %\n26.4\n25.9\n28.1\n29.9\n21.8\nOut of measure\n(Ratio of IR)\nDifference between SP values\n(J/cm\n3\n)\n0.5\n2.1\n0\n4.2\n0.6\n4.0\n1.4* (Reference)\nDynamic viscoelasticity\ntan\u03b42\n0.35\nOut of measure\n0.36\n0.29\n0.19\nOut of measure\n80 Hz\ntan\u03b41\n0.05\nOut of measure\n0.10\n0.12\n0.40\nOut of measure\ntan\u03b41/tan\u03b42 (A)\n0.14\nOut of measure\n0.28\n0.41\n2.11\nOut of measure\nDynamic viscoelasticity\ntan\u03b42\n0.58\nOut of measure\n0.55\n0.58\n0.23\nOut of measure\n0.1 Hz\ntan\u03b41\n0.04\nOut of measure\n0.19\n0.08\n0.70\nOut of measure\ntan\u03b41/tan\u03b42 (B)\n0.07\nOut of measure\n0.35\n0.14\n3.04\nOut of measure\nFrequency dependency\n(A)/(B)\n2.07\nOut of measure\n0.80\n3.00\n0.69\nOut of measure\nof viscoelasticity\nVulcanization accelerator identification result\nDM/TT\nPZ/TT\nDM/TT\nVolume resistivity\nMatrix\n9.70E\u221206\n\u2014\n8.10E\u221210\n1.90E\u221215\n2.90E\u221211\n\u2014\n(\u03a9 \u00b7 cm)\nDomain\n2.50E\u221203\n\u2014\n4.40E\u221203\n1.70E\u221203\n1.70E\u221202\n\u2014\nDomain size\n\u03bcm\n3.2\n\u2014\n4.5\n0.7\n2.5\n\u2014\nDistance between domains\n\u03bcm\n2.0\n\u2014\n3.1\n0.3\n1.7\n\u2014\nDomain uniformity\n0.51\n\u2014\n0.71\n0.29\n0.34\n\u2014\nMD-1 hardness (\u00b0)\n60\n58\n61\n51\n82\n59\nImage\nRank of unattended set\nD\nD\nD\nD\nD\nD\nevaluation\nUnevenness of resistance\n3.6\n3.3\n3.5\n3.1\n3.2\n3.4\nWhile the present invention has been described with reference to exemplary embodiments, it is to be understood that the invention is not limited to the disclosed exemplary embodiments. The scope of the following claims is to be accorded the broadest interpretation so as to encompass all such modifications and equivalent structures and functions.\nThis application claims the benefit of Japanese Patent Application No. 2019-069098, filed Mar. 29, 2019 which is hereby incorporated by reference herein in its entirety.",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "Electro-conductive member for electrophotography, process cartridge for electrophotography, and electrophotographic image forming apparatus \n       \nAbstract\nThe electro-conductive member has an electro-conductive support, and an electro-conductive layer in this order, the electro-conductive layer including a matrix and domains, the matrix constituted by a first rubber composition containing a cross-linked product of a first rubber, the domains having electro-conductivity, and dispersed in the matrix, each of the domains constituted by a second rubber composition containing a cross-linked product of a second rubber and an electro-conductive particle, the first rubber and the second rubber being diene-based rubbers, the first rubber having at least one monomer unit, the second rubber having at least one monomer unit different from the monomer unit which the first rubber has; a difference of absolute values of SP values between the first rubber and the second rubber is 0.2 (J/cm3)0.5 to 4.0 (J/cm3)0.5; and a tan \u03b41/tan \u03b42 is 0.45 to 2.00.\nClaims (\n11\n)\nWhat is claimed is:\n1. An electro-conductive member for electrophotography, comprising:\nan electro-conductive support and an electro-conductive layer in this order;\nthe electro-conductive layer comprising a matrix and domains, the matrix having a volume resistivity of 1.0\u00d710\n8\n\u03a9\u00b7cm or higher, and comprising a first rubber composition that contains a cross-linked product of a first rubber; and\nthe domains being electro-conductive and dispersed in the matrix, each of the domains having a volume resistivity of 1.0\u00d710\n1\nto 1.0\u00d710\n4\n\u03a9\u00b7cm, and comprising a second rubber composition that contains a cross-linked product of a second rubber and an electro-conductive particle, wherein\nthe first rubber is acrylonitrile-butadiene rubber and the second rubber is styrene-butadiene rubber, or the first rubber is styrene-butadiene rubber and the second rubber is acrylonitrile-butadiene rubber,\na difference of absolute values of solubility parameters (SP values) between the first and second rubbers is 0.2 to 4.0 (J/cm\n3\n)\n0.5\n,\ntan \u03b41/tan \u03b42 is 0.45 to 2.00, where tan \u03b41 and tan \u03b42 are respectively loss factors of the first and second rubber compositions measured at 23\u00b0 C., a relative humidity of 50% and a frequency of 80 Hz, and\nthe amount of the electro-conductive particles in the domains is 50 to 150 parts by mass per 100 parts by mass of the second rubber.\n2. The electro-conductive member according to\nclaim 1\n, wherein a content ratio of a monomer unit derived from styrene in the styrene-butadiene rubber is 18 to 40% by mass.\n3. The electro-conductive member according to\nclaim 1\n, wherein a content ratio of a monomer unit derived from acrylonitrile in the acrylonitrile-butadiene rubber is 18 to 40% by mass.\n4. The electro-conductive member according to\nclaim 1\n, wherein a volume fraction of the domain in the electro-conductive layer is 10 to 40% by volume.\n5. The electro-conductive member according to\nclaim 1\n, wherein the electro-conductive particle is carbon black.\n6. The electro-conductive member according to\nclaim 1\n, wherein the electro-conductive layer comprises a cross-linked body of a rubber mixture for forming the electro-conductive layer, the rubber mixture comprising the first and second rubbers, the electro-conductive particle, sulfur and a vulcanization accelerator, and\nthe vulcanization accelerator comprises a thiazole-based compound.\n7. The electro-conductive member according to\nclaim 6\n, wherein the thiazole-based compound is a sulfenamide-based compound.\n8. A process cartridge that is detachably attachable to a main body of an electrophotographic image forming apparatus, comprising:\nan electrophotographic photosensitive member;\nan electro-conductive member for electrophotography, the electro-conductive member comprising an electro-conductive support and an electro-conductive layer in this order;\nthe electro-conductive layer comprising a matrix and domains, the matrix having a volume resistivity of 1.0\u00d710\n8\n\u03a9\u00b7cm or higher, and comprising a first rubber composition that contains a cross-linked product of a first rubber; and\nthe domains being electro-conductive; and dispersed in the matrix, each of the domains having a volume resistivity of 1.0\u00d710\n1\nto 1.0\u00d710\n4\n\u03a9\u00b7cm, and comprising a second rubber composition that contains a cross-linked product of a second rubber and an electro-conductive particle, wherein\nthe first rubber is acrylonitrile-butadiene rubber and the second rubber is styrene-butadiene rubber, or the first rubber is styrene-butadiene rubber and the second rubber is acrylonitrile-butadiene rubber,\na difference of absolute values of solubility parameters (SP values) between the first and second rubbers is 0.2 to 4.0 (J/cm\n3\n)\n0.5\n,\ntan \u03b41/tan \u03b42 is 0.45 to 2.00, where tan \u03b41 and tan \u03b42 are respectively loss factors of the first and second rubber compositions measured at 23\u00b0 C., a relative humidity of 50% and a frequency of 80 Hz, and\nthe amount of the electro-conductive particles in the domains is 50 to 150 parts by mass per 100 parts by mass of the second rubber.\n9. The process cartridge according to\nclaim 8\n, wherein the electro-conductive member is a charging member that is configured to charge the electrophotographic photosensitive member.\n10. An electrophotographic image forming apparatus, comprising:\nan electro-conductive member, the electro-conductive member comprising an electro-conductive support and an electro-conductive layer in this order;\nthe electro-conductive layer comprising a matrix and domains, the matrix having a volume resistivity of 1.0\u00d710\n8\n\u03a9\u00b7cm or higher, and comprising a first rubber composition that contains a cross-linked product of a first rubber; and\nthe domains being electro-conductive and dispersed in the matrix, each of the domains having a volume resistivity of 1.0\u00d710\n1\nto 1.0\u00d710\n4\n\u03a9\u00b7cm, and comprising a second rubber composition that contains a cross-linked product of a second rubber and an electro-conductive particle, wherein\nthe first rubber is acrylonitrile-butadiene rubber and the second rubber is styrene-butadiene rubber, or the first rubber is styrene-butadiene rubber and the second rubber is acrylonitrile-butadiene rubber,\na difference of absolute values of solubility parameters (SP values) between the first and second rubbers is 0.2 to 4.0 (J/cm\n3\n)\n0.5\n,\ntan \u03b41/tan \u03b42 is 0.45 to 2.00, where tan \u03b41 and tan \u03b42 are respectively loss factors of the first and second rubber compositions measured at 23\u00b0 C., a relative humidity of 50% and a frequency of 80 Hz, and\nthe amount of the electro-conductive particles in the domains is 50 to 150 parts by mass per 100 parts by mass of the second rubber.\n11. An electro-conductive member for electrophotography, comprising:\nan electro-conductive support and an electro-conductive layer in this order;\nthe electro-conductive layer comprising a matrix and domains, the matrix having a volume resistivity of 1.0\u00d710\n8\n\u03a9\u00b7cm or higher, and comprising a first rubber composition that contains a cross-linked product of a first rubber; and\nthe domains being electro-conductive and dispersed in the matrix, each of the domains having a volume resistivity of 1.0\u00d710\n1\nto 1.0\u00d710\n4\n\u03a9\u00b7cm, and comprising a second rubber composition that contains a cross-linked product of a second rubber and an electro-conductive particle, wherein\nthe first rubber is styrene-butadiene rubber and the second rubber is acrylonitrile-butadiene rubber,\na difference of absolute values of solubility parameters (SP values) between the first and second rubbers is 0.2 to 4.0 (J/cm\n3\n)\n0.5\n, and\ntan \u03b41/tan \u03b42 is 0.45 to 2.00, where tan \u03b41 and tan \u03b42 are respectively loss factors of the first and second rubber compositions measured at 23\u00b0 C., a relative humidity of 50% and a frequency of 80 Hz.",
+    "examples_detection_note": ""
+  },
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US7772305B2/en",
+      "patent_number": "US7772305B2",
+      "patent_title": "Hydrogenated NBR composition",
+      "assignee": "Nok Corporation",
+      "publication_year": "2010",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "15",
+      ")",
+      "1. A hydrogenated NBR composition, which comprises 100 parts by weight of a hydrogenated NBR having an acrylonitrile content of 25-44% by weight, and an iodine number of 40-65, or a blend of the hydrogenated NBRs having an acrylonitrile content of 25-44% by weight, and an iodine number of 40-65, 2-23 parts by weight of di(butoxyethoxyethyl) adipate plasticizer, and 0.5-10 parts by weight of an organic peroxide.",
+      "2. A hydrogenated NBR composition according to",
+      "claim 1",
+      ", which comprises 100 parts by weight of a hydrogenated NBR having an acrylonitrile content of 30-40% by weight and an iodine number of 40-65, or a blend of the hydrogenated NBRs having an acrylonitrile content of 30-40% by weight and an iodine number of 40-65, 7-17 parts be weight of an ester-based plasticizer, and 4-8 parts by weight of an organic peroxide.",
+      "3. A hydrogenated NBR composition according to",
+      "claim 1",
+      ", further comprising 0.5-10 parts by weight of a polyfunctional unsaturated compound."
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "EXAMPLES",
+        "example_type": "Extracted Example",
+        "title": "EXAMPLES",
+        "raw_text": "EXAMPLES\nThe present invention will be described in detail below, referring to Examples.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 1",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 1",
+        "raw_text": "Comparative Example 1\nParts by weight\nHydrogenated NBR (Zetpole 2020, a product of\n100\nNippon Zeon Co., Ltd., AN content: 36 wt. %,\niodine number: 28)\nFEF carbon black\n32\nMT carbon black\n35\nEster-based plasticizer (RS107, a product of\n15\nADEKA Co., Ltd., adipic acid ether ester)\nAntioxidant (Anti CD, a product of Ouchi-Shinko\n1.5\nChemical Co., Ltd.)\nAntioxidant (Anti MBZ, a product of Ouchi-Shinko\n1.5\nChemical Co., Ltd.)\nZinc white\n2\nOrganic peroxide (Percumyl D, a product of NOF\n6\nCorp.)\nThe above-mentioned components were kneaded through a kneader and open rolls, and the resulting kneaded product was subjected to press vulcanization at 170\u00b0 C. for 20 minutes and then to oven vulcanization (secondary vulcanization) at 160\u00b0 C. for 3 hours. The resulting vulcanized sheets (150 mm\u00d7150 mm\u00d72 mm) and P24 O-rings were subjected to determination of the following test items:\nNormal state physical properties: according to JIS K6253 and JIS K6 251 corresponding to ASTM D412\nCompression set: according to JIS K6262 corresponding to ASTM D 395\nAt high temperature (150\u00b0 C. for 70 hours)\nAt low temperature (\u221230\u00b0 C. for 22 hours; values at 30 minutes after release)\nLow-temperature characteristics: according to ASTM D-1329 (TR-10 value)\nHeat resistance: Change (rate) of normal state physical properties and volume after standing in an oven at 150\u00b0 C. for 70 hours\nOil resistance: Change (rate) of normal state physical properties and volume after dipping in No. 3 oil at 120\u00b0 C. for 70 hours\nFuel oil resistance: Change (rate) of normal state physical properties and volume after dipping in fuel oil C at 60\u00b0 C. for 70 hours\nProduct performance evaluation: Visual observation of presence of oil leakage at low temperature (\u221230\u00b0 C.) and high temperature (120\u00b0 C.)",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 1",
+        "example_type": "Extracted Example",
+        "title": "Example 1",
+        "raw_text": "Example 1\nIn Comparative Example 1, the same amount of Zetpole 2030L of the same company (AN content: 36 wt. %, iodine number: 57) was used as hydrogenated NBR.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 2",
+        "example_type": "Extracted Example",
+        "title": "Example 2",
+        "raw_text": "Example 2\nIn Comparative Example 1, the same amount of a blend (AN content: 36 wt. %, iodine number: 34) of 80 wt. % of Zetpole 2020 and 20 wt. % of Zetpole 2030L was used as hydrogenated NBR.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 3",
+        "example_type": "Extracted Example",
+        "title": "Example 3",
+        "raw_text": "Example 3\nIn Comparative Example 1, the same amount of a blend (AN content: 36 wt. %, iodine number: 40) of 60 wt. % of Zetpole 2020 and 40 wt. % of Zetpole 2030L was used as hydrogenated NBR.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 4",
+        "example_type": "Extracted Example",
+        "title": "Example 4",
+        "raw_text": "Example 4\nIn Comparative Example 1, the same amount of a blend (AN content: 36 wt. %, iodine number: 48) of 30 wt. % of Zetpole 2020 and 70 wt. % of Zetpole 2030L was used as hydrogenated NBR.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 5",
+        "example_type": "Extracted Example",
+        "title": "Example 5",
+        "raw_text": "Example 5\nIn Example 1, the amount of ester-based plasticizer was changed to 5 parts by weight",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 6",
+        "example_type": "Extracted Example",
+        "title": "Example 6",
+        "raw_text": "Example 6\nIn Example 1, the amount of ester-based plasticizer was changed to 10 parts by weight",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 7",
+        "example_type": "Extracted Example",
+        "title": "Example 7",
+        "raw_text": "Example 7\nIn Example 1, the amount of ester-based plasticizer was changed to 20 parts by weight",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 8",
+        "example_type": "Extracted Example",
+        "title": "Example 8",
+        "raw_text": "Example 8\nIn Example 1, the amount of FEF carbon black was changed to 15 parts by weight, and 25 parts by weight of white carbon (Nipsil E74P, a product of Toso-silica Co., Ltd.) and 2 parts by weight of a silane coupling agent (A172, a product of Nippon Unicar Co., Ltd.) were used.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 9",
+        "example_type": "Extracted Example",
+        "title": "Example 9",
+        "raw_text": "Example 9\nIn Example 1, 43 parts by weight of white carbon (Nipsil E74P) and 2 parts by weight of a silane coupling agent (A172) were used in place of FEF carbon black.\nResults of determination in the foregoing Comparative Example 1 and Examples are shown in the following Table 1.\nTABLE 1\nComp.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example",
+        "example_type": "Extracted Example",
+        "title": "Example",
+        "raw_text": "Example\nDetermination Item\nEx. 1\n1\n2\n3\n4\n5\n6\n7\n8\n9\n[Normal state physical properties]\nHardness (Duro A)\n72\n73\n72\n72\n73\n78\n76\n70\n73\n73\nTensile strength (MPa)\n23.9\n22.4\n23.6\n23.2\n22.8\n24.5\n23.6\n20.5\n22.2\n22.5\nElongation (%)\n250\n180\n230\n220\n200\n160\n170\n190\n180\n180\n[Compression set]\nAt high temp. (%)\n11\n11\n11\n11\n11\n10\n11\n12\n11\n11\nAt low temp. (%)\n46\n34\n43\n40\n37\n32\n33\n35\n33\n33\n[Low-temp. characteristics]\nTR-10 (\u00b0 C.)\n\u221233\n\u221236\n\u221234\n\u221235\n\u221236\n\u221228\n\u221232\n\u221238\n\u221236\n\u221236\n[Heat resistance]\nHardness change (point)\n+5\n+8\n+5\n+6\n+7\n+4\n+6\n+11\n+8\n+8\nTensile strength\n+7\n+3\n+6\n+5\n+4\n+1\n+1\n+5\n+4\n+1\nchange rate (%)\nElongation change\n+1\n\u22121\n\u00b10\n\u00b10\n\u22121\n\u22122\n\u00b10\n\u22125\n\u22123\n\u22123\nrate (%)\n[Oil resistance]\nHardness change (point)\n\u22123\n\u22123\n\u22123\n\u22123\n\u22123\n\u22125\n\u22124\n\u22122\n\u22123\n\u22123\nTensile strength\n\u22126\n+1\n\u22125\n\u22123\n\u22122\n+1\n\u00b10\n+2\n\u00b10\n\u00b10\nchange rate (%)\nElongation change\n\u221212\n\u22123\n\u221210\n\u22128\n\u22125\n\u22125\n\u22124\n\u22122\n\u22125\n\u22125\nrate (%)\nVolume change rate\n+5.6\n+4.8\n+5.2\n+5.2\n+5.1\n+17.2\n+10.5\n+2.2\n+4.3\n+4.0\n\u0394V (%)\n[Fuel oil resistance]\nHardness change (point)\n\u22129\n\u22125\n\u22128\n\u22128\n\u22127\n\u22129\n\u22127\n\u22123\n\u22124\n\u22125\nTensile strength\n\u221253\n\u221254\n\u221252\n\u221255\n\u221252\n\u221250\n\u221253\n\u221257\n\u221250\n\u221248\nchange rate (%)\nElongation change (%)\n\u221245\n\u221240\n\u221243\n\u221243\n\u221241\n\u221243\n\u221241\n\u221238\n\u221238\n\u221238\nrate (%)\nVolume change rate\n+46\n+42\n+45\n+45\n+43\n+54\n+47\n+35\n+40\n+38\n\u0394V (%)\n[Product performance evaluation]\nOil leakage at high-\nnone\nnone\nnone\nnone\nnone\nnone\nnone\nnone\nnone\nnone\nlow temperatures",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 2",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 2",
+        "raw_text": "Comparative Example 2\nIn Comparative Example 1, the same amount of Zetpole 2000 (AN content: 36 wt. %, iodine number: 4) of the same company was used as hydrogenated NBR.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 3",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 3",
+        "raw_text": "Comparative Example 3\nIn Comparative Example 1, the same amount of Zetpole 2010 (AN content: 36 wt. %, iodine value: 11) of the same company was used as hydrogenated NBR.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 4",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 4",
+        "raw_text": "Comparative Example 4\nIn Comparative Example 1, the same amount of Zetpole 1020 (AN content: 44 wt. %, iodine number: 25) of the same company was used as hydrogenated NBR.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 5",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 5",
+        "raw_text": "Comparative Example 5\nIn Comparative Example 1, the same amount of Zetpole 3120 (AN content; 25 wt. %, iodine number; 31) of the same company was used as hydrogenated NBR.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 6",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 6",
+        "raw_text": "Comparative Example 6\nIn Example 1, no ester-based plasticizer was used.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 7",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 7",
+        "raw_text": "Comparative Example 7\nIn Example 1, the amount of ester-based plasticizer was changed to 25 parts by weight.\nResults of determination obtained in the foregoing Comparative Examples 2-7 are shown in the following Table 2.\nTABLE 2\nComp. Ex.\nDetermination item\n2\n3\n4\n5\n6\n7\n[Normal state physical properties]\nHardness (Duro A)\n70\n70\n73\n67\n80\n67\nTensile strength (MPa)\n22.5\n22.7\n24.5\n20.7\n25.5\n18.5\nElongation (%)\n400\n350\n240\n220\n150\n210\n[Compression set]\nAt high temp. (%)\n8\n10\n11\n13\n9\n13\nAt low temp. (%)\n72\n66\n64\n51\n31\n36\n[Low-temp. characteristics]\nTR-10 (\u00b0 C.)\n\u221228\n\u221229\n\u221229\n\u221239\n\u221224\n\u221240\n[Heat resistance]\nHardness change (point)\n+6\n+5\n+9\n+5\n+2\n+16\nTensile strength\n+5\n+4\n+6\n+8\n\u00b10\n+14\nchange rate (%)\nElongation change\n\u22124\n\u22128\n\u22123\n+10\n\u22121\n\u221220\nrate (%)\n[Oil resistance]\nHardness change (point)\n\u22125\n\u22125\n\u00b10\n\u221210\n\u22126\n\u00b10\nTensile strength\n\u22127\n\u22123\n+6\n\u221210\n+1\n+3\nchange rate (%)\nElongation change\n\u221220\n\u221211\n\u00b10\n\u221214\n\u22126\n\u22121\nrate (%)\nVolume change rate\n+6.3\n+6.3\n\u22122.0\n+13.9\n+21\n+0.4\n\u0394V (%)\n[Fuel oil resistance]\nHardness change (point)\n\u221217\n\u221215\n\u22129\n\u221212\n\u221212\n\u22121\nTensile strength\n\u221245\n\u221247\n\u221245\n\u221266\n\u221245\n\u221260\nchange rate (%)\nElongation change\n\u221246\n\u221246\n\u221242\n\u221249\n\u221247\n\u221235\nrate (%)\nVolume change rate\n+47\n+47\n+28\n+67\n+62\n+28\n\u0394V (%)\n[Product performance evaluation]\nOil leakage occurrence\nAt low\nAt low\nAt low\nAt high\nAt low\nAt high\ntemp.\ntemp.\ntemp.\ntemp.\ntemp.\ntemp.",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "Hydrogenated NBR composition \n       \nAbstract\nA hydrogenated NBR composition, which comprises 100 parts by weight of a hydrogenated NBR having an acrylonitrile content of 25-44% by weight and an iodine number of 32-65, or a blend of the hydrogenated NBRs themselves, 2-23 parts by weight of an ester-based plasticizer, and 0.5-10 parts by weight of an organic peroxide, and preferably further contains 0.5-10 parts by weight of a polyfunctional unsaturated compound, can give molding products having distinguished oil resistance and fuel oil resistance as well as distinguished heat resistance and cold resistance, and thus can be used as suitable molding materials for intake manifold gaskets of automobile engines.\nClaims (\n15\n)\n1. A hydrogenated NBR composition, which comprises 100 parts by weight of a hydrogenated NBR having an acrylonitrile content of 25-44% by weight, and an iodine number of 40-65, or a blend of the hydrogenated NBRs having an acrylonitrile content of 25-44% by weight, and an iodine number of 40-65, 2-23 parts by weight of di(butoxyethoxyethyl) adipate plasticizer, and 0.5-10 parts by weight of an organic peroxide.\n2. A hydrogenated NBR composition according to\nclaim 1\n, which comprises 100 parts by weight of a hydrogenated NBR having an acrylonitrile content of 30-40% by weight and an iodine number of 40-65, or a blend of the hydrogenated NBRs having an acrylonitrile content of 30-40% by weight and an iodine number of 40-65, 7-17 parts be weight of an ester-based plasticizer, and 4-8 parts by weight of an organic peroxide.\n3. A hydrogenated NBR composition according to\nclaim 1\n, further comprising 0.5-10 parts by weight of a polyfunctional unsaturated compound.\n4. A hydrogenated NBR composition according to\nclaim 1\n, further comprising 20-150 parts by weight of carbon black, white carbon or a mixture thereof.\n5. A hydrogenated NBR composition according to\nclaim 3\n, further comprising 20-150 parts by weight of carbon black, white carbon or a mixture thereof.\n6. A hydrogenated NBR composition according to\nclaim 4\n, wherein a silane coupling agent is further contained with the white carbon.\n7. A hydrogenated NBR composition according to\nclaim 5\n, wherein a silane coupling agent is further contained with the white carbon.\n8. A hydrogenated NBR composition according to\nclaim 1\n, for use as molding materials for intake manifold gaskets of engines.\n9. An intake manifold gasket obtained by cross-linking molding of a hydrogenated NBR composition according to\nclaim 8\n.\n10. A hydrogenated NBR composition according to\nclaim 3\n, for use as molding materials for intake manifold gaskets of engines.\n11. An intake manifold gasket obtained by cross-linking molding of a hydrogenated NBR composition according to\nclaim 10\n.\n12. A hydrogenated NBR composition according to\nclaim 4\n, for use as molding materials for intake manifold gaskets of engines.\n13. An intake manifold gasket obtained by cross-linking molding of a hydrogenated NBR composition according to\nclaim 12\n.\n14. A hydrogenated NBR composition according to\nclaim 5\n, for use as molding materials for intake manifold gaskets of engines.\n15. An intake manifold gasket obtained by cross-linking molding of a hydrogenated NBR composition according to\nclaim 14\n.",
+    "examples_detection_note": ""
+  },
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US8846804B2/en",
+      "patent_number": "US8846804B2",
+      "patent_title": "NBR composition and sealing rubber material",
+      "assignee": "Nok Corporation",
+      "publication_year": "2014",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "3",
+      ")",
+      "I claim:",
+      "1. A sealing rubber material obtained by cross-linkingly molding an acrylonitrile-butadiene rubber (NBR) composition by using sulfur as a vulcanizing agent;",
+      "wherein the NBR composition comprises a polymer obtained by mixing an NBR with polyvinyl chloride;",
+      "wherein the NBR composition is obtained by blending an insolubilized substance-generating causative substance within a limit of 0 to 0.15 parts by weight, into 100 parts by weight of the polymer having a PVC content of 15.70 to 17.50 wt %; and",
+      "wherein the insolubilized substance-generating causative substance is a wax component and/or stearic acid.",
+      "2. The sealing rubber material according to",
+      "claim 1"
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "EXAMPLES",
+        "example_type": "Extracted Example",
+        "title": "EXAMPLES",
+        "raw_text": "EXAMPLES\nAlthough the effect of the present invention will be exemplified hereinafter by Examples, the present invention is not limited to such Examples.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 1",
+        "example_type": "Extracted Example",
+        "title": "Example 1",
+        "raw_text": "Example 1\nPolymer:\nHigh nitrile (NBR) polymer (Nipol DN101 produced by Nippon Zeon Co., Ltd.; nitrile content: 42.5%, Mooney viscosity [ML\n1+4\n(100\u00b0 C.)]=77.5)\n55 parts by weight\nNBR/PVC blend polymer (NV60 produced by JSR corporation; PVC content: 35%)\n45 parts by weight\nCompounding ingredient:\nSRF class carbon black (SEAST G-S produced by Tokai Carbon Co., Ltd.)\n70 parts by weight\nZinc oxide (Special number of zinc oxide produced by Seido Chemical Industry Co., Ltd.)\n5 parts by weight\nAge resister (NONFLEX RD produced by Seiko Chemical Co., Ltd.)\n2 parts by weight\nPlasticizer (Ethyl hexyl adipate)\n30 parts by weight\nSulfur\n0.5 part by weight\nVulcanization accelerator\nCBS (NOXELER CZ produced by OUCHI SHINKO CHEMICAL INDUSTRIAL Co., Ltd.)\n2 parts by weight\nTMTD (NOXELER TET produced by OUCHI SHINKO CHEMICAL INDUSTRIAL Co., Ltd.)\n2.5 parts by weight\nThe above compound except for the vulcanization accelerators was kneaded by a hermetically sealed pressure kneader (3 L), followed by addition of the vulcanization accelerator thereto by an open roll mill.\nThe resultant compound was introduced into molds for 2 mm sheet and O-ring, respectively, followed by molding (primary vulcanization) by heating at 160 to 180\u00b0 C. for 10 to 20 minutes, and by a subsequent heat treatment (secondary vulcanization) in an air circulating oven at 160\u00b0 C. for 1 hour.\n<Evaluation Manner>\nPVC Content:\nPVC content in the applicable polymer was indicated in wt %.\nEjectability from Kneader:\nEach rubber composition after kneading the applicable compound except for the vulcanization accelerators, was evaluated for a ejectability upon ejection from the kneader based on the following criterion, and the result is shown in Table 1.\nx: In case that the applicable rubber was adhered to a rotor of the kneader, and 10 minutes or more were required to eject the rubber.\n\u2218: In case that the applicable rubber was not adhered to a rotor of the kneader, and the rubber was allowed to be relatively easily ejected therefrom.\nRubber Hardness Hs:\nThis was measured by a type A durometer (momentary) in conformity to JIS K6253:1997.\nGeneration of Precipitation:\nEach cross-linkedly molded product in a shape of 2 mm-sheet was cut into rubber pieces of about 5 mm\u00d75 mm, followed by immersion of 20 g of rubber pieces into 50 ml of fuel oil (Fuel C: toluene/isooctane=50:50 (volume ratio), JIS K6258), and they were left to stand still at 40\u00b0 C. for 5 days.\nNext, the rubber pieces were taken out of the immersion liquid, which was then concentrated to 10 ml and left to stand still at \u221215\u00b0 C. for 5 hours to thereby promote formation of suspended matters, followed by immediate centrifugal separation at 2,000 rpm for 5 minutes in an atmosphere at an ordinary temperature, thereby precipitating the suspended matters.\nThe applicable product was evaluated to be \u201c\u229a\u201d for the precipitate of 0.05 ml or less, \u201c\u2218\u201d for the precipitate less than 0.1 ml, or \u201cx\u201d for the precipitate of 0.1 ml or more. It is noted that no problems are caused in function, by precipitates less than 0.1 ml.\nFirst Compression Set Cs:\nMeasurement was performed in conformity to JIS K6262. Only, an O-ring (size G25) was adopted as a sample, and subjected to heat treatment at a test temperature of 100\u00b0 C. for 70 hours, at a compression ratio: 25%. Judging from a function of a product, it is desirable for this characteristic value to be 46% or less, preferably 40% or less.\nSecond Compression Set Cs:\nMeasurement was performed in conformity to JIS K6262. Only, each sample was heat-treated at a compression ratio of 25% and at a test temperature of 100\u00b0 C. for 15 hours; the compressing device was taken out of the constant temperature bath in a manner to leave the sample at an ordinary temperature while keeping the set plate clamped without releasing the set plate immediately after the takeout; and the set plate was then cooled down to the ordinary temperature. The set plate was released in a state that the same was brought to the ordinary temperature, in a manner to measure a pertinent value of the sample after 30 minutes from the releasement, thereby obtaining its compression set (%). Judging from a function of a product, it is desirable for this characteristic value to be 46% or less, preferably 40% or less.\nOzone Resistance:\nTest and evaluation were conducted in conformity to JIS K6259 (40\u00b0 C., ozone concentration of 50 pphm, 70 hours). Those samples having no cracks were each indicated as \u201cN.C.\u201d. Those samples having recognized cracks were each evaluated in accordance with an evaluation manner of crack as described in JIS K6259 Appendix 1. Judging from a function of a product, \u201cN.C.\u201d is preferable.\nLow-Temperature Performance (TR-10):\nThis was measured in conformity to JIS K6261. Judging from a function, \u221225\u00b0 C. or lower is preferable, and \u221230\u00b0 C. or lower is more preferable.\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 2",
+        "example_type": "Extracted Example",
+        "title": "Example 2",
+        "raw_text": "Example 2\nEvaluations were conducted in the same manner as Example 1, except for alternative adoption of 50 parts by weight of high nitrile polymer, and 50 parts by weight of NBR/PVC blend polymer.\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 3",
+        "example_type": "Extracted Example",
+        "title": "Example 3",
+        "raw_text": "Example 3\nEvaluations were conducted in the same manner as Example 1, except for addition of 0.05 part by weight of stearic acid, and 0.05 part by weight of wax (SUNTIGHT R produced by Seiko Chemical Co., Ltd.).\nPolymer\nNBR polymer\n55\n50\n55\n100\n60\n45\n[parts by\nPVC polymer\nweight]\nNBR/PVC blend polymer\n45\n50\n45\n40\n55\n(PVC content: 35 wt %)\nNBR/PVC blend polymer\n(PVC content: 30 wt %)\nPVC content: (wt %)\n15.75\n17.50\n15.75\n\u2014\n14.00\n19.25\nCompounding\nSRF class carbon black\n70\n70\n70\n70\n70\n70\ningredient\nCarbon black\n[parts by\nZinc oxide\n5\n5\n5\n5\n5\n5\nweight]\nStearic acid\n0.05\nWax\n0.05\nAge resister\n2\n2\n2\n2\n2\n2\nPlasticizer\n30\n30\n30\n30\n30\n30\nSulfur\n0.5\n0.5\n0.5\n0.5\n0.5\n0.5\nVulcanization\nCBS\n2\n2\n2\n2\n2\n2\naccelerator\nTMTD\n2.5\n2.5\n2.5\n2.5\n2.5\n2.5\nMBTS\nEvaluation\nDischargeablity\n\u25ef\n\u25ef\n\u25ef\nX\n\u25ef\n\u25ef\nfrom kneader\nRubber hardness Hs\n71\n71\n71\n71\n71\n71\nGeneration of precipitate\n\u229a\n\u25ef\n\u25ef\n\u25ef\n\u25ef\n\u25ef\nFirst compression set (%)\n40\n43\n41\n31\n39\n47\nSecond compression set (%)\n37\n44\n37\n30\n36\n52\nOzone resistance\nN. C\nN. C\nN. C\nB-3\nA- 2\nN. C\nTR \u221210 (\u00b0 C.)\n\u221230\n\u221230\n\u221230\n\u221230\n\u221230\n\u221230\nComparative\nComparative\nComparative\nComparative\nComparative",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 1",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 1",
+        "raw_text": "Comparative Example 1\nEvaluations were conducted in the same manner as Example 1, except for alternative adoption of 100 parts by weight of high nitrile polymer, and except for omission of blending of NBR/PVC blend polymer.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 2",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 2",
+        "raw_text": "Comparative Example 2\nEvaluations were conducted in the same manner as Example 1, except for alternative adoption of 60 parts by weight of high nitrile polymer, and 40 parts by weight of NBR/PVC blend polymer.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 3",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 3",
+        "raw_text": "Comparative Example 3\nEvaluations were conducted in the same manner as Example 1, except for alternative adoption of 45 parts by weight of high nitrile polymer, and 55 parts by weight of NBR/PVC blend polymer.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 4",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 4",
+        "raw_text": "Comparative Example 4\nEvaluations were conducted in the same manner as Comparative Example 1, except for addition of 1 part by weight of stearic acid, and 3 parts by weight of wax.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 5",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 5",
+        "raw_text": "Comparative Example 5\nEvaluations were conducted in the same manner as Example 1, except for addition of 1 part by weight of stearic acid.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 6",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 6",
+        "raw_text": "Comparative Example 6\nEvaluations were conducted in the same manner as Example 1, except for addition of 1 part by weight of wax.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 7",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 7",
+        "raw_text": "Comparative Example 7\nEvaluations were conducted in the same manner as Example 1, except for addition of 0.5 part by weight of stearic acid, and 0.5 wt % of wax.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 8",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 8",
+        "raw_text": "Comparative Example 8\nEvaluations were conducted in the same manner as Example 1, except for addition of 0.1 part by weight of stearic acid, and 0.1 part by weight.\nShown in Table 1 are formulations and evaluation results of Examples 1 to 3 and Comparative Examples 1 to 8.\nComparative\nComparative\nComparative",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 4",
+        "example_type": "Extracted Example",
+        "title": "Example 4",
+        "raw_text": "Example 4\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 5",
+        "example_type": "Extracted Example",
+        "title": "Example 5",
+        "raw_text": "Example 5\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 6",
+        "example_type": "Extracted Example",
+        "title": "Example 6",
+        "raw_text": "Example 6\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 7",
+        "example_type": "Extracted Example",
+        "title": "Example 7",
+        "raw_text": "Example 7\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 8",
+        "example_type": "Extracted Example",
+        "title": "Example 8",
+        "raw_text": "Example 8\nPolymer\nNBR polymer\n100\n55\n55\n55\n55\n[parts by\nPVC polymer\nweight]\nNBR/PVC blend polymer\n45\n45\n45\n45\n(PVC content: 35 wt %)\nNBR/PVC blend polymer\n(PVC content: 30 wt %)\nPVC content: (wt %)\n\u2014\n15.75\n15.75\n15.75\n15.75\nCompounding\nSRF class carbon black\n70\n70\n70\n70\n70\ningredient\nCarbon black\n[parts by\nZinc oxide\n5\n5\n5\n5\n5\nweight]\nStearic acid\n1\n1\n0.5\n0.1\nWax\n3\n1\n0.5\n0.1\nAge resister\n2\n2\n2\n2\nPlasticizer\n30\n30\n30\n30\n30\nSulfur\n0.5\n0.5\n0.5\n0.5\n0.5\nVulcanization\nCBS\n2\n2\n2\n2\n2\naccelerator\nTMTD\n2.5\n2.5\n2.5\n2.5\n2.5\nMBTS\nEvaluation\nDischargeablity\n\u25ef\n\u25ef\n\u25ef\n\u25ef\n\u25ef\nfrom kneader\nRubber hardness Hs\n70\n71\n70\n71\n70\nGeneration of precipitate\nX\nX\nX\nX\nX\nFirst compression set (%)\n32\n40\n42\n40\n41\nSecond compression set (%)\n32\n35\n37\n35\n35\nOzone resistance\nN. C\nN. C\nN. C\nN. C\nN. C\nTR \u221210 (\u00b0 C.)\n\u221231\n\u221230\n\u221230\n\u221230\n\u221230\nThe NBR composition, where the polymer did not contain PVC, without blending of stearic acid and a wax, was considerably deteriorated in ejectability from kneader, ozone resistance, and the like (Comparative Example 1).\nThe ozone resistance was deteriorated when the PVC content was less than 15.70% (Comparative Example 2), while the compression set exceeded 46% when the PVC content was greater than 17.50% (Comparative Example 3).\nEven when the PVC content in the applicable polymer was 15.75%, precipitate was caused due to a total blending amount of stearic acid and a wax component exceeding 0.15 part by weight (Comparative Examples 5 to 8).",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "NBR composition and sealing rubber material \n       \nAbstract\nProviding an NBR composition substantially free of containment of an insolubilized substance-generating causative substance so as to prevent generation of an insolubilized substance due to extraction by a fuel while which composition is excellent in ozone resistance, ejectability from kneader, and which composition realizes a first compression set and a second compression set which are both 46% or less. An NBR composition including a polymer obtained by mixing an acrylonitrile-butadiene rubber (NBR) with polyvinyl chloride (PVC), wherein the NBR composition is obtained without blending an insolubilized substance-generating causative substance, or, in case of blending, by blending an insolubilized substance-generating causative substance at an upper limit of 0.15 parts by weight or less, into 100 parts by weight of the polymer having a PVC content of 15.70 to 17.50 wt %.\nClaims (\n3\n)\nI claim:\n1. A sealing rubber material obtained by cross-linkingly molding an acrylonitrile-butadiene rubber (NBR) composition by using sulfur as a vulcanizing agent;\nwherein the NBR composition comprises a polymer obtained by mixing an NBR with polyvinyl chloride;\nwherein the NBR composition is obtained by blending an insolubilized substance-generating causative substance within a limit of 0 to 0.15 parts by weight, into 100 parts by weight of the polymer having a PVC content of 15.70 to 17.50 wt %; and\nwherein the insolubilized substance-generating causative substance is a wax component and/or stearic acid.\n2. The sealing rubber material according to\nclaim 1\n, wherein the sealing rubber material has a first compression set and a second compression set measured in conformity to JIS K6262 by adopting an O-ring of size G25 as a sample, where the first compression set and second compression set are both 46% or less.\n3. The sealing rubber material according to\nclaim 1\n, wherein the wax component is selected from the group consisting of microcrystalline wax, paraffin wax, beeswax, carnauba wax, lanoline, vegetable wax, montan wax, ozokerite, Fischer-Tropsch wax, polyethylene wax, fatty acid ester-based wax, fatty acid amide, and diheptadecylketone.",
+    "examples_detection_note": ""
+  },
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US9688834B2/en",
+      "patent_number": "US9688834B2",
+      "patent_title": "NBR composition and rubber-metal laminate",
+      "assignee": "Nok Corporation",
+      "publication_year": "2017",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "12",
+      ")",
+      "The invention claimed is:",
+      "1. An NBR composition comprising an acrylonitrile-butadiene rubber (NBR) polymer, a vulcanizing agent, a vulcanizing accelerator, and carbon black, wherein the carbon black includes a combination of medium thermal (MT) carbon black and at least one kind of carbon black selected from carbon black having an iodine absorption number of 20 mg/g or less and a dibutyl phthalate (DBP) absorption number of 40 cm",
+      "3",
+      "/100 g or more, and the MT carbon black and the carbon black having the iodine absorption number of 20 mg/g or less and the DBP absorption number of 40 cm3/100 g or more are added in a total amount of 110 to 250 parts by weight based on 100 parts by weight of the NBR polymer, the amount of the MT carbon black is larger than the carbon black having an iodine absorption number of 20 mg/g or less and a DBP absorption number of 40 cm",
+      "3",
+      "/100 g or more, and the amount of the carbon black having an iodine absorption number of 20 mg/g or less and a DBP absorption number of 40 cm",
+      "3"
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "EXAMPLES",
+        "example_type": "Extracted Example",
+        "title": "EXAMPLES",
+        "raw_text": "EXAMPLES\nHereinafter Examples of the present invention will be described. The present invention is not limited to Examples.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 1",
+        "example_type": "Extracted Example",
+        "title": "Example 1",
+        "raw_text": "Example 1\nNBR Composition\nNBR (\u201cN237\u201d available from JSR,\n100 parts by weight\nnitrile content: 34%):\nMT carbon black\n150 parts by weight\n(\u201cTHERMAX N990\u201d available from\nCancarb Ltd.):\nCarbon black having an iodine\n40 parts by weight\nabsorption number of 18 mg/g and a\nDBP absorption number of 42 cm\n3\n/100 g\n(\u201cSEAST TA\u201d available from\nTokai Carbon Co., Ltd.):\nSulfur:\n2 parts by weight\nTetrabenzylthiuram disulfide\n5 parts by weight\n(\u201cNOCCELER TBZTD\u201d available from\nOuchi-Shinko Chemical Co., Ltd.):\nN-cyclohexyl-2-benzothiazolyl sulfonamide\n9 parts by weight\n(\u201cNOCCELER CZ\u201d available from\nOuchi-Shinko Chemical Co., Ltd.):\nSilica (\u201cAktisil VM 56\u201d available\n30 parts by weight\nfrom HOFFMANN MINERAL GmbH):\nZinc oxide:\n5 parts by weight\nStearic acid:\n2 parts by weight\nAge resistor (\u201cNocrac 224\u201d available\n5 parts by weight\nfrom Ouchi-Shinko Chemical Co.):\nThe above-described components were kneaded by a closed pressure type kneader and an open roll mill, and dissolved in a mixed solvent with a ratio of toluene to methyl ethyl ketone of 9:1 to prepare a coating solution having a solid concentration of 25% by weight.\nRubber-Metal Laminate\nAn adhesive layer was formed on a metal plate (SPCC) having a corrosion protection coating, and the coating solution was applied thereon so that the dried thickness was 100 \u03bcm, and was vulcanized in heated air (vulcanized in an oven) at 210\u00b0 C. for 3 minutes to produce a rubber metal laminate (hereinafter sometimes referred to as gasket material). The rubber metal laminate was evaluated as follows.\n1. Flow resistance: flow resistance of gasket material at high temperature and high pressure\nA stainless steel jig having a convex shape was used to apply a contact pressure of 200 MPa to the gasket material in a press heated to 150\u00b0 C. After 10 minutes, the gasket material was evaluated on the basis of the following criteria.\n(Evaluation Criteria)\nExcellent: flow of rubber did not appear\nGood: a little flow of rubber appeared, but exposure of metal plate did not appear. There was no practical issue.\nPoor: rubber completely flowed, and metal plate was exposed.\n2. Abrasion resistance: abrasion resistance of gasket material\nThe gasket material was subjected to Taber abrasion test (in accordance with JIS K6264) and the abrasion volume was measured. Abrasion resistance was evaluated in accordance with the following criteria.\n(Evaluation Criteria)\nExcellent: less than 0.2 cc\nGood: 0.2 cc or more and less than 0.5 cc\nPoor: 0.5 cc or more\n3. Surface roughness: surface roughness of product formed of gasket material\nAn arithmetic average roughness Ra and a maximum roughness depth Ry on the surface of rubber layer of gasket material were measured (in accordance with JIS B0601) by a contact-type surface roughness measuring instrument (\u201cSURFCOM\u201d manufactured by TOKYO SEIMITSU CO., LTD.). Surface roughness was evaluated in accordance with the following criteria.\n(Evaluation Criteria)\nExcellent: arithmetic average roughness Ra was less than 0.3 \u03bcm and maximum roughness depth Ry was less than 2.2 \u03bcm\nGood: arithmetic average roughness Ra was 0.3 \u03bcm or more and less than 0.35 \u03bcm and maximum roughness depth Ry was 2.2 \u03bcm or more and less than 3.0 \u03bcm\nPoor: arithmetic average roughness Ra was 0.35 \u03bcm or more and maximum roughness depth Ry was 3.0 \u03bcm or more\nWhen the evaluation criterion is Excellent, surface smoothness is confirmed, and the gasket material adheres to the surface of a subject in an environment at a low contact pressure of 50 to 200 kPa and can seal the subject. Therefore, the gasket material is suitable. When the evaluation criterion is Poor, there are gaps on a sealing surface, and the gasket material cannot seal the subject. Therefore, the gasket material is not suitable.\n4. Adhesion: resistance to refrigeration oil of gasket material, adhesion between metal and rubber layer after immersion in chlorofluorocarbon\nThe obtained gasket material was immersed in a mixed solution of 50% by weight of refrigeration oil (PAG oil) used in a refrigerating machine and 50% by weight of chlorofluorocarbon (R134a) as a refrigerant, and allowed to stand at 150\u00b0 C. for 150 hours. After a predetermined time, the gasket material was taken out the mixed solution, and the coating film was subjected to drawing test. The method and evaluation of the drawing test were in accordance with JIS K6894, and adhesion was evaluated in accordance with the following criteria.\n(Evaluation Criteria)\nExcellent: score was 5 (drawing is clear)\nGood: score was 4\nPoor: score was 3 or less (coating film is separated and drawing is not clear)\nThe results of the evaluations are shown in Table 1.\nTABLE 1\n(part by weight)\n",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 2",
+        "example_type": "Extracted Example",
+        "title": "Example 2",
+        "raw_text": "Example 2\nA rubber metal laminate was obtained in the same manner as in Example 1 except that the amount of vulcanizing accelerator \u201cNOCCELER CZ\u201d was changed to 5 parts by weight.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 3",
+        "example_type": "Extracted Example",
+        "title": "Example 3",
+        "raw_text": "Example 3\nA rubber metal laminate was obtained in the same manner as in Example 1 except that the amount of vulcanizing accelerator \u201cNOCCELER CZ\u201d was changed to 12 parts by weight.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 4",
+        "example_type": "Extracted Example",
+        "title": "Example 4",
+        "raw_text": "Example 4\nNitrile rubber\n100\n100\n100\n100\n100\nMT Carbon black\n90\n150\n150\n250\n50\n(THERMAX n990)\nCarbon black\n70\n0\n100\n10\n70\n(SEAST TA)\nSulfur\n2\n2\n2\n2\n2\nTetrabenzylthiuram disulfide\n5\n5\n5\n5\n5\nN-cyclohexyl-2-benzothiazolyl\n9\n9\n9\n9\n9\nsulfenamide\nSilica\n30\n30\n30\n30\n30\nZinc oxide\n5\n5\n5\n5\n5\nStearic acid\n2\n2\n2\n2\n2\nAge resistor\n5\n5\n5\n5\n5\nCriteria\nFlow resistance\nExcellent\nPoor\nExcellent\nGood\nGood\nAbrasion resistance\nExcellent\nGood\nGood\nPoor\nGood\nSurface roughness\nGood\nExcellent\nPoor\nExcellent\nPoor\nAdhesion\nExcellent\nExcellent\nGood\nGood\nExcellent\nA rubber metal laminate was obtained in the same manner as in Example 1 except that the amount of \u201cSEAST TA\u201d was changed to 10 parts by weight.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 5",
+        "example_type": "Extracted Example",
+        "title": "Example 5",
+        "raw_text": "Example 5\nA rubber metal laminate was obtained in the same manner as in Example 1 except that the amount of \u201cSEAST TA\u201d was changed to 70 parts by weight.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 6",
+        "example_type": "Extracted Example",
+        "title": "Example 6",
+        "raw_text": "Example 6\nNitrile rubber\n100\n100\n100\n100\n100\n100\nMT Carbon black\n150\n150\n150\n150\n150\n210\n(THERMAX n990)\nCarbon black\n40\n40\n40\n10\n70\n10\n(SEAST TA)\nSulfur\n2\n2\n2\n2\n2\n2\nTetrabenzylthiuram disulfide\n5\n5\n5\n5\n5\n5\nN-cyclohexyl-2-benzothiazolyl\n9\n5\n12\n9\n9\n9\nsulfenamide\nSilica\n30\n30\n30\n30\n30\n30\nZinc oxide\n5\n5\n5\n5\n5\n5\nStearic acid\n2\n2\n2\n2\n2\n2\nAge resistor\n5\n5\n5\n5\n5\n5\nCriteria\nFlow resistance\nExcellent\nGood\nGood\nGood\nExcellent\nGood\nAbrasion resistance\nExcellent\nExcellent\nExcellent\nGood\nExcellent\nGood\nSurface roughness\nExcellent\nExcellent\nExcellent\nExcellent\nGood\nExcellent\nAdhesion\nExcellent\nExcellent\nExcellent\nExcellent\nExcellent\nGood\nComparative\nComparative\nComparative\nComparative\nA rubber metal laminate was obtained in the same manner as in Example 1 except that the amounts of MT carbon black and \u201cSEAST TA\u201d were changed to 210 parts by weight and 10 parts by weight, respectively.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 7",
+        "example_type": "Extracted Example",
+        "title": "Example 7",
+        "raw_text": "Example 7\nA rubber metal laminate was obtained in the same manner as in Example 1 except that the amounts of MT carbon black and \u201cSEAST TA\u201d were changed to 90 parts by weight and 70 parts by weight, respectively.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 1",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 1",
+        "raw_text": "Comparative Example 1\nA rubber metal laminate was obtained in the same manner as in Example 1 except that the \u201cSEAST TA\u201d was not added.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 2",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 2",
+        "raw_text": "Comparative Example 2\nA rubber metal laminate was obtained in the same manner as in Example 1 except that the amount of \u201cSEAST TA\u201d was changed to 100 parts by weight.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 3",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 3",
+        "raw_text": "Comparative Example 3\nA rubber metal laminate was obtained in the same manner as in Example 1 except that the amounts of MT carbon black and \u201cSEAST TA\u201d were changed to 250 parts by weight and 10 parts by weight, respectively.",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Comparative Example 4",
+        "example_type": "Extracted Example",
+        "title": "Comparative Example 4",
+        "raw_text": "Comparative Example 4\nA rubber metal laminate was obtained in the same manner as in Example 1 except that the amounts of MT carbon black and \u201cSEAST TA\u201d were changed to 50 parts by weight and 70 parts by weight, respectively.\nThe rubber metal laminates of Examples 2 to 7 and Comparative Examples 1 to 4 were also evaluated in the same manner as in Example 1. The results of the evaluations are shown in Table 1.\nINDUSTRIAL APPLICABILITY\nThe NBR composition according to the present invention is suitably used as a vulcanizing molding material for oil sealings, gaskets, and o-rings, which needs abrasion resistance and the like. The rubber metal laminate according to the present invention is suitably used as a gasket for compressors of car air-conditioner, an engine gasket, or the like.",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "NBR composition and rubber-metal laminate \n       \nAbstract\nAn NBR composition including an NBR polymer, a vulcanizing agent, a vulcanizing accelerator, and carbon black, wherein the carbon black includes a combination of MT carbon black and carbon black having an iodine absorption number of 20 mg/g or less and a DBP absorption number of 40 cm\n3\n/100 g or more, and has a total added amount of 110 to 250 parts by weight based on 100 parts by weight of the NBR polymer, and the amount of the MT carbon black is larger than that of the carbon black having an iodine absorption number of 20 mg/g or less and a DBP absorption number of 40 cm\n3\n/100 g or more and the amount of the carbon black having an iodine absorption number of 20 mg/g or less and a DBP absorption number of 40 cm\n3\n/100 g or more is 10 to 70 parts by weight based on 100 parts by weight of the NBR polymer, and a metal laminate obtained by laminating the NBR composition.\nClaims (\n12\n)\nThe invention claimed is:\n1. An NBR composition comprising an acrylonitrile-butadiene rubber (NBR) polymer, a vulcanizing agent, a vulcanizing accelerator, and carbon black, wherein the carbon black includes a combination of medium thermal (MT) carbon black and at least one kind of carbon black selected from carbon black having an iodine absorption number of 20 mg/g or less and a dibutyl phthalate (DBP) absorption number of 40 cm\n3\n/100 g or more, and the MT carbon black and the carbon black having the iodine absorption number of 20 mg/g or less and the DBP absorption number of 40 cm3/100 g or more are added in a total amount of 110 to 250 parts by weight based on 100 parts by weight of the NBR polymer, the amount of the MT carbon black is larger than the carbon black having an iodine absorption number of 20 mg/g or less and a DBP absorption number of 40 cm\n3\n/100 g or more, and the amount of the carbon black having an iodine absorption number of 20 mg/g or less and a DBP absorption number of 40 cm\n3\n/100 g or more is 10 to 70 parts by weight based on 100 parts by weight of the NBR composition and a vulcanizing agent is sulfur.\n2. The NBR composition according to\nclaim 1\n, wherein the total amount of the carbon black is 160 to 220 parts by weight based on 100 parts by weight of the NBR polymer.\n3. The NBR composition according to\nclaim 2\n, wherein the vulcanizing accelerator is selected from the group consisting of (1) or (2);\n(1) one or more kinds selected from sulfenamide-based vulcanizing accelerators, or\n(2) one or more kinds selected from sulfenamide-based vulcanizing accelerators and one or more kinds selected from the group consisting of a thiuram-based vulcanizing accelerator, a thiazole-based vulcanizing accelerator, zinc tetrabenzyldithiocarbamate or 1,6-bis(N,N-dibenzylthiocarbamoyldithio)hexane.\n4. The NBR composition according to\nclaim 3\n, wherein the sulfenamide-based vulcanizing accelerator is selected from the group consisting of N-cyclohexyl-2-benzothiazolyl sulfenamide, N-tert-butyl-2-benzothiazolyl sulfenamide, N-oxydiethylene-2-benzothiazolyl sulfenamide, N-tert-butyl-2-benzothiazolyl sulfenamide, or N,N\u2032-dicyclohexyl-2-benzothiazolyl sulfenamide, the thiuram vulcanizing accelerator is selected from the group consisting of tetrabenzyl thiuram disulfide or tetrakis(2-ethylhexyl)thiuram disulfide, and the thiazole-based vulcanizing accelerator is selected from the group consisting of 2-mercaptobenzothiazole, 2-benzothiazolyl disulfide, zinc 2-mercaptobenzothiazole, or a sodium salt of 2-mercaptobenzothiazole.\n5. A rubber metal laminate having a rubber layer formed onto one or both sides of a metal plate by using the NBR composition according to\nclaim 2\nas a rubber layer-forming component.\n6. A rubber metal laminate having a rubber layer formed onto one or both sides of a metal plate by using the NBR composition according to\nclaim 3\nas a rubber layer-forming component.\n7. A rubber metal laminate having a rubber layer formed onto one or both sides of a metal plate by using the NBR composition according to\nclaim 4\nas a rubber layer-forming component.\n8. The NBR composition according to\nclaim 1\n, wherein the vulcanizing accelerator is selected from the group consisting of (1) or (2);\n(1) one or more kinds selected from sulfenamide-based vulcanizing accelerators;\n(2) one or more kinds selected from sulfenamide-based vulcanizing accelerators and one or more kinds selected from the group consisting of a thiuram-based vulcanizing accelerator, a thiazole-based vulcanizing accelerator, zinc tetrabenzyldithiocarbamate or 1,6-bis(N,N-dibenzylthiocarbamoyldithio)hexane.\n9. The NBR composition according to\nclaim 8\n, wherein the sulfenamide-based vulcanizing accelerator is selected from the group consisting of N-cyclohexyl-2-benzothiazolyl sulfenamide, N-tert-butyl-2-benzothiazolyl sulfenamide, N-oxydiethylene-2-benzothiazolyl sulfenamide, N-tert-butyl-2-benzothiazolyl sulfenamide, or N,N\u2032-dicyclohexyl-2-benzothiazolyl sulfenamide, the thiuram vulcanizing accelerator is selected from the group consisting of tetrabenzyl thiuram disulfide or tetrakis(2-ethylhexyl)thiuram disulfide, and the thiazole-based vulcanizing accelerator is selected from the group consisting of 2-mercaptobenzothiazole, 2-benzothiazolyl disulfide, zinc 2-mercaptobenzothiazole, or a sodium salt of 2-mercaptobenzothiazole.\n10. A rubber metal laminate having a rubber layer formed onto one or both sides of a metal plate by using the NBR composition according to\nclaim 8\nas a rubber layer-forming component.\n11. A rubber metal laminate having a rubber layer formed onto one or both sides of a metal plate by using the NBR composition according to\nclaim 9\nas a rubber layer-forming component.\n12. A rubber metal laminate having a rubber layer formed onto one or both sides of a metal plate by using the NBR composition according to\nclaim 1\nas a rubber layer-forming component.",
+    "examples_detection_note": ""
+  }
+]

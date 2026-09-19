@@ -1,0 +1,66 @@
+{
+  "title": "Low Acrylonitrile NBR Patent Research Report",
+  "abstract": "This report summarizes the findings from the analysis of patent US9926439 related to Low Acrylonitrile NBR. The patent describes a nitrile rubber article having natural rubber characteristics. The analysis focused on the general parameters and examples provided in the patent, including elongation, DPG, ZMBT, and ZDEC. A total of 1 primary patent was analyzed, with no competitor patents or website sources found. The report highlights the technical approaches and trends observed in the patent evidence.",
+  "research_type": "General",
+  "primary_patents": [
+    {
+      "patent_details": {
+        "patent_number": "US9926439",
+        "patent_title": "Nitrile rubber article having natural rubber characteristics",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2018-03-27",
+        "material_type": null,
+        "relevance_to_target": "The patent is relevant to Low Acrylonitrile NBR as it describes a nitrile rubber article with improved properties."
+      },
+      "technical_method": {
+        "section_title": "Technical Method",
+        "parameters": [
+          {
+            "name": "Elongation",
+            "value": "400 %",
+            "unit": null,
+            "context": "The amount of force at 400% elongation required to achieve the same level of stretching in the eight comparative examples",
+            "source_section": "Example 8"
+          },
+          {
+            "name": "Dpg",
+            "value": "0.5 phr",
+            "unit": null,
+            "context": "The compounds are diphenyl guanidine (DPG), zinc mercaptobenzothizole (ZMBT), and zincdiethyldithiocarbamate (ZDEC)",
+            "source_section": "In particular, according to an embodiment"
+          },
+          {
+            "name": "Zmbt",
+            "value": "0.25 phr",
+            "unit": null,
+            "context": "The compounds are diphenyl guanidine (DPG), zinc mercaptobenzothizole (ZMBT), and zincdiethyldithiocarbamate (ZDEC)",
+            "source_section": "In particular, according to an embodiment"
+          },
+          {
+            "name": "Zdec",
+            "value": "0.25 phr",
+            "unit": null,
+            "context": "The compounds are diphenyl guanidine (DPG), zinc mercaptobenzothizole (ZMBT), and zincdiethyldithiocarbamate (ZDEC)",
+            "source_section": "In particular, according to an embodiment"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "The patent provides examples of nitrile rubber articles with improved properties, including Example 12.",
+        "The examples demonstrate the use of DPG, ZMBT, and ZDEC in the production of nitrile rubber articles.",
+        "The patent highlights the importance of controlling the amount of force at 400% elongation to achieve the desired level of stretching."
+      ],
+      "technical_relevance": "This patent is relevant to Low Acrylonitrile NBR as it describes a nitrile rubber article with improved properties, which could be useful for applications requiring low acrylonitrile content."
+    }
+  ],
+  "competitor_patents": [],
+  "website_sources": [],
+  "cross_patent_comparison": [
+    "Insufficient comparable evidence was available to identify a reliable cross-patent trend."
+  ],
+  "conclusion": "The analysis of patent US9926439 highlights the importance of controlling the amount of force at 400% elongation and the use of DPG, ZMBT, and ZDEC in the production of nitrile rubber articles with improved properties. The patent is relevant to Low Acrylonitrile NBR and provides useful information for the development of nitrile rubber articles with low acrylonitrile content.",
+  "references": [
+    "[US9926439](https://patents.google.com/patent/US9926439B2/en)"
+  ]
+}

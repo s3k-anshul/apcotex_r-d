@@ -1,0 +1,135 @@
+# PATENT RESEARCH REPORT
+
+## 1. ABSTRACT
+This technical report synthesizes recent patent literature concerning the synthesis, modification, and application of Hydrogenated Acrylonitrile Butadiene Rubber (HNBR). The research scope encompasses the entire lifecycle of HNBR, from the production of bio-renewable monomer feedstocks to advanced solution polymerization techniques, nano-particle reinforcement, and post-polymerization chemical functionalization. The selected patent landscape includes four key primary patents: US9023914B2, US7795344B2, US8450543B2, and US10100132B2. US8450543B2 establishes a sustainable foundation by disclosing an integrated process to dehydrate and dehydrogenate biomass-derived isobutanol into high-purity renewable butadiene monomer. For the core elastomer synthesis, US9023914B2 details a controlled free-radical solution polymerization of acrylonitrile and butadiene in organic solvents (such as dimethylacetamide) using RAFT modifiers (e.g., DiBenT or CPDA) and Vazo initiators, which permits direct subsequent hydrogenation without intermediate polymer isolation. To enhance the mechanical and viscoelastic properties of the rubber matrix, US7795344B2 describes the preparation of monodisperse, crosslinked polymer nano-particles with a polystyrene core and a hydrogenated polybutadiene surface layer via living anionic polymerization and nickel-catalyzed hydrogenation. Finally, US10100132B2 addresses advanced functionalization by selectively hydrogenating the nitrile side groups of HNBR into primary amino groups using a heterogeneous supported Fe(0) catalyst in monochlorobenzene under high hydrogen pressure (12 MPa) and ammonia. This modification allows for tailored crosslinking and chemical tuning without inducing chain scission or gelling. Together, these patents represent a shift toward green monomer sourcing, controlled solution-phase polymerization architectures, and precise heterogeneous catalytic modifications to optimize HNBR performance in demanding elastomer applications.
+
+## 2. METHODOLOGY
+### PRIMARY PATENT EVIDENCE
+
+#### Patent 1
+- Patent Number: US9023914B2
+- Patent Title: Nitrile rubbers and production thereof in organic solvents
+- Assignee: Not disclosed in the available patent text.
+- Jurisdiction: US
+- Publication Year: 2015
+- Relevance: Describes a process for preparing nitrile rubbers by free-radical polymerization in an organic solvent in the presence of specific RAFT modifiers, which can be followed by hydrogenation to give hydrogenated nitrile rubber (HNBR).
+
+**Polymerization / Synthesis Method**
+- Acrylonitrile: 34 ml (Examples 9-16)
+- Acrylonitrile: 35.6 g (Examples 24-25)
+- 1,3-Butadiene: 71 ml (corresponding to 62 phm)
+- Pressure: 3 bar
+- Reaction Temperature: 100 °C
+- Polymerization Time: 22 hours
+- Polymerization Time: 6 hours
+- Vazo 88 Initiator: 128 mg
+- Solvent (DMAc): 2 g
+- Autoclave Volume: 5 L
+- Final Conversion: 39 % (after 6 hours)
+- Final Conversion: 48 % (after 9 hours)
+- Final Conversion: 9.2 % (after 13 hours)
+
+**Relevant Experimental Evidence**
+- In Examples 9-16, polymerization was conducted in a 5 L autoclave using 34 ml of acrylonitrile and 71 ml of 1,3-butadiene (62 phm) under a pressure of 3 bar, heated to 100°C.
+- In Examples 24-25, Dibenzoyl Trithiocarbonate (DiBenT) and Cumyl Phenyl Dithioacetate (CPDA) were utilized as RAFT modifiers with 35.6 g of acrylonitrile and Vazo 88 initiator.
+- In Example 6, the polymerization reaction was terminated after 6 hours at a final conversion of 39%.
+- In Example 8, 2.74 g of RAFT-modified NBR (Mn = 12,000 g/mol) was dissolved in 2 g of DMAc and reacted with 2.79 g of monomer to achieve chain extension.
+
+**Technical Relevance**
+Provides a solution-based free-radical polymerization method for NBR using RAFT modifiers, enabling direct subsequent hydrogenation to HNBR in the same organic solvent without intermediate isolation, avoiding the 'Mooney jump' and controlling polydispersity.
+
+#### Patent 2
+- Patent Number: US7795344B2
+- Patent Title: Nano-particle preparation and applications
+- Assignee: Not disclosed in the available patent text.
+- Jurisdiction: US
+- Publication Year: 2010
+- Relevance: Describes the synthesis and optional hydrogenation of polymer nano-particles containing conjugated dienes (like butadiene) which are incorporated into rubbers including nitrile rubber to improve mechanical properties.
+
+**Polymerization / Synthesis Method**
+- Butadiene: 1.04 kg (21.6 wt % in hexane)
+- Styrene: 0.68 kg (33 wt % in hexane)
+- Divinylbenzene: 50 mL
+- Initiator (Butyllithium): 5.4 mL (1.5 M in hexane)
+- Solvent (Hexane): 0.51 kg
+- Hydrogenation Catalyst (Nickel octolate): 111 mL (8 wt % in hexane)
+- Hydrogenation Catalyst (Tributyl aluminum): 266.4 mL (0.68 M in hexane)
+- Polymerization Conversion: 100 %
+- Hydrogenation Conversion: 95 %
+
+**Relevant Experimental Evidence**
+- In Example 8, hydrogenated nano-particles were synthesized by charging a reactor with 0.51 kg of hexane and 1.04 kg of a butadiene/hexane blend (21.6 wt% butadiene), initiating polymerization with 5.4 mL of 1.5 M butyllithium.
+- Following butadiene polymerization, 0.68 kg of styrene/hexane blend (33 wt% styrene) was added, followed by crosslinking with 50 mL of divinylbenzene to form micelles with 100% conversion.
+- Hydrogenation of the nano-particles was performed in a 4 L reactor using a nickel catalyst solution (made from nickel octolate, hexane, cyclohexene, and tributyl aluminum) to achieve 95% butadiene hydrogenation conversion.
+- In Example 24, functionalized nano-particles were prepared using 1.04 kg of butadiene/hexane blend (21.6 wt% butadiene) initiated with 6.3 mL of 1.3 M HMI-Pr-lithium, followed by styrene addition and DVB crosslinking.
+
+**Technical Relevance**
+Demonstrates the synthesis of hydrogenated conjugated diene-containing nano-particles via living anionic polymerization and subsequent nickel-catalyzed hydrogenation, which can be blended with nitrile rubber to enhance tensile and tear strength.
+
+#### Patent 3
+- Patent Number: US8450543B2
+- Patent Title: Integrated methods of preparing renewable chemicals
+- Assignee: Not disclosed in the available patent text.
+- Jurisdiction: US
+- Publication Year: 2013
+- Relevance: Provides an integrated process for preparing renewable butadiene from biomass-derived isobutanol, which serves as a key monomer feedstock for synthesizing green/renewable hydrogenated acrylonitrile butadiene rubber (HNBR).
+
+**Polymerization / Synthesis Method**
+- Butadiene Yield: 22 % (based on linear butenes)
+- Dehydration Temperature: 310 °C to 350 °C
+- Dehydrogenation Temperature: 550 °C
+- Isobutanol Conversion: 99.8 %
+- Catalyst (γ-alumina): Value not specified.
+- Hydrogenation Catalyst (Pd on alumina): 0.5 %
+
+**Relevant Experimental Evidence**
+- In Example 9, renewable wet isobutanol (15% water, 4% ethanol) from fermentation was dehydrated over a γ-alumina catalyst to yield a gas phase containing 82% isobutylene and 13% linear butenes.
+- The linear butenes were dehydrogenated at 550°C (WHSV = 1.1 hr^-1) to yield butadiene with an approximate yield of 22% based on linear butenes fed.
+- In Example 4, a feed of 250 mL ethanol and 750 mL isobutanol was dehydrated to produce 35% ethylene and 65% butenes, which were further reacted to form higher olefins.
+- In Example 19, isobutanol containing 16% water was converted to isobutylene with >99% conversion, oligomerized over Amberlyst 35, and hydrogenated over 0.5% Pd/alumina with a 90% overall yield.
+
+**Technical Relevance**
+Discloses the chemical pathway and reaction parameters for producing high-purity, renewable butadiene and ethylene from bio-based alcohols, which are essential for the synthesis of bio-based acrylonitrile butadiene rubbers.
+
+#### Patent 4
+- Patent Number: US10100132B2
+- Patent Title: Process for the preparation of polymers containing amino groups employing a …
+- Assignee: Not disclosed in the available patent text.
+- Jurisdiction: US
+- Publication Year: 2018
+- Relevance: Directly relates to the chemical modification of hydrogenated nitrile butadiene rubber (HNBR) by selectively hydrogenating its nitrile (-CN) groups into amino groups using a heterogeneous iron catalyst.
+
+**Polymerization / Synthesis Method**
+- HNBR Polymer (Therban 3406): 52 g
+- Solvent (Monochlorobenzene): 381 g
+- Heterogeneous Catalyst (7.2% Fe/SiO2): 26 g
+- Ammonia: 22 g
+- Hydrogen Pressure: 12 MPa
+- Reaction Temperature: 120 °C to 130 °C
+- Reaction Time: 24 hours
+- Nitrile Group Conversion: 1.2 % to 17.8 %
+- Amino Content: 3.7 %
+
+**Relevant Experimental Evidence**
+- In Example 1, 52 g of Therban 3406 (HNBR) was dissolved in 381 g of monochlorobenzene at 60°C.
+- Hydrogenation of nitrile groups was carried out by adding 26 g of a heterogeneous iron catalyst (e.g., B1 to B6, containing 7.2% Fe on silica or alumina) and 22 g of ammonia under 12 MPa of hydrogen.
+- The reaction was maintained at 120-130°C for 24 hours, resulting in nitrile group conversions ranging from 1.2% to 17.8% depending on the catalyst formulation (e.g., B1* gave 11.1% conversion, B2 gave 11% conversion).
+- The resulting amino-functionalized HNBR polymer exhibited an amino content of up to 3.7% with controlled gel content and Mooney viscosity.
+
+**Technical Relevance**
+Provides a highly selective heterogeneous catalytic process using supported Fe(0) catalysts to convert nitrile groups of HNBR into primary amino groups without causing polymer degradation, chain scission, or gelling, enabling subsequent chemical modification.
+
+## 3. CROSS-PATENT COMPARISON & SYNTHESIS TRENDS
+- Monomer Systems and Feedstocks: US9023914B2 focuses on the direct solution polymerization of acrylonitrile and butadiene. US7795344B2 utilizes butadiene and styrene to form block copolymer nano-particles. US8450543B2 provides the upstream synthesis of renewable butadiene monomer from bio-isobutanol. US10100132B2 utilizes pre-formed HNBR (Therban 3406) as the starting polymer.
+- Polymerization and Modification Processes: US9023914B2 uses free-radical solution polymerization in DMAc. US7795344B2 utilizes living anionic dispersion polymerization in hexane. US10100132B2 performs heterogeneous catalytic modification (nitrile-to-amine hydrogenation) in monochlorobenzene.
+- Catalyst and Initiator Systems: US9023914B2 relies on Vazo 88 and RAFT agents (DiBenT, CPDA). US7795344B2 uses anionic initiators (butyllithium, HMI-Pr-lithium) and a nickel octolate/tributylaluminum catalyst for diene hydrogenation. US10100132B2 employs a supported Fe(0) heterogeneous catalyst (on silica or alumina) with ammonia co-feed.
+- Reaction Conditions: Polymerization in US9023914B2 is run at 100°C and 3 bar. Anionic polymerization in US7795344B2 is run at stabilized temperatures (typically 0-150°C) followed by hydrogenation. Nitrile hydrogenation in US10100132B2 requires high pressures (12 MPa) and temperatures of 120-130°C.
+
+## 4. CONCLUSION
+In conclusion, the synthesis and modification of Hydrogenated Acrylonitrile Butadiene Rubber (HNBR) have been significantly advanced through integrated green chemistry, controlled radical polymerization, and selective heterogeneous catalysis. To achieve high-performance HNBR with precise molecular weight distribution and minimal gel content, a solution-based RAFT polymerization of acrylonitrile and butadiene (at 100°C, 3 bar) is highly recommended, as it facilitates seamless transition to the hydrogenation stage. For applications requiring enhanced tensile and tear strength, the incorporation of hydrogenated diene-based nano-particles synthesized via anionic dispersion is beneficial. Furthermore, post-polymerization functionalization can be efficiently executed using a supported Fe(0) catalyst at 120-130°C under 12 MPa H2 in the presence of ammonia to convert nitrile groups to amines, providing a robust pathway for advanced elastomeric architectures.
+
+## 5. REFERENCES
+- US9023914B2 | Nitrile rubbers and production thereof in organic solvents | Not disclosed in the available patent text. | US | 2015 | https://patents.google.com/patent/US9023914B2/en
+- US7795344B2 | Nano-particle preparation and applications | Not disclosed in the available patent text. | US | 2010 | https://patents.google.com/patent/US7795344B2/en
+- US8450543B2 | Integrated methods of preparing renewable chemicals | Not disclosed in the available patent text. | US | 2013 | https://patents.google.com/patent/US8450543B2/en
+- US10100132B2 | Process for the preparation of polymers containing amino groups employing a … | Not disclosed in the available patent text. | US | 2018 | https://patents.google.com/patent/US10100132B2/en

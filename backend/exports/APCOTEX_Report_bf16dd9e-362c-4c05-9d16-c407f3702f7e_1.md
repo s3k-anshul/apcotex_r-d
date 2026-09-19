@@ -1,0 +1,222 @@
+# PATENT RESEARCH REPORT
+
+## 1. ABSTRACT
+This technical report synthesizes patent research on the polymerization, synthesis, and post-polymerization modification of Low Acrylonitrile Nitrile Butadiene Rubber (Low ACN NBR). Low ACN NBR, typically defined by a bound acrylonitrile content of less than 36% (often ranging between 20% and 35%), is highly valued for its low-temperature flexibility, oil resistance, and elastomeric properties. The analyzed patent landscape, spanning from 2010 to 2020, reveals two primary technical focuses: the optimization of emulsion polymerization processes to control monomer sequence distribution and Mooney viscosity, and post-polymerization modifications such as metathesis and hydrogenation to produce high-performance derivatives. Major polymerization approaches rely on cold emulsion polymerization (typically conducted at 7-8 degrees Celsius) utilizing advanced redox initiator systems. For instance, tert-dodecyl mercaptan (t-DDM) is employed as a chain-transfer agent, often added in multiple 'booster' steps to maintain a narrow molecular weight distribution and control Mooney viscosity. Emulsifier systems frequently combine potassium stearate with potassium salts of disproportionated rosin acid (DNMK) or sodium lauryl sulfate (Texapon K-12). Activator systems utilize iron(II) sulfate or iron(II) chloride complexed with EDTA and reduced by sodium formaldehyde sulfoxylate (Rongalit C). Furthermore, the report highlights critical process trends in latex coagulation and post-treatment. Coagulation strategies utilize magnesium sulfate, magnesium chloride, calcium chloride, or sodium chloride, sometimes in combination with gelatin additives, to control the cation content of the raw rubber, which directly influences vulcanization kinetics and mechanical properties. Finally, metathetic degradation using ruthenium-based Grubbs or Hoveyda-Grubbs catalysts in the presence of co-olefins (e.g., 1-hexene) is widely disclosed as a method to reduce molecular weight prior to hydrogenation, enabling the production of low-viscosity, high-performance nitrile rubbers.
+
+## 2. METHODOLOGY
+### POLYMERIZATION RECIPE EXTRACTIONS
+
+#### Patent 1
+
+**Patent Details**
+- Patent Number: US9650502
+- Patent Title: Process for the preparation of nitrile rubbers
+- Assignee: Not disclosed
+- Jurisdiction: US
+- Publication Year: 2017
+- Polymer Type: Low Acrylonitrile Nitrile Butadiene Rubber (NBR)
+- Relevance to target: Discloses a detailed cold emulsion polymerization process specifically targeting low bound acrylonitrile content (27.9% to 28.1% bound ACN) with controlled Mooney viscosity.
+
+**Polymerization / Synthesis Method**
+- Polymerization process: Cold emulsion polymerization
+- Monomer system: Acrylonitrile and butadiene
+- Monomer ratio: Latex A feed: 500 g acrylonitrile to 4.37 kg butadiene (~10.3 wt% ACN in feed); Latex B feed: 815 g acrylonitrile to 4.0 kg butadiene (~16.9 wt% ACN in feed)
+- Water amount: 9.92 kg of deionized water
+- Emulsifier: Potassium stearate and potassium salt of disproportionated rosin acid (DNMK)
+- Emulsifier loading: 0.53 kg of 5.4% wt aqueous solution of potassium stearate and 0.440 kg of DNMK
+- Initiator: Diisopropylbenzene hydroperoxide (DIHP) and sodium formaldehyde sulfoxylate (FSS)
+- Initiator loading: 6 g of DIHP and 139 g of FSS aqueous solution
+- Catalyst / activator: Not disclosed in the analyzed patent evidence.
+- Chain-transfer agent: Tert-dodecyl mercaptan (TDM)
+- Chain-transfer dosage: Initial: 18.72 g (Latex A) or 21.85 g (Latex B); Booster 1: 2.34 g at 37% conversion; Booster 2: 2.34 g (Latex A) or 5.45 g (Latex B) at 59% conversion
+- Polymerization temperature: 7 degrees Celsius
+- Pressure: Not disclosed in the analyzed patent evidence.
+- pH: Latex A: 8.5; Latex B: 8.5; Latex C: 8.6
+- Reaction time: 7 hours
+- Conversion: 70% (polymerization stopped using 515 g of 2% wt hydroxylamine sulfate solution)
+- Coagulation conditions: Latex (10 kg) added over 10 minutes to a mixture of 43 kg water and 4 kg saturated magnesium sulfate solution at 45 degrees Celsius, containing 1% BHT antioxidant dispersion (prepared from 100 g BHT, 8 g DNMK, and 100 g deionized water)
+- Post-treatment: Crumbs (1.5 kg) washed in 40 kg deionized water adjusted to pH 11.5-11.8 with 14 g KOH at 45 degrees Celsius for 10 minutes, filtered, and dried in an air oven at 100 degrees Celsius for 24 hours (residual humidity < 1%)
+- Raw polymer properties: Latex A: 15.6% solid content, 28.1% bound ACN, Mooney viscosity 60.5 MU; Latex B: 16.2% solid content, 33.9% bound ACN, Mooney viscosity 32.1 MU; Latex C: 15.2% solid content, 27.9% bound ACN, Mooney viscosity 29.0 MU
+
+**Relevant Experimental Evidence**
+- Latex A was prepared by charging 9.92 kg deionized water, 0.53 kg potassium stearate solution, and 0.440 kg DNMK, followed by vacuum application and addition of 500 g acrylonitrile, 18.72 g TDM, and 4.37 kg butadiene.
+- The mixture was cooled to 7 degrees Celsius, initiated with 6 g DIHP and 139 g FSS solution, and regulated with TDM boosters at 37% and 59% conversion.
+- Polymerization was shortstopped at 70% conversion after 7 hours using hydroxylamine sulfate, yielding a latex with 28.1% bound ACN and a Mooney viscosity of 60.5 MU.
+- Latex C achieved a lower Mooney viscosity of 29.0 MU and 27.9% bound ACN using a similar cold emulsion recipe.
+- Coagulation was performed using magnesium sulfate, followed by washing at pH 11.5-11.8 with KOH and drying at 100 degrees Celsius to obtain rubber crumbs with less than 1% residual humidity.
+
+**Technical Relevance**
+This patent provides a complete, highly detailed recipe for synthesizing low-ACN NBR (27.9-28.1% bound ACN) via cold emulsion polymerization. It demonstrates how incremental additions of chain-transfer agents (TDM boosters) can be used to precisely control the Mooney viscosity and molecular weight distribution of the resulting elastomer.
+
+#### Patent 2
+
+**Patent Details**
+- Patent Number: US8436091
+- Patent Title: Nitrile rubbers
+- Assignee: Not disclosed
+- Jurisdiction: US
+- Publication Year: 2013
+- Polymer Type: Nitrile Butadiene Rubber (NBR)
+- Relevance to target: Discloses emulsion polymerization of NBR with bound ACN content around 35-36% using a highly controlled Fe(II) redox system to regulate polymerization rate and polymer properties.
+
+**Polymerization / Synthesis Method**
+- Polymerization process: Emulsion polymerization
+- Monomer system: Butadiene, acrylonitrile, and 2-hydroxyethyl methacrylate
+- Monomer ratio: 61.4 parts butadiene / 36 parts acrylonitrile / 2.6 parts 2-hydroxyethyl methacrylate
+- Water amount: 220 parts by weight (or 2.1 kg total water for autoclave batches)
+- Emulsifier: Texapon K-12 (sodium lauryl sulphate)
+- Emulsifier loading: 3.0 parts by weight (general range: 0.2 to 15 parts by weight)
+- Initiator: Trigonox NT 50 (p-menthane hydroperoxide)
+- Initiator loading: 0.02 parts by weight
+- Catalyst / activator: Premix FeSO4 (0.030 parts) or FeCl2 (0.030 parts) with Rongalit C (2.0 g) and EDTA
+- Chain-transfer agent: t-DDM (tertiary dodecyl mercaptan)
+- Chain-transfer dosage: 0.54 parts by weight
+- Polymerization temperature: 8.0 +/- 0.5 degrees Celsius
+- Pressure: Not disclosed in the analyzed patent evidence.
+- pH: 7.0 +/- 1.0
+- Reaction time: 7.0 hours (for FeSO4 system) or 6.5 hours (for FeCl2 system)
+- Conversion: 86.1% (FeSO4 system) or 84.2% (FeCl2 system)
+- Coagulation conditions: Admixed with 50% dispersion of Vulkanox BKF (0.3% by weight based on NBR solids) before coagulation.
+- Post-treatment: Washed with water (1 to 5 parts by weight per 100 parts NBR) and dried.
+- Raw polymer properties: ACN content: 35.3% to 36.6%; Mooney viscosity: 25 to 142 MU (ML 1+4 @ 100 degrees Celsius); Glass transition temperature (Tg): -23.1 to -25.8 degrees Celsius
+
+**Relevant Experimental Evidence**
+- Polymerization was conducted in autoclave batches using 1.25 kg monomer mixture and 2.1 kg water.
+- The redox system utilized p-menthane hydroperoxide (Trigonox NT 50) activated by a premix of Fe(II) salts (FeSO4 or FeCl2) and Rongalit C in water.
+- Using FeCl2 instead of FeSO4 reduced the polymerization time from 7.0 to 6.5 hours while maintaining a high conversion of 84.2%.
+- The resulting polymers exhibited bound ACN contents of 35.3% to 36.6% and Mooney viscosities ranging from 25 to 142 MU.
+
+**Technical Relevance**
+This patent highlights the use of alternative iron(II) activators (FeCl2 vs FeSO4) in the redox initiator system to optimize polymerization kinetics and control the molecular weight (Mooney viscosity) of NBR with ACN content on the upper boundary of the low-ACN range (~35-36%).
+
+#### Patent 3
+
+**Patent Details**
+- Patent Number: US8389623
+- Patent Title: Nitrile rubbers
+- Assignee: Not disclosed
+- Jurisdiction: US
+- Publication Year: 2013
+- Polymer Type: Nitrile Butadiene Rubber (NBR)
+- Relevance to target: Focuses on the coagulation of NBR latices using specific salts (magnesium chloride or calcium chloride) to control the cation concentration in the final rubber, which directly affects vulcanization behavior.
+
+**Polymerization / Synthesis Method**
+- Polymerization process: Emulsion polymerization (synthesis details not fully disclosed in the analyzed patent evidence)
+- Monomer system: Acrylonitrile and butadiene
+- Monomer ratio: Not disclosed in the analyzed patent evidence.
+- Water amount: Not disclosed in the analyzed patent evidence.
+- Emulsifier: Not disclosed in the analyzed patent evidence.
+- Emulsifier loading: Not disclosed in the analyzed patent evidence.
+- Initiator: Not disclosed in the analyzed patent evidence.
+- Initiator loading: Not disclosed in the analyzed patent evidence.
+- Catalyst / activator: Not disclosed in the analyzed patent evidence.
+- Chain-transfer agent: Not disclosed in the analyzed patent evidence.
+- Chain-transfer dosage: Not disclosed in the analyzed patent evidence.
+- Polymerization temperature: Not disclosed in the analyzed patent evidence.
+- Pressure: Not disclosed in the analyzed patent evidence.
+- pH: Not disclosed in the analyzed patent evidence.
+- Reaction time: Not disclosed in the analyzed patent evidence.
+- Conversion: Not disclosed in the analyzed patent evidence.
+- Coagulation conditions: Coagulated using calcium chloride (CaCl2) or magnesium chloride (MgCl2) solutions.
+- Post-treatment: Washed and dried.
+- Raw polymer properties: Mooney scorch, vulcanization rate (t90-t10), and vulcanizate properties depend on the concentration and relative ratio of cations in the rubber.
+
+**Relevant Experimental Evidence**
+- NBR latices were coagulated using CaCl2 at concentrations ranging from 1190 to 1290 ppm.
+- Vulcanization was carried out at 160 degrees Celsius under a hydraulic pressure of 120 bar for 30 minutes.
+- NBR latices coagulated with magnesium chloride displayed lower Mooney scorch, shorter vulcanization times, and higher stresses at 300% elongation compared to non-inventive coagulation methods.
+
+**Technical Relevance**
+This patent demonstrates that the choice of coagulation salt (MgCl2 vs CaCl2) and the resulting residual cation concentration in the NBR elastomer are critical process parameters that dictate Mooney scorch, vulcanization rate, and tensile properties (stress at 300% elongation).
+
+#### Patent 4
+
+**Patent Details**
+- Patent Number: EP2473281
+- Patent Title: Process for the preparation of low molecular weight hydrogenated nitrile rubber
+- Assignee: Not disclosed
+- Jurisdiction: EP
+- Publication Year: 2014
+- Polymer Type: Hydrogenated Nitrile Butadiene Rubber (HNBR)
+- Relevance to target: Discloses post-polymerization modification (metathesis and hydrogenation) of low molecular weight NBR to produce low-viscosity HNBR.
+
+**Polymerization / Synthesis Method**
+- Polymerization process: Solution metathesis and hydrogenation of pre-formed NBR
+- Monomer system: Pre-formed NBR dissolved in monochlorobenzene (MCB)
+- Monomer ratio: Not disclosed in the analyzed patent evidence.
+- Water amount: Not disclosed in the analyzed patent evidence.
+- Emulsifier: Not disclosed in the analyzed patent evidence.
+- Emulsifier loading: Not disclosed in the analyzed patent evidence.
+- Initiator: Not disclosed in the analyzed patent evidence.
+- Initiator loading: Not disclosed in the analyzed patent evidence.
+- Catalyst / activator: Hoveyda-Arlt catalyst (0.041 to 0.045 phr) or Wilkinson's catalyst (0.060 phr)
+- Chain-transfer agent: Triphenylphosphine (co-catalyst, 1.0 phr for Wilkinson's system)
+- Chain-transfer dosage: 1.0 phr
+- Polymerization temperature: 130 degrees Celsius to 138 degrees Celsius
+- Pressure: 85 bar (H2 pressure)
+- pH: Not disclosed in the analyzed patent evidence.
+- Reaction time: 240 minutes
+- Conversion: Residual double bonds (RDB) reduced to 0.4% (Hoveyda-Arlt) or 0.7% (Wilkinson's) after 240 min
+- Coagulation conditions: Not disclosed in the analyzed patent evidence.
+- Post-treatment: 518 g of NBR dissolved in 4300 g of MCB (12% solution) at room temperature for 12 hours, transferred to high-pressure reactor, degassed 3 times with H2 (100 psi) under agitation (600 rpm) before catalyst addition.
+- Raw polymer properties: HNBR 1 (Hoveyda-Arlt): Mw = 113,371 g/mol, Mn = 48,352 g/mol, PDI = 2.34, Mooney viscosity = 33.3 MU; HNBR 3 (Wilkinson's): Mw = 195,304 g/mol, Mn = 64,130 g/mol, PDI = 3.05, Mooney viscosity = 69.3 MU
+
+**Relevant Experimental Evidence**
+- NBR was dissolved in monochlorobenzene to form a 12% solution and degassed with H2.
+- Hydrogenation was performed at 130-138 degrees Celsius and 85 bar pressure for 240 minutes.
+- The Hoveyda-Arlt catalyst (0.041 phr) achieved a residual double bond (RDB) level of 0.4% after 240 minutes, compared to 0.7% for Wilkinson's catalyst (0.060 phr).
+- The resulting HNBR polymers exhibited Mooney viscosities ranging from 33.3 to 69.3 MU.
+
+**Technical Relevance**
+This patent is highly relevant for the post-polymerization modification of NBR. It details how low molecular weight, low-viscosity HNBR can be efficiently produced from NBR via solution metathesis and hydrogenation using advanced transition metal catalysts.
+
+#### Patent 5
+
+**Patent Details**
+- Patent Number: US10626283
+- Patent Title: Polymer blends of nitrile rubber and polychloroprene
+- Assignee: Not disclosed
+- Jurisdiction: US
+- Publication Year: 2020
+- Polymer Type: Carboxylated Nitrile Butadiene Rubber (XNBR) / Polychloroprene Blend
+- Relevance to target: Discloses polymer blends utilizing highly carboxylated NBR with low-to-medium ACN content (35-40% ACN) to achieve synergistic mechanical properties.
+
+**Polymerization / Synthesis Method**
+- Polymerization process: Latex blending and compounding
+- Monomer system: Carboxylated acrylonitrile-butadiene copolymer and polychloroprene copolymer
+- Monomer ratio: 70% NBR / 30% polychloroprene blend
+- Water amount: Not disclosed in the analyzed patent evidence.
+- Emulsifier: Not disclosed in the analyzed patent evidence.
+- Emulsifier loading: Not disclosed in the analyzed patent evidence.
+- Initiator: Not disclosed in the analyzed patent evidence.
+- Initiator loading: Not disclosed in the analyzed patent evidence.
+- Catalyst / activator: Not disclosed in the analyzed patent evidence.
+- Chain-transfer agent: Not disclosed in the analyzed patent evidence.
+- Chain-transfer dosage: Not disclosed in the analyzed patent evidence.
+- Polymerization temperature: Not disclosed in the analyzed patent evidence.
+- Pressure: Not disclosed in the analyzed patent evidence.
+- pH: Not disclosed in the analyzed patent evidence.
+- Reaction time: Not disclosed in the analyzed patent evidence.
+- Conversion: Not disclosed in the analyzed patent evidence.
+- Coagulation conditions: Coagulant solution comprising 0.1% sodium diamyl sulfosuccinate, 7% calcium nitrate, and 92.9% water (or 3% acetic acid, 7% calcium nitrate, and 90% water)
+- Post-treatment: Liner immersed in coagulant (1-20 wt% aqueous salt solution, preferably 2-15 wt%), then coated with the foamed polymer blend (5-50% air content by volume) and cured.
+- Raw polymer properties: Aqueous NBR component: 35-50% solids; Aqueous polychloroprene component: 40-55% solids; Blend exhibits synergistic abrasion resistance (4400 Taber cycles vs 3024 for 100% nitrile and 2612 for 100% neoprene).
+
+**Relevant Experimental Evidence**
+- A polymeric blend was prepared by mixing 70% highly carboxylated NBR (35-40% ACN content) and 30% polychloroprene copolymer.
+- The NBR latex had 35-50% solids, and the polychloroprene latex had 40-55% solids.
+- A coagulant solution containing 7% calcium nitrate was used to facilitate latex deposition on a glove liner.
+- The 70/30 blend showed a synergistic Taber abrasion resistance of 4400 revolutions, significantly exceeding both 100% nitrile (3024 revolutions) and 100% neoprene (2612 revolutions).
+
+**Technical Relevance**
+This patent demonstrates a high-performance application of low-to-medium ACN NBR (35-40% ACN) in elastomeric blends. By blending carboxylated NBR with polychloroprene, a synergistic improvement in oil grip, heat aging, and abrasion resistance is achieved.
+
+## 3. CROSS-PATENT COMPARISON & SYNTHESIS TRENDS
+- No cross-patent comparison provided.
+
+## 4. REFERENCES
+- US9650502 - Process for the preparation of nitrile rubbers - Assignee: Not disclosed - Jurisdiction: US - Publication Year: 2017 - [Google Patents](https://patents.google.com/patent/US9650502B2/en)
+- US8436091 - Nitrile rubbers - Assignee: Not disclosed - Jurisdiction: US - Publication Year: 2013 - [Google Patents](https://patents.google.com/patent/US8436091B2/en)
+- US8389623 - Nitrile rubbers - Assignee: Not disclosed - Jurisdiction: US - Publication Year: 2013 - [Google Patents](https://patents.google.com/patent/US8389623B2/en)
+- EP2473281 - Process for the preparation of low molecular weight hydrogenated nitrile rubber - Assignee: Not disclosed - Jurisdiction: EP - Publication Year: 2014 - [Google Patents](https://patents.google.com/patent/EP2473281A1/en)
+- US10626283 - Polymer blends of nitrile rubber and polychloroprene - Assignee: Not disclosed - Jurisdiction: US - Publication Year: 2020 - [Google Patents](https://patents.google.com/patent/US10626283B2/en)

@@ -3,8 +3,9 @@ app/services/pipeline/validation_service.py
 
 Validation Service — DETERMINISTIC ONLY
 =========================================
-Architecture: 2 LLM calls per pipeline run (query expansion + report generation).
-This service is NOT one of them.
+Architecture: 3 LLM calls in the live pipeline path (query expansion in
+search_service.py, title triage in orchestrator.py, report generation in
+report_service.py). This service is NOT one of them.
 
 All validation is deterministic:
 - validate_patent_content: accepts all fetched patents (relevance already determined by title scorer)

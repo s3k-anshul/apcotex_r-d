@@ -201,49 +201,62 @@ class ParsedPatent(BaseModel):
     claims: str = ""
     structural_evidence: StructuralEvidence = Field(default_factory=StructuralEvidence)
     
-    def get_llm_context(self) -> str:
-        """Returns only the relevant sections for the LLM to process, optimizing token limits."""
+    def get_llm_context(self, strategy_tokens: set[str] | None = None) -> str:
+        """
+        Returns relevant sections for LLM processing with token limits.
+
+        Description chunking uses generic process vocabulary plus optional
+        strategy_tokens derived from the current research strategy — never
+        material-specific monomer hardcoding.
+        """
         import re
         context = []
         if self.abstract:
             context.append(f"--- ABSTRACT ---\n{self.abstract}")
         if self.claims:
             context.append(f"--- CLAIMS ---\n{self.claims}")
-        
+
         if self.detailed_description:
-            # Smart chunking around critical keywords to reduce 19k+ token blobs
-            keywords = r'(acrylonitrile|butadiene|polymerization|emulsion|initiator|emulsifier|chain transfer|conversion|temperature|monomer ratio|example)'
-            paragraphs = self.detailed_description.split('\n')
+            # Generic process / synthesis vocabulary (compound-agnostic).
+            generic = (
+                r"polymerization|polymerisation|copolymerization|copolymerisation|"
+                r"preparation|synthesis|hydrogenation|dehydrogenation|metathesis|"
+                r"functionalization|functionalisation|crosslink|initiator|catalyst|"
+                r"emulsifier|surfactant|emulsion|solution|latex|dispersion|"
+                r"chain.?transfer|conversion|temperature|pressure|molecular.?weight|"
+                r"monomer|oligomer|precursor|example|comparative"
+            )
+            extra = ""
+            if strategy_tokens:
+                # Escape and join strategy tokens as additional match terms
+                safe = [
+                    re.escape(t) for t in strategy_tokens if len(t) >= 3 and t.isalpha()
+                ]
+                if safe:
+                    extra = "|" + "|".join(safe[:80])
+            keywords = rf"({generic}{extra})"
+            paragraphs = self.detailed_description.split("\n")
             relevant_paragraphs = []
-            
-            # Keep first 5 paragraphs (usually summary/background)
             relevant_paragraphs.extend(paragraphs[:5])
-            
-            # Keep paragraphs containing keywords
             for p in paragraphs[5:]:
                 if re.search(keywords, p, re.IGNORECASE) and len(p.strip()) > 20:
                     relevant_paragraphs.append(p)
-                    
+
             chunked_desc = "\n".join(relevant_paragraphs)
-            
-            # Prevent extreme lengths even after chunking
             if len(chunked_desc) > 30000:
                 chunked_desc = chunked_desc[:30000] + "\n[... TRUNCATED DUE TO LENGTH ...]"
-                
             context.append(f"--- RELEVANT DESCRIPTION CHUNKS ---\n{chunked_desc}")
-            
+
         if self.examples:
-            # Examples are critical, do not brutally truncate in the middle
             ex_text = self.examples
             if len(ex_text) > 40000:
                 ex_text = ex_text[:40000] + "\n[... TRUNCATED EXAMPLES DUE TO LENGTH ...]"
             context.append(f"--- EXAMPLES ---\n{ex_text}")
-            
+
         if self.tables:
-            # Just stringify the first few tables to avoid blowing up context
             tbls_str = str(self.tables[:5])
             context.append(f"--- TABLES ---\n{tbls_str}")
-            
+
         return "\n\n".join(context)
 
 class ContentValidationSchema(BaseModel):
@@ -279,6 +292,13 @@ class PatentExtraction(BaseModel):
     examples: list[PatentExample] = Field(default_factory=list)
     synthesis_sections: list[SynthesisSection] = Field(default_factory=list)
     raw_text: str = Field(default="")
+    examples_detection_note: str = Field(
+        default="",
+        description=(
+            "Human-readable note when worked-example sections are absent or "
+            "could not be segmented; used by report evidence packing."
+        ),
+    )
 
 class ExtractionResult(BaseModel):
     status: ExtractionStatus
@@ -286,7 +306,7 @@ class ExtractionResult(BaseModel):
     extraction: PatentExtraction
 
 class GeneratedQuery(BaseModel):
-    query: str = Field(description="The actual Boolean query string to execute (e.g. '(hydrogenated AND (NBR OR HNBR))')")
+    query: str = Field(description="The actual Boolean query string to execute against Google Patents")
     required_concepts: list[str] = Field(description="List of concepts that MUST be present in the document")
     alternative_concepts: list[str] = Field(description="List of alternative synonyms used in OR groups")
     intent: str = Field(description="The scientific intent of this query (e.g. 'direct synthesis', 'precursor synthesis')")
@@ -295,25 +315,43 @@ class GeneratedQuery(BaseModel):
 class LLMCompoundSearchProfile(BaseModel):
     """
     Compact, LLM-facing schema for generating query expansion profiles.
+    Includes a dynamic target-identity specification derived from user input.
     """
     original_input: str = Field(description="The exact user input")
     synthesis_intent: bool = Field(default=False, description="True if the user's research objective requires synthesizing, preparing, or manufacturing the target material.")
     base_material: list[str] = Field(default_factory=list, description="The canonical chemical base and its synonyms/aliases")
     important_negative_concepts: list[str] = Field(default_factory=list, description="Concepts that are explicitly antithetical to the target (e.g. chemical variants to exclude).")
     target_modifications: list[str] = Field(default_factory=list, description="Target variants or modifications requested")
-    target_attributes: list[str] = Field(default_factory=list, description="Constraints/attributes requested")
+    target_attributes: list[str] = Field(default_factory=list, description="Constraints/attributes requested (human-readable labels for THIS target)")
     synthesis_transformations: list[str] = Field(default_factory=list, description="Chemical transformations (e.g. hydrogenation)")
     precursor_relationships: list[str] = Field(default_factory=list, description="Precursor materials relevant to synthesis")
     relevant_process_concepts: list[str] = Field(default_factory=list, description="Process-specific parameters or conditions")
-    downstream_terms: list[str] = Field(default_factory=list, description="Terms indicating downstream applications to reject (e.g. 'hose', 'tire')")
-    excluded_variants: list[str] = Field(default_factory=list, description="Variants that should be explicitly EXCLUDED")
+    downstream_terms: list[str] = Field(default_factory=list, description="Terms indicating downstream applications to weigh during selection")
+    excluded_variants: list[str] = Field(default_factory=list, description="Variants that should be explicitly EXCLUDED for this run")
+    identity_exclusions: list[str] = Field(
+        default_factory=list,
+        description=(
+            "Materials/architectures that are adjacent or often co-mentioned but are NOT the "
+            "requested target for PRIMARY selection (LLM-derived for THIS input only)."
+        ),
+    )
+    related_materials: list[str] = Field(
+        default_factory=list,
+        description="Adjacent/related materials that may justify RELATED_TARGET retention but not PRIMARY.",
+    )
+    relevance_definition: str = Field(
+        default="",
+        description=(
+            "Short free-text definition of what counts as PRIMARY_TARGET for THIS user input "
+            "(what invention subject must be about). Derived dynamically — not a global rule."
+        ),
+    )
     attribute_dimension_ranges: list[str] = Field(
         default_factory=list,
         description=(
-            "For TYPE_B (attribute/range) targets: list of strings describing the typical/reference "
-            "numeric range for each target attribute dimension, e.g. "
-            "'acrylonitrile content: 15-25 wt% typical for standard grade; low-ACN grade: <20 wt%'. "
-            "Leave empty for TYPE_A transformation targets."
+            "For attribute/range targets: strings describing typical/reference numeric ranges "
+            "for each target attribute dimension of THIS compound (LLM-derived). "
+            "Leave empty for pure transformation targets."
         )
     )
     search_queries: list[GeneratedQuery] = Field(default_factory=list, description="Exactly 15 dynamically generated Boolean search queries.")
@@ -331,6 +369,9 @@ class CompoundSearchProfile(BaseModel):
     relevant_process_concepts: list[str] = Field(default_factory=list)
     downstream_terms: list[str] = Field(default_factory=list)
     excluded_variants: list[str] = Field(default_factory=list)
+    identity_exclusions: list[str] = Field(default_factory=list)
+    related_materials: list[str] = Field(default_factory=list)
+    relevance_definition: str = ""
     attribute_dimension_ranges: list[str] = Field(default_factory=list)
     search_queries: list[GeneratedQuery] = Field(default_factory=list)
     llm_usage: dict = Field(default_factory=dict)
@@ -381,19 +422,115 @@ class ReportPatentDetails(BaseModel):
 class ReportPatentMethodology(BaseModel):
     dynamic_parameters: list[str] = Field(description="Dynamically extracted reaction parameters formatted as 'Key: Value'")
 
+
+class MediumAndWaterRoleEvidence(BaseModel):
+    """
+    Evidence-backed polymerization medium vs later water-use roles.
+    Reporting/extraction only — does not gate patent selection.
+    """
+    core_reaction_medium: str = Field(
+        default="",
+        description="Core reaction/polymerization medium as disclosed (e.g. aqueous emulsion; organic solvent / solution polymerization).",
+    )
+    water_present: bool = Field(
+        default=False,
+        description="True only if water appears in a disclosed process step in the extracted evidence.",
+    )
+    water_roles: list[str] = Field(
+        default_factory=list,
+        description=(
+            "Generic roles inferred from evidence, e.g. polymerization_medium, aqueous_phase, "
+            "emulsion/latex, coagulation, washing, workup, quench, dilution, steam_stripping, "
+            "solvent_removal, post-treatment, formulation, other_process_use."
+        ),
+    )
+    summary: str = Field(
+        default="",
+        description=(
+            "Human-readable Medium & Water Role summary distinguishing polymerization medium "
+            "from downstream water use. If no water-related step is disclosed, state that explicitly."
+        ),
+    )
+    evidence: list[str] = Field(
+        default_factory=list,
+        description="Short evidence snippets supporting the medium/water-role conclusion.",
+    )
+
+
+class DynamicTargetAttributeEvidence(BaseModel):
+    """
+    Per-patent value/range for the run's strategy-derived target attribute.
+    Label comes from attribute_constraint or research_strategy.target_attributes — never compound hardcoding.
+    A value may only be associated with the requested target when belongs_to_target is true.
+    """
+    label: str = Field(default="", description="Dynamic attribute label from the current research strategy")
+    value: str = Field(
+        default="",
+        description="Disclosed value/range, or an explicit not-disclosed statement when absent from evidence.",
+    )
+    status: str = Field(
+        default="not_found",
+        description="Semantic status: direct | partial | indirect | not_found",
+    )
+    material_context: str = Field(
+        default="",
+        description="Which material/embodiment this value describes in the patent (must not be assumed).",
+    )
+    belongs_to_target: bool = Field(
+        default=False,
+        description=(
+            "True ONLY when evidence establishes that this value is a property of the requested "
+            "target material/embodiment — not merely present somewhere in the same patent."
+        ),
+    )
+    evidence: list[str] = Field(
+        default_factory=list,
+        description="Evidence snippets supporting the disclosed value; empty when not_found.",
+    )
+
+
+class ReportComparisonDimension(BaseModel):
+    """One dynamic comparison-table column (parameter) with per-patent values."""
+    parameter_name: str
+    values: Dict[str, str] = Field(
+        default_factory=dict,
+        description="Map of patent_number → cell value for this dimension",
+    )
+
+
 class ReportPatent(BaseModel):
     patent_details: ReportPatentDetails
     polymerization_method: ReportPatentMethodology
     experimental_evidence: list[str] = Field(description="List of logical bullet points synthesizing the examples")
     technical_relevance: str = Field(description="Explanation of WHY the patent is relevant to the requested polymerization research")
+    medium_and_water_role: MediumAndWaterRoleEvidence | None = Field(
+        default=None,
+        description="Core reaction medium vs water roles for this selected patent",
+    )
+    target_attribute: DynamicTargetAttributeEvidence | None = Field(
+        default=None,
+        description="Strategy-derived target attribute value/range for this selected patent",
+    )
 
 class PatentResearchReport(BaseModel):
     title: str | None = Field(default=None, description="Title of the report")
     abstract: str | None = Field(default=None, description="Abstract of the report")
     methodology_patents: list[ReportPatent] = Field(description="List of extracted patents (PRIMARY tier)", default_factory=list)
+    secondary_patents: list[ReportPatent] = Field(
+        default_factory=list,
+        description="Deprecated/unused — reports must contain only selected primary patents.",
+    )
     cross_patent_comparison: list[str] = Field(description="Cross-patent comparison and synthesis trends (only when >= 2 PRIMARY patents)", default_factory=list)
     conclusion: str | None = Field(default=None, description="Conclusion of the report")
     references: list[str] = Field(description="References from validated evidence only", default_factory=list)
+    dynamic_target_attribute_label: str | None = Field(
+        default=None,
+        description="Strategy-derived label for the dynamic target-attribute comparison column",
+    )
+    comparison_dimensions: list[ReportComparisonDimension] = Field(
+        default_factory=list,
+        description="Dynamic comparison-table columns (Medium & Water Role + target attribute, etc.)",
+    )
 
 class LLMPatentAnalysis(BaseModel):
     """
@@ -429,6 +566,23 @@ class LLMPatentAnalysis(BaseModel):
     technical_relevance: str = Field(
         default="",
         description="1-2 sentence explanation of why this patent is relevant to the target compound synthesis"
+    )
+    medium_and_water_role: MediumAndWaterRoleEvidence = Field(
+        default_factory=MediumAndWaterRoleEvidence,
+        description=(
+            "Distinguish the core polymerization/reaction medium from any later water use "
+            "(washing, steam stripping, coagulation, quench, dilution, formulation, etc.). "
+            "Do not invent water usage. If no water-related process step is disclosed, set "
+            "summary to an explicit absence statement."
+        ),
+    )
+    target_attribute: DynamicTargetAttributeEvidence = Field(
+        default_factory=DynamicTargetAttributeEvidence,
+        description=(
+            "Value/range for the run's TARGET ATTRIBUTE LABEL (from research strategy). "
+            "Only use values explicitly present in THIS patent's evidence. "
+            "Never infer from title, industry norms, or other patents."
+        ),
     )
 
 
@@ -493,8 +647,8 @@ class AIStrategyResult(BaseModel):
     """
     Schema for the output of the AI Search Planning phase.
     """
-    target_material: str = Field(description="The primary target material identified from the input (e.g. 'Nitrile Butadiene Rubber').")
-    material_synonyms: list[str] = Field(default_factory=list, description="Common material synonyms and abbreviations (e.g. 'NBR').")
+    target_material: str = Field(description="The primary target material identified from the user input")
+    material_synonyms: list[str] = Field(default_factory=list, description="Common material synonyms and abbreviations for the current target.")
     target_value: str = Field(description="The numeric or qualitative value of the target property (e.g., 'low', 'high', '30%'). Leave empty if not applicable.", default="")
     target_direction: str = Field(description="The direction of the target property (e.g., 'decrease', 'increase', 'low'). Leave empty if not applicable.", default="")
     synthesis_intent: list[str] = Field(default_factory=list, description="Primary intent keywords for creating the material (e.g., 'polymerization', 'copolymerization').")
@@ -534,3 +688,184 @@ class TitleTriageCandidate(BaseModel):
 
 class TitleTriageResult(BaseModel):
     candidates: list[TitleTriageCandidate] = Field(default_factory=list)
+
+
+class SelectionDecision(str, Enum):
+    KEEP = "KEEP"
+    REJECT = "REJECT"
+
+
+class TargetRelationship(str, Enum):
+    """Semantic relationship of the patent's invention to the requested target material."""
+    PRIMARY_TARGET = "PRIMARY_TARGET"
+    RELATED_TARGET = "RELATED_TARGET"
+    DOWNSTREAM_ADJACENT = "DOWNSTREAM_ADJACENT"
+    REJECTED = "REJECTED"
+
+
+class TechnicalCentrality(str, Enum):
+    CENTRAL = "CENTRAL"
+    PARTIAL = "PARTIAL"
+    PERIPHERAL = "PERIPHERAL"
+    NONE = "NONE"
+
+
+class PatentSelectionCandidate(BaseModel):
+    """Authoritative per-candidate verdict from evidence-aware selection LLM call."""
+
+    patent_number: str = Field(description="Must perfectly match input patent number")
+    classification: TitleTriageClassification = Field(
+        description="Relevance classification of the patent's technical subject"
+    )
+    variant_mismatch: bool = Field(
+        description=(
+            "True if evidence indicates an excluded chemical variant from the "
+            "current research strategy"
+        )
+    )
+    polymerization_medium_mismatch: bool = Field(
+        description=(
+            "True only when a medium constraint was requested and evidence shows "
+            "a mismatched polymerization medium role"
+        )
+    )
+    final_decision: SelectionDecision = Field(
+        description=(
+            "KEEP when the patent is about the requested BASE MATERIAL (PRIMARY_TARGET / "
+            "material_identity=MATCH) AND qualifier is MATCH or UNKNOWN (not MISMATCH) "
+            "AND medium does not mismatch. "
+            "Do NOT REJECT solely because the requested qualifier is undisclosed (UNKNOWN). "
+            "RELATED_TARGET uses final_decision=REJECT with retain_as_related=true."
+        )
+    )
+    confidence: float = Field(description="Confidence score between 0.0 and 1.0")
+    reason: str = Field(
+        description="Brief justification grounded in the supplied patent evidence"
+    )
+    # Evidence-aware explainability fields (optional defaults for backward compatibility)
+    technical_centrality: TechnicalCentrality = Field(
+        default=TechnicalCentrality.PARTIAL,
+        description=(
+            "How central the target material / requested transformation is to the invention: "
+            "CENTRAL, PARTIAL, PERIPHERAL, or NONE"
+        ),
+    )
+    target_relationship: TargetRelationship = Field(
+        default=TargetRelationship.PRIMARY_TARGET,
+        description=(
+            "PRIMARY_TARGET | RELATED_TARGET | DOWNSTREAM_ADJACENT | REJECTED. "
+            "PRIMARY_TARGET means the requested BASE MATERIAL is the central invention subject — "
+            "independent of whether the requested qualifier/attribute is disclosed. "
+            "A patent containing the requested material is not necessarily ABOUT that material."
+        ),
+    )
+    detected_primary_material: str = Field(
+        default="",
+        description="What material/system the patent's technical contribution is primarily about",
+    )
+    material_identity: str = Field(
+        default="UNKNOWN",
+        description=(
+            "MATCH | MISMATCH | UNKNOWN — whether the patent's central invention is the "
+            "requested base material (from strategy), independent of qualifier/attribute match."
+        ),
+    )
+    retain_as_related: bool = Field(
+        default=False,
+        description="True when RELATED_TARGET should be retained in a related/secondary list (not primary)",
+    )
+    target_match: str = Field(
+        default="unknown",
+        description="MATCH | PARTIAL | MISMATCH | UNKNOWN relative to current strategy overall",
+    )
+    variant_match: str = Field(
+        default="unknown",
+        description=(
+            "MATCH | MISMATCH | UNKNOWN for the requested QUALIFIER/ATTRIBUTE only. "
+            "UNKNOWN means the base material matches but the qualifier is not disclosed — "
+            "NOT the same as MISMATCH. Never treat UNKNOWN as MISMATCH."
+        ),
+    )
+    medium_match: str = Field(
+        default="not_applicable",
+        description=(
+            "MATCH | MISMATCH | UNCLEAR | NOT_APPLICABLE — polymerization medium role "
+            "vs requested constraint"
+        ),
+    )
+    downstream_only: bool = Field(
+        default=False,
+        description="True if target material appears only as an ingredient/component/segment",
+    )
+    rejection_category: str = Field(
+        default="",
+        description=(
+            "When not primary KEEP, one of: UNRELATED_MATERIAL, NON_TARGET_MATERIAL, "
+            "TARGET_AS_COMPONENT, TARGET_AS_SEGMENT, DOWNSTREAM_ONLY, QUALIFIER_MISMATCH, "
+            "INSUFFICIENT_TARGET_EVIDENCE, AMBIGUOUS_TARGET_IDENTITY, MEDIUM_MISMATCH, "
+            "RELATED_RETAINED, or empty when KEEP."
+        ),
+    )
+    evidence: list[str] = Field(
+        default_factory=list,
+        description="Short evidence quotes/facts from the supplied candidate packet",
+    )
+    evidence_strength: float = Field(
+        default=0.0,
+        ge=0.0,
+        le=1.0,
+        description="Relative strength of supporting evidence for KEEP (0-1)",
+    )
+
+
+class PatentSelectionResult(BaseModel):
+    candidates: list[PatentSelectionCandidate] = Field(default_factory=list)
+
+
+class SearchAdequacy(str, Enum):
+    """Overall search adequacy verdict for a candidate pool."""
+    HIGH = "HIGH"    # Sufficient synthesis/material candidates — proceed to selection
+    MEDIUM = "MEDIUM"  # Borderline — proceed but note limited coverage
+    LOW = "LOW"     # Insufficient — trigger adaptive query expansion before selection
+
+
+class SearchAdequacyMetrics(BaseModel):
+    """
+    Compound-agnostic metrics computed from the de-duplicated candidate pool
+    BEFORE LLM selection.  All token matching uses strategy.base_material and
+    generic process vocabulary — never hardcoded compound names.
+    """
+    candidate_count: int = Field(default=0, description="Total candidates after dedup/filtering")
+    direct_material_candidates: int = Field(
+        default=0,
+        description="Candidates whose title/snippet contains a base-material token from strategy",
+    )
+    synthesis_candidates: int = Field(
+        default=0,
+        description="Candidates that also contain a generic synthesis/polymerization term",
+    )
+    qualifier_candidates: int = Field(
+        default=0,
+        description="Candidates that contain a token from target_modifications or target_attributes",
+    )
+    supporting_candidates: int = Field(
+        default=0,
+        description="Material-matching candidates that are NOT classified as synthesis",
+    )
+    excluded_variant_count: int = Field(
+        default=0,
+        description="Candidates whose title/snippet strongly matches an excluded variant",
+    )
+    unrelated_count: int = Field(
+        default=0,
+        description="Candidates with NO base-material token overlap",
+    )
+    unrelated_rate: float = Field(
+        default=0.0,
+        description="Fraction of candidates with no material signal (0.0–1.0)",
+    )
+    search_round: int = Field(default=1, description="Which search round produced this pool")
+    adequacy: SearchAdequacy = Field(
+        default=SearchAdequacy.LOW,
+        description="Overall adequacy verdict",
+    )

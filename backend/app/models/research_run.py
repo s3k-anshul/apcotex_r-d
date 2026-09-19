@@ -85,6 +85,13 @@ class ResearchRun(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     jurisdictions: Mapped[list] = mapped_column(
         JSON, nullable=False, default=list, server_default="[]"
     )
+    # Optional per-run research constraints (Phase 1 plumbing; used in Phase 2+)
+    attribute_constraint: Mapped[str | None] = mapped_column(
+        String(500), nullable=True, default=None
+    )
+    polymerization_medium: Mapped[str] = mapped_column(
+        String(32), nullable=False, default="any", server_default="any"
+    )
 
     # ── Status & versioning ───────────────────────────────────────────────────
     status: Mapped[RunStatus] = mapped_column(

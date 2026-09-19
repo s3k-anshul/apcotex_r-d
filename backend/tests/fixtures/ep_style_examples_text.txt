@@ -1,0 +1,21 @@
+Prior art discusses emulsion polymerization of unsaturated nitrile and conjugated diene.
+For example, carboxyl-containing copolymerizable termonomers may be used.
+Examples of suitable reducing agents are ascorbic acid and sodium dithionite.
+
+Examples
+I Preparation of nitrile rubbers A, B, C, D, E and F
+Inventive Examples and Comparative Examples
+The preparation of the nitrile rubbers A-F used in the following example series was carried out
+according to the recipes and polymerization conditions given in Table 1, all starting materials
+in parts by weight based on 100 parts by weight of the monomer mixture.
+Table 1:
+Nitrile rubber A B C D E F
+Butadiene 62 62 62 62 62 62
+Acrylonitrile 38 38 38 38 38 38
+Total water 200 200 200 200 200 200
+Emulsifier 2.20 2.20 2.20 2.20 2.20 2.20
+The polymerization was conducted as an aqueous emulsion polymerization at 5 to 15 C.
+
+(Inventive Example and Comparative Example)
+The preparation of nitrile rubbers G and H used a Fe(II) chloride based redox system.
+Table 4 shows Mooney viscosity and bound acrylonitrile for the obtained solid rubbers.

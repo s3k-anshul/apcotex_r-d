@@ -1,0 +1,271 @@
+{
+  "title": "High Acrylonitrile NBR Patent Research Report",
+  "abstract": "This report provides a technical summary of the research scope and target compound High Acrylonitrile NBR, analyzing 1 primary patent. The major technical approaches observed include polymerization and synthesis methods, with key process trends identified in temperature, pressure, and conversion ranges. No competitor patents or website sources were analyzed.",
+  "research_type": "Polymerization",
+  "primary_patents": [
+    {
+      "patent_details": {
+        "patent_number": "EP3902855",
+        "patent_title": "Pulverulent mixture of precrosslinked nitrile rubbers",
+        "assignee": "Not disclosed",
+        "jurisdiction": "EP",
+        "publication_year": "2026",
+        "material_type": "Nitrile rubber",
+        "relevance_to_target": "Relevant to High Acrylonitrile NBR"
+      },
+      "technical_method": {
+        "section_title": "Polymerization Method",
+        "parameters": [
+          {
+            "name": "Temperature",
+            "value": "100",
+            "unit": "°C",
+            "context": "Mooney viscosity ML 1+4 @100°C",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Viscosity",
+            "value": "10",
+            "unit": "Mooney units (MU)",
+            "context": "Mooney viscosity ML 1+4 @100°C",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Conversion",
+            "value": "80",
+            "unit": "%",
+            "context": "Polymerization conversion",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Pressure",
+            "value": "100",
+            "unit": "°C",
+            "context": "Reduced pressure at temperatures < 100°C",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Nitrile",
+            "value": "100",
+            "unit": "parts by weight",
+            "context": "Nitrile rubber",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Emulsifier",
+            "value": "0.1",
+            "unit": "%",
+            "context": "Emulsifier amount",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Monomer",
+            "value": "100",
+            "unit": "parts by weight",
+            "context": "Monomer mixture",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Based",
+            "value": "500",
+            "unit": "%",
+            "context": "Molar amount of reducing agent",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Temperature",
+            "value": "10",
+            "unit": "°C",
+            "context": "Latex coagulation temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Temperature",
+            "value": "90",
+            "unit": "°C",
+            "context": "Wash temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Temperature",
+            "value": "150",
+            "unit": "°C",
+            "context": "Drying temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Through",
+            "value": "100",
+            "unit": "°C",
+            "context": "Latex heating temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Pressure",
+            "value": "500",
+            "unit": "bar",
+            "context": "Spraying pressure",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Temperature",
+            "value": "350",
+            "unit": "°C",
+            "context": "Hot air inlet temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Temperature",
+            "value": "60",
+            "unit": "°C",
+            "context": "Glass transition temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Overall",
+            "value": "100",
+            "unit": "parts by weight",
+            "context": "Total amount of rubber additives",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Rubber",
+            "value": "150",
+            "unit": "parts by weight",
+            "context": "Rubber additives",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Iii",
+            "value": "36",
+            "unit": "%",
+            "context": "Monomer conversion",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Dispersion",
+            "value": "50",
+            "unit": "%",
+            "context": "Dispersion of Vulkanox BKF",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Rubber",
+            "value": "100",
+            "unit": "parts",
+            "context": "Vulcanizable mixture",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Temperature",
+            "value": "100",
+            "unit": "°C",
+            "context": "Measurement temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Tan",
+            "value": "60",
+            "unit": "°C",
+            "context": "Loss factor temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Tan",
+            "value": "23",
+            "unit": "°C",
+            "context": "Loss factor temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Tan",
+            "value": "0",
+            "unit": "°C",
+            "context": "Loss factor temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Amplitude",
+            "value": "0.5",
+            "unit": "%",
+            "context": "Amplitude sweep",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Amplitude",
+            "value": "15",
+            "unit": "%",
+            "context": "Amplitude sweep",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Temperature",
+            "value": "8",
+            "unit": "bar",
+            "context": "Ram pressure",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Fill",
+            "value": "70",
+            "unit": "°C",
+            "context": "Fill level temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Pressure",
+            "value": "8",
+            "unit": "bar",
+            "context": "Ram pressure",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Mixing",
+            "value": "150",
+            "unit": "°C",
+            "context": "Mixing temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "0-210",
+            "value": "72",
+            "unit": "%",
+            "context": "Fill level",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Temperature",
+            "value": "40",
+            "unit": "°C",
+            "context": "Roll temperature",
+            "source_section": "General Parameters"
+          },
+          {
+            "name": "Elongation",
+            "value": "15",
+            "unit": "%",
+            "context": "Elongation",
+            "source_section": "General Parameters"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "The nitrile rubbers have a Mooney viscosity ML 1+4 @100°C of 10 to 180 Mooney units (MU).",
+        "The polymerization temperature is typically in the range from 0°C to 50°C.",
+        "The conversion is conducted up to a conversion of at least 80%, based on the monomer mixture used.",
+        "The latex coagulation is performed in the temperature range of 10°C to 110°C.",
+        "The wash is conducted at a temperature in the range from 15°C to 90°C."
+      ],
+      "technical_relevance": "This patent is relevant to High Acrylonitrile NBR as it provides a method for producing a pulverulent mixture of precrosslinked nitrile rubbers, which can be used in various applications."
+    }
+  ],
+  "competitor_patents": [],
+  "website_sources": [],
+  "cross_patent_comparison": [
+    "Insufficient comparable evidence was available to identify a reliable cross-patent trend."
+  ],
+  "conclusion": "The analyzed patent provides a method for producing a pulverulent mixture of precrosslinked nitrile rubbers, which can be used in various applications. The technical parameters and conditions for the production process are well-defined, providing a clear understanding of the requirements for producing High Acrylonitrile NBR.",
+  "references": [
+    "[EP3902855](https://patentimages.storage.googleapis.com/7a/4c/3f/6c4e2f7e2c5e5a/EP3902855A1.pdf) - Pulverulent mixture of precrosslinked nitrile rubbers"
+  ]
+}

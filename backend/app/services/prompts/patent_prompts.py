@@ -34,69 +34,181 @@ JURISDICTIONS:
 DATE FILTER:
 {publication_filter}
 
-First internally decompose the input into:
-A. BASE MATERIAL (e.g., Nitrile Butadiene Rubber, NBR)
-B. TARGET MODIFICATION / VARIANT (e.g., Hydrogenation, Low Acrylonitrile, Partially Hydrogenated)
-C. SYNTHESIS TRANSFORMATION (e.g., Hydrogenation process, Metathesis, Polymerization)
-D. PRECURSOR RELATIONSHIP (e.g., NBR precursor for HNBR)
-E. RELEVANT PROCESS CONCEPTS (e.g., Molecular weight control, residual unsaturation)
-F. EXCLUDED OR DOWNSTREAM APPLICATION CONCEPTS (e.g., battery, tire, hose, latex, adhesive, electrode)
+First internally decompose the input into a DYNAMIC TARGET SPECIFICATION:
+A. BASE MATERIAL (canonical polymer/material name + synonyms/abbreviations for THIS input)
+B. TARGET MODIFICATION / VARIANT / QUALIFIERS (if any)
+C. TARGET PROPERTIES / ATTRIBUTES that define the requested characteristic for THIS input
+   (e.g. a composition dimension, functionalization metric — derived dynamically, never from a fixed catalog)
+D. SYNTHESIS TRANSFORMATION (process classes relevant to producing/modifying THIS target)
+E. PRECURSOR RELATIONSHIP (precursors/intermediates relevant to THIS target, if any)
+F. RELEVANT PROCESS CONCEPTS (process parameters relevant to THIS target)
+G. IDENTITY EXCLUSIONS — adjacent materials/architectures often co-mentioned that are NOT
+   the requested PRIMARY target (e.g. larger polymer systems that may contain a segment of the target)
+H. RELATED MATERIALS — adjacent materials that may be retained as RELATED but not PRIMARY
+I. RELEVANCE DEFINITION — one short paragraph: what invention subject counts as PRIMARY_TARGET
+   for THIS user input based on BASE MATERIAL identity (what the patent must be ABOUT).
+   Do NOT require the requested qualifier/attribute to be disclosed for PRIMARY identity.
+J. EXCLUDED OR DOWNSTREAM APPLICATION CONCEPTS (end-use indicators for THIS domain — for classification only)
 
 CRITICAL GOOGLE PATENTS BOOLEAN RULES:
-1. Google Patents supports Boolean searching. Do NOT generate flat keyword lists (e.g., "hydrogenated NBR hydrogenation synthesis").
-2. REQUIRED CONCEPTS must be connected with AND. 
+1. Google Patents supports Boolean searching. Do NOT generate flat keyword lists.
+2. REQUIRED CONCEPTS must be connected with AND.
 3. ALTERNATIVE SYNONYMS must be connected with OR and wrapped in parentheses.
-4. You MUST distinguish between the TARGET TRANSFORMATION (e.g. hydrogenated) and the BASE MATERIAL (e.g. NBR). DO NOT make them interchangeable. 
-   - BAD: (hydrogenated OR NBR OR HNBR) -> This allows patents that only say "NBR" or only say "hydrogenated".
-   - GOOD: (hydrogenated AND (NBR OR HNBR OR "nitrile butadiene rubber")) -> Mandates the target transformation.
-5. If the target has a specific modification (like Hydrogenated NBR), the query MUST mandate BOTH the base material AND the modification conceptually.
+4. Distinguish TARGET TRANSFORMATION from BASE MATERIAL. DO NOT make them interchangeable.
+   - BAD: (modification OR base OR variant) as a flat OR bag that matches any term alone.
+   - GOOD: (modification AND (base OR synonym1 OR synonym2)) so the transformation is mandated with the material.
+5. Do NOT force every query to include the requested qualifier/attribute tokens.
+   Split discovery into:
+   - IDENTITY/DISCOVERY queries (majority): base material + synthesis/preparation/polymerization/
+     production/composition/manufacturing — WITHOUT requiring the qualifier in every query.
+   - QUALIFIER/PROPERTY queries (minority, typically 3–5 of 15): base material + requested
+     qualifier/attribute/content terms.
+   Relevant base-material patents often omit the qualifier in search-visible fields.
 6. Title-specific queries are highly precise. Use the `TI=(...)` syntax for title queries. For full-text queries, just write the boolean expression.
 
 DISCOVERY INTENT HAS PRIORITY:
-Do NOT generate separate queries around extraction fields (e.g., DO NOT generate "NBR initiator"). The conceptual query structure should strongly emphasize synthesis and the target modification.
+Do NOT generate separate queries around extraction fields (e.g. "initiator" alone). Emphasize synthesis and the target material for THIS compound.
+Do NOT force every query to include every target property token — preserve BROAD RECALL.
+Identity filtering and qualifier evaluation happen later during selection/extraction.
 
 DO NOT USE AGGRESSIVE NEGATIVE FILTERING:
 Do NOT add broad exclusions like `NOT (tire OR hose OR adhesive OR battery OR electrode)` to the generated queries. A genuine synthesis patent can mention applications of the synthesized material. Negative filtering will be handled semantically downstream. Use `important_negative_concepts` strictly for classifying chemically incompatible variants, not for discovery blocking.
 
 Generate EXACTLY 15 DISTINCT search queries. The purpose is HIGH RECALL.
 Mix them strategically across these complementary concepts:
-A. Exact target-material searches
+A. Exact target-material identity searches (no qualifier required)
 B. Material + synthesis/preparation searches
 C. Material + polymerization searches
-D. Material + target-property searches
-E. Material + composition/content/range searches
-F. Material + process-control searches
-G. Material + production/manufacturing searches
+D. Material + production/manufacturing searches
+E. Material + composition searches (identity-oriented)
+F. Broader synonym identity searches
+G. Qualifier/property searches (material + requested qualifier/attribute) — minority of the 15
 H. Target transformation searches (when applicable)
-I. Broader synonym searches
 
 Include a mix of 5 TITLE-FOCUSED QUERIES (using `TI=(...)`) and 10 FULL TEXT QUERIES.
+Of the 15, prefer ~10–12 identity/discovery queries and ~3–5 qualifier/property queries when a qualifier exists.
+Do NOT dedicate discovery queries to end-use applications (seals, hoses, gloves, tires, adhesives-as-articles).
+Those downstream terms belong in downstream_terms for later classification, not in search_queries.
 
 Return structured output matching the LLMCompoundSearchProfile schema:
 - original_input: the exact user input
 - synthesis_intent: boolean (true if the research objective requires synthesizing, preparing, or manufacturing the target material; false if it is merely asking for properties or applications)
-- base_material: the canonical chemical base and its synonyms/aliases
+- base_material: the canonical chemical base and its synonyms/aliases for THIS input
 - important_negative_concepts: concepts explicitly antithetical to the target (e.g. chemical variants to exclude). DO NOT put downstream applications here.
-- target_modifications: target variants or modifications requested
-- target_attributes: constraints/attributes requested
-- synthesis_transformations: chemical transformations (e.g. hydrogenation)
-- precursor_relationships: precursor materials relevant to synthesis
-- relevant_process_concepts: process-specific parameters or conditions
-- downstream_terms: words indicating applications to reject (e.g. 'hose', 'tire')
-- excluded_variants: chemically different materials to explicitly penalize
-- attribute_dimension_ranges: ONLY for TYPE_B attribute/range targets (e.g. "low acrylonitrile",
-  "high Mooney viscosity"). For each such attribute dimension, provide a string describing the
-  typical numeric range for this base material, e.g.:
-    "acrylonitrile content: standard NBR 18-51 wt%; low-ACN grade <20 wt%"
-  This must be derived from your scientific knowledge of the specific compound — not hardcoded.
-  Leave empty [] for TYPE_A transformation targets (e.g. hydrogenation, carboxylation).
+- target_modifications: target variants or modifications / qualifiers requested
+- target_attributes: human-readable labels for the target-specific properties relevant to THIS input
+- synthesis_transformations: chemical transformations relevant to THIS input
+- precursor_relationships: precursor materials relevant to synthesis of THIS target
+- relevant_process_concepts: process-specific parameters or conditions for THIS target
+- downstream_terms: words indicating applications to weigh during later selection (not discovery blocking)
+- excluded_variants: chemically different materials to explicitly penalize for THIS input
+- identity_exclusions: adjacent materials/systems that must NOT be treated as PRIMARY_TARGET merely because they mention the target as a segment/component
+- related_materials: adjacent materials that may justify RELATED_TARGET retention
+- relevance_definition: short definition of PRIMARY_TARGET based on BASE MATERIAL identity for THIS input (qualifier disclosure is NOT required for identity)
+- attribute_dimension_ranges: ONLY for attribute/range targets. For each such attribute dimension,
+  provide a string describing typical numeric ranges for THIS base material derived from scientific
+  knowledge of the specific compound — never a fixed global dictionary. Leave empty [] for
+  pure transformation targets (e.g. hydrogenation, carboxylation) with no attribute range.
 - search_queries: an array of EXACTLY 15 GeneratedQuery objects. Each object MUST have:
-  * query: The exact Boolean expression to send to Google Patents (e.g., 'TI=(hydrogenated AND (NBR OR HNBR))' or '(hydrogenation AND (NBR OR HNBR)) AND synthesis')
-  * required_concepts: List of concepts (e.g., ["hydrogenation", "base material"])
-  * alternative_concepts: List of synonyms used in the OR groups (e.g., ["NBR", "HNBR", "nitrile rubber"])
+  * query: The exact Boolean expression to send to Google Patents
+  * required_concepts: List of concepts that must be present
+  * alternative_concepts: List of synonyms used in the OR groups
   * intent: Brief scientific intent of this query
   * scope: "title" or "full_text"
 """
+
+# Optional constraint blocks appended ONLY when the client supplies them.
+# When both are omitted / "any", build_query_expansion_prompt() returns the
+# base PATENT_QUERY_EXPANSION_PROMPT.format(...) result unchanged.
+
+ATTRIBUTE_CONSTRAINT_INSTRUCTIONS = """
+OPTIONAL USER ATTRIBUTE CONSTRAINT (ACTIVE):
+The user specified this exact attribute/range constraint:
+{attribute_constraint}
+
+In ADDITION TO (not instead of) the existing 15-query diversity mix above, ensure that
+at least 2–3 of the 15 GeneratedQuery objects explicitly incorporate this attribute/range
+language (or clearly equivalent scientific phrasing) in their Boolean expressions and
+required_concepts. Do not drop general synthesis/preparation diversity to make room —
+weave the constraint into a subset of the existing mix.
+"""
+
+POLYMERIZATION_MEDIUM_AQUEOUS_INSTRUCTIONS = """
+OPTIONAL POLYMERIZATION MEDIUM CONSTRAINT (ACTIVE): aqueous / emulsion
+Bias query generation toward emulsion / aqueous-phase terminology where scientifically
+appropriate (examples: emulsifier, surfactant, aqueous phase, latex, redox initiator,
+emulsion polymerization, cold emulsion). Explicitly DEPRIORITIZE solvent / anionic
+solution-polymerization-specific terms in the generated queries (examples: n-butyllithium,
+THF, hexane, solution polymerization, anionic polymerization in organic solvent).
+Do not change excluded_variants or downstream_terms generation rules.
+"""
+
+POLYMERIZATION_MEDIUM_SOLVENT_INSTRUCTIONS = """
+OPTIONAL POLYMERIZATION MEDIUM CONSTRAINT (ACTIVE): solvent
+Bias query generation toward solvent / solution / anionic polymerization terminology
+where scientifically appropriate (examples: solution polymerization, n-butyllithium,
+THF, hexane, anionic polymerization, living polymerization in organic solvent).
+Explicitly DEPRIORITIZE emulsion / aqueous-phase-specific terms in the generated queries
+(examples: emulsifier, latex, aqueous phase, cold emulsion, redox initiator in water).
+Do not change excluded_variants or downstream_terms generation rules.
+"""
+
+
+def build_query_expansion_constraint_suffix(
+    attribute_constraint: str | None = None,
+    polymerization_medium: str = "any",
+) -> str:
+    """
+    Return optional instruction text to append to the base expansion prompt.
+    Empty string when no constraints are active — keeps unconstrained prompts
+    byte-identical to the historical base prompt.
+    """
+    parts: list[str] = []
+    constraint = (attribute_constraint or "").strip()
+    if constraint:
+        parts.append(
+            ATTRIBUTE_CONSTRAINT_INSTRUCTIONS.format(attribute_constraint=constraint)
+        )
+
+    medium = (polymerization_medium or "any").strip().lower()
+    if medium in ("aqueous", "emulsion"):
+        parts.append(POLYMERIZATION_MEDIUM_AQUEOUS_INSTRUCTIONS)
+    elif medium == "solvent":
+        parts.append(POLYMERIZATION_MEDIUM_SOLVENT_INSTRUCTIONS)
+    # "any" or unknown → no medium block
+
+    if not parts:
+        return ""
+    return "\n" + "\n".join(parts)
+
+
+def build_query_expansion_prompt(
+    *,
+    compound_name: str,
+    competitors: str,
+    websites: str,
+    jurisdictions: str,
+    publication_filter: str,
+    attribute_constraint: str | None = None,
+    polymerization_medium: str = "any",
+) -> str:
+    """Format the base expansion prompt, then append optional constraint blocks."""
+    base = PATENT_QUERY_EXPANSION_PROMPT.format(
+        compound_name=compound_name,
+        competitors=competitors,
+        websites=websites,
+        jurisdictions=jurisdictions,
+        publication_filter=publication_filter,
+    )
+    return base + build_query_expansion_constraint_suffix(
+        attribute_constraint=attribute_constraint,
+        polymerization_medium=polymerization_medium,
+    )
+
+
+# ============================================================
+# TITLE TRIAGE / OTHER PROMPTS CONTINUE BELOW
+# ============================================================
 
 
 
@@ -239,7 +351,7 @@ REQUIRED JSON STRUCTURE:
         {
           "example_number": "string — identifier from the patent text (e.g. 'Example 1', 'Comparative Example A')",
           "raw_text": "string — the actual raw text from the patent example",
-          "relevance_to_target": "string — explain WHY this specific example meets the requested constraints (e.g. 'This example demonstrates a low acrylonitrile content of 15% as requested by the user.') or if it doesn't.",
+          "relevance_to_target": "string — explain WHY this specific example meets the requested constraints (or if it doesn't), using values from the evidence only.",
           "extracted_parameters": {
             "monomer_composition": "string or null",
             "target_attribute_value": "string or null — the specific value corresponding to the user's requested constraint (e.g. 15% ACN, 98% hydrogenated, etc)",
@@ -437,12 +549,27 @@ REQUIRED JSON STRUCTURE:
       "example_highlights": [
         "list of strings — key findings per example, format: 'Example N: what was demonstrated'. Max 5."
       ],
-      "technical_relevance": "string — 1-2 sentences explaining why this patent is relevant to {compound_name} synthesis"
+      "technical_relevance": "string — 1-2 sentences explaining why this patent is relevant to {compound_name} synthesis",
+      "medium_and_water_role": {{
+        "core_reaction_medium": "string — the polymerization/reaction medium actually disclosed (aqueous emulsion/latex; organic/hydrocarbon solvent solution polymerization; bulk; supercritical; etc.)",
+        "water_present": "boolean — true only if water appears in a disclosed process step",
+        "water_roles": ["array of generic role labels inferred from THIS patent only, e.g. polymerization_medium, aqueous_phase, emulsion/latex, coagulation, washing, workup, quench, dilution, steam_stripping, solvent_removal, post-treatment, formulation, other_process_use"],
+        "summary": "string — REQUIRED human-readable Medium & Water Role line. Distinguish polymerization medium from later water use. If no water-related process step is disclosed: exactly 'No water-related process step disclosed in the extracted evidence.'",
+        "evidence": ["short snippets from THIS patent's evidence only"]
+      }},
+      "target_attribute": {{
+        "label": "string — MUST equal the provided TARGET ATTRIBUTE LABEL",
+        "value": "string — disclosed value/range ONLY if it belongs to the requested target material/embodiment; otherwise exactly 'Not disclosed in extracted evidence'",
+        "status": "direct | partial | indirect | not_found",
+        "material_context": "string — which material/embodiment in THIS patent the value describes",
+        "belongs_to_target": "boolean — true ONLY when evidence establishes the value is a property of the requested target, not of a different polymer/system in the same patent",
+        "evidence": ["snippets from THIS patent only; empty when not_found"]
+      }}
     }}
   ],
   "cross_patent_comparison": ["array of strings — ONLY WHEN primary_count >= 2. If primary_count < 2, this MUST be an empty array []. When included: concise bullet points comparing the primary patents only: monomer content ranges, monomer ratios, polymerization processes, emulsifier systems, initiators, chain-transfer agents, temperatures, pressures, conversions, reaction times, coagulation methods."],
-  "conclusion": "string — concise technical conclusion summarizing key findings, implications for {compound_name} synthesis, and recommended synthesis parameters based on the evidence.",
-  "references": ["array of strings — STRICT RULE: Include ONLY patents from the REQUIRED PATENT MANIFEST. Format: 'Patent Number | Title | Assignee | Jurisdiction | Year | URL'"]
+  "conclusion": "string — concise technical conclusion summarizing key findings for the SELECTED primary patents only. If primary_count is 0, state that no patents survived the configured selection criteria (identity / qualifier / centrality) — do NOT claim that no relevant patents exist in the literature. Do NOT invent or cite patents outside the REQUIRED PATENT MANIFEST. Do NOT create supporting/related/secondary patent lists.",
+  "references": ["array of strings — STRICT RULE: Include ONLY patents from the REQUIRED PATENT MANIFEST. Do NOT add any other patents. Format: 'Patent Number | Title | Assignee | Jurisdiction | Year | URL'"]
 }}
 
 PER-PATENT ANALYSIS RULES (CRITICAL):
@@ -458,6 +585,23 @@ For EVERY patent in the REQUIRED PATENT MANIFEST, produce one entry in per_paten
    - If genuinely nothing is disclosed, return [].
 4. example_highlights: summarize what each numbered example demonstrates (max 5 entries).
 5. technical_relevance: explain in 1-2 sentences why this specific patent advances the target.
+6. medium_and_water_role (REQUIRED for every patent):
+   - Separate CORE REACTION / POLYMERIZATION MEDIUM from later water operations.
+   - Solution/organic-solvent polymerization remains solvent-based even if water appears later for
+     washing, steam stripping, coagulation, quench, dilution, or formulation.
+   - Aqueous/emulsion polymerization should state that water is part of the polymerization medium.
+   - Do NOT invent water usage. Per-patent isolation: never copy water evidence from another patent.
+   - If no meaningful water-related process information exists in THIS patent's evidence, set
+     summary to: "No water-related process step disclosed in the extracted evidence."
+7. target_attribute (REQUIRED for every patent):
+   - Use the TARGET ATTRIBUTE LABEL provided in the user prompt (from research strategy).
+   - Extract a value ONLY when evidence shows it is a property of the REQUESTED TARGET material/embodiment.
+   - PROPERTY OWNERSHIP INVARIANT: a value appearing somewhere in the patent is NOT necessarily a
+     property of the requested target. If the value belongs to a different polymer/system/embodiment,
+     set belongs_to_target=false, status=not_found, value="Not disclosed in extracted evidence".
+   - Never infer from title, industry norms, typical ranges, material names, or other patents.
+   - If not disclosed for the target: value="Not disclosed in extracted evidence", status="not_found",
+     belongs_to_target=false.
 
 Do NOT force a common template across patents. Different patents disclose different parameter types.
 One patent may disclose H2 pressure + catalyst; another may disclose monomer ratio + temperature. Capture whatever is in the evidence for that specific patent.
@@ -476,6 +620,10 @@ MANDATORY RULES:
 4. REFERENCES RULE: references MUST contain ONLY patents from the REQUIRED PATENT MANIFEST.
 5. CROSS-PATENT COMPARISON RULE: If primary_count < 2, cross_patent_comparison MUST be an empty array [].
 6. per_patent_analysis MUST have exactly one entry per patent in the REQUIRED PATENT MANIFEST. Do not skip any.
+7. Every per_patent_analysis entry MUST include medium_and_water_role.summary and target_attribute with the strategy label.
+8. MANIFEST-ONLY RULE: Do NOT invent, discover, search for, or add supporting/related/secondary patents.
+   The report may discuss ONLY patents in the REQUIRED PATENT MANIFEST.
+9. CONCLUSION LANGUAGE: Never equate empty selection with 'no patents exist'. Distinguish selection-filter outcomes from literature absence.
 """
 
 REPORT_GENERATION_USER_TEMPLATE = """Generate a structured JSON report for the compound: {compound_name}
@@ -484,6 +632,12 @@ ORIGINAL USER INPUT: {original_input}
 
 RESEARCH PROFILE:
 {research_profile}
+
+TARGET ATTRIBUTE LABEL (use exactly this label for every patent's target_attribute.label):
+{target_attribute_label}
+
+ATTRIBUTE CONSTRAINT (if any; otherwise None):
+{attribute_constraint}
 
 REQUIRED PATENT MANIFEST (produce one per_patent_analysis entry for EVERY patent listed here):
 {patent_manifest}
@@ -496,8 +650,12 @@ Here is the structured extraction data for the above patents to base your analys
 
 FINAL REMINDER:
 - per_patent_analysis MUST have one entry for every patent in the REQUIRED PATENT MANIFEST.
+- For EVERY patent include Medium & Water Role (medium_and_water_role) and {{target_attribute_label}} (target_attribute).
 - disclosed_parameters must only contain values explicitly present in the evidence — no invented values.
+- Do not copy medium/water or target-attribute evidence across patents.
 - references MUST contain ONLY patents in the REQUIRED PATENT MANIFEST.
+- Do NOT invent supporting/related/secondary patents. Manifest patents only.
+- If primary_count is 0, conclusion must describe selection-criteria outcomes, not claim literature absence.
 - Return ONLY valid JSON. Do NOT return Markdown.
 """
 
@@ -587,10 +745,10 @@ discovered pool are worth sending to full-text validation. Prefer false positive
 borderline patent) over false negatives (excluding a genuinely relevant one).
 
 The target attribute does NOT need to appear in the title to be relevant.
-A title like "Nitrile Rubber and Method for Producing the Same" can be DIRECT_SYNTHESIS or
-PRECURSOR_OR_INTERMEDIATE for a Low-ACN NBR request, because base-polymer synthesis patents
-commonly control composition as part of the polymerization process without naming the specific
-grade in the title. Only the full text will reveal whether it controls ACN content.
+A title that names only the base polymer and "method for producing the same" can still be
+DIRECT_SYNTHESIS or PRECURSOR_OR_INTERMEDIATE for an attribute-grade request, because
+base-polymer synthesis patents commonly control composition without naming the specific
+grade in the title. Only fuller evidence will reveal attribute control.
 
 CLASSIFICATION CATEGORIES (classify EVERY candidate into exactly one):
 
@@ -598,24 +756,24 @@ DIRECT_SYNTHESIS (priority: HIGH)
   The patent is primarily about preparing, synthesizing, or polymerizing the base material itself,
   possibly with the target attribute or a composition range. Includes emulsion polymerization,
   solution polymerization, monomer feed control, and similar processes.
-  Example signals: "preparation of nitrile rubber", "emulsion polymerization of butadiene-acrylonitrile",
-  "process for producing NBR".
+  Example signals: "preparation of [base polymer]", "emulsion polymerization of [monomers]",
+  "process for producing [base polymer]".
 
 TARGET_TRANSFORMATION (priority: HIGH)
   The patent is primarily about chemically modifying the base material to achieve the requested
   target modification/attribute — e.g., hydrogenation, carboxylation, grafting, functionalization.
-  Example signals: "hydrogenation of nitrile rubber", "carboxyl-modified NBR synthesis".
+  Example signals: "hydrogenation of [base polymer]", "carboxyl-modified [base polymer] synthesis".
 
 POLYMER_STRUCTURE (priority: HIGH)
   The patent is primarily about the molecular/structural characterization, composition control,
-  or property engineering of the base polymer itself (Mooney viscosity, molecular weight distribution,
-  ACN content measurement/control, polymer architecture).
-  Example signals: "acrylonitrile content determination in NBR", "molecular weight control of nitrile rubber".
+  or property engineering of the base polymer itself (viscosity, molecular weight distribution,
+  composition measurement/control, polymer architecture).
+  Example signals: "composition determination in [base polymer]", "molecular weight control of [base polymer]".
 
 PRECURSOR_OR_INTERMEDIATE (priority: MEDIUM_HIGH)
   The patent covers synthesis of a monomer, catalyst, initiator, or intermediate that is
   specifically required for making the target material.
-  Example signals: "acrylonitrile monomer synthesis", "butadiene purification", "RAFT agent for nitrile rubber".
+  Example signals: "monomer synthesis for [target]", "catalyst/initiator for [base polymer]".
 
 AMBIGUOUS (priority: MEDIUM)
   The title is too generic to classify confidently, but the patent could plausibly be relevant
@@ -623,7 +781,7 @@ AMBIGUOUS (priority: MEDIUM)
   Use AMBIGUOUS only when you genuinely cannot rule out relevance. Do NOT use AMBIGUOUS for
   patents in clearly unrelated domains (electronics, energy storage, cosmetics, food, building
   materials) — those are UNRELATED.
-  Example signals: "rubber composition" (could be synthesis or formulation), "nitrile polymer method" (unclear).
+  Example signals: "rubber composition" (could be synthesis or formulation), "polymer method" (unclear).
 
 BASE_MATERIAL_ONLY (priority: LOW)
   The patent is about the base material in a generic context — not about synthesis, not about
@@ -635,10 +793,9 @@ DOWNSTREAM_APPLICATION (priority: LOW)
   as the research (rubber, elastomers, sealing, industrial parts) that incorporates or uses
   the base material as an ingredient — not about making the material itself.
   Use DOWNSTREAM_APPLICATION ONLY when the patent is in the rubber/elastomer/polymer domain.
-  IMPORTANT: "Nitrile rubber composition" is NOT automatically downstream — a composition
+  IMPORTANT: "[base polymer] composition" is NOT automatically downstream — a composition
   patent that controls the polymer's own synthesis is DIRECT_SYNTHESIS or BASE_MATERIAL_ONLY.
-  Examples: "oil-resistant NBR seal", "nitrile rubber glove", "HNBR belt for automotive use",
-  "rubber compound for tire sidewall".
+  Examples: seals/gloves/belts/tires that merely use a purchased polymer as an ingredient.
   DO NOT use DOWNSTREAM_APPLICATION for patents in completely different fields — use UNRELATED.
 
 UNRELATED (priority: REJECT)
@@ -676,4 +833,159 @@ CANDIDATES:
 Classify every candidate. Return a JSON object with a "candidates" array containing one entry per input patent.
 Each entry must include: patent_number, classification, priority, relevance, material_match, target_match,
 synthesis_relevance, downstream_application, confidence (0.0-1.0), reason (one sentence).
+"""
+
+# ============================================================
+# PATENT SELECTION PROMPT (evidence-aware; authoritative KEEP/REJECT)
+# ============================================================
+
+PATENT_SELECTION_PROMPT = """
+You are an expert polymer chemist and patent selection specialist.
+Your task is to make an AUTHORITATIVE KEEP or REJECT decision for each patent candidate
+using the DYNAMIC RESEARCH STRATEGY / TARGET SPECIFICATION below and the supplied candidate EVIDENCE PACKET.
+
+Do NOT assume the target is any particular polymer, monomer, or brand family.
+Derive all material meaning from the research strategy fields for THIS run only.
+
+TWO INDEPENDENT QUESTIONS (never collapse them):
+1) MATERIAL IDENTITY — Is the patent ABOUT the requested base material?
+2) QUALIFIER / ATTRIBUTE — Does evidence support / contradict / omit the requested qualifier?
+
+CRITICAL IDENTITY INVARIANT:
+A patent that CONTAINS the requested material (or monomers associated with it) is NOT
+necessarily a patent ABOUT the requested material.
+Keyword co-occurrence is NEVER sufficient for PRIMARY KEEP.
+
+CRITICAL QUALIFIER INVARIANT:
+QUALIFIER UNKNOWN ≠ QUALIFIER MISMATCH.
+If the patent is clearly about the base material but the requested qualifier is simply not
+disclosed in the evidence packet, set variant_match=UNKNOWN and still allow PRIMARY KEEP
+(lower rank). Only set MISMATCH when evidence EXPLICITLY contradicts the requested qualifier
+or matches an excluded chemically different variant.
+
+CRITICAL DECOUPLING (MOST COMMON FAILURE MODE):
+material_identity is about the BASE MATERIAL ONLY (strategy base_material / relevance_definition).
+- If the invention is about that base polymer/system → material_identity=MATCH
+  EVEN WHEN the requested qualifier is unknown, mismatched, high/low, or not mentioned.
+- Do NOT set material_identity=MISMATCH merely because the qualifier differs or is absent.
+  Wrong/missing qualifier → variant_match=MISMATCH or UNKNOWN; material_identity stays MATCH.
+- material_identity=MISMATCH only when the central invention is a DIFFERENT material/system
+  (including chemically distinct excluded variants from identity_exclusions / excluded_variants).
+
+INVENTION-FOCUS PRIORITY (for PRIMARY eligibility):
+Prefer patents whose central contribution is synthesizing, polymerizing, preparing, transforming,
+or composition-controlling the requested BASE MATERIAL itself.
+Finished articles that merely consume a commercial grade as an ingredient are NOT primary.
+
+CURRENT RUN RESEARCH STRATEGY (dynamically generated from user input):
+Compound/Material: {compound_name}
+Base Material / Synonyms: {base_material}
+Target Modifications / Qualifiers: {target_modifications}
+Target Attributes / Properties: {target_attributes}
+Synthesis Transformations: {synthesis_transformations}
+Downstream Terms (strategy-provided end-use indicators — NOT an automatic reject list): {downstream_terms}
+Excluded Variants (chemically incompatible for THIS run): {excluded_variants}
+Identity Exclusions (adjacent systems that must NOT silently become PRIMARY): {identity_exclusions}
+Related Materials (may be RELATED_TARGET, never auto-PRIMARY): {related_materials}
+Relevance Definition (what PRIMARY_TARGET means for THIS run — base-material identity): {relevance_definition}
+Search Intent: {search_intent}
+Attribute Constraint (optional): {attribute_constraint}
+Polymerization Medium Constraint: {polymerization_medium}
+
+EVALUATION STEPS (required for every candidate):
+A. TARGET IDENTITY — What base material does the strategy request?
+B. PATENT'S ACTUAL INVENTION — What material/system is the patent primarily about?
+   Set detected_primary_material. Set material_identity=MATCH|MISMATCH|UNKNOWN.
+C. RELATIONSHIP — Classify target_relationship from MATERIAL IDENTITY only:
+   - PRIMARY_TARGET: requested BASE MATERIAL is the central technical subject
+     (even if the requested qualifier/attribute is unknown/not disclosed).
+   - RELATED_TARGET: base material is only a segment/component/graft/blend ingredient /
+     adjacent architecture; main invention is a different system. retain_as_related=true.
+   - DOWNSTREAM_ADJACENT: finished end-use article/product where the base material is only
+     a purchased/commercial ingredient (gloves, seals, belts, tires, cables, adhesives as
+     end articles, imaging/electrophotographic members, etc.).
+   - REJECTED: no meaningful target relationship.
+   Do NOT set relationship=REJECTED merely because the qualifier is unknown or mismatched;
+   use variant_match for qualifier outcomes.
+   Do NOT mark polymer synthesis / emulsion polymerization / polymer composition-control
+   patents as DOWNSTREAM_ADJACENT merely because applications are mentioned.
+D. TECHNICAL CENTRALITY — CENTRAL / PARTIAL / PERIPHERAL / NONE for the base material invention.
+E. QUALIFIER MATCH (independent):
+   - MATCH: evidence supports the requested qualifier/attribute for THIS target material.
+   - UNKNOWN: base material is correct but qualifier not disclosed in the packet.
+   - MISMATCH: evidence explicitly contradicts the qualifier OR shows an excluded variant.
+   Set variant_mismatch=true ONLY for MISMATCH.
+F. INVENTION FOCUS / DOWNSTREAM USE:
+   Prefer patents where the requested BASE MATERIAL itself is being synthesized,
+   polymerized, prepared, transformed, or composition-controlled as the invention.
+   Finished articles, imaging/electrophotographic members, seals, tires, belts, gloves,
+   adhesives-as-articles, coatings-as-articles, and similar uses that merely CONSUME a
+   purchased/commercial grade of the target as an ingredient are DOWNSTREAM_APPLICATION /
+   DOWNSTREAM_ADJACENT — set downstream_only=true and do NOT KEEP as PRIMARY even if a
+   qualifier happens to match on that commercial grade.
+   A "composition" or "latex" patent that invents/controls the polymer's own synthesis or
+   composition remains eligible (DIRECT_SYNTHESIS / POLYMER_STRUCTURE / BASE_MATERIAL_ONLY),
+   not downstream.
+
+DECISION RULES (apply in order):
+1. If target_relationship=RELATED_TARGET → final_decision=REJECT, retain_as_related=true,
+   rejection_category=TARGET_AS_COMPONENT or TARGET_AS_SEGMENT as appropriate.
+2. Else if polymerization_medium_mismatch → final_decision=REJECT, rejection_category=MEDIUM_MISMATCH.
+3. Else if classification=DOWNSTREAM_APPLICATION OR target_relationship=DOWNSTREAM_ADJACENT
+   OR downstream_only=true → final_decision=REJECT, rejection_category=DOWNSTREAM_ONLY.
+   Do NOT KEEP finished-product / ingredient-only patents as PRIMARY solely because a
+   requested qualifier appears on a commercial grade used in that article.
+4. Else if material identity is PRIMARY_TARGET (or material_identity=MATCH or UNKNOWN with
+   clear base-material invention) AND technical_centrality is CENTRAL or PARTIAL:
+   - If variant_match=MISMATCH or variant_mismatch=true → final_decision=REJECT,
+     rejection_category=QUALIFIER_MISMATCH. (Still record material_identity=MATCH when the
+     base polymer is correct.)
+   - If variant_match=MATCH or UNKNOWN → final_decision=KEEP.
+     UNKNOWN is eligible; do not reject for missing qualifier disclosure.
+     Prefer DIRECT_SYNTHESIS / TARGET_TRANSFORMATION / POLYMER_STRUCTURE over BASE_MATERIAL_ONLY.
+5. Else → REJECT with rejection_category in
+   UNRELATED_MATERIAL | NON_TARGET_MATERIAL | INSUFFICIENT_TARGET_EVIDENCE |
+   AMBIGUOUS_TARGET_IDENTITY as appropriate.
+
+Mentions of monomers/synonyms alone, or presence of the target only as a block/segment/
+graft/component inside a system listed in Identity Exclusions, MUST NOT produce PRIMARY_TARGET.
+
+POLYMERIZATION MEDIUM (role-aware, not keyword-matching):
+Only evaluate when Polymerization Medium Constraint is "aqueous", "emulsion", or "solvent"
+(not "any" / empty).
+- Identify ROLE: polymerization medium / emulsion-latex / dispersion vs washing / coagulation /
+  workup / quenching / formulation diluent.
+- Water used only for washing/workup/coagulation is NOT aqueous polymerization.
+When polymerization_medium_mismatch=true, final_decision MUST be REJECT and medium_match="MISMATCH".
+When constraint is "any"/empty: polymerization_medium_mismatch=false, medium_match="NOT_APPLICABLE".
+
+CLASSIFICATION (exactly one — legacy taxonomy, still required):
+DIRECT_SYNTHESIS, TARGET_TRANSFORMATION, POLYMER_STRUCTURE, PRECURSOR_OR_INTERMEDIATE,
+AMBIGUOUS, BASE_MATERIAL_ONLY, DOWNSTREAM_APPLICATION, UNRELATED
+
+OUTPUT FIELDS (every candidate):
+  patent_number,
+  classification,
+  detected_primary_material,
+  material_identity (MATCH | MISMATCH | UNKNOWN),
+  target_relationship (PRIMARY_TARGET | RELATED_TARGET | DOWNSTREAM_ADJACENT | REJECTED),
+  retain_as_related (boolean),
+  technical_centrality (CENTRAL | PARTIAL | PERIPHERAL | NONE),
+  target_match (MATCH | PARTIAL | MISMATCH | UNKNOWN),
+  variant_match (MATCH | MISMATCH | UNKNOWN),
+  medium_match (MATCH | MISMATCH | UNCLEAR | NOT_APPLICABLE),
+  downstream_only (boolean),
+  variant_mismatch (boolean),
+  polymerization_medium_mismatch (boolean),
+  final_decision (KEEP | REJECT),
+  rejection_category (string; empty when KEEP),
+  confidence (0.0-1.0),
+  evidence_strength (0.0-1.0 — strength of support for PRIMARY KEEP; 0 if not KEEP),
+  evidence (array of short quotes/facts FROM the supplied packet only),
+  reason (one sentence grounded in that evidence)
+
+CANDIDATE EVIDENCE PACKETS (do not invent missing text):
+{candidates_json}
+
+Return JSON with a "candidates" array containing one entry per input patent.
 """

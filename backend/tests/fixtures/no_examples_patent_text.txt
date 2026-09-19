@@ -1,0 +1,10 @@
+ABSTRACT
+A process-focused disclosure describing a general polymerization concept.
+
+DETAILED DESCRIPTION
+The polymer may be prepared by methods known in the art. Process conditions are selected
+by the skilled person. No worked numerical examples are provided in this specification.
+
+CLAIMS
+1. A process for preparing a polymer comprising polymerizing monomers under controlled conditions.
+2. The process of claim 1, wherein the temperature is controlled.

@@ -1,0 +1,1325 @@
+[
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/EP2492306B1/en",
+      "patent_number": "EP2492306",
+      "patent_title": "Cross-linkable nitrile rubber composition and manufacturing method for same",
+      "assignee": "Not disclosed",
+      "publication_year": "2014-05-07",
+      "jurisdiction": "EP",
+      "legal_status": "Unknown",
+      "quality": "VALID_PARTIAL",
+      "extraction_score": 0
+    },
+    "polymerization": {
+      "process": "Not disclosed",
+      "monomers": "Not disclosed",
+      "monomer_ratio": "Not disclosed",
+      "initiator": "Not disclosed",
+      "emulsifier": "Not disclosed",
+      "catalyst": "Not disclosed",
+      "chain_transfer_agent": "Not disclosed",
+      "coagulation": "Not disclosed",
+      "water_amount": "Not disclosed"
+    },
+    "reaction_conditions": {
+      "temperature": "Not disclosed",
+      "time": "Not disclosed",
+      "pressure": "Not disclosed",
+      "ph": "Not disclosed",
+      "conversion": "Not disclosed"
+    },
+    "properties": {
+      "solid_content": "Not disclosed",
+      "mooney_viscosity": "Not disclosed",
+      "volatile_matter": "Not disclosed",
+      "ash": "Not disclosed",
+      "other_properties": "Not disclosed"
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [],
+    "parameters": [],
+    "examples": [
+      {
+        "number": "1",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE 1",
+        "raw_text": "In a capacity 55 ml Brabender type mixer, hydrogenated nitrile rubber (product name: Zetpol 2000L, made by Zeon Corporation, acrylonitrile unit content 36 wt%, butadiene units (including hydrogenated) 64 wt%, iodine value 4, Mooney viscosity 65, carboxyl group content 5x10\n-6\nephr or less) 100 parts was kneaded for 1 minute. Next, 2,2-bis[4-(4-aminophenoxy)phenyl]propane (aromatic polyvalent amine cross-linking agent (b2)) 100 parts was added. The temperature was made a temperature of more than the melting point 128\u00b0C of 2,2-bis[4-(4-aminophenoxy)phenyl]propane, that is, 130\u00b0C, to melt the 2,2-bis [4- (4-aminophenoxy)phenyl] propane. This was kneaded in that state for 5 minutes to prepare the master batch (B-1).\nNext, a Bambury mixer was used to mix, with the carboxyl group-containing nitrile copolymer rubber (A-1) which was obtained at Production Example 1 in 100 parts, FEF carbon black (product name: Seast SO, made by Tokai Carbon) in 40 parts, trimellitic acid ester (product name: ADK Cizer C-8, made by Adeka, plasticizer) in 5 parts, 4,4'-di-(\u03b1,\u03b1'-dimethylbenzyl)diphenylamine (product name: Nauguard 445, made by Crompton, antiaging agent) in 1.5 parts, stearic acid (cross-linking accelerator) in 1 part, and polyoxyethylene alkyl ether phosphoric acid ester (product name: Phosphanol RL210, made by Toho Chemical, processing aid) in 1 part at 50\u00b0C for 5 minutes. Next, the obtained mixture was transferred to a 50\u00b0C roll where the above prepared master batch (B-1) in 6.77 parts and 1,3-di-o-tolylguanidine (product name: Noccelar DT, made by Ouchi Shinko Chemical Industrial, cross-linking aid) in 2 parts were mixed and kneaded to prepare a cross-linkable nitrile rubber composition.\nFurther, the above methods were used to evaluate the dispersibility of the cross-linking agent in the cross-linkable nitrile rubber composition, normal physical properties of the press cross-linked product, normal physical properties of the steam cross-linked product, existence of foaming, and compression set. The results are shown in Table 1.",
+        "extracted_parameters": [
+          {
+            "name": "Brabender",
+            "category": "Raw Materials",
+            "value": "55",
+            "unit": "ml",
+            "context": "55 ml of Brabender",
+            "section": "EXAMPLE 1",
+            "example_number": "",
+            "source_sentence": "In a capacity 55 ml Brabender type mixer, hydrogenated nitrile rubber (product name: Zetpol 2000L, made by Zeon Corporation, acrylonitrile unit content 36 wt%, butadiene units (including hydrogenated) 64 wt%, iodine value 4, Mooney viscosity 65, carboxyl group content 5x10 -6 ephr or less) 100 parts was kneaded for 1 minute",
+            "confidence": 0.9,
+            "source_offset": 14,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Viscosity",
+            "category": "Polymer Properties",
+            "value": "100",
+            "unit": "parts",
+            "context": "viscosity ... 100 parts",
+            "section": "EXAMPLE 1",
+            "example_number": "",
+            "source_sentence": "In a capacity 55 ml Brabender type mixer, hydrogenated nitrile rubber (product name: Zetpol 2000L, made by Zeon Corporation, acrylonitrile unit content 36 wt%, butadiene units (including hydrogenated) 64 wt%, iodine value 4, Mooney viscosity 65, carboxyl group content 5x10 -6 ephr or less) 100 parts was kneaded for 1 minute",
+            "confidence": 0.95,
+            "source_offset": 232,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Temperature",
+            "category": "Reaction Conditions",
+            "value": "128",
+            "unit": "\u00b0C",
+            "context": "temperature ... 128 \u00b0C",
+            "section": "EXAMPLE 1",
+            "example_number": "",
+            "source_sentence": "The temperature was made a temperature of more than the melting point 128\u00b0C of 2,2-bis[4-(4-aminophenoxy)phenyl]propane, that is, 130\u00b0C, to melt the 2,2-bis [4- (4-aminophenoxy)phenyl] propane",
+            "confidence": 0.95,
+            "source_offset": 475,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Rol",
+            "category": "Raw Materials",
+            "value": "50",
+            "unit": "\u00b0C",
+            "context": "50 \u00b0C of Rol",
+            "section": "EXAMPLE 1",
+            "example_number": "Example 1",
+            "source_sentence": "Next, the obtained mixture was transferred to a 50\u00b0C roll where the above prepared master batch (B-1) in 6.77 parts and 1,3-di-o-tolylguanidine (product name: Noccelar DT, made by Ouchi Shinko Chemical Industrial, cross-linking aid) in 2 parts were mixed and kneaded to prepare a cross-linkable nitrile rubber composition",
+            "confidence": 0.9,
+            "source_offset": 1434,
+            "extraction_method": "deterministic"
+          }
+        ]
+      },
+      {
+        "number": "2",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE 2",
+        "raw_text": "Except for changing the amount of the 2,2-bis[4-(4-aminophenoxy)phenyl] propane from 100 parts to 50 parts, the same procedure was followed as in Example 1 to prepare the master batch (B-2) . Except for, instead of the master batch (B-1) in 6.77 parts, using the master batch (B-2) in 10.2 parts, the same procedure was followed as in Example 1 to prepare and evaluate the cross-linkable nitrile rubber composition. The results are shown in Table 1.",
+        "extracted_parameters": []
+      },
+      {
+        "number": "1",
+        "type": "COMPARATIVE EXAMPLE",
+        "title": "COMPARATIVE EXAMPLE 1",
+        "raw_text": "Except for not using the master batch (B-1) 6.77 parts, but mixing in 2,2-bis [4-(4-aminophenoxy)phenyl]propane 3.39 parts without forming a master batch, the same procedure was followed as in Example 1 to prepare a cross-linkable nitrile rubber composition. The results are shown in Table 1.",
+        "extracted_parameters": [
+          {
+            "name": "Without",
+            "category": "Raw Materials",
+            "value": "3.39",
+            "unit": "parts",
+            "context": "3.39 parts of Without",
+            "section": "COMPARATIVE EXAMPLE 1",
+            "example_number": "Example 1",
+            "source_sentence": "Except for not using the master batch (B-1) 6.77 parts, but mixing in 2,2-bis [4-(4-aminophenoxy)phenyl]propane 3.39 parts without forming a master batch, the same procedure was followed as in Example 1 to prepare a cross-linkable nitrile rubber composition",
+            "confidence": 0.9,
+            "source_offset": 112,
+            "extraction_method": "deterministic"
+          }
+        ]
+      },
+      {
+        "number": "2",
+        "type": "COMPARATIVE EXAMPLE",
+        "title": "COMPARATIVE EXAMPLE 2",
+        "raw_text": "Except for not using the master batch (B-1) 6.77 parts, but mixing in hexamethylenediamine carbamate (product name: Diak#1, made by Dupont Dow Elastomer, melting point 154 \u00b0C aliphatic polyvalent amine cross-linking agent) 2.6 parts without forming a master batch, the same procedure was followed as in Example 1 to prepare a cross-linkable nitrile rubber composition. The results are shown in Table 1.\nTable 1\nTable 1\nExamples\nComp. Ex.\n1\n2\n1\n2\nComposition of cross-linkable nitrile rubber composition\nCarboxyl group-containing nitrile copolymer rubber (A-1)\n(parts)\n100\n100\n100\n100\nMaster batch (B-1)\n(parts)\n6.77\n-\n-\n-\nMaster batch (B-2)\n(parts)\n-\n10.2\n-\n-\n2,2-bis[4-(4-aminophenoxy) phenyl]propane\n(parts)\n-\n-\n3.39\n-\nDiak #1\n(parts)\n-\n-\n2.6\nNoccelar DT\n(parts)\n2\n2\n2\n2\nFEF carbon black\n(parts)\n40\n40\n40\n40\nADK Cizer C-8\n(parts)\n5\n5\n5\n5\nNauguard 445\n(parts)\n1.5\n1.5\n1.5\n1.5\nStearic acid\n(parts)\n1\n1\n1\n1\nPhosphanol RL210\n(parts)\n1\n1\n1\n1\nComposition of master batch\nZetpol 2000L\n(parts)\n50\n66.7\n-\n-\n2,2-bis[4-(4-aminophenoxy) phenyl]propane\n(parts)\n50\n33.3\n-\n-\nEvaluation of cross-linkable nitrile rubber composition\nDispersibility of cross-linking agent\nGood\nGood\nPoor\nGood\nEvaluation of press cross-linked product\nTensile strength\n(MPa)\n26.1\n25.3\n22.8\n21.1\nElongation\n(%)\n360\n380\n310\n230\nHardness\n(Duro-A)\n71\n70\n71\n69\nCompression set\n(%)\n15\n15\n15\n14\nEvaluation of steam cross-linked product\nTensile strength\n(MPa)\n16.9\n16.5\n16.4\n-\nElongation\n(%)\n320\n340\n300\n-\nHardness\n(Duro-A)\n64\n63\n65\n-\nExistence of Foam (visually countable number)\n(No.)\n0\n0\n10\n100 or more\n(Note) 2,2-bis[4-(4-aminophenoxy)phenyl]propane\nFrom Table 1, it can be confirmed that a cross-linkable nitrile rubber composition which is obtained by mixing a master batch (B) which contains a nitrile copolymer rubber (b1) having an iodine value of 120 or less and an aromatic polyvalent amine cross-linking agent (b2) into a carboxyl group-containing nitrile copolymer rubber (A) having an iodine value of 120 or less is excellent in dispersibility of the cross-linking agent and can give a press cross-linked product which is excellent in normal physical properties (tensile strength, elongation, hardness) and compression set resistance. Further, the steam cross-linked product which is obtained by steam cross-linking this composition was superior in normal physical properties (tensile strength, elongation, hardness) and was effectively suppressed in foaming (Examples 1 to 2).\nAs opposed to this, when not forming the aromatic polyvalent amine cross-linking agent (b2) into a master batch, but directly mixing it with a carboxyl group-containing nitrile copolymer rubber (A) having an iodine value of 120 or less, the dispersibility of the cross-linking agent becomes poor and the obtained press cross-linked product becomes inferior in tensile strength and elongation. Further, when steam cross-linking it, foaming is caused (Comparative Example 1).\nFurther, when using an aliphatic polyvalent amine carbonate as a cross-linking agent, the obtained press cross-linked product is inferior in tensile strength and elongation, while when steam cross-linking it, foaming remarkably occurs and it was not possible to obtain a steam cross-linked product which has the mechanical strength which is required for measuring the normal physical properties (Comparative Example 2).",
+        "extracted_parameters": [
+          {
+            "name": "Aliphatic",
+            "category": "Raw Materials",
+            "value": "154",
+            "unit": "\u00b0C",
+            "context": "154 \u00b0C of Aliphatic",
+            "section": "COMPARATIVE EXAMPLE 2",
+            "example_number": "Example 1",
+            "source_sentence": "Except for not using the master batch (B-1) 6.77 parts, but mixing in hexamethylenediamine carbamate (product name: Diak#1, made by Dupont Dow Elastomer, melting point 154 \u00b0C aliphatic polyvalent amine cross-linking agent) 2.6 parts without forming a master batch, the same procedure was followed as in Example 1 to prepare a cross-linkable nitrile rubber composition",
+            "confidence": 0.9,
+            "source_offset": 168,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Without",
+            "category": "Raw Materials",
+            "value": "2.6",
+            "unit": "parts",
+            "context": "2.6 parts of Without",
+            "section": "COMPARATIVE EXAMPLE 2",
+            "example_number": "Example 1",
+            "source_sentence": "Except for not using the master batch (B-1) 6.77 parts, but mixing in hexamethylenediamine carbamate (product name: Diak#1, made by Dupont Dow Elastomer, melting point 154 \u00b0C aliphatic polyvalent amine cross-linking agent) 2.6 parts without forming a master batch, the same procedure was followed as in Example 1 to prepare a cross-linkable nitrile rubber composition",
+            "confidence": 0.9,
+            "source_offset": 223,
+            "extraction_method": "deterministic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US9382391B2/en",
+      "patent_number": "US9382391",
+      "patent_title": "Cross-linkable nitrile rubber composition and method of production of same",
+      "assignee": "Not disclosed",
+      "publication_year": "2016-07-05",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "VALID_PARTIAL",
+      "extraction_score": 0
+    },
+    "polymerization": {
+      "process": "Not disclosed",
+      "monomers": "Not disclosed",
+      "monomer_ratio": "Not disclosed",
+      "initiator": "Not disclosed",
+      "emulsifier": "Not disclosed",
+      "catalyst": "Not disclosed",
+      "chain_transfer_agent": "Not disclosed",
+      "coagulation": "Not disclosed",
+      "water_amount": "Not disclosed"
+    },
+    "reaction_conditions": {
+      "temperature": "Not disclosed",
+      "time": "Not disclosed",
+      "pressure": "Not disclosed",
+      "ph": "Not disclosed",
+      "conversion": "Not disclosed"
+    },
+    "properties": {
+      "solid_content": "Not disclosed",
+      "mooney_viscosity": "Not disclosed",
+      "volatile_matter": "Not disclosed",
+      "ash": "Not disclosed",
+      "other_properties": "Not disclosed"
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [],
+    "parameters": [],
+    "examples": [
+      {
+        "number": "1",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE 1",
+        "raw_text": "In a capacity 55 ml Brabender type mixer, hydrogenated nitrile rubber (product name: Zetpol 2000L, made by Zeon Corporation, acrylonitrile unit content 36 wt %, butadiene units (including hydrogenated) 64 wt %, iodine value 4, Mooney viscosity 65, carboxyl group content 5\u00d710\n\u22126\nephr or less) 100 parts was kneaded for 1 minute. Next, 2,2-bis[4-(4-aminophenoxy)phenyl]propane (aromatic polyvalent amine cross-linking agent (b2)) 100 parts was added. The temperature was made a temperature of more than the melting point 128\u00b0 C. of 2,2-bis[4-(4-aminophenoxy)phenyl]propane, that is, 130\u00b0 C., to melt the 2,2-bis[4-(4-aminophenoxy)phenyl]propane. This was kneaded in that state for 5 minutes to prepare the master batch (B-\n1\n).\nNext, a Bambury mixer was used to mix, with the carboxyl group-containing nitrile copolymer rubber (A-1) which was obtained at Production Example 1 in 100 parts, FEF carbon black (product name: Seast SO, made by Tokai Carbon) in 40 parts, trimellitic acid ester (product name: ADK Cizer C-8, made by Adeka, plasticizer) in 5 parts, 4,4\u2032-di-(\u03b1,\u03b1\u2032-dimethylbenzyl)diphenylamine (product name: Nauguard 445, made by Crompton, antiaging agent) in 1.5 parts, stearic acid (cross-linking accelerator) in 1 part, and polyoxyethylene alkyl ether phosphoric acid ester (product name: Phosphanol RL210, made by Toho Chemical, processing aid) in 1 part at 50\u00b0 C. for 5 minutes. Next, the obtained mixture was transferred to a 50\u00b0 C. roll where the above prepared master batch (B-\n1\n) in 6.77 parts and 1,3-di-o-tolylguanidine (product name: Noccelar DT, made by Ouchi Shinko Chemical Industrial, cross-linking aid) in 2 parts were mixed and kneaded to prepare a cross-linkable nitrile rubber composition.\nFurther, the above methods were used to evaluate the dispersibility of the cross-linking agent in the cross-linkable nitrile rubber composition, normal physical properties of the press cross-linked product, normal physical properties of the steam cross-linked product, existence of foaming, and compression set. The results are shown in Table 1.",
+        "extracted_parameters": [
+          {
+            "name": "Brabender",
+            "category": "Raw Materials",
+            "value": "55",
+            "unit": "ml",
+            "context": "55 ml of Brabender",
+            "section": "EXAMPLE 1",
+            "example_number": "",
+            "source_sentence": "In a capacity 55 ml Brabender type mixer, hydrogenated nitrile rubber (product name: Zetpol 2000L, made by Zeon Corporation, acrylonitrile unit content 36 wt %, butadiene units (including hydrogenated) 64 wt %, iodine value 4, Mooney viscosity 65, carboxyl group content 5\u00d710 \u22126 ephr or less) 100 parts was kneaded for 1 minute",
+            "confidence": 0.9,
+            "source_offset": 14,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Viscosity",
+            "category": "Polymer Properties",
+            "value": "100",
+            "unit": "parts",
+            "context": "viscosity ... 100 parts",
+            "section": "EXAMPLE 1",
+            "example_number": "",
+            "source_sentence": "In a capacity 55 ml Brabender type mixer, hydrogenated nitrile rubber (product name: Zetpol 2000L, made by Zeon Corporation, acrylonitrile unit content 36 wt %, butadiene units (including hydrogenated) 64 wt %, iodine value 4, Mooney viscosity 65, carboxyl group content 5\u00d710 \u22126 ephr or less) 100 parts was kneaded for 1 minute",
+            "confidence": 0.95,
+            "source_offset": 234,
+            "extraction_method": "deterministic"
+          }
+        ]
+      },
+      {
+        "number": "2",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE 2",
+        "raw_text": "Except for changing the amount of the 2,2-bis[4-(4-aminophenoxy)phenyl]propane from 100 parts to 50 parts, the same procedure was followed as in Example 1 to prepare the master batch (B-\n2\n). Except for, instead of the master batch (B-\n1\n) in 6.77 parts, using the master batch (B-\n2\n) in 10.2 parts, the same procedure was followed as in Example 1 to prepare and evaluate the cross-linkable nitrile rubber composition. The results are shown in Table 1.",
+        "extracted_parameters": []
+      },
+      {
+        "number": "1",
+        "type": "COMPARATIVE EXAMPLE",
+        "title": "COMPARATIVE EXAMPLE 1",
+        "raw_text": "Except for not using the master batch (B-\n1\n) 6.77 parts, but mixing in 2,2-bis[4-(4-aminophenoxy)phenyl]propane 3.39 parts without forming a master batch, the same procedure was followed as in Example 1 to prepare a cross-linkable nitrile rubber composition. The results are shown in Table 1.",
+        "extracted_parameters": [
+          {
+            "name": "Without",
+            "category": "Raw Materials",
+            "value": "3.39",
+            "unit": "parts",
+            "context": "3.39 parts of Without",
+            "section": "COMPARATIVE EXAMPLE 1",
+            "example_number": "Example 1",
+            "source_sentence": "Except for not using the master batch (B- 1 ) 6.77 parts, but mixing in 2,2-bis[4-(4-aminophenoxy)phenyl]propane 3.39 parts without forming a master batch, the same procedure was followed as in Example 1 to prepare a cross-linkable nitrile rubber composition",
+            "confidence": 0.9,
+            "source_offset": 113,
+            "extraction_method": "deterministic"
+          }
+        ]
+      },
+      {
+        "number": "2",
+        "type": "COMPARATIVE EXAMPLE",
+        "title": "COMPARATIVE EXAMPLE 2",
+        "raw_text": "Except for not using the master batch (B-\n1\n) 6.77 parts, but mixing in hexamethylenediamine carbamate (product name: Diak#1, made by Dupont Dow Elastomer, melting point 154\u00b0 C. aliphatic polyvalent amine cross-linking agent) 2.6 parts without forming a master batch, the same procedure was followed as in Example 1 to prepare a cross-linkable nitrile rubber composition. The results are shown in Table 1.\nTABLE 1\nExamples\nComp. Ex.\n1\n2\n1\n2\nComposition of cross-linkable nitrile rubber composition\nCarboxyl group-containing nitrile copolymer rubber (A-1)\n(parts)\n100\n100\n100\n100\nMaster batch (B-1)\n(parts)\n6.77\n\u2014\n\u2014\n\u2014\nMaster batch (B-2)\n(parts)\n\u2014\n10.2\n\u2014\n\u2014\n2,2-bis[4-(4-aminophenoxy)phenyl]propane\n(parts)\n\u2014\n\u2014\n3.39\n\u2014\nDiak #1\n(parts)\n\u2014\n\u2014\n\u2014\n2.6\nNoccelar DT\n(parts)\n2\n2\n2\n2\nFEF carbon black\n(parts)\n40\n40\n40\n40\nADK Cizer C-8\n(parts)\n5\n5\n5\n5\nNauguard 445\n(parts)\n1.5\n1.5\n1.5\n1.5\nStearic acid\n(parts)\n1\n1\n1\n1\nPhosphanol RL210\n(parts)\n1\n1\n1\n1\nComposition of master batch\nZetpol 2000L\n(parts)\n50\n66.7\n\u2014\n\u2014\n2,2-bis[4-(4-aminophenoxy)phenyl]propane\n(parts)\n50\n33.3\n\u2014\n\u2014\nEvaluation of cross-linkable nitrile rubber composition\nDispersibility of cross-linking agent\nGood\nGood\nPoor\nGood\nEvaluation of press cross-linked product\nTensile strength\n(MPa)\n26.1\n25.3\n22.8\n21.1\nElongation\n(%)\n360\n380\n310\n230\nHardness\n(Duro-A)\n71\n70\n71\n69\nCompression set\n(%)\n15\n15\n15\n14\nEvaluation of steam cross-linked product\nTensile strength\n(MPa)\n16.9\n16.5\n16.4\n\u2014\nElongation\n(%)\n320\n340\n300\n\u2014\nHardness\n(Duro-A)\n64\n63\n65\n\u2014\nExistence of Foam (visually countable number)\n(No.)\n0\n0\n10\n100 or more\n(Note)\n2,2-bis[4-(4-aminophenoxy)phenyl]propane\nFrom Table 1, it can be confirmed that a cross-linkable nitrile rubber composition which is obtained by mixing a master batch (B) which contains a nitrile copolymer rubber (b1) having an iodine value of 120 or less and an aromatic polyvalent amine cross-linking agent (b2) into a carboxyl group-containing nitrile copolymer rubber (A) having an iodine value of 120 or less is excellent in dispersibility of the cross-linking agent and can give a press cross-linked product which is excellent in normal physical properties (tensile strength, elongation, hardness) and compression set resistance. Further, the steam cross-linked product which is obtained by steam cross-linking this composition was superior in normal physical properties (tensile strength, elongation, hardness) and was effectively suppressed in foaming (Examples 1 to 2).\nAs opposed to this, when not forming the aromatic polyvalent amine cross-linking agent (b2) into a master batch, but directly mixing it with a carboxyl group-containing nitrile copolymer rubber (A) having an iodine value of 120 or less, the dispersibility of the cross-linking agent becomes poor and the obtained press cross-linked product becomes inferior in tensile strength and elongation. Further, when steam cross-linking it, foaming is caused (Comparative Example 1).\nFurther, when using an aliphatic polyvalent amine carbonate as a cross-linking agent, the obtained press cross-linked product is inferior in tensile strength and elongation, while when steam cross-linking it, foaming remarkably occurs and it was not possible to obtain a steam cross-linked product which has the mechanical strength which is required for measuring the normal physical properties (Comparative Example 2).",
+        "extracted_parameters": [
+          {
+            "name": "Without",
+            "category": "Raw Materials",
+            "value": "2.6",
+            "unit": "parts",
+            "context": "2.6 parts of Without",
+            "section": "COMPARATIVE EXAMPLE 2",
+            "example_number": "Example 1",
+            "source_sentence": "aliphatic polyvalent amine cross-linking agent) 2.6 parts without forming a master batch, the same procedure was followed as in Example 1 to prepare a cross-linkable nitrile rubber composition",
+            "confidence": 0.9,
+            "source_offset": 226,
+            "extraction_method": "deterministic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US10208151B2/en",
+      "patent_number": "US10208151",
+      "patent_title": "Method for preparing large-size diene-based rubber latex and acrylonitrile- \u2026",
+      "assignee": "Not disclosed",
+      "publication_year": "2019-02-19",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "VALID_PARTIAL",
+      "extraction_score": 0
+    },
+    "polymerization": {
+      "process": "Not disclosed",
+      "monomers": "Not disclosed",
+      "monomer_ratio": "Not disclosed",
+      "initiator": "Not disclosed",
+      "emulsifier": "Not disclosed",
+      "catalyst": "Not disclosed",
+      "chain_transfer_agent": "Not disclosed",
+      "coagulation": "Not disclosed",
+      "water_amount": "Not disclosed"
+    },
+    "reaction_conditions": {
+      "temperature": "Not disclosed",
+      "time": "Not disclosed",
+      "pressure": "Not disclosed",
+      "ph": "Not disclosed",
+      "conversion": "Not disclosed"
+    },
+    "properties": {
+      "solid_content": "Not disclosed",
+      "mooney_viscosity": "Not disclosed",
+      "volatile_matter": "Not disclosed",
+      "ash": "Not disclosed",
+      "other_properties": "Not disclosed"
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [],
+    "parameters": [],
+    "examples": [
+      {
+        "number": "",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE",
+        "raw_text": "Example 1\n(Preparation of Rubber Latex)\nIon exchanged water 65 parts by weight, as a monomer, 1,3-butadiene 75 parts by weight, as an emulsifier, potassium rosinate 1 part by weight and potassium oleate 1.5 parts by weight, as an electrolyte, potassium carbonate (K\n2\nCO\n3\n) 0.3 part by weight, as a molecular weight control agent, tertiary dodecyl mercaptan (TDDM) 0.3 part by weight, as an initiator, potassium persulfate (K\n2\nS\n2\nO\n8\n) 0.3 part by weight were simultaneously added into a nitrogen-substituted polymerization reactor (Autoclave). As a cross-linking agent, (propylene glycol)\n7\ndiacrylate 0.2 part by weight was added thereto, and then reacted at a reaction temperature of 70\u00b0 C. until polymerization conversion rate reached 40% (First polymerization). Then, the balance of the 1,3-butadiene and potassium rosinate 0.3 part by weight were dividedly added thereinto, heated to 82\u00b0 C. and then reacted (Second polymerization). Then, the reaction was terminated when polymerization conversion rate reached 93% to obtain rubber latex having gel content of 78% and large size of 3100 \u212b.\n(Preparation of Acrylonitrile-Butadiene-Styrene Copolymer)\nThe diene-based rubber polymer prepared in the above 60 parts by weight and ion exchanged 100 parts by weight were added to a nitrogen-substituted polymerization reactor, a mixed solution consisting of acrylonitrile 10 parts by weight, styrene 30 parts by weight, ion exchanged water 25 parts by weight, t-butyl hydroperoxide 0.12 part by weight, potassium rosinate 1.0 part by weight and tertiary dodecyl mercaptan 0.3 part by weight, which was mixed in a separate blending apparatus, was continuously added into the polymerization reactor at 70\u00b0 C. for 3 hours with dextrose 0.054 part by weight, sodium pyrophosphate 0.004 part by weight and ferrous sulfate 0.002 part by weight. After terminating the continuous addition, dextrose 0.05 part by weight, sodium pyrophosphate 0.03 part by weight, ferrous sulfate 0.001 part by weight and t-butyl hydroperoxide 0.05 part by weight were simultaneously added into the polymerization reactor, the temperature was raised for 1 hour up to 80\u00b0 C., and then the reaction was terminated to prepare acrylonitrile-butadiene-styrene copolymer latex (polymerization conversion rate was 97%, graft rate of the prepared ABS copolymer was 41%, and the formed coagulates content was 0.3%). The formed acrylonitrile-butadiene-styrene copolymer latex was coagulated with aqueous sulfuric acid, washed and then dried to obtain an acrylonitrile-butadiene-styrene copolymer powder. Properties of the obtained rubber latex were measured and the results were shown in the following Table 1.\n(Acrylonitrile-Butadiene-Styrene-Based Thermoplastic Resin)\nThe acrylonitrile-butadiene-styrene graft copolymer powder 22.5 wt % and styrene-acrylonitrile-based resin (LG SAN 92 HR) 77.5 wt % were mixed and pelleted using an extruder, and a specimen of acrylonitrile-butadiene-styrene-based thermoplastic resin was obtained by using an injection molding machine. Properties of the specimen, such as impact strength, flexibility and gloss, were measured, and the results were shown in the following Table 2 and comparatively analyzed. In this case, each pellet was prepared as a specimen with thickness of \u00bc inch, and then the impact strength was measured according to ASTM D256.",
+        "extracted_parameters": [
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "40",
+            "unit": "%",
+            "context": "conversion ... 40 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "until polymerization conversion rate reached 40% (First polymerization)",
+            "confidence": 0.95,
+            "source_offset": 718,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "93",
+            "unit": "%",
+            "context": "conversion ... 93 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Then, the reaction was terminated when polymerization conversion rate reached 93% to obtain rubber latex having gel content of 78% and large size of 3100 \u212b",
+            "confidence": 0.95,
+            "source_offset": 996,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Up",
+            "category": "Raw Materials",
+            "value": "1",
+            "unit": "hour",
+            "context": "1 hour of Up",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "After terminating the continuous addition, dextrose 0.05 part by weight, sodium pyrophosphate 0.03 part by weight, ferrous sulfate 0.001 part by weight and t-butyl hydroperoxide 0.05 part by weight were simultaneously added into the polymerization reactor, the temperature was raised for 1 hour up to 80\u00b0 C., and then the reaction was terminated to prepare acrylonitrile-butadiene-styrene copolymer latex (polymerization conversion rate was 97%, graft rate of the prepared ABS copolymer was 41%, and the formed coagulates content was 0.3%)",
+            "confidence": 0.9,
+            "source_offset": 2129,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Temperature",
+            "category": "Reaction Conditions",
+            "value": "1",
+            "unit": "hour",
+            "context": "temperature ... 1 hour",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "After terminating the continuous addition, dextrose 0.05 part by weight, sodium pyrophosphate 0.03 part by weight, ferrous sulfate 0.001 part by weight and t-butyl hydroperoxide 0.05 part by weight were simultaneously added into the polymerization reactor, the temperature was raised for 1 hour up to 80\u00b0 C., and then the reaction was terminated to prepare acrylonitrile-butadiene-styrene copolymer latex (polymerization conversion rate was 97%, graft rate of the prepared ABS copolymer was 41%, and the formed coagulates content was 0.3%)",
+            "confidence": 0.95,
+            "source_offset": 2102,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "97",
+            "unit": "%",
+            "context": "conversion ... 97 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "After terminating the continuous addition, dextrose 0.05 part by weight, sodium pyrophosphate 0.03 part by weight, ferrous sulfate 0.001 part by weight and t-butyl hydroperoxide 0.05 part by weight were simultaneously added into the polymerization reactor, the temperature was raised for 1 hour up to 80\u00b0 C., and then the reaction was terminated to prepare acrylonitrile-butadiene-styrene copolymer latex (polymerization conversion rate was 97%, graft rate of the prepared ABS copolymer was 41%, and the formed coagulates content was 0.3%)",
+            "confidence": 0.95,
+            "source_offset": 2262,
+            "extraction_method": "deterministic"
+          }
+        ]
+      },
+      {
+        "number": "2",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE 2",
+        "raw_text": "(Preparation of Rubber Latex)\nThe procedure of Example 1 was repeated except for using (propylene glycol)\n13\ndiacrylate instead of the (propylene glycol)\n7\ndiacrylate as a cross-linking agent to obtain rubber latex having gel content of 76% and large size of 3100 \u212b.\n(Preparation of Acrylonitrile-Butadiene-Styrene Copolymer)\nThe procedure of Example 1 was repeated except for using the rubber latex prepared above instead of the rubber latex prepared in Example 1 to obtain acrylonitrile-butadiene-styrene copolymer powder, and a specimen was prepared using the same. Properties of the specimen were measured, the results were shown in the following Table 1, and then the values were comparatively analyzed.\n(Acrylonitrile-Butadiene-Styrene-Based Thermoplastic Resin)\nThe acrylonitrile-butadiene-styrene graft copolymer powder 22.5 wt % and styrene-acrylonitrile-based resin (LG SAN 92 HR) 77.5 wt % were mixed and pelleted using an extruder, and a specimen of acrylonitrile-butadiene-styrene-based thermoplastic resin was obtained by using an injection molding machine. Properties of the specimen, such as impact strength, flexibility and gloss, were measured, and the results were shown in the following Table 2.",
+        "extracted_parameters": []
+      },
+      {
+        "number": "3",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE 3",
+        "raw_text": "(Preparation of Rubber Latex)\nIon exchanged water 65 parts by weight, as a monomer, 1,3-butadiene 75 parts by weight, as an emulsifier, potassium rosinate 1.0 part by weight and potassium oleate 1.5 parts by weight, as an electrolyte, potassium carbonate (K\n2\nCO\n3\n) 0.3 part by weight, as a molecular weight control agent, tertiary dodecyl mercaptan (TDDM) 0.3 part by weight, as an initiator, potassium persulfate (K\n2\nS\n2\nO\n8\n) 0.3 part by weight were simultaneously added into a nitrogen-substituted polymerization reactor (Autoclave). As a cross-linking agent, (propylene glycol)\n13\ndiacrylate 0.2 part by weight was added thereto, and then reacted at a reaction temperature of 70\u00b0 C. until polymerization conversion rate reached 40% (First polymerization). Then, the balance of the 1,3-butadiene, potassium rosinate 0.3 part by weight and (propylene glycol)\n13\ndiacrylate 0.1 part by weight as a cross-linking agent were continuously dividedly added thereinto, heated to 82\u00b0 C. and then reacted (Second polymerization). Then, the reaction was terminated by lowering temperature when polymerization conversion rate reached 93% to obtain rubber latex having gel content of 70% and large size of 3100 \u212b.\n(Preparation of Acrylonitrile-Butadiene-Styrene Copolymer)\nThe procedure of Example 1 was repeated except for using the rubber latex prepared above instead of the rubber latex prepared in Example 1 to obtain acrylonitrile-butadiene-styrene copolymer powder, and a specimen was prepared using the same. Properties of the specimen were measured, the results were shown in the following Table 1, and then the values were comparatively analyzed.\n(Acrylonitrile-Butadiene-Styrene-Based Thermoplastic Resin)\nThe acrylonitrile-butadiene-styrene graft copolymer powder 22.5 wt % and styrene-acrylonitrile-based resin (LG SAN 92 HR) 77.5 wt % were mixed and pelleted using an extruder, and a specimen of acrylonitrile-butadiene-styrene-based thermoplastic resin was obtained by using an injection molding machine. Properties of the specimen were measured, and the results were shown in the following Table 2.",
+        "extracted_parameters": [
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "40",
+            "unit": "%",
+            "context": "conversion ... 40 %",
+            "section": "EXAMPLE 3",
+            "example_number": "",
+            "source_sentence": "until polymerization conversion rate reached 40% (First polymerization)",
+            "confidence": 0.95,
+            "source_offset": 711,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Temperature",
+            "category": "Reaction Conditions",
+            "value": "93",
+            "unit": "%",
+            "context": "temperature ... 93 %",
+            "section": "EXAMPLE 3",
+            "example_number": "",
+            "source_sentence": "Then, the reaction was terminated by lowering temperature when polymerization conversion rate reached 93% to obtain rubber latex having gel content of 70% and large size of 3100 \u212b",
+            "confidence": 0.95,
+            "source_offset": 1072,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "93",
+            "unit": "%",
+            "context": "conversion ... 93 %",
+            "section": "EXAMPLE 3",
+            "example_number": "",
+            "source_sentence": "Then, the reaction was terminated by lowering temperature when polymerization conversion rate reached 93% to obtain rubber latex having gel content of 70% and large size of 3100 \u212b",
+            "confidence": 0.95,
+            "source_offset": 1104,
+            "extraction_method": "deterministic"
+          }
+        ]
+      },
+      {
+        "number": "1",
+        "type": "COMPARATIVE EXAMPLE",
+        "title": "COMPARATIVE EXAMPLE 1",
+        "raw_text": "(Preparation of Rubber Latex: Not Using Cross-Linking Agent)\nIon exchanged water 65 parts by weight, as a monomer, 1,3-butadiene 75 parts by weight, as an emulsifier, potassium rosinate 1.0 part by weight and potassium oleate 1.5 parts by weight, as an electrolyte, potassium carbonate (K\n2\nCO\n3\n) 0.3 part by weight, as a molecular weight control agent, tertiary dodecyl mercaptan (TDDM) 0.3 part by weight, as an initiator, potassium persulfate (K\n2\nS\n2\nO\n8\n) 0.3 part by weight were added into a nitrogen-substituted polymerization reactor (Autoclave) simultaneously, and then reacted at a reaction temperature of 70\u00b0 C. until polymerization conversion rate reached 40% (First polymerization). Then, the balance of the 1,3-butadiene was continuously added therein, heated to 82\u00b0 C., potassium rosinate 0.3 part by weight was dividedly added thereinto when the polymerization conversion rate reached 75%, and then reacted (Second polymerization). Then, the reaction was terminated by lowering temperature when polymerization conversion rate reached 93% to obtain rubber latex.\n(Preparation of Acrylonitrile-Butadiene-Styrene Copolymer)\nThe procedure of Example 1 was repeated except for using the rubber latex prepared above instead of the rubber latex prepared in Example 1 to obtain acrylonitrile-butadiene-styrene copolymer powder, and a specimen was prepared using the same. Properties of the specimen were measured, the results were shown in the following Table 1, and then the values were comparatively analyzed.\n(Acrylonitrile-Butadiene-Styrene-Based Thermoplastic Resin)\nThe acrylonitrile-butadiene-styrene graft copolymer powder 22.5 wt % and styrene-acrylonitrile-based resin (LG SAN 92 HR) 77.5 wt % were mixed and pelleted using an extruder, and a specimen of acrylonitrile-butadiene-styrene-based thermoplastic resin was obtained by using an injection molding machine. Properties of the specimen were measured, and the results were shown in the following Table 2.",
+        "extracted_parameters": [
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "40",
+            "unit": "%",
+            "context": "conversion ... 40 %",
+            "section": "COMPARATIVE EXAMPLE 1",
+            "example_number": "",
+            "source_sentence": "until polymerization conversion rate reached 40% (First polymerization)",
+            "confidence": 0.95,
+            "source_offset": 645,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "75",
+            "unit": "%",
+            "context": "conversion ... 75 %",
+            "section": "COMPARATIVE EXAMPLE 1",
+            "example_number": "",
+            "source_sentence": "Then, the balance of the 1,3-butadiene was continuously added therein, heated to 82\u00b0 C., potassium rosinate 0.3 part by weight was dividedly added thereinto when the polymerization conversion rate reached 75%, and then reacted (Second polymerization)",
+            "confidence": 0.95,
+            "source_offset": 878,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Temperature",
+            "category": "Reaction Conditions",
+            "value": "93",
+            "unit": "%",
+            "context": "temperature ... 93 %",
+            "section": "COMPARATIVE EXAMPLE 1",
+            "example_number": "",
+            "source_sentence": "Then, the reaction was terminated by lowering temperature when polymerization conversion rate reached 93% to obtain rubber latex",
+            "confidence": 0.95,
+            "source_offset": 995,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "93",
+            "unit": "%",
+            "context": "conversion ... 93 %",
+            "section": "COMPARATIVE EXAMPLE 1",
+            "example_number": "",
+            "source_sentence": "Then, the reaction was terminated by lowering temperature when polymerization conversion rate reached 93% to obtain rubber latex",
+            "confidence": 0.95,
+            "source_offset": 1027,
+            "extraction_method": "deterministic"
+          }
+        ]
+      },
+      {
+        "number": "2",
+        "type": "COMPARATIVE EXAMPLE",
+        "title": "COMPARATIVE EXAMPLE 2",
+        "raw_text": "(Preparation of Rubber Latex)\nThe procedure of Comparative Example 1 was repeated except for further using polypropylene glycol diacrylate (Mn=6,000) as a cross-linking agent 0.2 part by weight during the first polymerization to obtain rubber latex having large size of 3100 \u212b.\n(Preparation of Acrylonitrile-Butadiene-Styrene Copolymer)\nThe procedure of Comparative Example 1 was repeated except for using the rubber latex prepared above instead of the rubber latex prepared in Comparative Example 1 to obtain acrylonitrile-butadiene-styrene copolymer powder, and a specimen was prepared using the same. Properties of the specimen were measured, the results were shown in the following Table 1, and then the values were comparatively analyzed.\n(Acrylonitrile-Butadiene-Styrene-Based Thermoplastic Resin)\nThe acrylonitrile-butadiene-styrene graft copolymer powder 22.5 wt % and styrene-acrylonitrile-based resin (LG SAN 92 HR) 77.5 wt % were mixed and pelleted using an extruder, and a specimen of acrylonitrile-butadiene-styrene-based thermoplastic resin was obtained by using an injection molding machine. Properties of the specimen were measured, and the results were shown in the following Table 2.\nTABLE 1\nImpact\nCross-\nstrength\nlinking\n(Izod 1/4,\nFlexibility\nGloss\nagent\nkg-cm/cm)\n(g/10 min)\n(%)",
+        "extracted_parameters": []
+      },
+      {
+        "number": "1",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE 1",
+        "raw_text": "(propylene\n34.5\n20.1\n90.2\nglycol)\n7\ndiacrylate\n0.2 part by\nweight",
+        "extracted_parameters": []
+      },
+      {
+        "number": "2",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE 2",
+        "raw_text": "(propylene\n35.4\n20.5\n91.4\nglycol)\n13\ndiacrylate\n0.2 part by\nweight",
+        "extracted_parameters": []
+      },
+      {
+        "number": "3",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE 3",
+        "raw_text": "(propylene\n37.2\n21.4\n91.8\nglycol)\n13\ndiacrylate\n0.2 part by\nweight/0.1\npart by\nweight\nComparative\nx\n31.3\n19.5\n88.5",
+        "extracted_parameters": []
+      },
+      {
+        "number": "2",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE 2",
+        "raw_text": "glycol\ndiacrylate\n(Mn = 6,000)\n0.2 part by\nweight\nAs shown in the Table 1, in the case of the acrylonitrile-butadiene-styrene copolymers prepared using the rubber latex of the present invention in Examples 1 to 3, it could be found that the impact strength was improved about 15% on average, the flexibility was improved about 6% on average and the gloss was improved about 3% on average, compared to the copolymer of Comparative Example 1 not using the cross-linking agent, and the copolymer of Comparative Example 2 using the rubber latex, which was prepared by using the oligomer cross-linking agent having large number average molecular weight.\nTABLE 2\nImpact\nFlexi-\nstrength\nbility\n(Izod 1/4,\n(g/10\nGloss\nSection\nkg-cm)\nmin)\n(%)",
+        "extracted_parameters": []
+      },
+      {
+        "number": "3",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE 3",
+        "raw_text": "31.8\n24.1\n95.0\n(5% loss of\npowder\nComparative\n31.3\n19.5\n88.5",
+        "extracted_parameters": [
+          {
+            "name": "Loss",
+            "category": "Raw Materials",
+            "value": "5",
+            "unit": "%",
+            "context": "5 % of Loss",
+            "section": "EXAMPLE 3",
+            "example_number": "",
+            "source_sentence": "31.8 24.1 95.0 (5% loss of powder Comparative 31.3 19.5 88.5",
+            "confidence": 0.9,
+            "source_offset": 16,
+            "extraction_method": "deterministic"
+          }
+        ]
+      },
+      {
+        "number": "2",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE 2",
+        "raw_text": "(5% loss of\npowder\nFurther, as shown in the Table 2, in the case of the acrylonitrile-butadiene-styrene thermoplastic resins of Examples 1 to 3 using the rubber latex of the present invention, it could be confirmed that powder weight in the thermoplastic resins was reduced 5%, but the impact strength was similar with or better than that of Comparative Example 1, the flexibility was improved about 21% on average, and the gloss was improved about 7% on average. In particular, in the case of Examples 2 and 3 using the (propylene glycol)\n13\ndiacrylate as a cross-linking agent, it could be found that the impact strength was improved about 15% on average, the flexibility was increased about 12% on average, and the gloss was improved about 3% on average, compared to the resin of Comparative Example 2.\nTable 1:\n| TABLE 1 |\n|---|\n|  |  | Impact |  |  |\n|  | Cross- | strength |  |  |\n|  | linking | (Izod 1/4, | Flexibility | Gloss |\n|  | agent | kg-cm/cm) | (g/10 min) | (%) |\n| Example 1 | (propylene | 34.5 | 20.1 | 90.2 |\n|  | glycol)7 |  |  |  |\n|  | diacrylate |  |  |  |\n|  | 0.2 part by |  |  |  |\n|  | weight |  |  |  |\n| Example 2 | (propylene | 35.4 | 20.5 | 91.4 |\n|  | glycol)13 |  |  |  |\n|  | diacrylate |  |  |  |\n|  | 0.2 part by |  |  |  |\n|  | weight |  |  |  |\n| Example 3 | (propylene | 37.2 | 21.4 | 91.8 |\n|  | glycol)13 |  |  |  |\n|  | diacrylate |  |  |  |\n|  | 0.2 part by |  |  |  |\n|  | weight/0.1 |  |  |  |\n|  | part by |  |  |  |\n|  | weight |  |  |  |\n| Comparative | x | 31.3 | 19.5 | 88.5 |\n| Example 1 |  |  |  |  |\n| Comparative | Polypropylene | 31.8 | 19.4 | 88.8 |\n| Example 2 | glycol |  |  |  |\n|  | diacrylate |  |  |  |\n|  | (Mn = 6,000) |  |  |  |\n|  | 0.2 part by |  |  |  |\n|  | weight |\n\nTable 2:\n|  | TABLE 2 |\n|---|---|\n|  |  | Impact | Flexi- |  |\n|  |  | strength | bility |  |\n|  |  | (Izod 1/4, | (g/10 | Gloss |\n|  | Section | kg-cm) | min) | (%) |\n|  | Example 1 | 31.3 | 23.1 | 93.9 |\n|  | (5% loss of |  |  |  |\n|  | powder) |  |  |  |\n|  | Example 2 | 31.5 | 23.8 | 94.4 |\n|  | (5% loss of |  |  |  |\n|  | powder |  |  |  |\n|  | Example 3 | 31.8 | 24.1 | 95.0 |\n|  | (5% loss of |  |  |  |\n|  | powder |  |  |  |\n|  | Comparative | 31.3 | 19.5 | 88.5 |\n|  | Example 1 |  |  |  |\n|  | (5% loss of |  |  |  |\n|  | powder |  |  |  |\n|  | Comparative | 27.4 | 21.2 | 91.3 |\n|  | Example 2 |  |  |  |\n|  | (5% loss of |  |  |  |\n|  | powder |",
+        "extracted_parameters": [
+          {
+            "name": "Loss",
+            "category": "Raw Materials",
+            "value": "5",
+            "unit": "%",
+            "context": "5 % of Loss",
+            "section": "EXAMPLE 2",
+            "example_number": "Example 1",
+            "source_sentence": "(5% loss of powder Further, as shown in the Table 2, in the case of the acrylonitrile-butadiene-styrene thermoplastic resins of Examples 1 to 3 using the rubber latex of the present invention, it could be confirmed that powder weight in the thermoplastic resins was reduced 5%, but the impact strength was similar with or better than that of Comparative Example 1, the flexibility was improved about 21% on average, and the gloss was improved about 7% on average",
+            "confidence": 0.9,
+            "source_offset": 1,
+            "extraction_method": "deterministic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/EP3239198B1/en",
+      "patent_number": "EP3239198",
+      "patent_title": "Method for preparing diene-based rubber latex and acrylonitrile-butadiene- \u2026",
+      "assignee": "Not disclosed",
+      "publication_year": "2019-03-06",
+      "jurisdiction": "EP",
+      "legal_status": "Unknown",
+      "quality": "VALID_PARTIAL",
+      "extraction_score": 0
+    },
+    "polymerization": {
+      "process": "Not disclosed",
+      "monomers": "Not disclosed",
+      "monomer_ratio": "Not disclosed",
+      "initiator": "Not disclosed",
+      "emulsifier": "Not disclosed",
+      "catalyst": "Not disclosed",
+      "chain_transfer_agent": "Not disclosed",
+      "coagulation": "Not disclosed",
+      "water_amount": "Not disclosed"
+    },
+    "reaction_conditions": {
+      "temperature": "Not disclosed",
+      "time": "Not disclosed",
+      "pressure": "Not disclosed",
+      "ph": "Not disclosed",
+      "conversion": "Not disclosed"
+    },
+    "properties": {
+      "solid_content": "Not disclosed",
+      "mooney_viscosity": "Not disclosed",
+      "volatile_matter": "Not disclosed",
+      "ash": "Not disclosed",
+      "other_properties": "Not disclosed"
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [],
+    "parameters": [],
+    "examples": [
+      {
+        "number": "",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE",
+        "raw_text": "(Example 1)\n1) Preparation of Diene-Based Rubber Latex\n65 parts by weight of ion exchanged water, as a monomer, 70 parts by weight of 1,3-butadiene, as the first emulsifier, 1.5 parts by weight of potassium rosinate and 0.8 part by weight of potassium oleate, as an electrolyte, 0.8 part by weight of potassium carbonate (K\n2\nCO\n3\n), as a molecular weight control agent, 0.3 part by weight of tertiary dodecyl mercaptan (TDDM), and as a polymerization initiator, 0.3 part by weight of potassium persulfate (K\n2\nS\n2\nO\n8\n) were added into a nitrogen-substituted polymerization reactor (Autoclave) simultaneously, and then reacted at 70\u00b0C until polymerization conversion rate reached 30% (Step 1). Then, 20 parts by weight of 1,3-butadiene was added simultaneously, as the second emulsifier, 0.3 part by weight potassium rosinate was added thereinto, and then reacted at 75\u00b0C until the polymerization conversion rate reached 60% (Step 2). At this time, as shown in the following Table 1, at the beginning of the polymerization reaction, as a cross-linking agent, 0.1 part by weight of (propylene glycol)\n8\ndiacrylate was added, and when the polymerization conversion rate reached 60%, as the fourth emulsifier, 0.35 part by weight of 35 mg/L potassium oleate was additionally added thereinto followed by reacting thereof. Then, the remained 15 parts by weight of 1,3-butadiene was added thereinto simultaneously, heated to 82\u00b0C and then reacted (Step 3). Then, the reaction was completed by adding a polymerization inhibitor when the polymerization conversion rate reached 95% or higher to obtain diene-based rubber latex.\n2) Preparation of Acrylonitrile-Butadiene-Styrene Copolymer\n65 parts by weight of the diene-based rubber latex prepared in the above 1) and 100 parts by weight of ion exchanged were added to a nitrogen-substituted polymerization reactor, a mixed solution consisting of 10 parts by weight of acrylonitrile, 25 parts by weight of styrene, 20 parts by weight of ion exchanged water, 0.1 part by weight of t-butyl hydroperoxide, 1.0 part by weight of potassium rosinate and 0.3 part by weight of tertiary dodecyl mercaptan, which was mixed in a separate blending apparatus, was continuously added into the polymerization reactor at 70\u00b0C for 3 hours with 0.054 part by weight of dextrose, 0.004 part by weight of sodium pyrophosphate and 0.002 part by weight of ferrous sulfate. After completing the continuous addition, 0.05 part by weight of dextrose, 0.03 part by weight of sodium pyrophosphate, 0.001 part by weight of ferrous sulfate and 0.005 part by weight of t-butyl hydroperoxide were added into the polymerization reactor simultaneously, the temperature was raised for 1 hour up to 80\u00b0C, and then the reaction was completed. The formed acrylonitrile-butadiene-styrene copolymer latex was coagulated with aqueous sulfuric acid, washed and then dried to obtain an acrylonitrile-butadiene-styrene copolymer powder.\n3) Acrylonitrile-Butadiene-Styrene-Based Thermoplastic Resin\n26 wt% of the acrylonitrile-butadiene-styrene graft copolymer powder and 74 wt% of styrene-acrylonitrile-based resin (LG SAN 92 HR) were mixed and pelleted using an extruder, and a specimen of acrylonitrile-butadiene-styrene-based thermoplastic resin was obtained by using an injection molding machine.\n(Example 2)\nThe procedure of Example 1 was repeated except for adding 0.2 part by weight of (propylene glycol)\n8\ndiacrylate as a cross-linking agent, and adding 35 mg/L potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 58% during preparation of diene-based rubber latex to obtain diene-based rubber latex. Further, an acrylonitrile-butadiene-styrene copolymer and a specimen of thermoplastic resin comprising the same were obtained.\n(Example 3)\nThe procedure of Example 1 was repeated except for adding (propylene glycol)\n12\ndiacrylate as a cross-linking agent, and adding 35 mg/L potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 62% during preparation of diene-based rubber latex to obtain diene-based rubber latex. Further, an acrylonitrile-butadiene-styrene copolymer and a specimen of thermoplastic resin comprising the same were obtained.\n(Example 4)\nThe procedure of Example 1 was repeated except for adding (propylene glycol)\n12\ndiacrylate as a cross-linking agent when the polymerization conversion rate reached 20%, and adding 35 mg/L potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 58% during preparation of diene-based rubber latex to obtain diene-based rubber latex. Further, an acrylonitrile-butadiene-styrene copolymer and a specimen of thermoplastic resin comprising the same were obtained.\n(Example 5)\nThe procedure of Example 1 was repeated except for adding C\n16-18\nalkenyl dipotassium succinate (Latemul ASK) having CMC of 4.8mg/L as the fourth emulsifier 0.05 part by weight during preparation of diene-based rubber latex to obtain diene-based rubber latex. Further, an acrylonitrile-butadiene-styrene copolymer and a specimen of thermoplastic resin comprising the same were obtained.\n(Comparative Example 1)\nThe procedure of Example 1 was repeated except for not additionally adding the cross-linking agent and the fourth emulsifier during preparation of diene-based rubber latex to obtain diene-based rubber latex. Further, an acrylonitrile-butadiene-styrene copolymer and a specimen of thermoplastic resin comprising the same were obtained.\n(Comparative Example 2)\nThe procedure of Example 1 was repeated except for additionally adding 0.35 part by weight of 35 mg/L potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 62% during preparation of diene-based rubber latex to obtain diene-based rubber latex. Further, an acrylonitrile-butadiene-styrene copolymer and a specimen of thermoplastic resin comprising the same were obtained.\n(Comparative Example 3)\nThe procedure of Example 1 was repeated except for adding 0.5 part by weight of (propylene glycol)\n12\ndiacrylate as a cross-linking agent at the beginning of the reaction, and additionally adding 0.35 part by weight of potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 59% during preparation of diene-based rubber latex to obtain diene-based rubber latex. Further, an acrylonitrile-butadiene-styrene copolymer and a specimen of thermoplastic resin comprising the same were obtained.\n(Comparative Example 4)\nThe procedure of Example 1 was repeated except for adding 0.2 part by weight of (propylene glycol)\n12\ndiacrylate as a cross-linking agent when the polymerization conversion rate reached 60%, and additionally adding 0.35 part by weight of potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 59% during preparation of diene-based rubber latex to obtain diene-based rubber latex. Further, an acrylonitrile-butadiene-styrene copolymer and a specimen of thermoplastic resin comprising the same were obtained.\n(Comparative Example 5)\nThe procedure of Example 3 was repeated except for adding 0.75 part by weight of 35 mg/L potassium oleate as the fourth emulsifier during preparation of diene-based rubber latex to obtain diene-based rubber latex. Further, an acrylonitrile-butadiene-styrene copolymer and a specimen of thermoplastic resin comprising the same were obtained.\n(Comparative Example 6)\nThe procedure of Example 3 was repeated except for adding the fourth emulsifier when the polymerization conversion rate reached 45% during preparation of diene-based rubber latex to obtain diene-based rubber latex. Further, an acrylonitrile-butadiene-styrene copolymer and a specimen of thermoplastic resin comprising the same were obtained.\nTest Example\nProperties such as low-temperature impact strength and gloss of each of the specimens prepared in Examples 1 to 4 and Comparative Examples 1 to 4 were measured, and the results were shown in the following Table 1.\n1) Conversion Rate (%): Conversion rate of each of the diene-based rubber latex prepared in Examples 1 to 4 and Comparative Examples 1 to 4 was measured.\n2) Impact Strength: Each specimen was prepared in thickness of 1/4 inch, and then the impact strength was measured according to ASTM D256.\n3) Low-Temperature Impact Strength: The extruded and injected specimen was stored in a low temperature chamber of 20\u00b0C below zero for about 2 hours and then the impact strength was measured according to ASTM D256.\n4) Gloss: Gloss was measured at a 45\u00b0 angle using a gloss meter according to ASTM D-528. In this case, higher gloss value means better gloss.\n[Table 1]",
+        "extracted_parameters": [
+          {
+            "name": "Ion",
+            "category": "Raw Materials",
+            "value": "65",
+            "unit": "parts by weight",
+            "context": "65 parts by weight of Ion",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "(Example 1) 1) Preparation of Diene-Based Rubber Latex 65 parts by weight of ion exchanged water, as a monomer, 70 parts by weight of 1,3-butadiene, as the first emulsifier, 1.5 parts by weight of potassium rosinate and 0.8 part by weight of potassium oleate, as an electrolyte, 0.8 part by weight of potassium carbonate (K 2 CO 3 ), as a molecular weight control agent, 0.3 part by weight of tertiary dodecyl mercaptan (TDDM), and as a polymerization initiator, 0.3 part by weight of potassium persulfate (K 2 S 2 O 8 ) were added into a nitrogen-substituted polymerization reactor (Autoclave) simultaneously, and then reacted at 70\u00b0C until polymerization conversion rate reached 30% (Step 1)",
+            "confidence": 0.9,
+            "source_offset": 55,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Potassium",
+            "category": "Raw Materials",
+            "value": "1.5",
+            "unit": "parts by weight",
+            "context": "1.5 parts by weight of Potassium",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "(Example 1) 1) Preparation of Diene-Based Rubber Latex 65 parts by weight of ion exchanged water, as a monomer, 70 parts by weight of 1,3-butadiene, as the first emulsifier, 1.5 parts by weight of potassium rosinate and 0.8 part by weight of potassium oleate, as an electrolyte, 0.8 part by weight of potassium carbonate (K 2 CO 3 ), as a molecular weight control agent, 0.3 part by weight of tertiary dodecyl mercaptan (TDDM), and as a polymerization initiator, 0.3 part by weight of potassium persulfate (K 2 S 2 O 8 ) were added into a nitrogen-substituted polymerization reactor (Autoclave) simultaneously, and then reacted at 70\u00b0C until polymerization conversion rate reached 30% (Step 1)",
+            "confidence": 0.9,
+            "source_offset": 174,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Until",
+            "category": "Raw Materials",
+            "value": "70",
+            "unit": "\u00b0C",
+            "context": "70 \u00b0C of Until",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "(Example 1) 1) Preparation of Diene-Based Rubber Latex 65 parts by weight of ion exchanged water, as a monomer, 70 parts by weight of 1,3-butadiene, as the first emulsifier, 1.5 parts by weight of potassium rosinate and 0.8 part by weight of potassium oleate, as an electrolyte, 0.8 part by weight of potassium carbonate (K 2 CO 3 ), as a molecular weight control agent, 0.3 part by weight of tertiary dodecyl mercaptan (TDDM), and as a polymerization initiator, 0.3 part by weight of potassium persulfate (K 2 S 2 O 8 ) were added into a nitrogen-substituted polymerization reactor (Autoclave) simultaneously, and then reacted at 70\u00b0C until polymerization conversion rate reached 30% (Step 1)",
+            "confidence": 0.9,
+            "source_offset": 631,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "30",
+            "unit": "%",
+            "context": "conversion ... 30 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "(Example 1) 1) Preparation of Diene-Based Rubber Latex 65 parts by weight of ion exchanged water, as a monomer, 70 parts by weight of 1,3-butadiene, as the first emulsifier, 1.5 parts by weight of potassium rosinate and 0.8 part by weight of potassium oleate, as an electrolyte, 0.8 part by weight of potassium carbonate (K 2 CO 3 ), as a molecular weight control agent, 0.3 part by weight of tertiary dodecyl mercaptan (TDDM), and as a polymerization initiator, 0.3 part by weight of potassium persulfate (K 2 S 2 O 8 ) were added into a nitrogen-substituted polymerization reactor (Autoclave) simultaneously, and then reacted at 70\u00b0C until polymerization conversion rate reached 30% (Step 1)",
+            "confidence": 0.95,
+            "source_offset": 657,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Emulsifier",
+            "category": "Raw Materials",
+            "value": "1.5",
+            "unit": "parts by weight",
+            "context": "emulsifier ... 1.5 parts by weight",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "(Example 1) 1) Preparation of Diene-Based Rubber Latex 65 parts by weight of ion exchanged water, as a monomer, 70 parts by weight of 1,3-butadiene, as the first emulsifier, 1.5 parts by weight of potassium rosinate and 0.8 part by weight of potassium oleate, as an electrolyte, 0.8 part by weight of potassium carbonate (K 2 CO 3 ), as a molecular weight control agent, 0.3 part by weight of tertiary dodecyl mercaptan (TDDM), and as a polymerization initiator, 0.3 part by weight of potassium persulfate (K 2 S 2 O 8 ) were added into a nitrogen-substituted polymerization reactor (Autoclave) simultaneously, and then reacted at 70\u00b0C until polymerization conversion rate reached 30% (Step 1)",
+            "confidence": 0.95,
+            "source_offset": 162,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Until",
+            "category": "Raw Materials",
+            "value": "75",
+            "unit": "\u00b0C",
+            "context": "75 \u00b0C of Until",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Then, 20 parts by weight of 1,3-butadiene was added simultaneously, as the second emulsifier, 0.3 part by weight potassium rosinate was added thereinto, and then reacted at 75\u00b0C until the polymerization conversion rate reached 60% (Step 2)",
+            "confidence": 0.9,
+            "source_offset": 868,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "60",
+            "unit": "%",
+            "context": "conversion ... 60 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Then, 20 parts by weight of 1,3-butadiene was added simultaneously, as the second emulsifier, 0.3 part by weight potassium rosinate was added thereinto, and then reacted at 75\u00b0C until the polymerization conversion rate reached 60% (Step 2)",
+            "confidence": 0.95,
+            "source_offset": 898,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Emulsifier",
+            "category": "Raw Materials",
+            "value": "35",
+            "unit": "mg",
+            "context": "emulsifier ... 35 mg",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "At this time, as shown in the following Table 1, at the beginning of the polymerization reaction, as a cross-linking agent, 0.1 part by weight of (propylene glycol) 8 diacrylate was added, and when the polymerization conversion rate reached 60%, as the fourth emulsifier, 0.35 part by weight of 35 mg/L potassium oleate was additionally added thereinto followed by reacting thereof",
+            "confidence": 0.95,
+            "source_offset": 1196,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "95",
+            "unit": "%",
+            "context": "conversion ... 95 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Then, the reaction was completed by adding a polymerization inhibitor when the polymerization conversion rate reached 95% or higher to obtain diene-based rubber latex",
+            "confidence": 0.95,
+            "source_offset": 1546,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Ion",
+            "category": "Raw Materials",
+            "value": "100",
+            "unit": "parts by weight",
+            "context": "100 parts by weight of Ion",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "2) Preparation of Acrylonitrile-Butadiene-Styrene Copolymer 65 parts by weight of the diene-based rubber latex prepared in the above 1) and 100 parts by weight of ion exchanged were added to a nitrogen-substituted polymerization reactor, a mixed solution consisting of 10 parts by weight of acrylonitrile, 25 parts by weight of styrene, 20 parts by weight of ion exchanged water, 0.1 part by weight of t-butyl hydroperoxide, 1.0 part by weight of potassium rosinate and 0.3 part by weight of tertiary dodecyl mercaptan, which was mixed in a separate blending apparatus, was continuously added into the polymerization reactor at 70\u00b0C for 3 hours with 0.054 part by weight of dextrose, 0.004 part by weight of sodium pyrophosphate and 0.002 part by weight of ferrous sulfate",
+            "confidence": 0.9,
+            "source_offset": 1760,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Acrylonitrile",
+            "category": "Raw Materials",
+            "value": "10",
+            "unit": "parts by weight",
+            "context": "10 parts by weight of Acrylonitrile",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "2) Preparation of Acrylonitrile-Butadiene-Styrene Copolymer 65 parts by weight of the diene-based rubber latex prepared in the above 1) and 100 parts by weight of ion exchanged were added to a nitrogen-substituted polymerization reactor, a mixed solution consisting of 10 parts by weight of acrylonitrile, 25 parts by weight of styrene, 20 parts by weight of ion exchanged water, 0.1 part by weight of t-butyl hydroperoxide, 1.0 part by weight of potassium rosinate and 0.3 part by weight of tertiary dodecyl mercaptan, which was mixed in a separate blending apparatus, was continuously added into the polymerization reactor at 70\u00b0C for 3 hours with 0.054 part by weight of dextrose, 0.004 part by weight of sodium pyrophosphate and 0.002 part by weight of ferrous sulfate",
+            "confidence": 0.9,
+            "source_offset": 1889,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Styrene",
+            "category": "Raw Materials",
+            "value": "25",
+            "unit": "parts by weight",
+            "context": "25 parts by weight of Styrene",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "2) Preparation of Acrylonitrile-Butadiene-Styrene Copolymer 65 parts by weight of the diene-based rubber latex prepared in the above 1) and 100 parts by weight of ion exchanged were added to a nitrogen-substituted polymerization reactor, a mixed solution consisting of 10 parts by weight of acrylonitrile, 25 parts by weight of styrene, 20 parts by weight of ion exchanged water, 0.1 part by weight of t-butyl hydroperoxide, 1.0 part by weight of potassium rosinate and 0.3 part by weight of tertiary dodecyl mercaptan, which was mixed in a separate blending apparatus, was continuously added into the polymerization reactor at 70\u00b0C for 3 hours with 0.054 part by weight of dextrose, 0.004 part by weight of sodium pyrophosphate and 0.002 part by weight of ferrous sulfate",
+            "confidence": 0.9,
+            "source_offset": 1926,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Ion",
+            "category": "Raw Materials",
+            "value": "20",
+            "unit": "parts by weight",
+            "context": "20 parts by weight of Ion",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "2) Preparation of Acrylonitrile-Butadiene-Styrene Copolymer 65 parts by weight of the diene-based rubber latex prepared in the above 1) and 100 parts by weight of ion exchanged were added to a nitrogen-substituted polymerization reactor, a mixed solution consisting of 10 parts by weight of acrylonitrile, 25 parts by weight of styrene, 20 parts by weight of ion exchanged water, 0.1 part by weight of t-butyl hydroperoxide, 1.0 part by weight of potassium rosinate and 0.3 part by weight of tertiary dodecyl mercaptan, which was mixed in a separate blending apparatus, was continuously added into the polymerization reactor at 70\u00b0C for 3 hours with 0.054 part by weight of dextrose, 0.004 part by weight of sodium pyrophosphate and 0.002 part by weight of ferrous sulfate",
+            "confidence": 0.9,
+            "source_offset": 1957,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Up",
+            "category": "Raw Materials",
+            "value": "1",
+            "unit": "hour",
+            "context": "1 hour of Up",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "After completing the continuous addition, 0.05 part by weight of dextrose, 0.03 part by weight of sodium pyrophosphate, 0.001 part by weight of ferrous sulfate and 0.005 part by weight of t-butyl hydroperoxide were added into the polymerization reactor simultaneously, the temperature was raised for 1 hour up to 80\u00b0C, and then the reaction was completed",
+            "confidence": 0.9,
+            "source_offset": 2694,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Temperature",
+            "category": "Reaction Conditions",
+            "value": "1",
+            "unit": "hour",
+            "context": "temperature ... 1 hour",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "After completing the continuous addition, 0.05 part by weight of dextrose, 0.03 part by weight of sodium pyrophosphate, 0.001 part by weight of ferrous sulfate and 0.005 part by weight of t-butyl hydroperoxide were added into the polymerization reactor simultaneously, the temperature was raised for 1 hour up to 80\u00b0C, and then the reaction was completed",
+            "confidence": 0.95,
+            "source_offset": 2667,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Styrene",
+            "category": "Raw Materials",
+            "value": "74",
+            "unit": "wt%",
+            "context": "74 wt% of Styrene",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "3) Acrylonitrile-Butadiene-Styrene-Based Thermoplastic Resin 26 wt% of the acrylonitrile-butadiene-styrene graft copolymer powder and 74 wt% of styrene-acrylonitrile-based resin (LG SAN 92 HR) were mixed and pelleted using an extruder, and a specimen of acrylonitrile-butadiene-styrene-based thermoplastic resin was obtained by using an injection molding machine",
+            "confidence": 0.9,
+            "source_offset": 3071,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "During",
+            "category": "Raw Materials",
+            "value": "58",
+            "unit": "%",
+            "context": "58 % of During",
+            "section": "EXAMPLE",
+            "example_number": "Example 2",
+            "source_sentence": "(Example 2) The procedure of Example 1 was repeated except for adding 0.2 part by weight of (propylene glycol) 8 diacrylate as a cross-linking agent, and adding 35 mg/L potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 58% during preparation of diene-based rubber latex to obtain diene-based rubber latex",
+            "confidence": 0.9,
+            "source_offset": 3560,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "58",
+            "unit": "%",
+            "context": "conversion ... 58 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 2",
+            "source_sentence": "(Example 2) The procedure of Example 1 was repeated except for adding 0.2 part by weight of (propylene glycol) 8 diacrylate as a cross-linking agent, and adding 35 mg/L potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 58% during preparation of diene-based rubber latex to obtain diene-based rubber latex",
+            "confidence": 0.95,
+            "source_offset": 3536,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Emulsifier",
+            "category": "Raw Materials",
+            "value": "58",
+            "unit": "%",
+            "context": "emulsifier ... 58 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 2",
+            "source_sentence": "(Example 2) The procedure of Example 1 was repeated except for adding 0.2 part by weight of (propylene glycol) 8 diacrylate as a cross-linking agent, and adding 35 mg/L potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 58% during preparation of diene-based rubber latex to obtain diene-based rubber latex",
+            "confidence": 0.95,
+            "source_offset": 3501,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "During",
+            "category": "Raw Materials",
+            "value": "62",
+            "unit": "%",
+            "context": "62 % of During",
+            "section": "EXAMPLE",
+            "example_number": "Example 3",
+            "source_sentence": "(Example 3) The procedure of Example 1 was repeated except for adding (propylene glycol) 12 diacrylate as a cross-linking agent, and adding 35 mg/L potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 62% during preparation of diene-based rubber latex to obtain diene-based rubber latex",
+            "confidence": 0.9,
+            "source_offset": 4012,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "62",
+            "unit": "%",
+            "context": "conversion ... 62 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 3",
+            "source_sentence": "(Example 3) The procedure of Example 1 was repeated except for adding (propylene glycol) 12 diacrylate as a cross-linking agent, and adding 35 mg/L potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 62% during preparation of diene-based rubber latex to obtain diene-based rubber latex",
+            "confidence": 0.95,
+            "source_offset": 3988,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Emulsifier",
+            "category": "Raw Materials",
+            "value": "62",
+            "unit": "%",
+            "context": "emulsifier ... 62 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 3",
+            "source_sentence": "(Example 3) The procedure of Example 1 was repeated except for adding (propylene glycol) 12 diacrylate as a cross-linking agent, and adding 35 mg/L potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 62% during preparation of diene-based rubber latex to obtain diene-based rubber latex",
+            "confidence": 0.95,
+            "source_offset": 3953,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "20",
+            "unit": "%",
+            "context": "conversion ... 20 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 4",
+            "source_sentence": "(Example 4) The procedure of Example 1 was repeated except for adding (propylene glycol) 12 diacrylate as a cross-linking agent when the polymerization conversion rate reached 20%, and adding 35 mg/L potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 58% during preparation of diene-based rubber latex to obtain diene-based rubber latex",
+            "confidence": 0.95,
+            "source_offset": 4378,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "During",
+            "category": "Raw Materials",
+            "value": "59",
+            "unit": "%",
+            "context": "59 % of During",
+            "section": "EXAMPLE",
+            "example_number": "Example 3",
+            "source_sentence": "(Comparative Example 3) The procedure of Example 1 was repeated except for adding 0.5 part by weight of (propylene glycol) 12 diacrylate as a cross-linking agent at the beginning of the reaction, and additionally adding 0.35 part by weight of potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 59% during preparation of diene-based rubber latex to obtain diene-based rubber latex",
+            "confidence": 0.9,
+            "source_offset": 6251,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "59",
+            "unit": "%",
+            "context": "conversion ... 59 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 3",
+            "source_sentence": "(Comparative Example 3) The procedure of Example 1 was repeated except for adding 0.5 part by weight of (propylene glycol) 12 diacrylate as a cross-linking agent at the beginning of the reaction, and additionally adding 0.35 part by weight of potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 59% during preparation of diene-based rubber latex to obtain diene-based rubber latex",
+            "confidence": 0.95,
+            "source_offset": 6227,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Emulsifier",
+            "category": "Raw Materials",
+            "value": "59",
+            "unit": "%",
+            "context": "emulsifier ... 59 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 3",
+            "source_sentence": "(Comparative Example 3) The procedure of Example 1 was repeated except for adding 0.5 part by weight of (propylene glycol) 12 diacrylate as a cross-linking agent at the beginning of the reaction, and additionally adding 0.35 part by weight of potassium oleate as the fourth emulsifier when the polymerization conversion rate reached 59% during preparation of diene-based rubber latex to obtain diene-based rubber latex",
+            "confidence": 0.95,
+            "source_offset": 6192,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "During",
+            "category": "Raw Materials",
+            "value": "45",
+            "unit": "%",
+            "context": "45 % of During",
+            "section": "EXAMPLE",
+            "example_number": "Example 6",
+            "source_sentence": "(Comparative Example 6) The procedure of Example 3 was repeated except for adding the fourth emulsifier when the polymerization conversion rate reached 45% during preparation of diene-based rubber latex to obtain diene-based rubber latex",
+            "confidence": 0.9,
+            "source_offset": 7548,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "45",
+            "unit": "%",
+            "context": "conversion ... 45 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 6",
+            "source_sentence": "(Comparative Example 6) The procedure of Example 3 was repeated except for adding the fourth emulsifier when the polymerization conversion rate reached 45% during preparation of diene-based rubber latex to obtain diene-based rubber latex",
+            "confidence": 0.95,
+            "source_offset": 7524,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Emulsifier",
+            "category": "Raw Materials",
+            "value": "45",
+            "unit": "%",
+            "context": "emulsifier ... 45 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 6",
+            "source_sentence": "(Comparative Example 6) The procedure of Example 3 was repeated except for adding the fourth emulsifier when the polymerization conversion rate reached 45% during preparation of diene-based rubber latex to obtain diene-based rubber latex",
+            "confidence": 0.95,
+            "source_offset": 7489,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Below",
+            "category": "Raw Materials",
+            "value": "20",
+            "unit": "\u00b0C",
+            "context": "20 \u00b0C of Below",
+            "section": "EXAMPLE",
+            "example_number": "Example 6",
+            "source_sentence": "3) Low-Temperature Impact Strength: The extruded and injected specimen was stored in a low temperature chamber of 20\u00b0C below zero for about 2 hours and then the impact strength was measured according to ASTM D256",
+            "confidence": 0.9,
+            "source_offset": 8396,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Temperature",
+            "category": "Reaction Conditions",
+            "value": "20",
+            "unit": "\u00b0C",
+            "context": "temperature ... 20 \u00b0C",
+            "section": "EXAMPLE",
+            "example_number": "Example 6",
+            "source_sentence": "3) Low-Temperature Impact Strength: The extruded and injected specimen was stored in a low temperature chamber of 20\u00b0C below zero for about 2 hours and then the impact strength was measured according to ASTM D256",
+            "confidence": 0.95,
+            "source_offset": 8373,
+            "extraction_method": "deterministic"
+          }
+        ]
+      },
+      {
+        "number": "",
+        "type": "EXAMPLE",
+        "title": "EXAMPLE",
+        "raw_text": "Comparative Example\n1\n2\n3\n4\n5\n1\n2\n3\n4\n5\n6\nCross-linking Agent\nNumber of n\n8\n8\n12\n12\n12\n-\n-\n12\n12\n12\n12\nContent\n0.1\n0.2\n0.1\n0.1\n0.1\n-\n-\n0.5\n0.2\n0.1\n0.1\nTime of Addition (Conversion Rate)\n0%\n0%\n0%\n20%\n0%\n-\n-\n0%\n60%\n0%\n0%\nEmulsifier\nKind\nCMC of Potassium 35 mg Oleate /L\nCMC of 4.8 mg/L C\n16-18\nalkenyl dipotassium succinate\n-\nCMC of 35 mg/L Potassium Oleate\nContent\n0.35\n0.05\n-\n0.35\n0.75\n0.35\nTime of Addition (Conversion Rate)\n60%\n58%\n62%\n58%\n60%\n-\n62%\n59%\n62%\n42%\nConversion Rate (%)\n92.7\n93.1\n92.8\n92.7\n92.8\n92.5\n92.8\n92.1\n92.5\n93.8\n93.5\nReaction Time (hr)\n19.5\n20.2\n19\n20\n19.8\n19\n20\n26\n19.5\n18.5\n19\nAverage Particle Diameter (\u00c5)\n3125\n3063\n3082\n3102\n3150\n3112\n3082\n3210\n3105\n2869\n2635\nSmall-sized Particle Diameter (TEM image)\n30 nm to 70 nm\n-\n30 nm to 70 nm\n150 nm to 200 nm\nCoagulum (%) (Polymerization Stability)\n0.04\n0.05\n0.03\n0.05\n0.03\n0.02\n0.03\n0.15\n0.03\n0.05\n0.09\nImpact Strength (1/4)\n33.9\n34.2\n36.1\n34.9\n35.8\n32.1\n32.1\n34.2\n31.9\n29.5\n27.2\nGloss (45)\n94.6\n93.9\n95.4\n94.2\n94.3\n86.3\n95.3\n91.2\n93.7\n95.6\n95.2\nLow Temperature Impact Strength (-20\u00b0C)\n12.9\n13.2\n13.7\n13.0\n13.8\n11.2\n13.9\n12.4\n11.9\n10.2\n8.7\nContent ratio (Large-sized: Small-sized)\n99% : 1%\n98% : 2%\n98%:2%\n99%:1%\n-\n98%:2%\n96% : 4%\n-\nAs shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier.\nMeanwhile, in the case of the thermoplastic resin specimen of Comparative Example 2 not containing the cross-linking agent and adding the fourth emulsifier at the time point of the polymerization conversion rate of 62%, it was confirmed that the gloss and the low-temperature impact strength were improved but the impact strength was low, compared to the thermoplastic resin specimens of Examples 1 to 5. Further, in the case of the thermoplastic resin specimen of Comparative Example 3 adding excess amount of the cross-linking agent, the impact strength was high but the gloss and the low-temperature impact strength were low, compared to the thermoplastic resin specimen of Example 1. Further, in the case of the thermoplastic resin specimen of Comparative Example 4 adding the cross-linking agent at the later time point, the small-sized particles were not found, and it was confirmed that all of the impact strength, the gloss and the low temperature impact strength were low, compared to the thermoplastic resin specimens of Examples 1 to 5.\nFurther, in the case of the thermoplastic resin specimen of Comparative Example 5 adding the fourth emulsifier in a large amount of 0.75 part by weight, it was confirmed that the reaction time was short and the gloss was high, compared to the thermoplastic resin specimens of Examples 1 to 5, but the impact strength and the low-temperature impact strength were low. In particular, it can be found that diene-based rubber latex content ratio of the large-sized diene-based rubber latex and the small-sized diene-based rubber latex (large-sized diene-based rubber latex : small-sized diene-based rubber latex) contained in the thermoplastic resin specimen of Comparative Example 5 was 96%:4%, i.e., the content ratio of the large-sized diene-based rubber latex was low.\nFurther, in the case of the thermoplastic resin specimen of Comparative Example 6 adding the fourth emulsifier at the time point of the low polymerization conversion rate of 45%, it can be found that the impact strength and the low-temperature impact strength were certainly reduced, compared to the thermoplastic resin specimens of Examples 1 to 5.\nTable 1:\n|  | Example | Comparative Example |\n|---|---|---|\n|  |  | 1 | 2 | 3 | 4 | 5 | 1 | 2 | 3 | 4 | 5 | 6 |\n| Cross-linking Agent | Number of n | 8 | 8 | 12 | 12 | 12 | - | - | 12 | 12 | 12 | 12 |\n|  | Content | 0.1 | 0.2 | 0.1 | 0.1 | 0.1 | - | - | 0.5 | 0.2 | 0.1 | 0.1 |\n| Time of Addition (Conversion Rate) | 0% | 0% | 0% | 20% | 0% | - | - | 0% | 60% | 0% | 0% |\n| Emulsifier | Kind | CMC of Potassium 35 mg Oleate /L | CMC of 4.8 mg/L C16-18alkenyl dipotassium succinate | - | CMC of 35 mg/L Potassium Oleate |\n|  | Content | 0.35 | 0.05 | - | 0.35 | 0.75 | 0.35 |\n| Time of Addition (Conversion Rate) | 60% | 58% | 62% | 58% | 60% | - | 62% | 59% | 62% | 42% |\n| Conversion Rate (%) | 92.7 | 93.1 | 92.8 | 92.7 | 92.8 | 92.5 | 92.8 | 92.1 | 92.5 | 93.8 | 93.5 |\n| Reaction Time (hr) | 19.5 | 20.2 | 19 | 20 | 19.8 | 19 | 20 | 26 | 19.5 | 18.5 | 19 |\n| Average Particle Diameter (\u00c5) | 3125 | 3063 | 3082 | 3102 | 3150 | 3112 | 3082 | 3210 | 3105 | 2869 | 2635 |\n| Small-sized Particle Diameter (TEM image) | 30 nm to 70 nm | - | 30 nm to 70 nm | 150 nm to 200 nm |\n| Coagulum (%) (Polymerization Stability) | 0.04 | 0.05 | 0.03 | 0.05 | 0.03 | 0.02 | 0.03 | 0.15 | 0.03 | 0.05 | 0.09 |\n| Impact Strength (1/4) | 33.9 | 34.2 | 36.1 | 34.9 | 35.8 | 32.1 | 32.1 | 34.2 | 31.9 | 29.5 | 27.2 |\n| Gloss (45) | 94.6 | 93.9 | 95.4 | 94.2 | 94.3 | 86.3 | 95.3 | 91.2 | 93.7 | 95.6 | 95.2 |\n| Low Temperature Impact Strength (-20\u00b0C) | 12.9 | 13.2 | 13.7 | 13.0 | 13.8 | 11.2 | 13.9 | 12.4 | 11.9 | 10.2 | 8.7 |\n| Content ratio (Large-sized: Small-sized) | 99% : 1% | 98% : 2% | 98%:2% | 99%:1% | - | 98%:2% | 96% : 4% | - |",
+        "extracted_parameters": [
+          {
+            "name": "20",
+            "category": "Raw Materials",
+            "value": "0",
+            "unit": "%",
+            "context": "0 % of 20",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.9,
+            "source_offset": 192,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "60",
+            "category": "Raw Materials",
+            "value": "0",
+            "unit": "%",
+            "context": "0 % of 60",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.9,
+            "source_offset": 206,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Emulsifier",
+            "category": "Raw Materials",
+            "value": "0",
+            "unit": "%",
+            "context": "0 % of Emulsifier",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.9,
+            "source_offset": 216,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Oleate",
+            "category": "Raw Materials",
+            "value": "35",
+            "unit": "mg",
+            "context": "35 mg of Oleate",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.9,
+            "source_offset": 252,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "58",
+            "category": "Raw Materials",
+            "value": "60",
+            "unit": "%",
+            "context": "60 % of 58",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.9,
+            "source_offset": 426,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "58",
+            "category": "Raw Materials",
+            "value": "62",
+            "unit": "%",
+            "context": "62 % of 58",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.9,
+            "source_offset": 434,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "59",
+            "category": "Raw Materials",
+            "value": "62",
+            "unit": "%",
+            "context": "62 % of 59",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.9,
+            "source_offset": 448,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "42",
+            "category": "Raw Materials",
+            "value": "62",
+            "unit": "%",
+            "context": "62 % of 42",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.9,
+            "source_offset": 456,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "98",
+            "category": "Raw Materials",
+            "value": "1",
+            "unit": "%",
+            "context": "1 % of 98",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.9,
+            "source_offset": 1156,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "98",
+            "category": "Raw Materials",
+            "value": "2",
+            "unit": "%",
+            "context": "2 % of 98",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.9,
+            "source_offset": 1165,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "99",
+            "category": "Raw Materials",
+            "value": "2",
+            "unit": "%",
+            "context": "2 % of 99",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.9,
+            "source_offset": 1172,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "96",
+            "category": "Raw Materials",
+            "value": "2",
+            "unit": "%",
+            "context": "2 % of 96",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.9,
+            "source_offset": 1188,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Temperature",
+            "category": "Reaction Conditions",
+            "value": "20",
+            "unit": "\u00b0C",
+            "context": "temperature ... 20 \u00b0C",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.95,
+            "source_offset": 1019,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "0",
+            "unit": "%",
+            "context": "conversion ... 0 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.95,
+            "source_offset": 169,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Time",
+            "category": "Reaction Conditions",
+            "value": "0",
+            "unit": "%",
+            "context": "time ... 0 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.95,
+            "source_offset": 151,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Emulsifier",
+            "category": "Raw Materials",
+            "value": "35",
+            "unit": "mg",
+            "context": "emulsifier ... 35 mg",
+            "section": "EXAMPLE",
+            "example_number": "Example 1",
+            "source_sentence": "Comparative Example 1 2 3 4 5 1 2 3 4 5 6 Cross-linking Agent Number of n 8 8 12 12 12 - - 12 12 12 12 Content 0.1 0.2 0.1 0.1 0.1 - - 0.5 0.2 0.1 0.1 Time of Addition (Conversion Rate) 0% 0% 0% 20% 0% - - 0% 60% 0% 0% Emulsifier Kind CMC of Potassium 35 mg Oleate /L CMC of 4.8 mg/L C 16-18 alkenyl dipotassium succinate - CMC of 35 mg/L Potassium Oleate Content 0.35 0.05 - 0.35 0.75 0.35 Time of Addition (Conversion Rate) 60% 58% 62% 58% 60% - 62% 59% 62% 42% Conversion Rate (%) 92.7 93.1 92.8 92.7 92.8 92.5 92.8 92.1 92.5 93.8 93.5 Reaction Time (hr) 19.5 20.2 19 20 19.8 19 20 26 19.5 18.5 19 Average Particle Diameter (\u00c5) 3125 3063 3082 3102 3150 3112 3082 3210 3105 2869 2635 Small-sized Particle Diameter (TEM image) 30 nm to 70 nm - 30 nm to 70 nm 150 nm to 200 nm Coagulum (%) (Polymerization Stability) 0.04 0.05 0.03 0.05 0.03 0.02 0.03 0.15 0.03 0.05 0.09 Impact Strength (1/4) 33.9 34.2 36.1 34.9 35.8 32.1 32.1 34.2 31.9 29.5 27.2 Gloss (45) 94.6 93.9 95.4 94.2 94.3 86.3 95.3 91.2 93.7 95.6 95.2 Low Temperature Impact Strength (-20\u00b0C) 12.9 13.2 13.7 13.0 13.8 11.2 13.9 12.4 11.9 10.2 8.7 Content ratio (Large-sized: Small-sized) 99% : 1% 98% : 2% 98%:2% 99%:1% - 98%:2% 96% : 4% - As shown in the above Table 1, according to the method of the present invention, in the cases of the thermoplastic resin specimens of Examples 1 to 5 adding the cross-linking agent at the time point of the polymerization conversion rate of 0% to 20%, and adding the fourth emulsifier at the time point of the polymerization conversion rate of 50% to 80, it can be found that all of the polymerization stability, the impact strength, the gloss and the low-temperature impact strength were improved, compared to the thermoplastic resin specimen of Comparative Example 1 not adding the cross-linking agent and the fourth emulsifier",
+            "confidence": 0.95,
+            "source_offset": 219,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "62",
+            "unit": "%",
+            "context": "conversion ... 62 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 2",
+            "source_sentence": "Meanwhile, in the case of the thermoplastic resin specimen of Comparative Example 2 not containing the cross-linking agent and adding the fourth emulsifier at the time point of the polymerization conversion rate of 62%, it was confirmed that the gloss and the low-temperature impact strength were improved but the impact strength was low, compared to the thermoplastic resin specimens of Examples 1 to 5",
+            "confidence": 0.95,
+            "source_offset": 2028,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Time",
+            "category": "Reaction Conditions",
+            "value": "62",
+            "unit": "%",
+            "context": "time ... 62 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 2",
+            "source_sentence": "Meanwhile, in the case of the thermoplastic resin specimen of Comparative Example 2 not containing the cross-linking agent and adding the fourth emulsifier at the time point of the polymerization conversion rate of 62%, it was confirmed that the gloss and the low-temperature impact strength were improved but the impact strength was low, compared to the thermoplastic resin specimens of Examples 1 to 5",
+            "confidence": 0.95,
+            "source_offset": 1995,
+            "extraction_method": "deterministic"
+          },
+          {
+            "name": "Conversion",
+            "category": "Process Variables",
+            "value": "45",
+            "unit": "%",
+            "context": "conversion ... 45 %",
+            "section": "EXAMPLE",
+            "example_number": "Example 6",
+            "source_sentence": "Further, in the case of the thermoplastic resin specimen of Comparative Example 6 adding the fourth emulsifier at the time point of the low polymerization conversion rate of 45%, it can be found that the impact strength and the low-temperature impact strength were certainly reduced, compared to the thermoplastic resin specimens of Examples 1 to 5",
+            "confidence": 0.95,
+            "source_offset": 3804,
+            "extraction_method": "deterministic"
+          }
+        ]
+      }
+    ]
+  }
+]

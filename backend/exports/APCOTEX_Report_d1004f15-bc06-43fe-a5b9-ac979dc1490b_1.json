@@ -1,0 +1,51 @@
+[
+  {
+    "metadata": {
+      "url": "https://patents.google.com/patent/US8957161B2/en",
+      "patent_number": "US8957161B2",
+      "patent_title": "Process for reacting chemical compounds in the presence of catalyst systems",
+      "assignee": "Not disclosed",
+      "publication_year": "2015",
+      "jurisdiction": "US",
+      "legal_status": "Unknown",
+      "quality": "Not disclosed",
+      "extraction_score": 0
+    },
+    "experimental_notes": {
+      "example_tables": [],
+      "reaction_procedure": "Not disclosed",
+      "experimental_notes": "Not disclosed"
+    },
+    "claims": [
+      "Claims (",
+      "6",
+      ")",
+      "What is claimed is:",
+      "1. A process for reacting a nitrile rubber comprising subjecting the nitrile rubber to a metathesis reaction in the presence of the catalyst system comprising a metathesis catalyst as a weight ratio of salt(s): metathesis catalysts is specified to be of from 0.01:1 to 10000:1 and one or more salts of the general formula (I)",
+      "K",
+      "n+",
+      "A",
+      "z\u2212",
+      "(I)"
+    ],
+    "parameters": [],
+    "examples": [
+      {
+        "example_id": "Example 7",
+        "example_type": "Extracted Example",
+        "title": "Example 7",
+        "raw_text": "Example 7\nUse of LiBr for the Ring-Closing Metathesis of Diethyl Diallylmalonate\nThe ring-closing metathesis of diethyl diallylmalonate was carried out once without and once with 1 mg of LiBr (Examples 7.01 and 7.02) and also once without and once with 1 mg of CsBr (Examples 8.01 and 8.02).\nTo carry out the experiments. 10 mg of Grubbs II catalyst were in each case placed in an NMR tube. In the examples according to the invention, which were carried out with additions of LiBr (Example 7.02) or CsBr (Example 8.02), 1 mg of LiBr or I mg of CsBr were weighed into the NMR tube in addition to the Grubbs II catalyst (10 mg). Subsequently, firstly 0.3 ml of chlorobenzene and then 0.2 ml of CDCl\n3\nwere added at room temperature by means of a syringe. The contents of the NMR tube were mixed by shaking. After 2 minutes in each case, 0.15 ml of diethyl diallylmalonate was added by means of a syringe. The reaction conditions were determined by means of\n1\nH-NMR spectroscopy at room temperature.\nThe following table clearly shows the accelerating effect of the addition of LiBr on the ring-closing methathesis of diethyl diallylmalonate.\nWith salt addition (7.02)\nWithout salt addition (7.01)\n1 mg of LiBr\nTime [min.]\nConversion [%]\nConversion [%]\n0\n0\n0\n30\n21.3\n55.4\n60\n57.7\n100",
+        "extracted_parameters": []
+      },
+      {
+        "example_id": "Example 8",
+        "example_type": "Extracted Example",
+        "title": "Example 8",
+        "raw_text": "Example 8\nUse of CsBr for the Ring-Closing Metathesis of Diethyl Diallylmalonate\nThe experiments were carried out in a manner analogous to Example 7 using 1 mg of CsBr instead of 1 mg of LiBr.\nWith salt addition (8.02)\nWithout salt addition (8.01)\n1 mg of CsBr\nTime [min.]\nConversion [%]\nConversion [%]\n0\n0\n0\n15\n13.4\n16.5\n30\n25.3\n40.3\n60\n46.5\n68.9\n90\n71.9\n84.7\n150\n96.2\n100",
+        "extracted_parameters": []
+      }
+    ],
+    "synthesis_sections": [],
+    "raw_text": "Process for reacting chemical compounds in the presence of catalyst systems \n       \nAbstract\nNew catalyst systems for metathesis reactions, in particular for the metathesis of nitrile rubber, are provided.\nClaims (\n6\n)\nWhat is claimed is:\n1. A process for reacting a nitrile rubber comprising subjecting the nitrile rubber to a metathesis reaction in the presence of the catalyst system comprising a metathesis catalyst as a weight ratio of salt(s): metathesis catalysts is specified to be of from 0.01:1 to 10000:1 and one or more salts of the general formula (I)\nK\nn+\nA\nz\u2212\n(I)\nwhere\nK is a cation with the exception of copper and\nA is an anion,\nwhere\nn is 1, 2 or 3 and\nz is 1, 2 or 3, wherein compounds of the general formula (A),\nwhere\nM is osmium or ruthenium,\nthe radicals R are identical or different and are each an alkyl, cycloalkyl, alkenyl, alkynyl, aryl, carboxylate, alkoxy, alkenyloxy, alkynyloxy, aryloxy, alkoxycarbonyl, alkylamino, alkylthio, arylthio, alkylsulphonyl, or alkylsulphinyl, each of which may optionally be substituted by one or more alkyl, halogen, alkoxy, aryl or heteroaryl radicals,\nX\n1\nand X\n2\nare identical or different and are two ligands, and\nL represents identical or different ligands, are used as the catalyst.\n2. The process according to\nclaim 1\n, wherein X\n1\nand X\n2\nare identical or different and are each hydrogen, halogen, pseudohalogen, straight-chain or branched C\n1\n-C\n30\n-alkyl, C\n6\n-C\n24\n-aryl, C\n1\n-C\n20\n-alkoxy, C\n6\n-C\n24\n-aryloxy, C\n3\n-C\n20\n-alkyldiketonate, C\n6\n-C\n24\n-aryldiketonate, C\n1\n-C\n20\n-carboxylate, C\n1\n-C\n20\n-alkylsulphonate, C\n6\n-C\n24\n-arylsulphonate, C\n1\n-C\n20\n-alkylthiol, C\n6\n-C\n24\n-arylthiol, C\n1\n-C\n20\n-alkylsulphonyl or C\n1\n-C\n20\n-alkylsulphinyl radicals.\n3. The process to\nclaim 2\n, wherein X\n1\nand X\n2\nare identical or different and are each halogen, benzoate, C\n1\n-\n5\n-carboxylate, C\n1\n-\n5\n-alkyl, phenoxy, C\n1\n-\n5\n-alkoxy, C\n1\n-\n5\n-alkylthiol, C\n6\n-C\n24\n-arylthiol, C\n6\n-C\n24\n-aryl or C\n1\n-\n5\n-alkylsulphonate.\n4. The process according to\nclaim 2\n, wherein X\n1\nand X\n2\nare identical and are each halogen, CF\n3\nCOO, CH\n3\nCOO, CFH\n2\nCOO, (CH\n3\n)\n3\nCO, (CF\n3\n)\n2\n(CH\n3\n)CO, (CF\n3\n)(CH\n3\n)\n2\nCO, PhO (phenoxy), MeO (methoxy), EtO (ethoxy), tosylate (p-CH\n3\n-C\n6\nH\n4\n-SO\n3\n), mesylate (2,4,6-trimethylphenyl) or CF\n3\nSO\n3\n(trifluoromethanesulphonate).\n5. The process according to\nclaim 1\n, wherein the two ligands L are each, independently of one another, a phosphine, sulphonated phosphine, phosphate, phosphinite, phosphonite, arsine, stibine, ether, amine, amide, sulphoxide, carboxyl, nitrosyl, pyridine, thioether or imidazolidine (\u201cIm\u201d) ligand.\n6. The process according to\nclaim 5\n, wherein the imidazolidine radical (Im) has a structure of the general formula (IIa) or (IIb),\nwhere\nR\n8\n, R\n9\n, R\n10\n, R\n11\nare identical or different and are each hydrogen, straight-chain or branched C\n1\n-C\n30\n-alkyl, C\n3\n-C\n20\n-cycloalkyl, C\n2\n-C\n20\n-alkenyl, C\n2\n-C\n20\n-alkynyl, C\n6\n-C\n24\n-aryl, C\n1\n-C\n20\n-carboxylate, C\n1\n-C\n20\n-alkoxy, C\n2\n-C\n20\n-alkenyloxy, C\n2\n-C\n20\n-alkynyloxy, C\n6\n-C\n20\n-aryloxy, C\n2\n-C\n20\n-alkoxycarbonyl, C\n1\n-C\n20\n-alkylthio, C\n6\n-C\n20\n-arylthio, C\n1\n-C\n20\n-alkylsulphonyl, C\n1\n-C\n20\n-alkylsulphonate, C\n6\n-C\n20\n-arylsulphonate or C\n1\n-C\n20\n-alkylsulphinyl."
+  }
+]

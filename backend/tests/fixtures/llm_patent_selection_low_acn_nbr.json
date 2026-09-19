@@ -1,0 +1,94 @@
+{
+  "candidates": [
+    {
+      "patent_number": "US8123456B2",
+      "classification": "DIRECT_SYNTHESIS",
+      "variant_mismatch": false,
+      "polymerization_medium_mismatch": false,
+      "final_decision": "KEEP",
+      "confidence": 0.95,
+      "reason": "Title and snippet describe aqueous emulsion polymerization of NBR with explicit low ACN range 15-20 wt%."
+    },
+    {
+      "patent_number": "EP2473281B1",
+      "classification": "DIRECT_SYNTHESIS",
+      "variant_mismatch": false,
+      "polymerization_medium_mismatch": false,
+      "final_decision": "KEEP",
+      "confidence": 0.92,
+      "reason": "Aqueous-phase emulsion copolymerization of acrylonitrile-butadiene with controlled bound ACN ~18 wt%."
+    },
+    {
+      "patent_number": "US9012345B1",
+      "classification": "DIRECT_SYNTHESIS",
+      "variant_mismatch": false,
+      "polymerization_medium_mismatch": true,
+      "final_decision": "REJECT",
+      "confidence": 0.9,
+      "reason": "Solution polymerization with n-butyllithium in hexane — medium mismatch when aqueous/emulsion is required."
+    },
+    {
+      "patent_number": "US7654321B2",
+      "classification": "TARGET_TRANSFORMATION",
+      "variant_mismatch": true,
+      "polymerization_medium_mismatch": false,
+      "final_decision": "REJECT",
+      "confidence": 0.97,
+      "reason": "HNBR / hydrogenated nitrile rubber is an excluded chemical variant for low-ACN NBR target."
+    },
+    {
+      "patent_number": "US8888777B2",
+      "classification": "DOWNSTREAM_APPLICATION",
+      "variant_mismatch": false,
+      "polymerization_medium_mismatch": false,
+      "final_decision": "REJECT",
+      "confidence": 0.96,
+      "reason": "Pneumatic tire uses NBR as a compounding ingredient; not synthesis of the polymer."
+    },
+    {
+      "patent_number": "US7000111B1",
+      "classification": "DOWNSTREAM_APPLICATION",
+      "variant_mismatch": false,
+      "polymerization_medium_mismatch": false,
+      "final_decision": "REJECT",
+      "confidence": 0.94,
+      "reason": "Adhesive composition uses purchased NBR; downstream application."
+    },
+    {
+      "patent_number": "US5551234A",
+      "classification": "UNRELATED",
+      "variant_mismatch": false,
+      "polymerization_medium_mismatch": false,
+      "final_decision": "REJECT",
+      "confidence": 0.99,
+      "reason": "Water purification — unrelated to nitrile rubber synthesis."
+    },
+    {
+      "patent_number": "US8200001B2",
+      "classification": "UNRELATED",
+      "variant_mismatch": false,
+      "polymerization_medium_mismatch": false,
+      "final_decision": "REJECT",
+      "confidence": 0.88,
+      "reason": "SBR / styrene-butadiene latex — different base polymer than NBR target."
+    },
+    {
+      "patent_number": "US9444555B2",
+      "classification": "DOWNSTREAM_APPLICATION",
+      "variant_mismatch": true,
+      "polymerization_medium_mismatch": false,
+      "final_decision": "REJECT",
+      "confidence": 0.95,
+      "reason": "Wellbore packer molded from HNBR — downstream article and wrong variant."
+    },
+    {
+      "patent_number": "WO2018123456A1",
+      "classification": "DIRECT_SYNTHESIS",
+      "variant_mismatch": false,
+      "polymerization_medium_mismatch": false,
+      "final_decision": "KEEP",
+      "confidence": 0.91,
+      "reason": "Continuous aqueous emulsion polymerization of acrylonitrile-butadiene rubber with ACN content control."
+    }
+  ]
+}

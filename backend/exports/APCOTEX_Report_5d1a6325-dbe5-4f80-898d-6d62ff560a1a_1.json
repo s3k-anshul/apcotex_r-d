@@ -1,0 +1,318 @@
+{
+  "title": "PATENT RESEARCH REPORT",
+  "abstract": "This technical report synthesizes patent evidence regarding the synthesis, preparation, and compounding of Low Acrylonitrile Nitrile Butadiene Rubber (NBR). A total of seven patents were analyzed, including EP4112676, US9650502, US9034992, US7923518, US8389623, US8436091, and US8664340. The primary technical focus across these disclosures lies in optimizing emulsion polymerization parameters, redox initiation systems, and post-polymerization coagulation processes. Key process trends reveal that adjusting the pre-coagulation latex pH and selecting specific coagulation salts (such as magnesium chloride or calcium chloride) significantly impacts the vulcanization kinetics, Mooney scorch, and mechanical properties of the final rubber. Additionally, precise control of molecular weight and monomer conversion (typically targeted between 50% and 95%) via incremental modifier additions (e.g., tertiary dodecyl mercaptan) is critical for achieving desired Mooney viscosities and low bound acrylonitrile content.",
+  "research_type": "Polymerization",
+  "primary_patents": [
+    {
+      "patent_details": {
+        "patent_number": "EP4112676",
+        "patent_title": "METHOD FOR PRODUCING NITRILE RUBBER",
+        "assignee": "Not disclosed",
+        "jurisdiction": "EP",
+        "publication_year": "2024",
+        "material_type": "Nitrile Rubber",
+        "relevance_to_target": "Describes general production methods for nitrile rubbers."
+      },
+      "technical_method": {
+        "section_title": "Polymerization Method",
+        "parameters": []
+      },
+      "experimental_evidence": [
+        "No specific experimental parameters were extracted from the patent text.",
+        "Focuses on general production methodology of nitrile rubber."
+      ],
+      "technical_relevance": "Provides baseline production methodology for nitrile rubber systems."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US9650502",
+        "patent_title": "Process for the preparation of nitrile rubbers",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2017",
+        "material_type": "Nitrile Rubber",
+        "relevance_to_target": "Outlines emulsion polymerization of nitrile rubbers with specific monomer ratios and modifier additions."
+      },
+      "technical_method": {
+        "section_title": "Preparation Method",
+        "parameters": [
+          {
+            "name": "Deionized water",
+            "value": "9.92",
+            "unit": "kg",
+            "context": "Charged into autoclave for Latex A preparation",
+            "source_section": "Preparation of Latex A"
+          },
+          {
+            "name": "Acrylonitrile",
+            "value": "500",
+            "unit": "g",
+            "context": "Charged under vacuum for Latex A",
+            "source_section": "Preparation of Latex A"
+          },
+          {
+            "name": "Butadiene",
+            "value": "4.37",
+            "unit": "kg",
+            "context": "Charged under vacuum for Latex A",
+            "source_section": "Preparation of Latex A"
+          },
+          {
+            "name": "TDM",
+            "value": "18.72",
+            "unit": "g",
+            "context": "Tertiary dodecyl mercaptan modifier",
+            "source_section": "Preparation of Latex A"
+          },
+          {
+            "name": "Conversion",
+            "value": "70",
+            "unit": "%",
+            "context": "Polymerization interrupted after 7 hours",
+            "source_section": "Preparation of Latex A"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Latex A was prepared using 9.92 kg deionized water, 500 g acrylonitrile, and 4.37 kg butadiene.",
+        "Polymerization was carried out at 7 degrees C and initiated with DIHP and sodium formaldehyde sulfoxylate (FSS).",
+        "TDM modifier was added incrementally (booster additions) at 37% and 59% conversion to control molecular weight.",
+        "The reaction was stopped at 70% conversion using hydroxylamine sulfate, yielding a latex with 28.1% bound ACN and 60.5 Mooney viscosity."
+      ],
+      "technical_relevance": "Demonstrates precise control of low-ACN nitrile rubber synthesis via incremental modifier additions."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US9034992",
+        "patent_title": "Nitrile rubbers which optionally contain alkylthio terminal groups and which ...",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2015",
+        "material_type": "Nitrile Rubber",
+        "relevance_to_target": "Details the compounding and vulcanization of nitrile rubbers containing specific terminal groups."
+      },
+      "technical_method": {
+        "section_title": "Synthesis Method",
+        "parameters": [
+          {
+            "name": "Storage",
+            "value": "48",
+            "unit": "hours",
+            "context": "Hot air ageing at 100 degrees C",
+            "source_section": "Hot air ageing"
+          },
+          {
+            "name": "Laboratory mixer",
+            "value": "1.5",
+            "unit": "l",
+            "context": "Internal mixer volume",
+            "source_section": "Compounding"
+          },
+          {
+            "name": "Pressure",
+            "value": "120",
+            "unit": "bar",
+            "context": "Hydraulic pressure for vulcanization",
+            "source_section": "Vulcanization"
+          },
+          {
+            "name": "Conversion",
+            "value": "90",
+            "unit": "%",
+            "context": "Time t90 achieved during vulcanization",
+            "source_section": "Vulcanization"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Compounding was performed in a 1.5 L laboratory internal mixer.",
+        "Vulcanization was carried out at 160 degrees C under 120 bar hydraulic pressure for 30 minutes.",
+        "Hot air aging was evaluated by storing Mooney sheets at 100 degrees C for 48 hours.",
+        "Corrosion testing was conducted on sealing rings clamped between aluminum plates at 80% relative humidity and 70 degrees C."
+      ],
+      "technical_relevance": "Provides compounding, vulcanization, and aging protocols for low-ACN nitrile rubbers."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US7923518",
+        "patent_title": "Nitrile rubbers",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2011",
+        "material_type": "Nitrile Rubber",
+        "relevance_to_target": "Focuses on the synthesis and properties of nitrile rubbers."
+      },
+      "technical_method": {
+        "section_title": "Polymerization Method",
+        "parameters": []
+      },
+      "experimental_evidence": [
+        "No specific experimental parameters were extracted from the patent text.",
+        "Focuses on the general composition of nitrile rubbers."
+      ],
+      "technical_relevance": "Establishes baseline compositions for nitrile rubber polymers."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US8389623",
+        "patent_title": "Nitrile rubbers",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2013",
+        "material_type": "Nitrile Rubber",
+        "relevance_to_target": "Investigates the impact of coagulation salts on Mooney scorch and vulcanization rates."
+      },
+      "technical_method": {
+        "section_title": "Preparation Method",
+        "parameters": [
+          {
+            "name": "Mechanical mixer",
+            "value": "1.5",
+            "unit": "l",
+            "context": "Laboratory mixer volume",
+            "source_section": "Compounding"
+          },
+          {
+            "name": "Nitrile rubber",
+            "value": "100",
+            "unit": "parts by weight",
+            "context": "Base polymer weight for compounding",
+            "source_section": "Compounding"
+          },
+          {
+            "name": "Pressure",
+            "value": "120",
+            "unit": "bar",
+            "context": "Hydraulic pressure for vulcanization",
+            "source_section": "Vulcanization"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Nitrile rubbers were processed in a 1.5 L mechanical laboratory mixer.",
+        "Vulcanization was performed at 160 degrees C under 120 bar pressure for 30 minutes.",
+        "Coagulation using magnesium chloride resulted in lower Mooney scorch and shorter vulcanization times compared to non-inventive rubbers.",
+        "Stress at 300% elongation was shown to depend heavily on the concentration and ratio of cations in the rubber."
+      ],
+      "technical_relevance": "Highlights the critical role of coagulation chemistry (specifically magnesium chloride) in optimizing vulcanization kinetics."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US8436091",
+        "patent_title": "Nitrile rubbers",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2013",
+        "material_type": "Nitrile Rubber",
+        "relevance_to_target": "Discloses a specific redox initiation system for emulsion polymerization of nitrile rubbers."
+      },
+      "technical_method": {
+        "section_title": "Polymerization Method",
+        "parameters": [
+          {
+            "name": "Emulsifier",
+            "value": "0.2 to 15",
+            "unit": "parts by weight",
+            "context": "Based on 100 parts monomer mixture",
+            "source_section": "General Procedure"
+          },
+          {
+            "name": "Water",
+            "value": "150 to 400",
+            "unit": "parts by weight",
+            "context": "Per 100 parts monomer mixture",
+            "source_section": "General Procedure"
+          },
+          {
+            "name": "Conversion",
+            "value": "50 to 95",
+            "unit": "%",
+            "context": "Polymerization stopping range",
+            "source_section": "General Procedure"
+          },
+          {
+            "name": "Fe(II)SO4",
+            "value": "0.986",
+            "unit": "g",
+            "context": "Premix solution component",
+            "source_section": "General Procedure"
+          },
+          {
+            "name": "Fe(II)Cl2",
+            "value": "0.845",
+            "unit": "g",
+            "context": "Alternative premix solution component",
+            "source_section": "General Procedure"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Emulsion polymerization was conducted using a specific redox system containing Fe(II) salts and Rongalit C.",
+        "Polymerization was stopped at conversions between 50% and 95% (typically 70-90%).",
+        "The use of FeCl2 instead of FeSO4 in the redox system yielded nitrile rubbers with distinct properties.",
+        "Solid rubbers with ACN contents around 35-36% and Mooney viscosities ranging from 25 to 142 MU were obtained."
+      ],
+      "technical_relevance": "Demonstrates how redox system modifications (e.g., FeCl2 vs FeSO4) control polymer properties and polymerization rates."
+    },
+    {
+      "patent_details": {
+        "patent_number": "US8664340",
+        "patent_title": "Nitrile rubbers",
+        "assignee": "Not disclosed",
+        "jurisdiction": "US",
+        "publication_year": "2014",
+        "material_type": "Nitrile Rubber",
+        "relevance_to_target": "Examines the effect of latex pH and coagulation salt type on vulcanization properties."
+      },
+      "technical_method": {
+        "section_title": "Preparation Method",
+        "parameters": [
+          {
+            "name": "KOH solution",
+            "value": "5",
+            "unit": "wt%",
+            "context": "Used to set latex pH before coagulation",
+            "source_section": "Latex preparation"
+          },
+          {
+            "name": "Laboratory mixer",
+            "value": "1.5",
+            "unit": "l",
+            "context": "Used for compounding",
+            "source_section": "Compounding"
+          }
+        ]
+      },
+      "experimental_evidence": [
+        "Latex pH was adjusted using 5% aqueous KOH or HCl prior to coagulation.",
+        "Coagulation was carried out using NaCl or CaCl2 salts under varying temperatures (20 degrees C to 50 degrees C).",
+        "Nitrile rubbers with specific ion indices exhibited higher vulcanization rates (t90 - t10) and higher stress values at 30% elongation."
+      ],
+      "technical_relevance": "Provides quantitative insights into how pre-coagulation pH adjustment and salt selection affect final vulcanizate performance."
+    }
+  ],
+  "competitor_patents": [],
+  "website_sources": [],
+  "cross_patent_comparison": [
+    "Emulsion polymerization is typically stopped at conversions ranging from 50% to 95% (commonly around 70% to 86%) to prevent gel formation and control molecular weight.",
+    "Compounding and mechanical testing are consistently evaluated using a 1.5 L laboratory mixer across multiple independent patents (US9034992, US8389623, US8664340).",
+    "Vulcanization is standardly performed at 160 degrees C under high hydraulic pressures (typically 120 bar) for 30 minutes to prepare test specimens.",
+    "Coagulation chemistry, specifically the transition from sodium chloride to divalent salts like magnesium chloride or calcium chloride, is a key lever for improving vulcanization rates and reducing Mooney scorch."
+  ],
+  "comparison_dimensions": [
+    {
+      "parameter_name": "Laboratory Mixer Volume",
+      "values": {}
+    }
+  ],
+  "conclusion": "The analyzed patent landscape for Low Acrylonitrile NBR highlights a strong technical focus on post-polymerization processing and compounding optimization. Key methodologies include the precise control of emulsion polymerization using advanced redox systems (e.g., FeCl2 vs FeSO4) and incremental modifier additions. Crucially, the selection of coagulation salts and pre-coagulation pH adjustment represent major process trends that directly dictate the ionic index and subsequent vulcanization performance of the rubber. Gaps in the current patent evidence include limited disclosure of specific emulsifier systems optimized specifically for extremely low ACN levels.",
+  "references": [
+    "EP4112676 - METHOD FOR PRODUCING NITRILE RUBBER, Assignee: Not disclosed, EP, 2024. Link: [Google Patents](https://patents.google.com/patent/EP4112676A1)",
+    "US9650502 - Process for the preparation of nitrile rubbers, Assignee: Not disclosed, US, 2017. Link: [Google Patents](https://patents.google.com/patent/US9650502B2)",
+    "US9034992 - Nitrile rubbers which optionally contain alkylthio terminal groups, Assignee: Not disclosed, US, 2015. Link: [Google Patents](https://patents.google.com/patent/US9034992B2)",
+    "US7923518 - Nitrile rubbers, Assignee: Not disclosed, US, 2011. Link: [Google Patents](https://patents.google.com/patent/US7923518B2)",
+    "US8389623 - Nitrile rubbers, Assignee: Not disclosed, US, 2013. Link: [Google Patents](https://patents.google.com/patent/US8389623B2)",
+    "US8436091 - Nitrile rubbers, Assignee: Not disclosed, US, 2013. Link: [Google Patents](https://patents.google.com/patent/US8436091B2)",
+    "US8664340 - Nitrile rubbers, Assignee: Not disclosed, US, 2014. Link: [Google Patents](https://patents.google.com/patent/US8664340B2)"
+  ]
+}

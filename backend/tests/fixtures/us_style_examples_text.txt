@@ -1,0 +1,13 @@
+DETAILED DESCRIPTION OF THE INVENTION
+The following examples illustrate the invention without limiting it.
+
+Example 1
+An aqueous emulsion polymerization of monomers was conducted at 5 C using a redox initiator.
+Conversion reached 85% after 8 hours and the latex was coagulated.
+
+Example 2
+The procedure of Example 1 was repeated with adjusted molecular-weight regulator level.
+The dried polymer had Mooney viscosity ML(1+4) 100 C of 45.
+
+Comparative Example 1
+A control polymerization without emulsifier failed to form a stable latex.
