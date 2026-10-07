@@ -28,6 +28,7 @@ export interface PatentResearchState {
   extractions: any[] | null; // Extracted JSON per patent
   structuredReport: any | null; // Canonical PatentResearchReport JSON
   error: string | null;
+  progressNote: string | null;
   compoundName: string | null;
   createdDate: string | null;
 }
@@ -47,6 +48,7 @@ const defaultState: PatentResearchState = {
   extractions: null,
   structuredReport: null,
   error: null,
+  progressNote: null,
   compoundName: null,
   createdDate: null,
 };

@@ -39,6 +39,29 @@ export interface RecipeProperty {
   patentRef?: string;
 }
 
+export interface EditableRecipeStage {
+  id: string;
+  stage_name: string;
+  parameters: RecipeProperty[];
+  omission_reason?: string;
+  is_applicable?: boolean;
+}
+
+export interface EditableProcessConditions {
+  reaction_time?: { value: string; unit: string };
+  feeding_hours?: { monomer?: string; emulsifier?: string; catalyst?: string };
+  temperature_profile?: { stage: string; value: string; unit: string }[];
+}
+
+export const CANONICAL_STAGE_NAMES = [
+  "Reactor Charge",
+  "Emulsifier Solution",
+  "Catalyst Solution",
+  "Monomer Mix",
+  "Chemical Stripping",
+  "Post Addition",
+];
+
 export interface EditableRecipe {
   id: string;
   name: string;
@@ -47,120 +70,188 @@ export interface EditableRecipe {
   patentSupport: string;
   topPick?: boolean;
   properties: RecipeProperty[];
+  stages: EditableRecipeStage[];
+  process_conditions?: EditableProcessConditions;
+  // Target analysis & real confidence scoring fields
+  targetFit?: number | null;
+  targetsMet?: number | null;
+  targetsTotal?: number | null;
+  targetAnalysis?: any;
+  confidenceAnalysis?: any;
   // Include raw data for passing to steps
   raw_data?: any; 
 }
 
 // Convert from API LLM structure to EditableRecipe structure
 export function convertToEditableRecipe(recipe: any): EditableRecipe {
-  const params = recipe.recipe_data?.parameters || [];
-  const props: RecipeProperty[] = params.map((p: any, i: number) => ({
-    id: `prop-${i}`,
-    name: p.name,
-    value: p.value,
-    unit: p.unit,
-    source: p.source,
-    patentRef: p.patent_ref
-  }));
+  const recipeData = recipe.recipe_data || {};
+  const rawStages = recipeData.stages || [];
+  
+  let editableStages: EditableRecipeStage[] = [];
+  let props: RecipeProperty[] = [];
 
-  // Ensure some base properties exist even if LLM omits them
-  if (props.length === 0) {
-    props.push({ id: "bdAcnRatio", name: "BD/ACN Ratio", value: recipe.recipe_data?.bd_acn_ratio || "", unit: "" });
-    props.push({ id: "method", name: "Method", value: recipe.recipe_data?.polymerization_method || "", unit: "" });
-    props.push({ id: "temperature", name: "Temperature", value: recipe.recipe_data?.temperature || "", unit: "" });
-    props.push({ id: "conversion", name: "Conversion", value: recipe.recipe_data?.conversion || "", unit: "" });
+  if (Array.isArray(rawStages) && rawStages.length > 0) {
+    editableStages = rawStages.map((s: any, sIdx: number) => {
+      const stageParams: RecipeProperty[] = (s.parameters || []).map((p: any, pIdx: number) => ({
+        id: `prop-s${sIdx}-p${pIdx}`,
+        name: p.name,
+        value: String(p.value ?? ""),
+        unit: p.unit || "",
+        source: p.source,
+        patentRef: p.patent_ref,
+      }));
+      props.push(...stageParams);
+      const isApp = s.is_applicable !== false && stageParams.length > 0;
+      return {
+        id: `stage-${sIdx}`,
+        stage_name: s.stage_name || `Stage ${sIdx + 1}`,
+        parameters: stageParams,
+        is_applicable: isApp,
+        omission_reason: s.omission_reason || (!isApp ? "This stage was omitted based on the modeled synthesis pathway." : undefined),
+      };
+    });
+  } else {
+    // Legacy fallback: flat parameters when stages are absent
+    const params = recipeData.parameters || [];
+    props = params.map((p: any, i: number) => ({
+      id: `prop-${i}`,
+      name: p.name,
+      value: String(p.value ?? ""),
+      unit: p.unit || "",
+      source: p.source,
+      patentRef: p.patent_ref,
+    }));
   }
+
+  // If completely empty, provide fallback compound and method info
+  if (props.length === 0 && editableStages.length === 0) {
+    const method = recipeData.polymerization_method || recipeData.method || '';
+    const compound = recipeData.compound || recipe.name || 'Unknown';
+    if (method) {
+      props.push({ id: 'method', name: 'Polymerization Method', value: method, unit: '' });
+    }
+    props.push({ id: 'compound', name: 'Target Compound', value: compound, unit: '' });
+  }
+
+  const patList = (recipe.patent_references && recipe.patent_references.length > 0)
+    ? recipe.patent_references
+    : (recipeData.patent_references || []);
+  const patentSupportText = patList.length > 0
+    ? patList.join(", ")
+    : "No direct patent support identified in the selected report.";
+
+  const ta = recipe.target_analysis || recipeData.target_analysis;
+  const ca = recipe.confidence_analysis || recipeData.confidence_analysis;
+  const targetFit = recipe.target_fit_score ?? ta?.target_fit_score ?? null;
+  const targetsMet = recipe.targets_met ?? ta?.targets_met ?? null;
+  const targetsTotal = recipe.targets_total ?? ta?.targets_total ?? null;
 
   return {
     id: recipe.id,
     name: recipe.name,
     rank: recipe.rank,
-    confidence: recipe.evidence_coverage_score, // Using evidence score instead of fake confidence
-    patentSupport: (recipe.patent_references || []).join(", "),
+    confidence: recipe.confidence_score ?? recipe.evidence_coverage_score ?? recipeData.confidence_score ?? 0,
+    targetFit: targetFit,
+    targetsMet: targetsMet,
+    targetsTotal: targetsTotal,
+    targetAnalysis: ta,
+    confidenceAnalysis: ca,
+    patentSupport: patentSupportText,
     topPick: recipe.rank === 1,
     properties: props,
-    raw_data: recipe.recipe_data
+    stages: editableStages,
+    process_conditions: recipeData.process_conditions,
+    raw_data: recipeData,
   };
+}
+
+/** Rebuild API recipe_data from local EditableRecipe edits (preserves structure and non-parameter fields). */
+export function editableRecipeToRecipeData(recipe: EditableRecipe): any {
+  const base = { ...(recipe.raw_data || {}) };
+
+  if (recipe.stages && recipe.stages.length > 0) {
+    base.stages = recipe.stages.map((s) => ({
+      stage_name: s.stage_name,
+      is_applicable: s.parameters.length > 0,
+      omission_reason: s.omission_reason || null,
+      parameters: s.parameters.map((p) => ({
+        name: p.name,
+        value: p.value,
+        unit: p.unit || "",
+        source: p.source || "inferred",
+        patent_ref: p.patentRef || null,
+      })),
+    }));
+
+    // Synchronize flat parameters array across all stages for backwards compatibility
+    base.parameters = recipe.stages.flatMap((s) =>
+      s.parameters.map((p) => ({
+        name: p.name,
+        value: p.value,
+        unit: p.unit || "",
+        source: p.source || "inferred",
+        patent_ref: p.patentRef || null,
+      }))
+    );
+  } else {
+    base.parameters = recipe.properties.map((p) => ({
+      name: p.name,
+      value: p.value,
+      unit: p.unit || "",
+      source: p.source || "inferred",
+      patent_ref: p.patentRef || null,
+    }));
+  }
+
+  if (recipe.process_conditions) {
+    base.process_conditions = recipe.process_conditions;
+  }
+  base.confidence_score = recipe.confidence;
+
+  return base;
 }
 
 export function getPolymerizationRecipeSteps(
   recipeData: any,
 ): PatentRecipeStep[] {
-  // If no raw data is available, return empty or generic steps
+  // If no raw data is available, return empty
   if (!recipeData) return [];
-  
-  return [
-    {
-      param: "Monomer Charge",
-      step: "PR#1",
-      desc: `Charge butadiene/acrylonitrile at ${recipeData.bd_acn_ratio || "target"} ratio per ${recipeData.polymerization_method || "standard"} protocol`,
-      temp: "25°C",
-      duration: "15 min",
-    },
-    {
-      param: "Water Addition",
-      step: "PR#2",
-      desc: `Add deionized water at ${recipeData.water || "target"} with high-shear dispersion`,
-      temp: "25°C",
-      duration: "12 min",
-    },
-    {
-      param: "Emulsifier",
-      step: "PR#3",
-      desc: `Add ${recipeData.emulsifier || "target"} and stabilize emulsion before polymerization`,
-      temp: "25°C",
-      duration: "10 min",
-    },
-    {
-      param: "Temperature Ramp",
-      step: "PR#4",
-      desc: `Ramp reactor to ${recipeData.temperature || "target"} for controlled kinetics`,
-      temp: recipeData.temperature || "target",
-      duration: "20 min",
-    },
-    {
-      param: "Initiator",
-      step: "PR#5",
-      desc: `Dose ${recipeData.initiator || "target"} to initiate emulsion polymerization`,
-      temp: recipeData.temperature || "target",
-      duration: "5 min",
-    },
-    {
-      param: "Chain Transfer Agent",
-      step: "PR#6",
-      desc: `Add ${recipeData.chain_transfer_agent || "target"} for molecular weight control`,
-      temp: recipeData.temperature || "target",
-      duration: "8 min",
-    },
-    {
-      param: "Polymerization Hold",
-      step: "PR#7",
-      desc: `Maintain reaction until ${recipeData.conversion || "target"} conversion is achieved`,
-      temp: recipeData.temperature || "target",
-      duration: "420 min",
-    },
-    {
-      param: "Coagulation",
-      step: "PR#8",
-      desc: `Coagulate latex using ${recipeData.coagulant || "target"} under standard plant conditions`,
-      temp: "65°C",
-      duration: "45 min",
-    },
-    {
-      param: "Washing & Drying",
-      step: "PR#9",
-      desc: "Wash crumbs, dry, and sample for BACN and Mooney verification",
-      temp: "100°C",
-      duration: "90 min",
-    },
-    {
-      param: "Quality Release",
-      step: "PR#10",
-      desc: `Target release at BACN ${recipeData.expected_bound_acn || "target"} and Mooney ${recipeData.expected_mooney || "target"}`,
-      temp: "25°C",
-      duration: "20 min",
-    },
-  ];
+
+  // Prefer the dynamic stages structure (from the new LLM schema)
+  const stages = recipeData.stages || [];
+  if (stages.length > 0) {
+    const steps: PatentRecipeStep[] = [];
+    let idx = 1;
+    stages.forEach((stage: any) => {
+      const stageName: string = stage.stage_name || 'Stage';
+      (stage.parameters || []).forEach((param: any) => {
+        steps.push({
+          param: `${stageName} — ${param.name}`,
+          step: `PR#${String(idx).padStart(2, '0')}`,
+          desc: `${param.name}: ${param.value}${param.unit ? ' ' + param.unit : ''}${param.source === 'patent' && param.patent_ref ? ` [${param.patent_ref}]` : ''}`,
+          temp: '',
+          duration: '',
+        });
+        idx++;
+      });
+    });
+    return steps;
+  }
+
+  // Fallback: use flat parameters list when stages are absent
+  const params = recipeData.parameters || [];
+  if (params.length > 0) {
+    return params.map((param: any, i: number) => ({
+      param: param.name,
+      step: `PR#${String(i + 1).padStart(2, '0')}`,
+      desc: `${param.name}: ${param.value}${param.unit ? ' ' + param.unit : ''}${param.source === 'patent' && param.patent_ref ? ` [${param.patent_ref}]` : ''}`,
+      temp: '',
+      duration: '',
+    }));
+  }
+
+  // Final fallback: return empty (no NBR-specific hardcoded steps)
+  return [];
 }
 
 export interface CustomerFeedbackOption {
@@ -168,6 +259,24 @@ export interface CustomerFeedbackOption {
   label: string;
   checked: boolean;
 }
+
+/** Build zero-valued competitor columns from competitor list + property list. */
+export function buildInitialCompetitorValues(
+  competitors: { id: string; name: string }[],
+  props: SpecRowTemplate[]
+): Record<string, Record<string, string>> {
+  const result: Record<string, Record<string, string>> = {};
+  props.forEach(p => {
+    result[p.feature] = {};
+    competitors.forEach(c => {
+      result[p.feature][c.id] = '';
+    });
+  });
+  return result;
+}
+
+/** Default target values for customer feedback (empty — filled by user). */
+export const CUSTOMER_FEEDBACK_TARGET_VALUES: Record<string, string> = {};
 
 export const CUSTOMER_FEEDBACK_PROPERTIES: SpecRowTemplate[] = [
   { id: "cf-prop-1", feature: "MH", unit: "lb-in", category: "Testing", dataType: "number" },
@@ -226,3 +335,17 @@ export type TransferredSpecData = {
   max: string;
   competitors: Record<string, string>; // name -> value
 };
+
+// Type alias for backward compatibility with RecipeSimulatorSteps
+// In production mode these are replaced by LLM-generated recipes.
+export type PolymerizationRecipe = EditableRecipe;
+
+// Placeholder demo constants used only in DEMO MODE (VITE_RECIPE_DEMO_MODE=true)
+export const POLYMERIZATION_RECIPES: PolymerizationRecipe[] = [];
+export const OPTIMIZED_RECIPES: OptimizedRecipe[] = [];
+
+export const DEFAULT_CUSTOMER_FEEDBACK = "Product performance meets expectations.";
+export const DEMO_CUSTOMER_NOTES = "Trial conducted under standard plant conditions.";
+
+export const DEMO_TARGET_VALUES: Record<string, string> = {};
+

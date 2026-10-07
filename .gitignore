@@ -1,10 +1,44 @@
-# Environment Variables
+# Environment and secrets
 .env
+.env.*
+!.env.example
+**/.env
+!**/.env.example
 
-# Node modules (essential for frontend/backend JavaScript stacks)
+# Virtual environments and dependencies
+.venv/
+venv/
+env/
 node_modules/
 
-# Build folders
+# Build output
 dist/
 build/
-backend/app/data/*.db
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+coverage/
+htmlcov/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local databases, logs, and backups
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+backend/backups/
+backend/logs/
+*.log
+
+# Generated reports and temporary files
+backend/exports/
+tmp/
+temp/
+*.tmp
+.DS_Store
+Thumbs.db

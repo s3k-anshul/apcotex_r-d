@@ -1,24 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router";
 import { CheckCircle2, History } from "lucide-react";
-import { usePatentResearch } from "../../contexts/PatentResearchContext";
 import { useRecipe } from "../../contexts/RecipeContext";
 import {
   Step1TargetSpec,
   Step2PolymerizationRecommendations,
-  Step3CustomerTrialFeedback,
-  Step4OptimizedRecipes,
 } from "./RecipeSimulatorSteps";
-import { TransferredSpecData } from "./recipeSimulatorDemoData";
+import { SavedRecipesPanel } from "./SavedRecipesPanel";
 
 const BLUE = "#1F5FA8";
 const TEAL = "#1FB7B5";
 
 const STEPS = [
-  { num: 1, label: "Define Target Polymer Specification" },
-  { num: 2, label: "Polymerization Recipe Recommendations" },
-  { num: 3, label: "Customer Trial Feedback" },
-  { num: 4, label: "Optimized Polymerization Recipes" },
+  { num: 1, label: "Input Properties" },
+  { num: 2, label: "Generate 5 Recipes" },
 ];
 
 function Stepper({ current }: { current: number }) {
@@ -109,48 +104,73 @@ function Stepper({ current }: { current: number }) {
 
 export function RecipeSimulator() {
   const navigate = useNavigate();
-  const { state: researchState } = usePatentResearch();
-  
-  const { 
-    cycle, 
-    resetContext, 
-    error
-  } = useRecipe();
+  const { cycle, candidates, resetGenerationSession, error, loadDemoSession, demoMode, clearError } =
+    useRecipe();
+  const [step, setStep] = useState<number>(() => {
+    const saved = sessionStorage.getItem("recipeSimulatorActiveStep");
+    if (saved === "2" || saved === "1") return Number(saved);
+    return 1;
+  });
+  const [showPrevious, setShowPrevious] = useState(false);
 
-  // Local state for the UI step (driven by cycle status if loaded)
-  const [step, setStep] = useState(1);
+  // Keep step synced with sessionStorage
+  useEffect(() => {
+    sessionStorage.setItem("recipeSimulatorActiveStep", String(step));
+  }, [step]);
 
-  // Sync step with cycle status
+  // Restore step 2 if candidates already exist and no step was explicitly set in sessionStorage
+  useEffect(() => {
+    const saved = sessionStorage.getItem("recipeSimulatorActiveStep");
+    if (!saved && (candidates?.length > 0 || cycle?.candidates?.length > 0)) {
+      setStep(2);
+    }
+  }, [candidates?.length, cycle?.candidates?.length]);
+
+  // Auto-advance to Step 2 when generation completes
+  const prevStatusRef = useRef<string | null>(null);
   useEffect(() => {
     if (!cycle) {
-      setStep(1);
-    } else {
-      switch (cycle.status) {
-        case "PENDING":
-        case "STEP1":
-        case "GENERATING":
-          setStep(2); // If we're generating or have entered step 1, proceed to 2
-          break;
-        case "STEP2":
-          setStep(2);
-          break;
-        case "STEP3":
-        case "OPTIMIZING":
-          setStep(3);
-          break;
-        case "STEP4":
-        case "COMPLETED":
-          setStep(4);
-          break;
-        default:
-          setStep(1);
-      }
+      prevStatusRef.current = null;
+      return;
     }
-  }, [cycle]);
+    const prev = prevStatusRef.current;
+    prevStatusRef.current = cycle.status;
+
+    // Transition from GENERATING to STEP2 takes user to Step 2
+    if (prev === "GENERATING" && cycle.status === "STEP2") {
+      setStep(2);
+    }
+  }, [cycle?.status]);
+
+  // Drop stale errors when entering the simulator
+  useEffect(() => {
+    clearError();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleGenerateNewRecipe = () => {
+    if ((candidates && candidates.length > 0) || cycle) {
+      const ok = window.confirm(
+        "Start a new recipe generation? This will clear the active Recipe Simulator workflow."
+      );
+      if (!ok) return;
+    }
+    clearError();
+    resetGenerationSession();
+    sessionStorage.removeItem("recipeSimulatorActiveStep");
+    setStep(1);
+  };
 
   return (
     <div style={{ padding: "28px 32px 48px" }}>
-      <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+      <div
+        style={{
+          marginBottom: 24,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+        }}
+      >
         <div>
           <h1
             style={{
@@ -166,44 +186,39 @@ export function RecipeSimulator() {
             AI-powered formulation prediction · Step {step} of {STEPS.length}
           </p>
         </div>
-        
-        <div style={{ display: 'flex', gap: 12 }}>
+
+        <div style={{ display: "flex", gap: 12 }}>
           <button
-            onClick={() => navigate('/recipe-history')}
+            onClick={() => setShowPrevious(true)}
             style={{
-              display: 'flex',
-              alignItems: 'center',
+              display: "flex",
+              alignItems: "center",
               gap: 8,
-              background: 'white',
+              background: "white",
               border: `1px solid #E5E7EB`,
               borderRadius: 6,
-              padding: '8px 16px',
-              fontSize: '0.875rem',
+              padding: "8px 16px",
+              fontSize: "0.875rem",
               fontWeight: 600,
-              color: '#374151',
-              cursor: 'pointer'
+              color: "#374151",
+              cursor: "pointer",
             }}
           >
             <History size={16} />
             Previous Recipes
           </button>
-          
+
           <button
-            onClick={() => {
-              if(confirm("Start a new recipe simulation? Unsaved progress will be lost.")) {
-                resetContext();
-                setStep(1);
-              }
-            }}
+            onClick={handleGenerateNewRecipe}
             style={{
               background: TEAL,
-              border: 'none',
+              border: "none",
               borderRadius: 6,
-              padding: '8px 16px',
-              fontSize: '0.875rem',
+              padding: "8px 16px",
+              fontSize: "0.875rem",
               fontWeight: 600,
-              color: 'white',
-              cursor: 'pointer'
+              color: "white",
+              cursor: "pointer",
             }}
           >
             Generate New Recipe
@@ -212,9 +227,18 @@ export function RecipeSimulator() {
       </div>
 
       <Stepper current={step} />
-      
+
       {error && (
-        <div style={{ background: '#FEE2E2', border: '1px solid #FCA5A5', color: '#991B1B', padding: 12, borderRadius: 6, marginBottom: 24 }}>
+        <div
+          style={{
+            background: "#FEE2E2",
+            border: "1px solid #FCA5A5",
+            color: "#991B1B",
+            padding: 12,
+            borderRadius: 6,
+            marginBottom: 24,
+          }}
+        >
           {error}
         </div>
       )}
@@ -227,24 +251,15 @@ export function RecipeSimulator() {
       )}
 
       {step === 2 && (
-        <Step2PolymerizationRecommendations
-          onBack={() => setStep(1)}
-          onContinue={() => setStep(3)}
-        />
+        <Step2PolymerizationRecommendations onBack={() => setStep(1)} />
       )}
 
-      {step === 3 && (
-        <Step3CustomerTrialFeedback
-          onBack={() => setStep(2)}
-          onOptimize={() => setStep(4)}
-        />
-      )}
-
-      {step === 4 && (
-        <Step4OptimizedRecipes 
-          onBack={() => setStep(3)} 
-        />
-      )}
+      <SavedRecipesPanel
+        open={showPrevious}
+        onClose={() => setShowPrevious(false)}
+        mode="browse"
+        kind="NORMAL"
+      />
     </div>
   );
 }

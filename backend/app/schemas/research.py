@@ -133,6 +133,7 @@ class ResearchRunSummary(BaseModel):
     cache_key: str | None
     report_version: int
     created_by: uuid.UUID
+    created_by_name: str | None = None
     created_at: datetime
     updated_at: datetime
 

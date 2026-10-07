@@ -102,6 +102,15 @@ export async function getResearchRuns() {
   return data.data; // Returns ResearchRunList
 }
 
+export async function suggestAssignees(query: string): Promise<string[]> {
+  const res = await authFetch(`/research-runs/assignees?q=${encodeURIComponent(query)}`);
+  if (!res.ok) {
+    throw new Error('Failed to load assignee suggestions');
+  }
+  const data = await res.json();
+  return data.data?.suggestions || [];
+}
+
 export async function pollResearchStatus(id: string) {
   const res = await authFetch(`/research-runs/${id}`);
   
@@ -208,7 +217,13 @@ export async function createCustomerTrial(payload: any) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
-  if (!res.ok) throw new Error('Failed to create customer trial');
+  if (!res.ok) throw new Error('Failed to create trial');
+  return (await res.json()).data;
+}
+
+export async function getCustomerTrial(trialId: string) {
+  const res = await authFetch(`/recipe/trials/${trialId}`);
+  if (!res.ok) throw new Error('Failed to fetch trial');
   return (await res.json()).data;
 }
 
@@ -241,5 +256,132 @@ export async function selectOptimized(trialId: string, optimizedId: string) {
     method: 'POST'
   });
   if (!res.ok) throw new Error('Failed to select optimized candidate');
+  return (await res.json()).data;
+}
+
+export async function updateCandidateRecipe(
+  cycleId: string,
+  candidateId: string,
+  payload: { recipe_data: any; name?: string }
+) {
+  const res = await authFetch(`/recipe/cycles/${cycleId}/candidates/${candidateId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error('Failed to update candidate recipe');
+  return (await res.json()).data;
+}
+
+export async function updateOptimizedCandidateRecipe(
+  trialId: string,
+  candidateId: string,
+  payload: { recipe_data: any; name?: string }
+) {
+  const res = await authFetch(`/recipe/trials/${trialId}/optimized/${candidateId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error('Failed to update optimized candidate recipe');
+  return (await res.json()).data;
+}
+
+export async function listSavedRecipes(opts?: {
+  selectableOnly?: boolean;
+  includeExpired?: boolean;
+  kind?: "NORMAL" | "OPTIMIZED";
+}) {
+  const params = new URLSearchParams();
+  if (opts?.selectableOnly) params.set('selectable_only', 'true');
+  if (opts?.includeExpired) params.set('include_expired', 'true');
+  if (opts?.kind) params.set('kind', opts.kind);
+  const qs = params.toString();
+  const res = await authFetch(`/recipe/saved${qs ? `?${qs}` : ''}`);
+  if (!res.ok) throw new Error('Failed to list saved recipes');
+  return (await res.json()).data;
+}
+
+export async function getSavedRecipe(id: string) {
+  const res = await authFetch(`/recipe/saved/${id}`);
+  if (!res.ok) throw new Error('Failed to fetch saved recipe');
+  return (await res.json()).data;
+}
+
+export async function createSavedRecipe(payload: {
+  recipe_name: string;
+  recipe_data: any;
+  target_properties?: any[];
+  competitor_properties?: any[];
+  source_cycle_id?: string | null;
+  source_candidate_id?: string | null;
+  parent_recipe_id?: string | null;
+  source_trial_id?: string | null;
+  source_optimized_id?: string | null;
+  notes?: string | null;
+  recipe_kind?: "NORMAL" | "OPTIMIZED" | null;
+}) {
+  const res = await authFetch('/recipe/saved', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error('Failed to save recipe');
+  return (await res.json()).data;
+}
+
+export async function createSavedRecipesBatch(recipes: Array<{
+  recipe_name: string;
+  recipe_data: any;
+  target_properties?: any[];
+  competitor_properties?: any[];
+  source_cycle_id?: string | null;
+  source_candidate_id?: string | null;
+  parent_recipe_id?: string | null;
+  source_trial_id?: string | null;
+  source_optimized_id?: string | null;
+  notes?: string | null;
+  recipe_kind?: "NORMAL" | "OPTIMIZED" | null;
+}>) {
+  const res = await authFetch('/recipe/saved/batch', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ recipes }),
+  });
+  if (!res.ok) throw new Error('Failed to save recipes in batch');
+  return (await res.json()).data;
+}
+
+export async function updateSavedRecipe(
+  id: string,
+  payload: {
+    recipe_name?: string;
+    recipe_data?: any;
+    target_properties?: any[];
+    competitor_properties?: any[];
+    notes?: string | null;
+  }
+) {
+  const res = await authFetch(`/recipe/saved/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error('Failed to update saved recipe');
+  return (await res.json()).data;
+}
+
+export async function deleteSavedRecipe(id: string) {
+  const res = await authFetch(`/recipe/saved/${id}`, { method: 'DELETE' });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    const msg =
+      body?.detail ||
+      body?.message ||
+      (res.status === 403
+        ? 'Only administrators can delete saved recipes'
+        : 'Failed to delete saved recipe');
+    throw new Error(typeof msg === 'string' ? msg : JSON.stringify(msg));
+  }
   return (await res.json()).data;
 }

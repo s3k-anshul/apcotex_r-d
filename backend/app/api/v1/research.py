@@ -135,6 +135,22 @@ async def list_research_runs(
 
 
 @router.get(
+    "/assignees",
+    summary="Suggest assignee names",
+    description="Partial-name suggestions from stored patent assignees and patent search records.",
+)
+async def suggest_assignees(
+    q: str = Query(min_length=2, max_length=80),
+    session: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    from app.services.pipeline.assignee_suggestions import AssigneeSuggestionService
+
+    names = await AssigneeSuggestionService(session).suggest(q)
+    return SuccessResponse(data={"suggestions": names})
+
+
+@router.get(
     "/{run_id}",
     response_model=SuccessResponse[ResearchRunResponse],
     summary="Get a research run",
@@ -207,7 +223,7 @@ async def get_report_content(
     service = ResearchService(session)
     run = await service.get_run(run_id, current_user)
     
-    if run.status.value != "COMPLETED":
+    if run.status not in (RunStatus.COMPLETED, RunStatus.COMPLETED_PARTIAL):
         raise AppException(400, "REPORT_NOT_READY", "The report is not ready yet.")
         
     # Get the latest report metadata
@@ -259,7 +275,7 @@ async def download_report(
     service = ResearchService(session)
     run = await service.get_run(run_id, current_user)
     
-    if run.status.value != "COMPLETED":
+    if run.status not in (RunStatus.COMPLETED, RunStatus.COMPLETED_PARTIAL):
         raise AppException(400, "REPORT_NOT_READY", "The report is not ready yet.")
         
     result = await session.execute(

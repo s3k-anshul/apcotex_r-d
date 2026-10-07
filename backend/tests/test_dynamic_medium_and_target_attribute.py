@@ -184,8 +184,8 @@ async def test_solvent_patent_water_role_and_dynamic_attribute():
     assert patent.target_attribute.status == "direct"
 
     params = patent.polymerization_method.dynamic_parameters
-    assert any(p.startswith("Medium & Water Role:") for p in params)
-    assert any(p.startswith("Example Unit Content:") for p in params)
+    assert not any(p.startswith("Medium & Water Role:") for p in params)
+    assert not any(p.startswith("Example Unit Content:") for p in params)
 
     assert report.dynamic_target_attribute_label == "Example Unit Content"
     dim_names = [d.parameter_name for d in report.comparison_dimensions]

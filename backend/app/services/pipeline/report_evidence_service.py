@@ -38,7 +38,7 @@ logger = logging.getLogger(__name__)
 MAX_SOURCE_SENTENCE_CHARS = 200   # increased to preserve provenance
 
 # Max source_text per patent (chars) — abstract + claims + relevant passages
-_MAX_SOURCE_TEXT_CHARS = 15000
+_MAX_SOURCE_TEXT_CHARS = 60000
 
 # Compaction settings (initial — only tightened if total exceeds 150K budget)
 _MAX_EXAMPLES_PER_PATENT = 20      # was 10
@@ -170,7 +170,12 @@ class ReportEvidenceService:
         "procedure", "condition"
     ]
 
-    def _extract_source_text(self, parsed_patent, max_chars: int = _MAX_SOURCE_TEXT_CHARS) -> str:
+    def _extract_source_text(
+        self,
+        parsed_patent,
+        max_chars: int = _MAX_SOURCE_TEXT_CHARS,
+        include_example_head: bool = True,
+    ) -> str:
         """
         Deterministically extract relevant source passages from a fetched patent.
         Priority: 1. Abstract 2. Claims 3. Keyword-matched synthesis sections 4. Examples
@@ -181,7 +186,7 @@ class ReportEvidenceService:
 
         abstract = getattr(parsed_patent, 'abstract', '') or ''
         if abstract:
-            snippet = abstract[:1500]
+            snippet = abstract[:3000]
             parts.append(f"[ABSTRACT]\n{snippet}")
             remaining -= len(snippet)
 
@@ -190,7 +195,7 @@ class ReportEvidenceService:
             
         claims = getattr(parsed_patent, 'claims', '') or ''
         if claims and remaining > 500:
-            snippet = claims[:1500]
+            snippet = claims[:4000]
             parts.append(f"[CLAIMS]\n{snippet}")
             remaining -= len(snippet)
 
@@ -199,16 +204,19 @@ class ReportEvidenceService:
             windows = self._keyword_context_windows(
                 desc,
                 keywords=self._SYNTHESIS_SECTION_KEYWORDS,
-                window_chars=600,
-                max_total_chars=min(remaining, 8000)
+                window_chars=800,
+                max_total_chars=min(remaining, 35000)
             )
             if windows:
                 parts.append(f"[SYNTHESIS PASSAGES]\n{windows}")
                 remaining -= len(windows)
 
         examples_text = getattr(parsed_patent, 'examples', '') or ''
-        if examples_text and remaining > 500:
-            snippet = examples_text[:min(remaining, 4000)]
+        # When worked examples are already stored as separate records, do not
+        # also keep only the opening of that block here. That opening copy
+        # crowded out later examples.
+        if include_example_head and examples_text and remaining > 500:
+            snippet = examples_text[:min(remaining, 35000)]
             parts.append(f"[EXAMPLES SECTION]\n{snippet}")
 
         return "\n\n".join(parts)
@@ -217,8 +225,8 @@ class ReportEvidenceService:
         self,
         text: str,
         keywords: list,
-        window_chars: int = 400,
-        max_total_chars: int = 1800
+        window_chars: int = 600,
+        max_total_chars: int = 35000
     ) -> str:
         if not text or not keywords:
             return ""
@@ -301,6 +309,12 @@ class ReportEvidenceService:
             limitations_or_missing_data=[],
             relevance_tier=relevance_tier,
             relevance_score=relevance_score,
+            priority_date=((getattr(parsed_patent, "metadata", None) or {}).get("priority_date") or None),
+            legal_status=(
+                meta.legal_status
+                if (meta.legal_status or "").strip().lower() not in {"", "unknown", "patent", "not disclosed"}
+                else ((getattr(parsed_patent, "metadata", None) or {}).get("legal_status") or None)
+            ),
         )
 
         # Parameters: priority-sort by chemical significance, take top N
@@ -343,12 +357,20 @@ class ReportEvidenceService:
         for _, ex_ev in scored_examples[:_MAX_EXAMPLES_PER_PATENT]:
             # ALWAYS append — no gate on ex_ev.extracted_parameters
             evidence.examples.append(ex_ev)
+        if len(scored_examples) > _MAX_EXAMPLES_PER_PATENT:
+            omitted = [ex.example_id for _, ex in scored_examples[_MAX_EXAMPLES_PER_PATENT:]]
+            evidence.limitations_or_missing_data.append(
+                "Examples identified but not sent in this evidence batch: " + ", ".join(omitted)
+            )
             
         for sec in getattr(extraction, 'synthesis_sections', []):
             evidence.synthesis_sections.append(SynthesisSectionEvidence(
                 section_title=sec.section_title,
                 raw_text=sec.raw_text
             ))
+
+        for tbl in getattr(extraction, 'tables', []):
+            evidence.tables.append(tbl)
 
         # Distinguish "no examples in patent" vs "examples not segmented"
         detection_note = getattr(extraction, "examples_detection_note", "") or ""
@@ -369,12 +391,23 @@ class ReportEvidenceService:
 
         # Source text: deterministic passage extraction
         if parsed_patent is not None:
-            evidence.source_text = self._extract_source_text(parsed_patent)
-        elif meta.quality == "NO_DETERMINISTIC_EVIDENCE":
+            evidence.source_text = self._extract_source_text(
+                parsed_patent,
+                include_example_head=not evidence.examples,
+            )
+        if meta.quality == "NO_DETERMINISTIC_EVIDENCE":
             evidence.limitations_or_missing_data.append(
                 "Deterministic extraction found 0 structured parameters. "
                 "Use abstract and title for report synthesis."
             )
+
+        logger.info(
+            "[STRUCTURED EXTRACTION] Patent: %s | Parameters: %d | Tables: %d | Examples: %d",
+            evidence.patent_number,
+            len(evidence.overall_patent_parameters),
+            len(evidence.tables),
+            len(evidence.examples),
+        )
 
         return evidence
 
@@ -416,7 +449,7 @@ class ReportEvidenceService:
                 for ex in ev.examples:
                     parts.append(f"  [{ex.example_id}]:")
                     if ex.raw_text:
-                        parts.append(f"    Raw Text: {ex.raw_text[:3000]}")
+                        parts.append(f"    Raw Text: {ex.raw_text}")
                     if ex.extracted_parameters:
                         for param in ex.extracted_parameters:
                             unit_str = f" {param.unit}" if param.unit else ""
@@ -427,11 +460,21 @@ class ReportEvidenceService:
             else:
                 parts.append("\nExamples: None detected by parser.")
                 
+            if getattr(ev, 'tables', None):
+                parts.append("\nPatent Tables:")
+                for tbl in ev.tables:
+                    tbl_md = tbl.to_markdown() if hasattr(tbl, 'to_markdown') else str(tbl)
+                    if tbl_md:
+                        parts.append(f"  [{getattr(tbl, 'title', 'Table')}]:")
+                        for line in tbl_md.splitlines():
+                            parts.append(f"    {line}")
+
             if getattr(ev, 'synthesis_sections', None):
                 parts.append("\nSynthesis Sections:")
                 for sec in ev.synthesis_sections:
                     parts.append(f"  [{sec.section_title}]:")
-                    parts.append(f"    {sec.raw_text[:5000]}")
+                    for line in sec.raw_text.splitlines():
+                        parts.append(f"    {line}")
 
             if ev.source_text:
                 parts.append("\nSource Text (Relevant Passages):")
@@ -487,6 +530,35 @@ class ReportEvidenceService:
                 if ev and finding.findings:
                     ev.technical_findings.append(finding.findings)
 
+    def _shrink_longest_evidence_text(self, evidence_list: List[ReportPatentEvidence]) -> bool:
+        """Shorten the single longest example or table. Returns False when nothing remains above the floor."""
+        floor = 2500
+        target = None
+        target_attr = ""
+        longest = floor
+        for ev in evidence_list:
+            for ex in ev.examples:
+                size = len(ex.raw_text or "")
+                if size > longest:
+                    longest = size
+                    target = ex
+                    target_attr = "raw_text"
+            for sec in ev.synthesis_sections:
+                size = len(sec.raw_text or "")
+                if size > longest:
+                    longest = size
+                    target = sec
+                    target_attr = "raw_text"
+        if target is None:
+            return False
+        new_len = max(floor, int(longest * 0.75))
+        if new_len >= longest:
+            new_len = floor
+        note = "\n[... remainder omitted for the evidence budget; this section was retained ...]"
+        current = getattr(target, target_attr) or ""
+        setattr(target, target_attr, current[:new_len].rstrip() + note)
+        return True
+
     def _deterministic_compact(
         self,
         compact_evidence: List[ReportPatentEvidence],
@@ -497,11 +569,32 @@ class ReportEvidenceService:
         Deterministic multi-pass compaction, applied ONLY when total exceeds budget.
         With the 88K budget, this should rarely trigger.
         """
-        # Pass 1: Trim examples
+        text = self.serialize_evidence(compact_evidence)
+        tokens = self.estimate_tokens(text)
+
+        # Shrink the longest retained text before dropping any example.
+        guard = 0
+        while tokens > budget and guard < 40:
+            guard += 1
+            if not self._shrink_longest_evidence_text(compact_evidence):
+                break
+            tokens = self.estimate_tokens(self.serialize_evidence(compact_evidence))
+        logger.info("COMPACTION length pass: %d tokens (budget=%d)", tokens, budget)
+        if tokens <= budget:
+            return compact_evidence
+
+        # Pass 1: Trim examples only after length reduction still exceeds the budget.
+        omitted_ids: list[str] = []
         for ev in compact_evidence:
             if len(ev.examples) > _MAX_EXAMPLES_TIGHT:
                 scored = sorted(ev.examples, key=lambda e: self.score_example_relevance(e, profile=profile), reverse=True)
+                omitted_ids.extend(ex.example_id for ex in scored[_MAX_EXAMPLES_TIGHT:])
                 ev.examples = scored[:_MAX_EXAMPLES_TIGHT]
+        if omitted_ids and compact_evidence:
+            compact_evidence[0].limitations_or_missing_data.append(
+                "Examples omitted after the evidence budget was exhausted: "
+                + ", ".join(omitted_ids)
+            )
 
         text = self.serialize_evidence(compact_evidence)
         tokens = self.estimate_tokens(text)

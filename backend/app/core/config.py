@@ -25,6 +25,13 @@ class Settings(BaseSettings):
     TARGET_PATENTS: int = 15
     MIN_REQUIRED_PATENTS: int = 15
     MAX_FINAL_PATENTS: int = 15
+    # When exactly one competitor assignee is supplied, workflow B may keep
+    # this many qualifying patents (1 or 2). Multiple assignees stay at one each.
+    ASSIGNEE_MAX_PATENTS_WHEN_SINGLE: int = 1
+    # Company-name lookup pages per autocomplete query. Each page is one Serper request.
+    ASSIGNEE_SUGGESTION_MAX_PAGES: int = 3
+    # Full bibliographic checks per assignee when a snippet is not enough.
+    ASSIGNEE_DOCUMENT_CHECKS: int = 3
     MAX_SEARCH_RESULTS: int = 10
     MAX_SEARCH_PAGES_PER_QUERY: int = 3
     TOP_LLM_CANDIDATES: int = 15
@@ -43,15 +50,35 @@ class Settings(BaseSettings):
     REPORT_PROVIDER_SAFE_LIMIT: int = 100000   # Max total report prompt (provider input limit)
     REPORT_SAFE_EVIDENCE_BUDGET: int = 88000   # Max evidence tokens (excl. overhead)
     REPORT_EVIDENCE_OVERHEAD_TOKENS: int = 4000  # Reserved for sys prompt + template + manifest
+    # Cap Gemini report output to prevent runaway unterminated-string dumps (~340k chars).
+    # Gemini 3.x thinking tokens COUNT against max_output_tokens — 8k was too low and
+    # caused FinishReason.MAX_TOKENS mid-JSON (truncated/unterminated strings). Model max is 65k.
+    REPORT_MAX_OUTPUT_TOKENS: int = 65536
+    # Per-patent sectional fallback (when single-shot report still hits MAX_TOKENS).
+    REPORT_SECTION_MAX_OUTPUT_TOKENS: int = 16384
+    # Recipe Simulator output token budget. Target response size is <= 3000 tokens for 5 compact recipes;
+    # 16384 provides a safe upper bound accommodating Gemini 2.5/3.x thinking tokens (~2.5k-4k) alongside
+    # the structured response while preventing truncation and avoiding runaway 65k token generation.
+    RECIPE_MAX_OUTPUT_TOKENS: int = 24576
+    # Query expansion output token budget (Gemini 3.5 thinking tokens + profile schema)
+    # 8192 prevents unbounded runaway loops producing infinite repeating characters.
+    QUERY_EXPANSION_MAX_OUTPUT_TOKENS: int = 8192
+    QUERY_EXPANSION_TIMEOUT: int = 60
+    PATENT_SELECTION_MAX_OUTPUT_TOKENS: int = 16384
     # Hard token limit for a single patent extraction LLM call (no longer used but kept for compat)
     MAX_EXTRACTION_LLM_TOKENS: int = 8000
     # How many deterministic params to include in the slim initial_json sent to LLM
     MAX_EXTRACTION_DET_PARAMS_IN_PROMPT: int = 20
     GLOBAL_TOKEN_BUDGET: int = 100000
 
-    PRIMARY_LLM: str = "openai"
-    FALLBACK_LLM: str = "groq"
+    # Defaults apply only when the environment and database do not set a provider.
+    # Gemini is the primary; OpenAI is the fallback. Groq stays implemented but is
+    # not part of the default fallback chain.
+    PRIMARY_LLM: str = "gemini"
+    FALLBACK_LLM: str = "openai"
     ENABLE_FALLBACK: bool = True
+    # Development accounts are created only when this is explicitly enabled.
+    SEED_DEFAULT_USERS: bool = False
     MAX_EXTRACTION_CALLS: int = 15
     MAX_TOTAL_LLM_CALLS: int = 20
 

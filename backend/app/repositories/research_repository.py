@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from app.models.research_run import ResearchRun, RunStatus
 from app.schemas.research import ResearchRunFilters
@@ -119,11 +120,12 @@ class ResearchRepository:
         # ── Fetch page ────────────────────────────────────────────────────────
         offset = (filters.page - 1) * filters.page_size
         rows_q = (
-            base.order_by(ResearchRun.created_at.desc())
+            base.options(selectinload(ResearchRun.creator))
+            .order_by(ResearchRun.created_at.desc())
             .offset(offset)
             .limit(filters.page_size)
         )
-        rows = (await self._session.execute(rows_q)).scalars().all()
+        rows = (await self._session.execute(rows_q)).scalars().unique().all()
 
         return list(rows), total
 

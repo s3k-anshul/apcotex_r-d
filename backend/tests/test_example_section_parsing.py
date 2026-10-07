@@ -61,6 +61,41 @@ def test_us_style_numbered_examples_still_segmented():
     assert any(h.startswith("Comparative Example") for h in headers)
 
 
+def test_grouped_example_headings_stay_intact():
+    text = (
+        "Examples 1, 1a, 1b, 1c and 1d\n"
+        "Styrene 100 g and butadiene 400 g were charged.\n"
+        "Examples 2-25\n"
+        "The same charge was repeated across the series.\n"
+        "Examples 2a & 2b\n"
+        "A second pair used a different modifier.\n"
+    )
+    sections = split_example_sections(text)
+    headers = [header for header, _ in sections]
+    assert any("1a" in header and "1d" in header for header in headers)
+    assert any("2-25" in header for header in headers)
+    assert any("2b" in header for header in headers)
+
+
+@pytest.mark.asyncio
+async def test_repeated_example_headings_are_not_merged():
+    parsed = ParsedPatent(
+        patent_number="US0000001B2",
+        title="Repeated headings",
+        detailed_description="",
+        examples=(
+            "Example 1\nFirst synthesis charge: styrene 10 wt%.\n"
+            "Example 1\nLater series charge: styrene 40 wt%.\n"
+        ),
+    )
+    ext = await ExtractorService().extract_polymerization_data(parsed, url="")
+    assert ext is not None
+    assert len(ext.examples) == 2
+    assert "10 wt%" in ext.examples[0].raw_text
+    assert "40 wt%" in ext.examples[1].raw_text
+    assert "40 wt%" not in ext.examples[0].raw_text
+
+
 def test_mid_sentence_example_does_not_start_block():
     prose = (
         "The initiator may be used, for example, in the form of mixtures of peroxides.\n"

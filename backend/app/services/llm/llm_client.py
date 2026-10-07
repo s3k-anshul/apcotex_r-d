@@ -23,7 +23,7 @@ from app.services.llm.base import (
     LLMProviderUnavailableError, LLMInvalidRequestError,
     LLMInvalidResponseError
 )
-from app.services.llm.provider_registry import instantiate_provider, PROVIDER_DEFINITIONS
+from app.services.llm.provider_registry import instantiate_provider, fallback_provider_ids
 from app.services.usage_logger import UsageLogger
 from app.core.telemetry import get_current_run_id, get_current_stage
 
@@ -37,16 +37,65 @@ class LLMRateLimitException(Exception):
     """Raised when an LLM provider fails due to rate limits after maximum retries."""
     pass
 
+
+def is_provider_failure(exc: BaseException) -> bool:
+    """True only for outages that may use the configured fallback provider.
+
+    Schema failures, invalid requests, and context/token-limit request errors
+    stay on the selected provider. Quota, authentication, model availability,
+    and provider outages may fall back.
+    """
+    return isinstance(
+        exc,
+        (
+            LLMAuthenticationError,
+            LLMModelUnavailableError,
+            LLMQuotaExhaustedError,
+            LLMProviderUnavailableError,
+        ),
+    )
+
+
 class DynamicLLMClient:
     def __init__(self):
         self.disabled_providers = set()
         self.provider_health = {}
         self.semaphore = asyncio.Semaphore(3) # Centralized rate limiting
+        self._selected_provider: str | None = None
+        self._fallback_from: str | None = None
+        self._fallback_reason: str | None = None
 
     def reset_health(self):
         self.disabled_providers.clear()
         self.provider_health.clear()
+        self._selected_provider = None
+        self._fallback_from = None
+        self._fallback_reason = None
         logger.info("[LLM] Provider health state reset for new run.")
+
+    def _note_fallback(self, provider_id: str, reason: str) -> None:
+        self.disabled_providers.add(provider_id)
+        self._fallback_from = provider_id
+        self._fallback_reason = reason
+        logger.warning("[LLM] FALLBACK | from=%s reason=%s", provider_id, reason)
+
+    def _usage_metadata(self, provider_id: str, model_name: str | None, extra: dict | None = None) -> dict:
+        meta = {
+            "selected_provider": self._selected_provider or provider_id,
+            "actual_provider": provider_id,
+            "model": model_name,
+        }
+        if self._fallback_reason:
+            meta["fallback_from"] = self._fallback_from
+            meta["fallback_reason"] = self._fallback_reason
+        if extra:
+            meta.update(extra)
+        cost = (extra or {}).get("estimated_cost")
+        if cost is None and extra:
+            cost = extra.get("cost")
+        if cost is not None:
+            meta["estimated_cost"] = cost
+        return meta
 
     async def _get_available_provider(self) -> tuple[str, Any]:
         """Fetches the first available configured LLM provider, avoiding disabled ones."""
@@ -57,14 +106,20 @@ class DynamicLLMClient:
             preferred_provider = settings.PRIMARY_LLM
             if config and isinstance(config.value, dict) and "provider_id" in config.value:
                 preferred_provider = config.value["provider_id"]
+            self._selected_provider = preferred_provider
 
-            fallback_order = [preferred_provider]
-            if settings.ENABLE_FALLBACK and settings.FALLBACK_LLM and settings.FALLBACK_LLM != preferred_provider:
-                fallback_order.append(settings.FALLBACK_LLM)
+            fallback_order = fallback_provider_ids(
+                preferred_provider,
+                settings.FALLBACK_LLM,
+                settings.ENABLE_FALLBACK,
+            )
 
             for provider_id in fallback_order:
                 if provider_id in self.disabled_providers:
                     logger.debug("[LLM] Skipping disabled provider: %s", provider_id)
+                    if provider_id == preferred_provider and not self._fallback_reason:
+                        self._fallback_from = provider_id
+                        self._fallback_reason = "provider_unavailable"
                     continue
                 try:
                     provider = instantiate_provider(provider_id)
@@ -73,12 +128,14 @@ class DynamicLLMClient:
                 except ValueError as ve:
                     if "Missing API Key" in str(ve) or "not configured" in str(ve):
                         logger.debug("[LLM] %s disabled: API key not configured", provider_id)
+                        reason = "provider_unavailable"
                     else:
-                        logger.warning("[LLM] Failed to instantiate '%s': %s", provider_id, ve)
-                    self.disabled_providers.add(provider_id)
+                        logger.warning("[LLM] Failed to instantiate '%s': %s", provider_id, type(ve).__name__)
+                        reason = "provider_unavailable"
+                    self._note_fallback(provider_id, reason)
                 except Exception as e:
-                    logger.warning("[LLM] Failed to instantiate '%s': %s", provider_id, e)
-                    self.disabled_providers.add(provider_id)
+                    logger.warning("[LLM] Failed to instantiate '%s': %s", provider_id, type(e).__name__)
+                    self._note_fallback(provider_id, "provider_unavailable")
 
             raise ProviderExhaustedException(
                 f"All configured LLM providers exhausted. Primary was: {preferred_provider}. "
@@ -144,15 +201,22 @@ class DynamicLLMClient:
                     latency_ms=int(duration * 1000),
                     status="success",
                     retry_count=attempt,
-                    metadata={"logical_call_id": logical_call_id}
+                    metadata=self._usage_metadata(
+                        provider_id,
+                        model_name,
+                        {
+                            "logical_call_id": logical_call_id,
+                            "estimated_cost": usage.get("estimated_cost", usage.get("cost")),
+                        },
+                    ),
                 )
                 
                 return result
             except Exception as e:
                 if isinstance(e, LLMModelUnavailableError):
-                    logger.error("[LLM] Model unavailable for %s: %s", provider_id, e)
-                    self.disabled_providers.add(provider_id)
-                    raise ProviderExhaustedException(f"Provider {provider_id} model unavailable: {e}")
+                    logger.error("[LLM] Model unavailable for %s: %s", provider_id, type(e).__name__)
+                    self._note_fallback(provider_id, "model_unavailable")
+                    return await self.generate_text(prompt, system_prompt, temperature)
                 elif isinstance(e, LLMQuotaExhaustedError):
                     logger.info("=" * 60)
                     logger.info("LLM DAILY QUOTA EXHAUSTED")
@@ -161,9 +225,8 @@ class DynamicLLMClient:
                     logger.info(f"Requested Tokens: {token_count} (est)")
                     logger.info(f"Status: FAILED")
                     logger.info("=" * 60)
-                    self.disabled_providers.add(provider_id)
-                    
                     duration = time.time() - start_time
+                    self._note_fallback(provider_id, "quota_exhausted")
                     await UsageLogger.record_api_usage(
                         provider=provider_id,
                         operation="generate_text",
@@ -172,12 +235,11 @@ class DynamicLLMClient:
                         latency_ms=int(duration * 1000),
                         status="failed",
                         error_type=type(e).__name__,
-                        error_message=str(e),
+                        error_message=type(e).__name__,
                         retry_count=attempt,
-                        metadata={"logical_call_id": logical_call_id}
+                        metadata=self._usage_metadata(provider_id, model_name, {"logical_call_id": logical_call_id}),
                     )
-                    
-                    raise ProviderExhaustedException(f"Provider Quota exhausted for {provider_id}")
+                    return await self.generate_text(prompt, system_prompt, temperature)
                 elif isinstance(e, LLMRateLimitError):
                     if attempt < max_retries:
                         delay = getattr(e, "retry_after", None) or (base_delay * (2 ** attempt) + random.uniform(0, 1))
@@ -205,19 +267,21 @@ class DynamicLLMClient:
                         logger.info(f"Status: FAILED")
                         logger.info(f"Error Type: RATE_LIMITED")
                         logger.info("=" * 60)
-                        
-                        raise LLMRateLimitError(f"Rate limited by {provider_id} after {max_retries} attempts.")
+                        self._note_fallback(provider_id, "rate_limited")
+                        return await self.generate_text(prompt, system_prompt, temperature)
                 elif isinstance(e, LLMAuthenticationError):
-                    logger.error("[LLM] Authentication failed for %s: %s", provider_id, e)
-                    self.disabled_providers.add(provider_id)
-                    raise ProviderExhaustedException(f"Provider {provider_id} authentication failed: {e}")
+                    logger.error("[LLM] Authentication failed for %s", provider_id)
+                    self._note_fallback(provider_id, "authentication_failed")
+                    return await self.generate_text(prompt, system_prompt, temperature)
+                elif isinstance(e, LLMProviderUnavailableError):
+                    logger.error("[LLM] Provider unavailable: %s", provider_id)
+                    self._note_fallback(provider_id, "provider_unavailable")
+                    return await self.generate_text(prompt, system_prompt, temperature)
                 elif isinstance(e, LLMInvalidRequestError):
-                    logger.error("[LLM] Invalid request sent to %s: %s", provider_id, e)
-                    raise e # Don't disable provider for a bad prompt, just fail
+                    logger.error("[LLM] Invalid request sent to %s", provider_id)
+                    raise e # Context, token, or schema request errors do not fall back
                 else:
-                    logger.error("[LLM] Fatal error from %s: %s", provider_id, e)
-                    
-                    # Log failure
+                    logger.error("[LLM] Unexpected error from %s: %s", provider_id, type(e).__name__)
                     duration = time.time() - start_time
                     await UsageLogger.record_api_usage(
                         provider=provider_id,
@@ -227,14 +291,11 @@ class DynamicLLMClient:
                         latency_ms=int(duration * 1000),
                         status="failed",
                         error_type=type(e).__name__,
-                        error_message=str(e),
+                        error_message=type(e).__name__,
                         retry_count=attempt,
-                        metadata={"logical_call_id": logical_call_id}
+                        metadata=self._usage_metadata(provider_id, model_name, {"logical_call_id": logical_call_id}),
                     )
-                    
-                    # For fatal errors, we disable the provider and try another
-                    self.disabled_providers.add(provider_id)
-                    return await self.generate_text(prompt, system_prompt, temperature)
+                    raise
                     
         raise LLMRateLimitError("Rate limited.")
 
@@ -282,7 +343,15 @@ class DynamicLLMClient:
                     latency_ms=int(duration * 1000),
                     status="success",
                     retry_count=attempt,
-                    metadata={"schema_name": schema_name, "logical_call_id": logical_call_id}
+                    metadata=self._usage_metadata(
+                        provider_id,
+                        model_name,
+                        {
+                            "schema_name": schema_name,
+                            "logical_call_id": logical_call_id,
+                            "estimated_cost": usage.get("estimated_cost", usage.get("cost")),
+                        },
+                    ),
                 )
                 return result, provider_id, usage
 
@@ -291,7 +360,11 @@ class DynamicLLMClient:
                 duration = time.time() - start_time
 
                 if isinstance(e, PydanticValidationError):
-                    failed_usage = getattr(e, '_failed_usage', {})
+                    failed_usage = getattr(e, '_failed_usage', {}) or {}
+                    raw_text = getattr(e, '_raw_response_text', None)
+                    if raw_text:
+                        failed_usage = {**failed_usage, "raw_response_text": raw_text}
+                    failed_usage["validation_error"] = str(e)[:2000]
                     logger.warning(
                         "[LLM] VALIDATION_FAILED | %s | %s | schema=%s | lat=%.1fs",
                         stage_val, provider_id, schema_name, duration
@@ -310,22 +383,39 @@ class DynamicLLMClient:
                 elif isinstance(e, LLMInvalidResponseError):
                     # Malformed/empty response is a per-request content error.
                     # Do NOT disable the provider — the next patent should still be able to use it.
+                    raw_text = getattr(e, "raw_response_text", None)
+                    finish_reason = getattr(e, "finish_reason", None)
+                    err_usage = getattr(e, "_failed_usage", {}) or {}
+                    failed_usage = {
+                        **err_usage,
+                        "invalid_response_error": str(e)[:2000],
+                        "finish_reason": finish_reason,
+                        "response_length": len(raw_text) if raw_text else 0,
+                    }
+                    if raw_text:
+                        failed_usage["raw_response_text"] = raw_text
                     logger.warning(
-                        "[LLM] INVALID_RESPONSE | %s | %s | %s | lat=%.1fs — provider kept enabled",
-                        stage_val, provider_id, str(e)[:120], duration
+                        "[LLM] INVALID_RESPONSE | %s | %s | %s | lat=%.1fs | "
+                        "finish_reason=%s response_length=%d — provider kept enabled",
+                        stage_val, provider_id, str(e)[:120], duration,
+                        finish_reason, failed_usage["response_length"],
                     )
                     await UsageLogger.record_api_usage(
                         provider=provider_id, operation="generate_structured", model=model_name,
-                        input_tokens=token_count, latency_ms=int(duration * 1000),
+                        input_tokens=failed_usage.get("input_tokens") or token_count,
+                        output_tokens=failed_usage.get("output_tokens") or 0,
+                        latency_ms=int(duration * 1000),
                         status="failed", error_type="LLMInvalidResponseError",
-                        error_message=str(e)[:300], retry_count=attempt,
-                        metadata={"schema_name": schema_name, "logical_call_id": logical_call_id}
+                        error_message=type(e).__name__, retry_count=attempt,
+                        metadata=self._usage_metadata(
+                            provider_id, model_name, {"schema_name": schema_name, "logical_call_id": logical_call_id}
+                        )
                     )
-                    return None, provider_id, {}
+                    return None, provider_id, failed_usage
 
                 elif isinstance(e, LLMModelUnavailableError):
-                    logger.error("[LLM] MODEL_UNAVAILABLE | %s | %s", provider_id, e)
-                    self.disabled_providers.add(provider_id)
+                    logger.error("[LLM] MODEL_UNAVAILABLE | %s", provider_id)
+                    self._note_fallback(provider_id, "model_unavailable")
                     return await self.generate_structured(prompt, system_prompt, schema, temperature, metadata)
 
                 elif isinstance(e, LLMQuotaExhaustedError):
@@ -333,12 +423,15 @@ class DynamicLLMClient:
                         "[LLM] QUOTA_EXHAUSTED | %s | ~%d tokens | disabling provider",
                         provider_id, token_count
                     )
-                    self.disabled_providers.add(provider_id)
+                    self._note_fallback(provider_id, "quota_exhausted")
                     await UsageLogger.record_api_usage(
                         provider=provider_id, operation="generate_structured", model=model_name,
                         input_tokens=token_count, latency_ms=int(duration * 1000),
-                        status="failed", error_type=type(e).__name__, error_message=str(e),
-                        retry_count=attempt, metadata={"schema_name": schema_name, "logical_call_id": logical_call_id}
+                        status="failed", error_type=type(e).__name__, error_message=type(e).__name__,
+                        retry_count=attempt,
+                        metadata=self._usage_metadata(
+                            provider_id, model_name, {"schema_name": schema_name, "logical_call_id": logical_call_id}
+                        ),
                     )
                     return await self.generate_structured(prompt, system_prompt, schema, temperature, metadata)
 
@@ -352,16 +445,22 @@ class DynamicLLMClient:
                         await asyncio.sleep(delay)
                     else:
                         logger.error("[LLM] RATE_LIMITED | %s | max retries reached", provider_id)
-                        raise LLMRateLimitError(f"Rate limited by {provider_id} after {max_retries} retries.")
+                        self._note_fallback(provider_id, "rate_limited")
+                        return await self.generate_structured(prompt, system_prompt, schema, temperature, metadata)
 
                 elif isinstance(e, LLMAuthenticationError):
-                    logger.error("[LLM] AUTH_FAILED | %s | %s", provider_id, e)
-                    self.disabled_providers.add(provider_id)
-                    raise ProviderExhaustedException(f"Provider {provider_id} authentication failed: {e}")
+                    logger.error("[LLM] AUTH_FAILED | %s", provider_id)
+                    self._note_fallback(provider_id, "authentication_failed")
+                    return await self.generate_structured(prompt, system_prompt, schema, temperature, metadata)
+
+                elif isinstance(e, LLMProviderUnavailableError):
+                    logger.error("[LLM] PROVIDER_UNAVAILABLE | %s", provider_id)
+                    self._note_fallback(provider_id, "provider_unavailable")
+                    return await self.generate_structured(prompt, system_prompt, schema, temperature, metadata)
 
                 elif isinstance(e, LLMInvalidRequestError):
-                    logger.error("[LLM] INVALID_REQUEST | %s | %s", provider_id, str(e)[:200])
-                    # Don't disable provider for a bad prompt — this is a caller error
+                    logger.error("[LLM] INVALID_REQUEST | %s | %s", provider_id, type(e).__name__)
+                    # Context limits and malformed requests stay on this provider.
                     raise e
 
                 else:

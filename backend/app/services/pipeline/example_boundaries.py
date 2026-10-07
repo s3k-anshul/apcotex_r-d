@@ -204,5 +204,19 @@ def split_example_sections(text: str) -> list[tuple[str, str]]:
             header = header.split("\n", 1)[0].strip()
         if not _is_plausible_heading_line(header, header):
             continue
+        # Keep list/range headings intact: "Examples 2-25", "Examples 1, 1a, 1b".
+        # The section pattern matches only the first number, so the rest of a
+        # heading line would otherwise be treated as body text or a new section.
+        first_line, sep, remainder = body.partition("\n")
+        continuation = first_line.strip()
+        if (
+            continuation
+            and len(continuation) <= 80
+            and len(continuation.split()) <= 8
+            and re.match(r"^(?:and\b|[,&/\-–—]|\d)", continuation)
+        ):
+            glue = "" if continuation[:1] in ",-/–—" else " "
+            header = f"{header}{glue}{continuation}".strip()
+            body = remainder if sep else ""
         sections.append((header, body.strip()))
     return sections

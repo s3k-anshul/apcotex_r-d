@@ -9,10 +9,83 @@ import logging
 from typing import List, Dict, Any
 
 from app.core.config import settings
-from app.services.pipeline.schemas import PatentExtraction, PatentRankList, PatentRank
+from app.services.pipeline.schemas import (
+    PatentExtraction, PatentRankList, PatentRank, SynthesisSection, ExtractedTableSchema
+)
 from app.services.llm import llm_client
 
 logger = logging.getLogger(__name__)
+
+
+def _extract_structured_table(html: str, default_title: str = "") -> ExtractedTableSchema | None:
+    """Parse HTML table into structured ExtractedTableSchema (title, headers, rows)."""
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(html or "", "html.parser")
+    table_node = soup.find("table") or soup
+
+    title = default_title
+    caption = ""
+    caption_node = table_node.find("caption")
+    if caption_node:
+        caption_text = caption_node.get_text(" ", strip=True)
+        if caption_text:
+            title = caption_text
+            caption = caption_text
+
+    rows_data: list[list[str]] = []
+    header_data: list[str] = []
+
+    all_trs = table_node.find_all("tr")
+    for tr_idx, tr in enumerate(all_trs):
+        th_cells = tr.find_all("th")
+        td_cells = tr.find_all("td")
+        if th_cells and not header_data:
+            header_data = [th.get_text(" ", strip=True) for th in th_cells]
+        else:
+            cells = [cell.get_text(" ", strip=True) for cell in (th_cells or td_cells if not th_cells else tr.find_all(["th", "td"]))]
+            if any(cells):
+                if not header_data and tr_idx == 0:
+                    header_data = cells
+                else:
+                    rows_data.append(cells)
+
+    if not header_data and not rows_data:
+        return None
+
+    return ExtractedTableSchema(
+        title=title,
+        headers=header_data,
+        rows=rows_data,
+        caption=caption,
+    )
+
+
+def _attach_tables_missing_from_examples(extraction, parsed_patent) -> None:
+    """
+    Keep experimental tables that the plain-text example split did not already contain.
+    Preserves tables as both structured ExtractedTableSchema and formatted Markdown.
+    """
+    covered = "\n".join(
+        (ex.raw_text or "") for ex in extraction.examples
+    )
+    covered_compact = "".join(covered.split())
+    for index, table in enumerate(getattr(parsed_patent, "tables", None) or [], start=1):
+        html = table.get("html", "") if isinstance(table, dict) else ""
+        structured_tbl = _extract_structured_table(html, default_title=f"Table {index}")
+        if not structured_tbl:
+            continue
+        text = structured_tbl.to_markdown()
+        if len(text) < 20:
+            continue
+        probe = "".join(text[:180].split())
+        if probe and probe in covered_compact:
+            continue
+        extraction.synthesis_sections.append(
+            SynthesisSection(section_title=structured_tbl.title or f"Table {index}", raw_text=text)
+        )
+        if hasattr(extraction, "tables"):
+            extraction.tables.append(structured_tbl)
 
 # No LLM prompts needed as this is now 100% deterministic.
 
@@ -44,9 +117,14 @@ class ExtractorService:
             extraction.metadata.assignee = (parsed_patent.assignee or "").strip() or "Not disclosed"
             extraction.metadata.jurisdiction = parsed_patent.jurisdiction or "Not disclosed"
             extraction.metadata.publication_year = parsed_patent.publication_date[:4] if parsed_patent.publication_date else "Not disclosed"
+            source_status = (
+                (parsed_patent.metadata or {}).get("legal_status") or ""
+            ).strip()
+            if source_status and source_status.lower() not in {"unknown", "patent", "not disclosed"}:
+                extraction.metadata.legal_status = source_status
             
             if parsed_patent.claims:
-                extraction.claims = [c.strip() for c in parsed_patent.claims.split('\n') if c.strip()][:10]
+                extraction.claims = [c.strip() for c in parsed_patent.claims.split('\n') if c.strip()]
             
             excluded_variants = []
             if profile and hasattr(profile, 'excluded_variants'):
@@ -76,8 +154,6 @@ class ExtractorService:
                 # No clear example boundaries. Preserve available text as synthesis context.
                 if examples_source_text.strip():
                     ex_text = examples_source_text
-                    if len(ex_text) > 40000:
-                        ex_text = ex_text[:40000] + "\n[... TRUNCATED ...]"
                     extraction.synthesis_sections.append(
                         SynthesisSection(
                             section_title="Examples Block (unsegmented)",
@@ -94,52 +170,46 @@ class ExtractorService:
                         "report evidence falls back to claims/description."
                     )
             else:
-                seen_normalized: dict[str, int] = {}
+                seen_counts: dict[str, int] = {}
                 for header, body in sections:
-                    full_example_text = header + "\n" + body
-                    if len(full_example_text) > 15000:
-                        full_example_text = (
-                            full_example_text[:15000]
-                            + "\n[... TRUNCATED DUE TO LENGTH ...]"
-                        )
+                    if not (body or "").strip():
+                        continue
                     norm_key = " ".join(header.lower().split())
-                    if norm_key in seen_normalized:
-                        existing_idx = seen_normalized[norm_key]
-                        existing = extraction.examples[existing_idx]
-                        merged = existing.raw_text.rstrip() + "\n" + body
-                        if len(merged) > 15000:
-                            merged = merged[:15000] + "\n[... TRUNCATED DUE TO LENGTH ...]"
-                        extraction.examples[existing_idx] = PatentExample(
-                            example_id=existing.example_id,
-                            example_type=existing.example_type,
-                            title=existing.title,
-                            raw_text=merged,
-                        )
-                    else:
-                        ex = PatentExample(
-                            example_id=header,
-                            example_type="Extracted Example",
-                            title=header,
-                            raw_text=full_example_text,
-                        )
-                        seen_normalized[norm_key] = len(extraction.examples)
-                        extraction.examples.append(ex)
-                        examples_found += 1
+                    seen_counts[norm_key] = seen_counts.get(norm_key, 0) + 1
+                    example_id = header
+                    if seen_counts[norm_key] > 1:
+                        example_id = f"{header} (#{seen_counts[norm_key]})"
+                    ex = PatentExample(
+                        example_id=example_id,
+                        example_type="Extracted Example",
+                        title=header,
+                        raw_text=header + "\n" + body,
+                    )
+                    extraction.examples.append(ex)
+                    examples_found += 1
+            _attach_tables_missing_from_examples(extraction, parsed_patent)
             
             # Description Fallback (if no examples or very few)
             if examples_found == 0 and parsed_patent.detailed_description:
                 desc = parsed_patent.detailed_description
-                if len(desc) > 30000:
-                    desc = desc[:30000] + "\n[... TRUNCATED ...]"
                 extraction.synthesis_sections.append(SynthesisSection(section_title="Detailed Description", raw_text=desc))
                 
-            extraction.raw_text = ((parsed_patent.title or "") + "\n" + (parsed_patent.abstract or "") + "\n" + (parsed_patent.claims or ""))[:10000]
+            extraction.raw_text = (
+                (parsed_patent.title or "") + "\n"
+                + (parsed_patent.abstract or "") + "\n"
+                + (parsed_patent.claims or "")
+            )
                 
-            logger.info("[EXTRACTION]")
-            logger.info("Patent: %s", extraction.metadata.patent_number)
-            logger.info("Title: %s", extraction.metadata.patent_title)
-            logger.info("Raw text characters: %d", len(parsed_patent.detailed_description or "") + len(parsed_patent.examples or ""))
-            logger.info("Example sections found: %d", examples_found)
+            raw_chars = len(parsed_patent.detailed_description or "") + len(parsed_patent.examples or "")
+            table_count = len(getattr(parsed_patent, "tables", []) or [])
+            logger.info(
+                "[FULL EVIDENCE] Patent: %s | Title: %s | Raw chars: %d | Examples: %d | Tables: %d",
+                extraction.metadata.patent_number,
+                extraction.metadata.patent_title,
+                raw_chars,
+                examples_found,
+                table_count,
+            )
             for ex in extraction.examples:
                 logger.info("- %s", ex.example_id)
             if examples_found == 0:

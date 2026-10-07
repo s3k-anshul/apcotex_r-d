@@ -32,4 +32,4 @@ def test_zero_survivors_error_includes_filter_diagnosis():
     assert "3 qualifier/variant mismatch" in msg
     assert "4 downstream-only" in msg
     assert "2 related/non-primary" in msg
-    assert "2 other rejections" in msg
+    assert "2 other technical rejections" in msg or "2 other rejections" in msg

@@ -33,7 +33,7 @@ export const settingsApi = {
     return response.json();
   },
 
-  updateLLMProvider: async (providerId: string, apiKey?: string): Promise<{ status: string; active_provider: string }> => {
+  updateLLMProvider: async (providerId: string): Promise<{ status: string; active_provider: string }> => {
     const token = await getToken();
     const response = await fetch(`${API_BASE_URL}/settings/llm`, {
       method: 'PUT',
@@ -41,7 +41,7 @@ export const settingsApi = {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ provider_id: providerId, api_key: apiKey }),
+      body: JSON.stringify({ provider_id: providerId }),
     });
     if (!response.ok) {
       const errorData = await response.json().catch(() => null);

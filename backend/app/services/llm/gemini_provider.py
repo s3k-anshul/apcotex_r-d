@@ -60,6 +60,14 @@ class GeminiProvider(BaseLLMProvider):
         return classification, retry_after
 
     def _handle_error(self, e: Exception):
+        if isinstance(e, (asyncio.TimeoutError, TimeoutError)):
+            logger.error("GEMINI_TIMEOUT: Request timed out: %s", e)
+            raise LLMProviderUnavailableError(
+                f"Gemini Request Timed Out: {e}",
+                provider="gemini",
+                model=self.model_name
+            ) from e
+
         if isinstance(e, APIError):
             code = getattr(e, 'code', None)
             e_str = str(e)
@@ -103,13 +111,21 @@ class GeminiProvider(BaseLLMProvider):
     async def generate_text(self, prompt: str, system_prompt: str, temperature: float = 0.2) -> tuple[str, dict]:
         try:
             logger.info("[LLM] Gemini request model: %s", self.model_name)
-            response = self.client.models.generate_content(
-                model=self.model_name,
-                contents=prompt,
-                config=genai.types.GenerateContentConfig(
-                    system_instruction=system_prompt,
-                    temperature=temperature,
+            config = genai.types.GenerateContentConfig(
+                system_instruction=system_prompt,
+                temperature=temperature,
+                automatic_function_calling=genai.types.AutomaticFunctionCallingConfig(
+                    disable=True,
+                    maximum_remote_calls=None,
                 ),
+            )
+            response = await asyncio.wait_for(
+                self.client.aio.models.generate_content(
+                    model=self.model_name,
+                    contents=prompt,
+                    config=config,
+                ),
+                timeout=120.0,
             )
             
             usage = {}
@@ -174,18 +190,89 @@ class GeminiProvider(BaseLLMProvider):
                 for error in validation_errors:
                     logger.error("  %s", error)
 
-            config = genai.types.GenerateContentConfig(
-                system_instruction=system_prompt,
-                response_mime_type="application/json",
-                response_schema=response_schema_dict,
-                temperature=temperature,
-            )
+            config_kwargs: dict = {
+                "system_instruction": system_prompt,
+                "response_mime_type": "application/json",
+                "response_schema": response_schema_dict,
+                "temperature": temperature,
+                "automatic_function_calling": genai.types.AutomaticFunctionCallingConfig(
+                    disable=True,
+                    maximum_remote_calls=None,
+                ),
+            }
+            # Cap report-related output. Unbounded generation produced 340k+ char
+            # malformed JSON (run 75f58c61…). With Gemini 3.x, thinking tokens share
+            # this budget — too-low caps yield FinishReason.MAX_TOKENS mid-string.
+            if schema.__name__ in ("LLMPatentResearchReport", "LLMPatentAnalysis"):
+                from app.core.config import settings as _settings
+                if schema.__name__ == "LLMPatentAnalysis":
+                    max_out = int(
+                        getattr(_settings, "REPORT_SECTION_MAX_OUTPUT_TOKENS", 16384) or 16384
+                    )
+                else:
+                    max_out = int(getattr(_settings, "REPORT_MAX_OUTPUT_TOKENS", 65536) or 65536)
+                config_kwargs["max_output_tokens"] = max_out
+                logger.info(
+                    "[Gemini] %s max_output_tokens=%d (thinking tokens included in budget)",
+                    schema.__name__,
+                    max_out,
+                )
+            elif schema.__name__ == "LLMOptimizationSet":
+                from app.core.config import settings as _settings
+                max_out = int(getattr(_settings, "RECIPE_OPTIMIZATION_MAX_OUTPUT_TOKENS", 10240) or 10240)
+                config_kwargs["max_output_tokens"] = max_out
+                logger.info(
+                    "[Gemini] %s max_output_tokens=%d (customer trial optimization budget)",
+                    schema.__name__,
+                    max_out,
+                )
+            elif schema.__name__ == "LLMRecipeSet":
+                from app.core.config import settings as _settings
+                max_out = int(getattr(_settings, "RECIPE_MAX_OUTPUT_TOKENS", 24576) or 24576)
+                config_kwargs["max_output_tokens"] = max_out
+                logger.info(
+                    "[Gemini] %s max_output_tokens=%d (compact recipe generation budget)",
+                    schema.__name__,
+                    max_out,
+                )
+            elif schema.__name__ == "LLMCompoundSearchProfile":
+                from app.core.config import settings as _settings
+                max_out = int(getattr(_settings, "QUERY_EXPANSION_MAX_OUTPUT_TOKENS", 8192) or 8192)
+                config_kwargs["max_output_tokens"] = max_out
+                logger.info(
+                    "[Gemini] %s max_output_tokens=%d (query expansion budget)",
+                    schema.__name__,
+                    max_out,
+                )
+            elif schema.__name__ == "PatentSelectionResult":
+                from app.core.config import settings as _settings
+                max_out = int(getattr(_settings, "PATENT_SELECTION_MAX_OUTPUT_TOKENS", 16384) or 16384)
+                config_kwargs["max_output_tokens"] = max_out
+                logger.info(
+                    "[Gemini] %s max_output_tokens=%d (patent selection budget)",
+                    schema.__name__,
+                    max_out,
+                )
 
-            logger.info("[LLM] Gemini request model: %s", self.model_name)
-            response = self.client.models.generate_content(
-                model=self.model_name,
-                contents=prompt,
-                config=config,
+            # Determine finite timeout per schema/stage
+            if schema.__name__ == "LLMCompoundSearchProfile":
+                from app.core.config import settings as _settings
+                timeout_seconds = float(getattr(_settings, "QUERY_EXPANSION_TIMEOUT", 60) or 60)
+            elif schema.__name__ in ("LLMPatentResearchReport", "LLMPatentAnalysis"):
+                timeout_seconds = 180.0
+            else:
+                timeout_seconds = 90.0
+
+            config = genai.types.GenerateContentConfig(**config_kwargs)
+
+            logger.info("[LLM] Gemini request model: %s | timeout=%.1fs", self.model_name, timeout_seconds)
+            response = await asyncio.wait_for(
+                self.client.aio.models.generate_content(
+                    model=self.model_name,
+                    contents=prompt,
+                    config=config,
+                ),
+                timeout=timeout_seconds,
             )
 
             # Check for EMPTY_RESPONSE before parsing
@@ -193,10 +280,44 @@ class GeminiProvider(BaseLLMProvider):
                 logger.error("GEMINI_RESPONSE_ERROR: EMPTY_RESPONSE")
                 raise LLMInvalidResponseError("EMPTY_RESPONSE", provider="gemini", model=self.model_name)
 
-            # Log diagnostic information about the raw response
+            # Diagnostics: finish reason + length (critical for truncation vs malformed)
+            finish_reason = None
+            try:
+                cands = getattr(response, "candidates", None) or []
+                if cands:
+                    finish_reason = str(getattr(cands[0], "finish_reason", None))
+                logger.info("GEMINI_FINISH_REASON: %s", finish_reason)
+            except Exception as fr_err:
+                logger.debug("Could not read Gemini finish_reason: %s", fr_err)
+
             logger.info("GEMINI_STRUCTURED_RESPONSE_RECEIVED: YES")
             logger.info("GEMINI_RESPONSE_TYPE: %s", type(response.text))
             logger.info("GEMINI_RESPONSE_LENGTH: %d", len(response.text))
+            logger.info("GEMINI_RESPONSE_MIME: application/json")
+            if schema.__name__ == "LLMCompoundSearchProfile":
+                logger.info(
+                    "[QUERY_EXPANSION] Gemini structured response received | length=%d finish_reason=%s",
+                    len(response.text),
+                    finish_reason,
+                )
+
+            usage = {}
+            if hasattr(response, 'usage_metadata') and response.usage_metadata:
+                um = response.usage_metadata
+                usage = {
+                    "input_tokens": getattr(um, "prompt_token_count", None),
+                    "output_tokens": getattr(um, "candidates_token_count", None),
+                }
+                thoughts = getattr(um, "thoughts_token_count", None)
+                if thoughts is not None:
+                    usage["thoughts_token_count"] = thoughts
+                    logger.info(
+                        "GEMINI_THOUGHTS_TOKEN_COUNT: %s | candidates_token_count: %s",
+                        thoughts,
+                        usage.get("output_tokens"),
+                    )
+            usage["finish_reason"] = finish_reason
+            usage["response_length"] = len(response.text)
 
             # Try to parse as JSON to get keys
             try:
@@ -208,14 +329,52 @@ class GeminiProvider(BaseLLMProvider):
                 logger.info("GEMINI_RESPONSE_PREVIEW: %s", preview)
             except json.JSONDecodeError as jde:
                 logger.warning("GEMINI_RESPONSE_NOT_VALID_JSON")
-                raise LLMInvalidResponseError(f"MALFORMED_JSON: {jde}", provider="gemini", model=self.model_name)
+                # Log context around the failure position for diagnostics
+                try:
+                    pos = getattr(jde, "pos", None)
+                    if pos is not None:
+                        start = max(0, int(pos) - 80)
+                        end = min(len(response.text), int(pos) + 80)
+                        logger.warning(
+                            "GEMINI_JSON_ERROR_CONTEXT pos=%s snippet=%r",
+                            pos,
+                            response.text[start:end],
+                        )
+                    logger.warning(
+                        "GEMINI_JSON_ERROR detail=%s finish_reason=%s response_length=%d",
+                        jde,
+                        finish_reason,
+                        len(response.text),
+                    )
+                except Exception:
+                    pass
+                err = LLMInvalidResponseError(
+                    f"MALFORMED_JSON: {jde}",
+                    provider="gemini",
+                    model=self.model_name,
+                )
+                err.raw_response_text = response.text  # type: ignore[attr-defined]
+                err.finish_reason = finish_reason  # type: ignore[attr-defined]
+                err._failed_usage = usage  # type: ignore[attr-defined]
+                raise err
 
             usage = {}
             if hasattr(response, 'usage_metadata') and response.usage_metadata:
+                um = response.usage_metadata
                 usage = {
-                    "input_tokens": getattr(response.usage_metadata, "prompt_token_count", None),
-                    "output_tokens": getattr(response.usage_metadata, "candidates_token_count", None),
+                    "input_tokens": getattr(um, "prompt_token_count", None),
+                    "output_tokens": getattr(um, "candidates_token_count", None),
                 }
+                thoughts = getattr(um, "thoughts_token_count", None)
+                if thoughts is not None:
+                    usage["thoughts_token_count"] = thoughts
+                    logger.info(
+                        "GEMINI_THOUGHTS_TOKEN_COUNT: %s | candidates_token_count: %s",
+                        thoughts,
+                        usage.get("output_tokens"),
+                    )
+            if finish_reason:
+                usage["finish_reason"] = finish_reason
                 
             return schema.model_validate_json(response.text), usage
 
@@ -235,9 +394,14 @@ class GeminiProvider(BaseLLMProvider):
                     _failed_usage = {"output_tokens": len(response.text) // 4}
             except Exception:
                 pass
-            # Re-raise as a structured validation error so llm_client records status=validation_failed
-            from pydantic import ValidationError as VE
-            raise VE.from_exception_data(ve.title, ve.errors(), ve.error_count()) if False else ve  # passthrough
+            # Attach raw text so callers can salvage partial candidates / drive repair prompts
+            try:
+                if response is not None and getattr(response, "text", None):
+                    ve._raw_response_text = response.text  # type: ignore[attr-defined]
+                    ve._failed_usage = _failed_usage  # type: ignore[attr-defined]
+            except Exception:
+                pass
+            raise ve
         except Exception as e:
             self._handle_error(e)
 

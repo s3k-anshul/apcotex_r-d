@@ -17,8 +17,10 @@ import {
   createResearchRun, 
   pollResearchStatus, 
   getReportContent, 
-  downloadFile 
+  downloadFile,
+  suggestAssignees,
 } from "../../services/researchApi";
+import { addAssigneeNames, removeAssigneeName } from "../../config/assigneeSelection";
 
 const BLUE = "#1F5FA8";
 const TEAL = "#1FB7B5";
@@ -56,7 +58,12 @@ export function LiteratureReview() {
   const { state, setState, clearState } = usePatentResearch();
   
   const [compound, setCompound] = useState("Low Acrylonitrile NBR");
-  const [competitorInput, setCompetitorInput] = useState("");
+  const [selectedAssignees, setSelectedAssignees] = useState<string[]>([]);
+  const [assigneeQuery, setAssigneeQuery] = useState("");
+  const [assigneeSuggestions, setAssigneeSuggestions] = useState<string[]>([]);
+  const [assigneeLoading, setAssigneeLoading] = useState(false);
+  const [assigneeMenuOpen, setAssigneeMenuOpen] = useState(false);
+  const [activeSuggestion, setActiveSuggestion] = useState(0);
   const [mentionedWebsites, setMentionedWebsites] = useState("");
   const [publicationDateMode, setPublicationDateMode] = useState<PublicationDateFilterMode>("any");
   const [customDateFrom, setCustomDateFrom] = useState("");
@@ -77,6 +84,37 @@ export function LiteratureReview() {
       if (pollingRef.current) clearInterval(pollingRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    const query = assigneeQuery.trim();
+    if (query.length < 2) {
+      setAssigneeSuggestions([]);
+      setAssigneeLoading(false);
+      return;
+    }
+    let cancelled = false;
+    const timer = setTimeout(async () => {
+      setAssigneeLoading(true);
+      try {
+        const names = await suggestAssignees(query);
+        if (!cancelled) {
+          setAssigneeSuggestions(names.filter((name) => (
+            !selectedAssignees.some((item) => item.toLowerCase() === name.toLowerCase())
+          )).slice(0, 10));
+          setActiveSuggestion(0);
+          setAssigneeMenuOpen(true);
+        }
+      } catch {
+        if (!cancelled) setAssigneeSuggestions([]);
+      } finally {
+        if (!cancelled) setAssigneeLoading(false);
+      }
+    }, 300);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [assigneeQuery, selectedAssignees]);
 
   // Polling logic
   useEffect(() => {
@@ -104,7 +142,7 @@ export function LiteratureReview() {
         
         try {
           const run = await pollResearchStatus(state.researchRunId!);
-          setState({ status: run.status });
+          setState({ status: run.status, progressNote: run.progress || null });
           
           if (isTerminal(run.status)) {
             console.log(`[RESEARCH POLL] Run: ${state.researchRunId} Status: ${run.status}`);
@@ -199,10 +237,7 @@ export function LiteratureReview() {
     console.log("METHOD: POST");
     
     try {
-      const competitors = competitorInput
-        .split(",")
-        .map(s => s.trim())
-        .filter(s => s.length > 0);
+      const competitors = addAssigneeNames(selectedAssignees, assigneeQuery);
         
       const websites = mentionedWebsites
         .split(",")
@@ -283,7 +318,9 @@ export function LiteratureReview() {
   const handleStartNewResearch = () => {
     clearState();
     setCompound("Low Acrylonitrile NBR");
-    setCompetitorInput("");
+    setSelectedAssignees([]);
+    setAssigneeQuery("");
+    setAssigneeSuggestions([]);
     setMentionedWebsites("");
     setPublicationDateMode("any");
     setCustomDateFrom("");
@@ -368,13 +405,81 @@ export function LiteratureReview() {
             <label style={{ display: "block", fontSize: "0.875rem", fontWeight: 600, color: TEXT, marginBottom: 8 }}>
               Competitor Name(s) <span style={{ color: "#9CA3AF", fontWeight: 500 }}>(Optional)</span>
             </label>
-            <input
-              type="text"
-              value={competitorInput}
-              onChange={(e) => setCompetitorInput(e.target.value)}
-              placeholder="e.g. LG Chem, Synthomer"
-              style={{ width: "100%", height: 42, marginBottom: 20, paddingLeft: 14, paddingRight: 14, border: `1.5px solid ${BORDER}`, borderRadius: 7, fontSize: "0.875rem", color: TEXT, outline: "none" }}
-            />
+            <div style={{ position: "relative", marginBottom: 20 }}>
+              {selectedAssignees.length > 0 && (
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 8 }}>
+                  {selectedAssignees.map((name) => (
+                    <button
+                      key={name}
+                      type="button"
+                      onClick={() => setSelectedAssignees((current) => removeAssigneeName(current, name))}
+                      style={{ border: `1px solid ${BORDER}`, background: BG, color: TEXT, borderRadius: 7, padding: "4px 8px", fontSize: "0.8125rem", cursor: "pointer" }}
+                    >
+                      {name} ×
+                    </button>
+                  ))}
+                </div>
+              )}
+              <input
+                type="text"
+                value={assigneeQuery}
+                onChange={(e) => {
+                  setAssigneeQuery(e.target.value);
+                  setAssigneeMenuOpen(true);
+                }}
+                onFocus={() => setAssigneeMenuOpen(true)}
+                onKeyDown={(e) => {
+                  if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    setActiveSuggestion((index) => Math.min(index + 1, Math.max(assigneeSuggestions.length - 1, 0)));
+                  } else if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    setActiveSuggestion((index) => Math.max(index - 1, 0));
+                  } else if (e.key === "Escape") {
+                    setAssigneeMenuOpen(false);
+                  } else if (e.key === "Enter" || e.key === ",") {
+                    e.preventDefault();
+                    const highlighted = assigneeMenuOpen ? assigneeSuggestions[activeSuggestion] : "";
+                    const nextValue = highlighted || assigneeQuery;
+                    if (!nextValue.trim()) return;
+                    setSelectedAssignees((current) => addAssigneeNames(current, nextValue));
+                    setAssigneeQuery("");
+                    setAssigneeMenuOpen(false);
+                  }
+                }}
+                placeholder="e.g. LG Chem, Synthomer"
+                style={{ width: "100%", height: 42, paddingLeft: 14, paddingRight: 14, border: `1.5px solid ${BORDER}`, borderRadius: 7, fontSize: "0.875rem", color: TEXT, outline: "none" }}
+              />
+              {assigneeMenuOpen && assigneeQuery.trim().length >= 2 && (
+                <div style={{ position: "absolute", zIndex: 5, left: 0, right: 0, top: "100%", marginTop: 4, background: "white", border: `1px solid ${BORDER}`, borderRadius: 7, boxShadow: "0 4px 12px rgba(31,95,168,0.08)" }}>
+                  {assigneeLoading && (
+                    <div style={{ padding: "8px 12px", fontSize: "0.8125rem", color: "#6B7280" }}>Searching assignees...</div>
+                  )}
+                  {!assigneeLoading && assigneeSuggestions.length === 0 && (
+                    <div style={{ padding: "8px 12px", fontSize: "0.8125rem", color: "#6B7280" }}>No suggestions. Press Enter to use this name.</div>
+                  )}
+                  {!assigneeLoading && assigneeSuggestions.map((name, index) => (
+                    <button
+                      key={name}
+                      type="button"
+                      onMouseDown={(event) => {
+                        event.preventDefault();
+                        setSelectedAssignees((current) => addAssigneeNames(current, name));
+                        setAssigneeQuery("");
+                        setAssigneeMenuOpen(false);
+                      }}
+                      style={{
+                        display: "block", width: "100%", textAlign: "left", border: "none",
+                        background: index === activeSuggestion ? BG : "white",
+                        color: TEXT, padding: "8px 12px", fontSize: "0.875rem", cursor: "pointer",
+                      }}
+                    >
+                      {name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <label style={{ display: "block", fontSize: "0.875rem", fontWeight: 600, color: TEXT, marginBottom: 8 }}>
               Mention Websites <span style={{ color: "#9CA3AF", fontWeight: 500 }}>(Optional)</span>
@@ -523,6 +628,9 @@ export function LiteratureReview() {
               <span style={{ color: TEXT, fontWeight: 600, fontSize: "0.9375rem" }}>
                 Generating Patent Research...
               </span>
+              {state.progressNote && (
+                <span style={{ marginLeft: "auto", color: "#6B7280", fontSize: "0.8125rem" }}>{state.progressNote}</span>
+              )}
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {renderProgressItem("SEARCHING", "AI Search Strategy & Serper Querying")}

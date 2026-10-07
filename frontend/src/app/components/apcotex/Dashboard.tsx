@@ -5,6 +5,7 @@ import {
   FlaskConical,
   FileText,
   Activity,
+  MessageSquare,
   type LucideIcon,
 } from "lucide-react";
 import { Card } from "../ui/card";
@@ -39,6 +40,14 @@ const MODULES: ModuleCardConfig[] = [
     buttonText: "Generate Recipe",
     icon: FlaskConical,
     path: "/recipe-simulator",
+  },
+  {
+    title: "Trial Feedback",
+    description:
+      "Submit trial feedback on saved recipes and generate revised formulations.",
+    buttonText: "Open Feedback",
+    icon: MessageSquare,
+    path: "/customer-trial-feedback",
   },
   {
     title: "Audit Trail",

@@ -104,14 +104,37 @@ def create_app() -> FastAPI:
 
     @app.on_event("startup")
     async def startup_event():
+        if settings.SEED_DEFAULT_USERS:
+            try:
+                from app.db.session import AsyncSessionLocal
+                from app.db.seed import ensure_default_users
+
+                async with AsyncSessionLocal() as session:
+                    await ensure_default_users(session)
+                logger.info("Default user seeding completed")
+            except Exception as e:
+                logger.error("Failed to seed default users: %s", type(e).__name__)
+        else:
+            logger.info("Default user seeding is disabled")
+
+        # Six-month saved-recipe retention cleanup (startup + hourly)
         try:
-            from app.db.session import AsyncSessionLocal
-            from app.db.seed import ensure_default_users
-            
-            async with AsyncSessionLocal() as session:
-                await ensure_default_users(session)
+            import asyncio
+            from app.services.saved_recipe_service import run_saved_recipe_cleanup_once
+
+            async def _retention_loop():
+                while True:
+                    try:
+                        deleted = await run_saved_recipe_cleanup_once()
+                        if deleted:
+                            logger.info("Saved-recipe retention cleanup removed %d record(s)", deleted)
+                    except Exception as cleanup_err:
+                        logger.error("Saved-recipe retention cleanup failed: %s", cleanup_err)
+                    await asyncio.sleep(3600)
+
+            asyncio.create_task(_retention_loop())
         except Exception as e:
-            logger.error(f"Failed to seed default users: {e}")
+            logger.error("Failed to start saved-recipe retention loop: %s", e)
 
     logger.info("Application startup complete — %s v%s", settings.APP_NAME, settings.APP_VERSION)
     return app

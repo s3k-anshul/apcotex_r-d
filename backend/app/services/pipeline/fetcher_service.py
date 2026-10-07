@@ -338,6 +338,19 @@ class FetcherService:
                 
             desc_text = description_node.get_text(separator="\n", strip=True)
             parsed.detailed_description = desc_text
+
+        status_node = soup.find("span", {"itemprop": "status"})
+        if status_node and status_node.get_text(strip=True):
+            parsed.metadata["legal_status"] = status_node.get_text(strip=True)
+        priority_node = soup.find(attrs={"itemprop": "priorityDate"})
+        if priority_node:
+            priority_value = (
+                priority_node.get("content")
+                or priority_node.get("datetime")
+                or priority_node.get_text(strip=True)
+            )
+            if priority_value:
+                parsed.metadata["priority_date"] = priority_value.strip()
             
             # Phase 6: Structural Evidence
             from app.services.pipeline.schemas import StructuralEvidence

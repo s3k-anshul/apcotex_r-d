@@ -40,9 +40,9 @@ const mainNavItems = [
     icon: FlaskConical,
   },
   {
-    path: "/recipe-history",
-    label: "Recipe History",
-    icon: History,
+    path: "/customer-trial-feedback",
+    label: "Trial Feedback",
+    icon: MessageSquare,
   },
 ];
 

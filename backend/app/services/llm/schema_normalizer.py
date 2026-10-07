@@ -98,6 +98,9 @@ def normalize_gemini_schema(schema: Dict[str, Any]) -> Dict[str, Any]:
             has_compound = "compound" in properties
             has_compound_name = "compound_name" in properties
             has_synonyms = "synonyms" in properties
+            has_original_input = "original_input" in properties
+            has_base_material = "base_material" in properties
+            has_search_queries = "search_queries" in properties
             has_methodology_patents = "methodology_patents" in properties
             has_cross_comparison = "cross_patent_comparison" in properties
             has_references = "references" in properties
@@ -108,13 +111,202 @@ def normalize_gemini_schema(schema: Dict[str, Any]) -> Dict[str, Any]:
             is_report_patent = has_patent_details and has_experimental_evidence
 
             is_report_type = is_report_root or is_report_patent or inside_report
+            is_llm_compound_search_profile = (
+                has_original_input and has_base_material and has_search_queries
+            )
+            # PatentSelectionCandidate: patent_number + classification + final_decision
+            has_patent_number = "patent_number" in properties
+            has_classification = "classification" in properties
+            has_final_decision = "final_decision" in properties
+            has_confidence = "confidence" in properties
+            is_patent_selection_candidate = (
+                has_patent_number
+                and has_classification
+                and has_final_decision
+                and has_confidence
+            )
+            # PatentSelectionResult root
+            has_candidates_only = (
+                "candidates" in properties
+                and has_patent_number is False
+                and len(properties) <= 3
+            )
+            # LLMPatentResearchReport (Gemini report schema)
+            has_per_patent_analysis = "per_patent_analysis" in properties
+            is_llm_patent_research_report = (
+                has_per_patent_analysis
+                and has_cross_comparison
+                and has_references
+            )
 
-            if "required" in node:
+            # Recipe Simulator schemas
+            is_recipe_set = "recipes" in properties and len(properties) == 1
+            is_recipe_candidate = "stages" in properties and "variation_dimension" in properties
+            is_recipe_stage = "stage_name" in properties and "parameters" in properties
+            is_recipe_param = "name" in properties and "value" in properties and "unit" in properties
+            is_optimization_set = "optimized_recipes" in properties and len(properties) == 1
+            is_optimized_recipe = (
+                ("optimization_strategy" in properties and "changed_parameters" in properties)
+                or ("candidate_letter" in properties and "changed_parameters" in properties)
+            )
+            is_optimized_change = "parameter" in properties and ("old_value" in properties or "previous" in properties or "reason" in properties)
+
+            if is_llm_compound_search_profile and "properties" in node:
+                # Enforce critical identity/query fields for Gemini. numeric_constraints
+                # stay optional at the schema level (application recovery fills them);
+                # requiring nested constraint objects has caused long Gemini stalls.
+                critical = {
+                    "original_input",
+                    "synthesis_intent",
+                    "base_material",
+                    "search_queries",
+                }
+                present = critical.intersection(properties.keys())
+                node["required"] = sorted(
+                    set(node.get("required") or []) | present
+                )
+                logger.debug(
+                    "Preserving/enriching required for LLMCompoundSearchProfile at %s: %s",
+                    path,
+                    node["required"],
+                )
+            elif is_llm_patent_research_report and "properties" in node:
+                critical = {
+                    "per_patent_analysis",
+                    "cross_patent_comparison",
+                    "references",
+                }
+                present = critical.intersection(properties.keys())
+                node["required"] = sorted(
+                    set(node.get("required") or []) | present
+                )
+                logger.debug(
+                    "Preserving/enriching required for LLMPatentResearchReport at %s: %s",
+                    path,
+                    node["required"],
+                )
+            elif is_patent_selection_candidate and "properties" in node:
+                # Force Gemini to emit the fields Pydantic + orchestrator require.
+                critical = {
+                    "patent_number",
+                    "classification",
+                    "variant_mismatch",
+                    "polymerization_medium_mismatch",
+                    "final_decision",
+                    "confidence",
+                    "reason",
+                }
+                present = critical.intersection(properties.keys())
+                node["required"] = sorted(
+                    set(node.get("required") or []) | present
+                )
+                logger.debug(
+                    "Preserving/enriching required for PatentSelectionCandidate at %s: %s",
+                    path,
+                    node["required"],
+                )
+            elif has_candidates_only and "candidates" in properties:
+                node["required"] = sorted(
+                    set(node.get("required") or []) | {"candidates"}
+                )
+                logger.debug(
+                    "Preserving required for PatentSelectionResult at %s", path
+                )
+            elif is_recipe_set and "recipes" in properties:
+                node["required"] = ["recipes"]
+                logger.debug("Preserving required for LLMRecipeSet at %s", path)
+            elif is_recipe_candidate and "properties" in node:
+                critical = {
+                    "name",
+                    "compound",
+                    "polymerization_method",
+                    "stages",
+                    "variation_dimension",
+                    "patent_references",
+                }
+                present = critical.intersection(properties.keys())
+                node["required"] = sorted(
+                    set(node.get("required") or []) | present
+                )
+                logger.debug(
+                    "Preserving required for LLMRecipeCandidate at %s: %s",
+                    path,
+                    node["required"],
+                )
+            elif is_recipe_stage and "properties" in node:
+                critical = {"stage_name", "parameters"}
+                present = critical.intersection(properties.keys())
+                node["required"] = sorted(
+                    set(node.get("required") or []) | present
+                )
+                logger.debug(
+                    "Preserving required for LLMRecipeStage at %s: %s",
+                    path,
+                    node["required"],
+                )
+            elif is_recipe_param and "properties" in node:
+                critical = {"name", "value", "unit"}
+                if "source" in properties:
+                    critical.add("source")
+                present = critical.intersection(properties.keys())
+                node["required"] = sorted(
+                    set(node.get("required") or []) | present
+                )
+                logger.debug(
+                    "Preserving required for Recipe Parameter at %s: %s",
+                    path,
+                    node["required"],
+                )
+            elif is_optimization_set and "optimized_recipes" in properties:
+                node["required"] = ["optimized_recipes"]
+                logger.debug("Preserving required for LLMOptimizationSet at %s", path)
+            elif is_optimized_recipe and "properties" in node:
+                critical = {
+                    "name",
+                    "optimization_strategy",
+                    "confidence_score",
+                    "stages",
+                    "changed_parameters",
+                    "expected_outcome",
+                    "expected_impact",
+                }
+                present = critical.intersection(properties.keys())
+                node["required"] = sorted(
+                    set(node.get("required") or []) | present
+                )
+                logger.debug(
+                    "Preserving required for LLMOptimizedRecipeCandidate at %s: %s",
+                    path,
+                    node["required"],
+                )
+            elif is_optimized_change and "properties" in node:
+                critical = {"parameter", "reason"}
+                if "old_value" in properties:
+                    critical.add("old_value")
+                if "new_value" in properties:
+                    critical.add("new_value")
+                if "previous" in properties:
+                    critical.add("previous")
+                if "revised" in properties:
+                    critical.add("revised")
+                present = critical.intersection(properties.keys())
+                node["required"] = sorted(
+                    set(node.get("required") or []) | present
+                )
+                logger.debug(
+                    "Preserving required for LLMOptimizedChange at %s: %s",
+                    path,
+                    node["required"],
+                )
+            elif "required" in node:
                 if has_decision and has_reason:
                     logger.debug("Preserving required for RankedCandidate at %s", path)
                 elif has_compound and has_compound_name and has_synonyms:
                     logger.debug("Preserving required for CompoundSearchProfile at %s", path)
-                
+                elif is_report_type:
+                    # Final PatentResearchReport (app-side) — keep stripped for Gemini
+                    # compatibility if ever sent; LLM report handled above.
+                    del node["required"]
                 else:
                     del node["required"]
 

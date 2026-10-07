@@ -243,18 +243,18 @@ class ParsedPatent(BaseModel):
                     relevant_paragraphs.append(p)
 
             chunked_desc = "\n".join(relevant_paragraphs)
-            if len(chunked_desc) > 30000:
-                chunked_desc = chunked_desc[:30000] + "\n[... TRUNCATED DUE TO LENGTH ...]"
+            if len(chunked_desc) > 80000:
+                chunked_desc = chunked_desc[:80000] + "\n[... TRUNCATED DUE TO LENGTH ...]"
             context.append(f"--- RELEVANT DESCRIPTION CHUNKS ---\n{chunked_desc}")
 
         if self.examples:
             ex_text = self.examples
-            if len(ex_text) > 40000:
-                ex_text = ex_text[:40000] + "\n[... TRUNCATED EXAMPLES DUE TO LENGTH ...]"
+            if len(ex_text) > 100000:
+                ex_text = ex_text[:100000] + "\n[... TRUNCATED EXAMPLES DUE TO LENGTH ...]"
             context.append(f"--- EXAMPLES ---\n{ex_text}")
 
         if self.tables:
-            tbls_str = str(self.tables[:5])
+            tbls_str = str(self.tables[:25])
             context.append(f"--- TABLES ---\n{tbls_str}")
 
         return "\n\n".join(context)
@@ -281,6 +281,39 @@ class ExamplesData(BaseModel):
     reaction_procedure: str = Field(description="The specific steps and procedure for the reaction", default="Not disclosed")
     experimental_notes: str = Field(description="Any other important synthesis notes or anomalies", default="Not disclosed")
 
+class ExtractedTableSchema(BaseModel):
+    """
+    Structured representation of an experimental table extracted from a patent.
+    Preserves column headers, row matrix, title/caption, and markdown conversion.
+    """
+    title: str = Field(default="", description="Table title or identifier (e.g. 'Table 1: Polymerization Recipe')")
+    headers: list[str] = Field(default_factory=list, description="Column header strings")
+    rows: list[list[str]] = Field(default_factory=list, description="Matrix of table cell values (row-wise)")
+    caption: str = Field(default="", description="Optional table caption or footnote")
+
+    def to_markdown(self) -> str:
+        if not self.headers and not self.rows:
+            return ""
+        lines = []
+        if self.title:
+            lines.append(f"**{self.title}**")
+        headers = self.headers
+        rows = self.rows
+        if not headers and rows:
+            headers = rows[0]
+            rows = rows[1:]
+        if not headers:
+            return ""
+        clean_headers = [str(c).replace("\n", " ").replace("|", "\\|").strip() for c in headers]
+        lines.append("| " + " | ".join(clean_headers) + " |")
+        lines.append("| " + " | ".join(["---"] * len(clean_headers)) + " |")
+        for row in rows:
+            padded = list(row) + [""] * max(0, len(clean_headers) - len(row))
+            clean_cells = [str(c).replace("\n", " ").replace("|", "\\|").strip() for c in padded[:len(clean_headers)]]
+            lines.append("| " + " | ".join(clean_cells) + " |")
+        return "\n".join(lines)
+
+
 class PatentExtraction(BaseModel):
     """
     Final Schema for extracting structured polymerization data from a single patent.
@@ -291,6 +324,7 @@ class PatentExtraction(BaseModel):
     parameters: list[ExtractedParameterSchema] = Field(default_factory=list)
     examples: list[PatentExample] = Field(default_factory=list)
     synthesis_sections: list[SynthesisSection] = Field(default_factory=list)
+    tables: list[ExtractedTableSchema] = Field(default_factory=list, description="Structured tables extracted from the patent")
     raw_text: str = Field(default="")
     examples_detection_note: str = Field(
         default="",
@@ -312,14 +346,37 @@ class GeneratedQuery(BaseModel):
     intent: str = Field(description="The scientific intent of this query (e.g. 'direct synthesis', 'precursor synthesis')")
     scope: str = Field(description="Must be 'title' or 'full_text'")
 
+
+class TargetNumericConstraint(BaseModel):
+    """
+    First-class numeric / range constraint extracted from free-form user input.
+    Attribute names and units are dynamic — never compound-catalog hardcoded.
+    """
+    attribute: str = Field(default="", description="Property/dimension being constrained (dynamic)")
+    value: float | None = Field(default=None, description="Single numeric value when not a range")
+    lower_bound: float | None = Field(default=None, description="Inclusive lower bound of a range")
+    upper_bound: float | None = Field(default=None, description="Inclusive upper bound of a range")
+    unit: str = Field(default="", description="Unit as stated (e.g. wt%, %, mol%, phr)")
+    basis: str = Field(default="", description="Optional basis (mass, moles, polymer, etc.) if stated")
+    operator: str = Field(
+        default="",
+        description="Comparison operator: range, =, <, <=, >, >=, ~ (approx), or empty",
+    )
+    raw_span: str = Field(default="", description="Original text span that produced this constraint")
+
+
 class LLMCompoundSearchProfile(BaseModel):
     """
     Compact, LLM-facing schema for generating query expansion profiles.
     Includes a dynamic target-identity specification derived from user input.
+
+    IMPORTANT (application-enforced): base_material and search_queries must be
+    non-empty for a usable profile. Defaults exist only so incomplete Gemini
+    JSON can still parse; SearchService rejects/repairs incomplete profiles.
     """
     original_input: str = Field(description="The exact user input")
     synthesis_intent: bool = Field(default=False, description="True if the user's research objective requires synthesizing, preparing, or manufacturing the target material.")
-    base_material: list[str] = Field(default_factory=list, description="The canonical chemical base and its synonyms/aliases")
+    base_material: list[str] = Field(default_factory=list, description="REQUIRED for usable search: canonical chemical base identity and synonyms/aliases for THIS input. Do NOT include numeric qualifiers here.")
     important_negative_concepts: list[str] = Field(default_factory=list, description="Concepts that are explicitly antithetical to the target (e.g. chemical variants to exclude).")
     target_modifications: list[str] = Field(default_factory=list, description="Target variants or modifications requested")
     target_attributes: list[str] = Field(default_factory=list, description="Constraints/attributes requested (human-readable labels for THIS target)")
@@ -354,7 +411,15 @@ class LLMCompoundSearchProfile(BaseModel):
             "Leave empty for pure transformation targets."
         )
     )
-    search_queries: list[GeneratedQuery] = Field(default_factory=list, description="Exactly 15 dynamically generated Boolean search queries.")
+    numeric_constraints: list[TargetNumericConstraint] = Field(
+        default_factory=list,
+        description=(
+            "Structured numeric/range constraints from the user input (value, bounds, unit, "
+            "operator, attribute). REQUIRED whenever the input states a %, wt%, phr, range, "
+            "or comparison. Separate from publication-date filters."
+        ),
+    )
+    search_queries: list[GeneratedQuery] = Field(default_factory=list, description="REQUIRED for usable search: Exactly 15 dynamically generated Boolean search queries.")
 
 class CompoundSearchProfile(BaseModel):
     """
@@ -373,6 +438,7 @@ class CompoundSearchProfile(BaseModel):
     related_materials: list[str] = Field(default_factory=list)
     relevance_definition: str = ""
     attribute_dimension_ranges: list[str] = Field(default_factory=list)
+    numeric_constraints: list[TargetNumericConstraint] = Field(default_factory=list)
     search_queries: list[GeneratedQuery] = Field(default_factory=list)
     llm_usage: dict = Field(default_factory=dict)
 
@@ -385,6 +451,7 @@ class ReportExampleEvidence(BaseModel):
 class SynthesisSectionEvidence(BaseModel):
     section_title: str
     raw_text: str
+    table: ExtractedTableSchema | None = None
     
 class ReportPatentEvidence(BaseModel):
     patent_number: str
@@ -398,6 +465,7 @@ class ReportPatentEvidence(BaseModel):
     overall_patent_parameters: list[ExtractedParameterSchema] = Field(default_factory=list)
     examples: list[ReportExampleEvidence] = Field(default_factory=list)
     synthesis_sections: list[SynthesisSectionEvidence] = Field(default_factory=list)
+    tables: list[ExtractedTableSchema] = Field(default_factory=list, description="Structured patent tables")
     technical_findings: list[str] = Field(default_factory=list)
     limitations_or_missing_data: list[str] = Field(default_factory=list)
     # Source text: abstract + deterministically-extracted relevant passages.
@@ -405,6 +473,8 @@ class ReportPatentEvidence(BaseModel):
     source_text: str = Field(default="", description="Relevant source passages (abstract, synthesis sections, examples text)")
     relevance_tier: str = Field(default="", description="Relevance tier from title screening: STRONG, MEDIUM, or WEAK")
     relevance_score: float = Field(default=0.0, description="Numeric relevance score from title screening")
+    priority_date: str | None = Field(default=None, description="Priority date when the source document states one")
+    legal_status: str | None = Field(default=None, description="Legal status when the source document states one")
 
 
 class ReportPatentDetails(BaseModel):
@@ -453,7 +523,10 @@ class MediumAndWaterRoleEvidence(BaseModel):
     )
     evidence: list[str] = Field(
         default_factory=list,
-        description="Short evidence snippets supporting the medium/water-role conclusion.",
+        description=(
+            "MAX 2 short evidence snippets (<=120 chars each) supporting the medium/water-role "
+            "conclusion. Summarize — do not paste full patent text."
+        ),
     )
 
 
@@ -485,7 +558,10 @@ class DynamicTargetAttributeEvidence(BaseModel):
     )
     evidence: list[str] = Field(
         default_factory=list,
-        description="Evidence snippets supporting the disclosed value; empty when not_found.",
+        description=(
+            "MAX 2 short evidence snippets (<=120 chars) supporting the disclosed value; "
+            "empty when not_found. Do not paste full patent text."
+        ),
     )
 
 
@@ -510,6 +586,10 @@ class ReportPatent(BaseModel):
     target_attribute: DynamicTargetAttributeEvidence | None = Field(
         default=None,
         description="Strategy-derived target attribute value/range for this selected patent",
+    )
+    tables: list[ExtractedTableSchema] = Field(
+        default_factory=list,
+        description="Structured tables disclosed in this patent",
     )
 
 class PatentResearchReport(BaseModel):
@@ -546,21 +626,20 @@ class LLMPatentAnalysis(BaseModel):
     disclosed_parameters: list[str] = Field(
         default_factory=list,
         description=(
-            "List of experimentally disclosed parameters from this patent, formatted as "
+            "Up to 35 experimentally disclosed parameters from this patent, formatted as "
             "'Parameter Name: value unit — source context'. "
+            "Extract ALL explicit numerical values, reaction conditions, ratios, formulation ingredients, "
+            "and measured properties present in the evidence. "
             "Only include values explicitly stated in the evidence. "
-            "Examples: 'Hydrogenation pressure: 50 bar — Example 1', "
-            "'Catalyst loading: 0.1 mol% — Example 2', "
-            "'Reaction temperature: 80°C — Example 1'. "
-            "Do NOT invent values. If nothing is explicitly disclosed, return an empty list."
+            "Do NOT invent values. Do NOT paste long procedures. If nothing disclosed, []."
         )
     )
     example_highlights: list[str] = Field(
         default_factory=list,
         description=(
             "Key findings from specific examples in this patent. "
-            "Format: 'Example N: brief description of what was demonstrated'. "
-            "Maximum 5 entries."
+            "Format: 'Example N: brief description of demonstrated system and key result'. Up to 6 entries. "
+            "Do NOT paste full example text."
         )
     )
     technical_relevance: str = Field(
@@ -693,6 +772,7 @@ class TitleTriageResult(BaseModel):
 class SelectionDecision(str, Enum):
     KEEP = "KEEP"
     REJECT = "REJECT"
+    REVIEW = "REVIEW"  # Unverified / LLM failure fallback — NOT a technical reject
 
 
 class TargetRelationship(str, Enum):

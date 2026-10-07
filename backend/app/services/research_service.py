@@ -257,7 +257,16 @@ class ResearchService:
         )
 
         pages = max(1, math.ceil(total / filters.page_size))
-        items = [ResearchRunSummary.model_validate(r) for r in runs]
+        items: list[ResearchRunSummary] = []
+        for r in runs:
+            creator = getattr(r, "creator", None)
+            created_by_name = None
+            if creator is not None:
+                created_by_name = creator.full_name or creator.username or creator.email
+            summary = ResearchRunSummary.model_validate(r)
+            items.append(
+                summary.model_copy(update={"created_by_name": created_by_name})
+            )
 
         return ResearchRunList(
             items=items,

@@ -5,13 +5,13 @@ Pydantic schemas for the Recipe Simulator workflow, including LLM structured out
 """
 from datetime import datetime
 from typing import Any, Optional
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 import uuid
 
 
-# ────────────────────────────────────────────────────────────────────────────
+# ---------------------------------------------------------------------------
 # Core Request & Response Schemas
-# ────────────────────────────────────────────────────────────────────────────
+# ---------------------------------------------------------------------------
 
 class RecipePropertyDef(BaseModel):
     id: str
@@ -19,8 +19,13 @@ class RecipePropertyDef(BaseModel):
     unit: str
     min: Optional[str] = None
     max: Optional[str] = None
+    target: Optional[str] = None
+    value: Optional[str] = None
+    tolerance: Optional[float] = None
+    constraint_type: Optional[str] = None
     category: Optional[str] = None
     dataType: Optional[str] = None
+    model_config = ConfigDict(extra="allow")
 
 
 class CompetitorData(BaseModel):
@@ -29,7 +34,13 @@ class CompetitorData(BaseModel):
 
 
 class RecipeCycleCreate(BaseModel):
-    research_run_id: uuid.UUID
+    # research_run_id is optional: user may arrive via SelectPatentReportModal
+    # without an active research session.
+    research_run_id: Optional[uuid.UUID] = None
+    patent_report_id: Optional[uuid.UUID] = None
+    report_metadata_id: Optional[uuid.UUID] = None
+    # target_product overrides compound_name derived from the research run.
+    target_product: Optional[str] = None
     target_properties: list[RecipePropertyDef] = Field(default_factory=list)
     competitor_data: list[CompetitorData] = Field(default_factory=list)
 
@@ -47,9 +58,39 @@ class RecipeCandidateResponse(BaseModel):
     recipe_data: dict[str, Any]
     patent_references: list[str]
     evidence_coverage_score: int
+    confidence_score: Optional[int] = None
+    target_fit_score: Optional[int] = None
+    targets_met: Optional[int] = None
+    targets_total: Optional[int] = None
+    target_analysis: Optional[dict[str, Any]] = None
+    confidence_analysis: Optional[dict[str, Any]] = None
     is_selected: bool
     created_at: datetime
     model_config = ConfigDict(from_attributes=True)
+
+    @model_validator(mode="after")
+    def populate_target_and_confidence(self) -> "RecipeCandidateResponse":
+        if isinstance(self.recipe_data, dict):
+            if self.target_analysis is None:
+                self.target_analysis = self.recipe_data.get("target_analysis")
+            if self.confidence_analysis is None:
+                self.confidence_analysis = self.recipe_data.get("confidence_analysis")
+            if self.target_fit_score is None and self.target_analysis:
+                self.target_fit_score = self.target_analysis.get("target_fit_score")
+            if self.targets_met is None and self.target_analysis:
+                self.targets_met = self.target_analysis.get("targets_met")
+            if self.targets_total is None and self.target_analysis:
+                self.targets_total = self.target_analysis.get("targets_total")
+            if self.confidence_score is None:
+                cs = self.recipe_data.get("confidence_score")
+                if cs is not None:
+                    try:
+                        self.confidence_score = int(cs)
+                    except (ValueError, TypeError):
+                        pass
+        if self.confidence_score is None:
+            self.confidence_score = self.evidence_coverage_score
+        return self
 
 
 class RecipeCycleResponse(BaseModel):
@@ -68,21 +109,34 @@ class RecipeCycleResponse(BaseModel):
 
 class RecipeCycleDetailResponse(RecipeCycleResponse):
     candidates: list[RecipeCandidateResponse] = Field(default_factory=list)
-    # Trials are added manually in the service layer if needed
     model_config = ConfigDict(from_attributes=True)
 
 
 class CustomerTrialCreate(BaseModel):
-    selected_candidate_id: uuid.UUID
+    selected_candidate_id: Optional[uuid.UUID] = None
+    saved_recipe_id: Optional[uuid.UUID] = None
     feedback_text: Optional[str] = None
-    actual_values: dict[str, str] = Field(default_factory=dict)
-    target_values: dict[str, str] = Field(default_factory=dict)
+    actual_values: dict[str, Any] = Field(default_factory=dict)
+    target_values: dict[str, Any] = Field(default_factory=dict)
+    target_properties: Optional[list[dict[str, Any]]] = None
+    competitor_properties: Optional[list[dict[str, Any]]] = None
+    target_compound: Optional[str] = None
+    model_config = ConfigDict(extra="allow")
 
 
 class CustomerTrialUpdate(BaseModel):
     feedback_text: Optional[str] = None
-    actual_values: Optional[dict[str, str]] = None
-    target_values: Optional[dict[str, str]] = None
+    actual_values: Optional[dict[str, Any]] = None
+    target_values: Optional[dict[str, Any]] = None
+    target_properties: Optional[list[dict[str, Any]]] = None
+    competitor_properties: Optional[list[dict[str, Any]]] = None
+    target_compound: Optional[str] = None
+    model_config = ConfigDict(extra="allow")
+
+
+class OptimizedCandidateUpdate(BaseModel):
+    recipe_data: dict[str, Any]
+    name: Optional[str] = None
 
 
 class OptimizedRecipeCandidateResponse(BaseModel):
@@ -93,99 +147,569 @@ class OptimizedRecipeCandidateResponse(BaseModel):
     recipe_data: dict[str, Any]
     changed_parameters: list[dict[str, Any]]
     predicted_impacts: list[dict[str, Any]]
+    confidence_score: Optional[int] = None
+    target_fit_score: Optional[int] = None
+    targets_met: Optional[int] = None
+    targets_total: Optional[int] = None
+    target_analysis: Optional[dict[str, Any]] = None
+    confidence_analysis: Optional[dict[str, Any]] = None
+    optimization_strategy: Optional[str] = None
+    expected_outcome: Optional[str] = None
+    expected_impact: Optional[str] = None
+    tradeoffs: Optional[str] = None
     is_selected: bool
     created_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
+    @model_validator(mode="after")
+    def populate_optimization_metadata(self) -> "OptimizedRecipeCandidateResponse":
+        if isinstance(self.recipe_data, dict):
+            if self.target_analysis is None:
+                self.target_analysis = self.recipe_data.get("target_analysis")
+            if self.confidence_analysis is None:
+                self.confidence_analysis = self.recipe_data.get("confidence_analysis")
+            if self.target_fit_score is None and self.target_analysis:
+                self.target_fit_score = self.target_analysis.get("target_fit_score")
+            if self.targets_met is None and self.target_analysis:
+                self.targets_met = self.target_analysis.get("targets_met")
+            if self.targets_total is None and self.target_analysis:
+                self.targets_total = self.target_analysis.get("targets_total")
+            if self.confidence_score is None:
+                cs = self.recipe_data.get("confidence_score")
+                if cs is not None:
+                    try:
+                        self.confidence_score = int(cs)
+                    except (ValueError, TypeError):
+                        pass
+            if not self.optimization_strategy:
+                self.optimization_strategy = self.recipe_data.get("optimization_strategy")
+            if not self.expected_outcome:
+                self.expected_outcome = self.recipe_data.get("expected_outcome")
+            if not self.expected_impact:
+                self.expected_impact = self.recipe_data.get("expected_impact")
+            if not self.tradeoffs:
+                self.tradeoffs = self.recipe_data.get("tradeoffs")
+        return self
+
 
 class CustomerTrialResponse(BaseModel):
     id: uuid.UUID
-    cycle_id: uuid.UUID
-    selected_candidate_id: uuid.UUID
+    cycle_id: Optional[uuid.UUID] = None
+    selected_candidate_id: Optional[uuid.UUID] = None
+    saved_recipe_id: Optional[uuid.UUID] = None
+    recipe_snapshot: Optional[dict[str, Any]] = None
     status: str
     feedback_text: Optional[str] = None
-    actual_values: dict[str, str]
-    target_values: dict[str, str]
+    actual_values: dict[str, Any] = Field(default_factory=dict)
+    target_values: dict[str, Any] = Field(default_factory=dict)
     selected_optimized_id: Optional[uuid.UUID] = None
     optimized_candidates: list[OptimizedRecipeCandidateResponse] = Field(default_factory=list)
+    created_by: Optional[uuid.UUID] = None
     created_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
 
-# ────────────────────────────────────────────────────────────────────────────
-# LLM Structured Output Schemas (Sent to gemini for generation)
-# ────────────────────────────────────────────────────────────────────────────
+def _as_str_dict(value: dict | None) -> dict[str, str]:
+    if not value:
+        return {}
+    return {str(k): "" if v is None else str(v) for k, v in value.items()}
+
+
+def to_customer_trial_response(trial: Any) -> CustomerTrialResponse:
+    """Serialize a trial including optimized_candidates safely for AsyncSession."""
+    status = trial.status.value if hasattr(trial.status, "value") else str(trial.status)
+    opts = []
+
+    # Safe relationship access that never triggers implicit lazy I/O in AsyncSession
+    raw_candidates = []
+    from sqlalchemy.inspection import inspect as sa_inspect
+    insp = sa_inspect(trial, raiseerr=False)
+    if insp is not None:
+        if "optimized_candidates" in insp.dict:
+            raw_candidates = insp.dict["optimized_candidates"]
+        elif not insp.unloaded or "optimized_candidates" not in insp.unloaded:
+            raw_candidates = getattr(trial, "optimized_candidates", [])
+    else:
+        raw_candidates = getattr(trial, "optimized_candidates", [])
+
+    if raw_candidates and isinstance(raw_candidates, (list, tuple)):
+        for cand in raw_candidates:
+            try:
+                rdata = getattr(cand, "recipe_data", {}) or {}
+                cs = rdata.get("confidence_score") if isinstance(rdata, dict) else None
+                opts.append(
+                    OptimizedRecipeCandidateResponse(
+                        id=cand.id,
+                        trial_id=cand.trial_id,
+                        revision_label=cand.revision_label,
+                        name=cand.name,
+                        recipe_data=cand.recipe_data,
+                        changed_parameters=cand.changed_parameters or [],
+                        predicted_impacts=cand.predicted_impacts or [],
+                        is_selected=cand.is_selected,
+                        created_at=cand.created_at,
+                        confidence_score=int(cs) if cs is not None else None,
+                        optimization_strategy=rdata.get("optimization_strategy") if isinstance(rdata, dict) else None,
+                        expected_outcome=rdata.get("expected_outcome") if isinstance(rdata, dict) else None,
+                        expected_impact=rdata.get("expected_impact") if isinstance(rdata, dict) else None,
+                        tradeoffs=rdata.get("tradeoffs") if isinstance(rdata, dict) else None,
+                    )
+                )
+            except Exception:
+                pass
+
+    return CustomerTrialResponse(
+        id=trial.id,
+        cycle_id=trial.cycle_id,
+        selected_candidate_id=trial.selected_candidate_id,
+        saved_recipe_id=trial.saved_recipe_id,
+        recipe_snapshot=trial.recipe_snapshot,
+        status=status,
+        feedback_text=trial.feedback_text,
+        actual_values=_as_str_dict(getattr(trial, "actual_values", None)),
+        target_values=_as_str_dict(getattr(trial, "target_values", None)),
+        selected_optimized_id=trial.selected_optimized_id,
+        optimized_candidates=opts,
+        created_by=trial.created_by,
+        created_at=trial.created_at,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Saved Recipe
+# ---------------------------------------------------------------------------
+
+class SavedRecipeCreate(BaseModel):
+    """Persist the user-edited recipe payload (not the original LLM snapshot)."""
+    recipe_name: str = Field(..., min_length=1, max_length=255)
+    recipe_data: dict[str, Any]
+    target_properties: list[dict[str, Any]] = Field(default_factory=list)
+    competitor_properties: list[dict[str, Any]] = Field(default_factory=list)
+    source_cycle_id: Optional[uuid.UUID] = None
+    source_candidate_id: Optional[uuid.UUID] = None
+    parent_recipe_id: Optional[uuid.UUID] = None
+    source_trial_id: Optional[uuid.UUID] = None
+    source_optimized_id: Optional[uuid.UUID] = None
+    notes: Optional[str] = None
+    # NORMAL (default) or OPTIMIZED. Inferred as OPTIMIZED when parent + trial are set.
+    recipe_kind: Optional[str] = None
+
+
+class SavedRecipeUpdate(BaseModel):
+    recipe_name: Optional[str] = Field(default=None, min_length=1, max_length=255)
+    recipe_data: Optional[dict[str, Any]] = None
+    target_properties: Optional[list[dict[str, Any]]] = None
+    competitor_properties: Optional[list[dict[str, Any]]] = None
+    notes: Optional[str] = None
+
+
+class SavedRecipeResponse(BaseModel):
+    id: uuid.UUID
+    recipe_name: str
+    recipe_data: dict[str, Any]
+    target_properties: list[dict[str, Any]]
+    competitor_properties: list[dict[str, Any]]
+    created_by: uuid.UUID
+    created_by_name: Optional[str] = None
+    updated_by: Optional[uuid.UUID] = None
+    updated_by_name: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
+    expires_at: datetime
+    parent_recipe_id: Optional[uuid.UUID] = None
+    parent_recipe_name: Optional[str] = None
+    revision_number: int
+    recipe_kind: str = "NORMAL"
+    optimization_number: int = 0
+    status: str
+    source_feedback_text: Optional[str] = None
+    source_cycle_id: Optional[uuid.UUID] = None
+    source_candidate_id: Optional[uuid.UUID] = None
+    source_trial_id: Optional[uuid.UUID] = None
+    source_optimized_id: Optional[uuid.UUID] = None
+    notes: Optional[str] = None
+    is_revision: bool = False
+    model_config = ConfigDict(from_attributes=True)
+
+
+class CandidateRecipeDataUpdate(BaseModel):
+    """Patch transient generated candidate with user edits before/at save."""
+    recipe_data: dict[str, Any]
+    name: Optional[str] = None
+
+
+class OptimizedCandidateUpdate(BaseModel):
+    """Patch transient generated customer trial optimized candidate with user edits."""
+    recipe_data: dict[str, Any]
+    name: Optional[str] = None
+
+
+
+class SavedRecipeBatchCreate(BaseModel):
+    recipes: list[SavedRecipeCreate] = Field(..., min_length=1)
+
+
+class SavedRecipeBatchItemResult(BaseModel):
+    recipe_name: str
+    success: bool
+    saved_recipe: Optional[SavedRecipeResponse] = None
+    error: Optional[str] = None
+
+
+class SavedRecipeBatchResponse(BaseModel):
+    results: list[SavedRecipeBatchItemResult]
+    total_requested: int
+    total_saved: int
+    total_failed: int
+
+
+# ---------------------------------------------------------------------------
+# LLM Structured Output Schemas - DYNAMIC (no hardcoded compound fields)
+# ---------------------------------------------------------------------------
 
 class LLMRecipeParameter(BaseModel):
-    name: str = Field(description="Parameter name (e.g. BD/ACN Ratio, Water, Initiator)")
-    value: str = Field(description="Parameter value (e.g. 74/26, 185, 0.45)")
-    unit: str = Field(description="Unit (e.g. phr, %)")
-    source: str = Field(description="Must be exactly 'patent' or 'inferred'")
-    patent_ref: Optional[str] = Field(description="If source=patent, the specific patent number supporting this value. E.g. US20250075019A1", default=None)
+    """One synthesis ingredient or process parameter - fully dynamic."""
+    name: str = Field(
+        description=(
+            "Full descriptive parameter name derived from the compound and patent context. "
+            "For monomers: include chemical name and role, e.g. 'Butadiene (Monomer 1)', "
+            "'Acrylonitrile (Monomer 2)', 'Styrene (Monomer)'. "
+            "For auxiliaries: e.g. 'Potassium persulfate (Initiator)', "
+            "'t-Dodecyl mercaptan (CTA)', 'Sodium oleate (Emulsifier)', 'Water'. "
+            "For process: 'Reaction Temperature', 'Polymerization Time', 'Target Conversion'. "
+            "NEVER hardcode names - always derive from the target compound and patent evidence."
+        )
+    )
+    value: str = Field(
+        description=(
+            "The numeric or descriptive candidate value. Must be scientifically plausible. "
+            "NOT a placeholder like 'X', 'TBD', or '0'. "
+            "For numeric quantities: include only the number (unit goes in unit field)."
+        )
+    )
+    unit: str = Field(
+        description=(
+            "Unit of measurement (e.g. 'phr', '%', 'C', 'h', 'g/mol'). "
+            "Use empty string when there is no unit."
+        )
+    )
+    source: str = Field(
+        default="inferred",
+        description=(
+            "One of 'patent' (when explicitly disclosed in the patent report), "
+            "'ai_generated' (when synthesized from chemical principles/process requirement not in patent), "
+            "or 'inferred' (when estimated from patent context and scientific reasoning). "
+            "NEVER fabricate patent references."
+        )
+    )
+    patent_ref: Optional[str] = Field(
+        default=None,
+        description=(
+            "If source='patent', the specific patent number (e.g. 'US20250075019A1'). "
+            "Leave null for inferred values."
+        )
+    )
+
+
+class LLMRecipeStage(BaseModel):
+    """A synthesis stage grouping related parameters."""
+    stage_name: str = Field(
+        description=(
+            "Synthesis stage name according to the canonical client Excel template. "
+            "Canonical stages in order: 'Reactor Charge', 'Emulsifier Solution', 'Catalyst Solution', "
+            "'Monomer Mix', 'Chemical Stripping', 'Post Addition'."
+        )
+    )
+    parameters: list[LLMRecipeParameter] = Field(
+        default_factory=list,
+        description="All ingredients and parameters for this stage. Empty list if not applicable to this chemistry."
+    )
+    omission_reason: Optional[str] = Field(
+        default=None,
+        description=(
+            "If this stage is omitted or has no ingredients, a concise scientific AI reason explaining "
+            "why it is not required for this synthesis route. Leave null if stage has parameters."
+        )
+    )
+
+
+class LLMReactionTime(BaseModel):
+    value: str = Field(description="Total reaction / polymerization time, e.g. '8' or '6-8'")
+    unit: str = Field(default="h", description="Unit of time, e.g. 'h'")
+
+
+class LLMFeedingHours(BaseModel):
+    monomer: Optional[str] = Field(default="N/A", description="Monomer feed duration, e.g. '4 h' or 'N/A' if batch")
+    emulsifier: Optional[str] = Field(default="N/A", description="Emulsifier feed duration, e.g. '4 h' or 'N/A'")
+    catalyst: Optional[str] = Field(default="N/A", description="Catalyst feed duration, e.g. 'Continuous 6 h' or 'N/A'")
+
+
+class LLMTemperatureStep(BaseModel):
+    stage: str = Field(description="Stage or phase, e.g. 'Initial Charge', 'Feeding / Polymerization', 'Peak / Stripping'")
+    value: str = Field(description="Temperature value or range, e.g. '10', '10-12', '75'")
+    unit: str = Field(default="°C", description="Temperature unit, e.g. '°C'")
+
+
+class LLMProcessConditions(BaseModel):
+    reaction_time: Optional[LLMReactionTime] = Field(default=None, description="Total reaction time")
+    feeding_hours: Optional[LLMFeedingHours] = Field(default=None, description="Feeding hours for monomer, emulsifier, catalyst")
+    temperature_profile: list[LLMTemperatureStep] = Field(default_factory=list, description="Temperature profile across reaction stages")
+
+
+class LLMPredictedProperty(BaseModel):
+    property: str = Field(description="Name of the target property (e.g. 'Mooney Viscosity', 'BACN', 'Tensile Strength')")
+    predicted_value: Optional[float] = Field(default=None, description="Point predicted numerical value")
+    predicted_min: Optional[float] = Field(default=None, description="Minimum predicted numerical value (if range prediction)")
+    predicted_max: Optional[float] = Field(default=None, description="Maximum predicted numerical value (if range prediction)")
+    unit: str = Field(default="", description="Unit of measurement (e.g. MU, %, MPa)")
+    status: Optional[str] = Field(default="MEETS_TARGET", description="Model status claim")
+    reasoning: str = Field(default="", max_length=180, description="1 concise sentence explaining the chemical/process basis")
+
+    @model_validator(mode="before")
+    @classmethod
+    def coerce_predictions(cls, data: Any) -> Any:
+        import re
+        if isinstance(data, dict):
+            for f in ("predicted_value", "predicted_min", "predicted_max"):
+                if f in data and data[f] is not None:
+                    if isinstance(data[f], (int, float)):
+                        data[f] = float(data[f])
+                    else:
+                        m = re.search(r"[-+]?\d*\.?\d+", str(data[f]))
+                        data[f] = float(m.group(0)) if m else None
+            if "name" in data and "property" not in data:
+                data["property"] = str(data["name"])
+            if "property" in data and not isinstance(data["property"], str):
+                data["property"] = str(data["property"])
+            if "unit" in data and not isinstance(data["unit"], str):
+                data["unit"] = str(data["unit"]) if data["unit"] is not None else ""
+            if "reasoning" in data and not isinstance(data["reasoning"], str):
+                data["reasoning"] = str(data["reasoning"]) if data["reasoning"] is not None else ""
+        return data
 
 
 class LLMRecipeCandidate(BaseModel):
-    name: str = Field(description="Short name for the recipe (e.g. 'Recipe 1')")
-    bd_acn_ratio: str = Field(description="Butadiene to Acrylonitrile ratio")
-    polymerization_method: str = Field(description="e.g. Cold Emulsion, Warm Emulsion")
-    temperature: str = Field(description="Reaction temperature")
-    water: str = Field(description="Water amount in phr")
-    emulsifier: str = Field(description="Emulsifier details")
-    initiator: str = Field(description="Initiator details")
-    chain_transfer_agent: str = Field(description="Chain transfer agent details")
-    coagulant: str = Field(description="Coagulant details")
-    conversion: str = Field(description="Target conversion %")
-    reaction_time: str = Field(description="Reaction duration")
-    expected_bound_acn: str = Field(description="Expected Bound ACN %")
-    expected_mooney: str = Field(description="Expected Mooney viscosity")
-    
-    # Detailed parameter list for the UI
-    parameters: list[LLMRecipeParameter] = Field(description="Complete list of all formulation and process parameters. Every parameter should explicitly mention if it is patent-supported or inferred.")
-    
-    patent_references: list[str] = Field(description="List of all patents used to build this recipe.")
-    rationale: str = Field(description="Explanation of why these parameters were chosen to meet the target constraints.")
-    notes: str = Field(description="Any extra synthesis notes, sequence of addition, etc.")
+    """
+    A complete candidate polymerization recipe. ALL ingredient names, monomers,
+    initiators, emulsifiers etc. are DYNAMIC - derived from the target compound
+    and patent report context, not hardcoded for any specific polymer family.
+    """
+    name: str = Field(
+        description=(
+            "Short descriptive recipe candidate name that identifies the variation "
+            "dimension, e.g. 'Recipe 1 - Low CTA Baseline', 'Recipe 2 - High Initiator'."
+        )
+    )
+    compound: str = Field(
+        description="Target compound/polymer being synthesized, e.g. 'Low ACN NBR', 'SBR', 'XSBR'."
+    )
+    polymerization_method: str = Field(
+        description=(
+            "Overall polymerization process derived from patent evidence, "
+            "e.g. 'Cold Emulsion Polymerization', 'Warm Emulsion', 'Solution Polymerization'."
+        )
+    )
+    stages: list[LLMRecipeStage] = Field(
+        description=(
+            "Ordered synthesis stages following the canonical client Excel template order: "
+            "1. Reactor Charge, 2. Emulsifier Solution, 3. Catalyst Solution, "
+            "4. Monomer Mix, 5. Chemical Stripping, 6. Post Addition. "
+            "Ingredient names within stages must be dynamic for the target compound."
+        )
+    )
+    parameters: list[LLMRecipeParameter] = Field(
+        default_factory=list,
+        description=(
+            "Must be left empty ([]) to prevent output duplication. "
+            "Backend automatically compiles flat parameters from stages."
+        )
+    )
+    process_conditions: Optional[LLMProcessConditions] = Field(
+        default=None,
+        description="Process conditions (reaction time, feeding hours, temperature profile) separate from ingredients."
+    )
+    predicted_properties: list[LLMPredictedProperty] = Field(
+        default_factory=list,
+        description="Model-predicted outcomes for each target property constraint. Empty list if no targets provided."
+    )
+    patent_references: list[str] = Field(
+        default_factory=list,
+        description=(
+            "Patent numbers only whose evidence influenced this recipe (e.g. ['EP2316860B1']). "
+            "Empty list if no specific patent values are cited."
+        )
+    )
+    rationale: str = Field(
+        default="",
+        description=(
+            "1 concise sentence explaining the variation. Maximum 25 words. Strictly no long prose."
+        )
+    )
+    variation_dimension: str = Field(
+        description=(
+            "Primary synthesis dimension varied in this candidate to produce meaningful "
+            "differentiation, e.g. 'Monomer ratio', 'Initiator concentration', "
+            "'Chain-transfer agent level', 'Polymerization temperature', 'Water/emulsifier ratio'. "
+            "Each of the 5 candidates must vary a different primary dimension."
+        )
+    )
 
 
 class LLMRecipeSet(BaseModel):
-    recipes: list[LLMRecipeCandidate] = Field(description="Exactly 5 distinct recipe formulations", min_length=5, max_length=5)
+    recipes: list[LLMRecipeCandidate] = Field(
+        description=(
+            "Exactly 5 distinct recipe formulations. Each must be a NEW candidate "
+            "- not a copy of a patent example. Each must vary a different primary dimension."
+        )
+    )
+
+
+class LLMOptimizedParameter(BaseModel):
+    name: str = Field(description="Ingredient or parameter name")
+    value: str = Field(description="Numerical value or range, e.g. '180' or '0.25'")
+    unit: str = Field(default="", description="Unit of measurement, e.g. phr, %, °C, h")
+    source: Optional[str] = Field(default="inferred")
+    patent_ref: Optional[str] = Field(default=None)
+
+    @model_validator(mode="before")
+    @classmethod
+    def coerce_values(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if "value" in data and not isinstance(data["value"], str):
+                data["value"] = str(data["value"]) if data["value"] is not None else ""
+            if "name" in data and not isinstance(data["name"], str):
+                data["name"] = str(data["name"]) if data["name"] is not None else ""
+            if "unit" in data and not isinstance(data["unit"], str):
+                data["unit"] = str(data["unit"]) if data["unit"] is not None else ""
+        return data
+
+
+class LLMOptimizedStage(BaseModel):
+    stage_name: str = Field(description="Dynamic synthesis stage name (e.g. 'Reactor Charge', 'Monomer Mix', etc.)")
+    parameters: list[LLMOptimizedParameter] = Field(
+        default_factory=list,
+        description="Parameters and ingredients for this stage"
+    )
 
 
 class LLMOptimizedChange(BaseModel):
-    parameter: str = Field(description="Name of the changed parameter (e.g. Chain Transfer Agent)")
-    previous: str = Field(description="Previous value in the original recipe")
-    revised: str = Field(description="New value in this optimized revision")
-    rationale: str = Field(description="Chemical/Process reason for this change")
+    parameter: str = Field(description="Name of the changed parameter")
+    old_value: str = Field(default="", description="Previous value in parent recipe (e.g. '5' or '5 phr')")
+    new_value: str = Field(default="", description="New value in this optimized revision (e.g. '3' or '3 phr')")
+    unit: Optional[str] = Field(default="", description="Unit of measurement, e.g. phr, °C, h")
+    reason: str = Field(default="", max_length=200, description="Concise reason (max 1 sentence) for this change")
 
+    # Backward compatibility with previous/revised fields and robust coercion
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_fields(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if "previous" in data and "old_value" not in data:
+                data["old_value"] = str(data["previous"] or "")
+            if "revised" in data and "new_value" not in data:
+                data["new_value"] = str(data["revised"] or "")
+            if "rationale" in data and "reason" not in data:
+                data["reason"] = str(data["rationale"] or "")
+            if "old_value" in data and not isinstance(data["old_value"], str):
+                data["old_value"] = str(data["old_value"]) if data["old_value"] is not None else ""
+            if "new_value" in data and not isinstance(data["new_value"], str):
+                data["new_value"] = str(data["new_value"]) if data["new_value"] is not None else ""
+            if "parameter" in data and not isinstance(data["parameter"], str):
+                data["parameter"] = str(data["parameter"]) if data["parameter"] is not None else ""
+            if "unit" in data and not isinstance(data["unit"], str):
+                data["unit"] = str(data["unit"]) if data["unit"] is not None else ""
+            if "reason" in data and not isinstance(data["reason"], str):
+                data["reason"] = str(data["reason"]) if data["reason"] is not None else ""
+        return data
 
-class LLMOptimizedImpact(BaseModel):
-    property: str = Field(description="Name of the property expected to change (e.g. Mooney, Hardness)")
-    previous_value: str = Field(description="Previous expected value (or actual value from trial)")
-    predicted_value: str = Field(description="New predicted value after the change")
+    @property
+    def previous(self) -> str:
+        return self.old_value
+
+    @property
+    def revised(self) -> str:
+        return self.new_value
+
+    @property
+    def rationale(self) -> str:
+        return self.reason
 
 
 class LLMOptimizedRecipeCandidate(BaseModel):
-    revision_label: str = Field(description="Single letter revision label: 'A', 'B', or 'C'")
-    name: str = Field(description="Full name, e.g. 'Recipe 2 – Revision A'")
-    
-    # The new full recipe state (same as original, but with changed values applied)
-    bd_acn_ratio: str
-    polymerization_method: str
-    temperature: str
-    water: str
-    emulsifier: str
-    initiator: str
-    chain_transfer_agent: str
-    coagulant: str
-    conversion: str
-    reaction_time: str
-    
-    parameters: list[LLMRecipeParameter] = Field(description="Complete list of all parameters for this new revision")
-    
-    changed_parameters: list[LLMOptimizedChange] = Field(description="Explicit list of what changed vs the selected recipe")
-    predicted_impacts: list[LLMOptimizedImpact] = Field(description="Explicit list of properties expected to change as a result")
-    rationale: str = Field(description="Overall explanation of how this revision addresses the customer feedback")
+    name: str = Field(
+        default="Optimized Revision",
+        max_length=120,
+        description="Descriptive revision name, e.g. 'Revision A - Conservative Oil Reduction'"
+    )
+    optimization_strategy: str = Field(
+        default="Targeted Lever Optimization",
+        max_length=200,
+        description="Concise 1-sentence strategy summary"
+    )
+    confidence_score: int = Field(
+        default=75,
+        ge=0,
+        le=100,
+        description="Dynamic AI/design confidence score (0-100)"
+    )
+    stages: list[LLMOptimizedStage] = Field(
+        default_factory=list,
+        description="Complete synthesis stages and parameters for this formulation revision"
+    )
+    process_conditions: Optional[LLMProcessConditions] = Field(
+        default=None,
+        description="Process conditions (reaction time, feeding hours, temperature profile)"
+    )
+    changed_parameters: list[LLMOptimizedChange] = Field(
+        default_factory=list,
+        description="List ONLY parameters that changed vs parent recipe (parameter, old_value, new_value, unit, reason)"
+    )
+    expected_outcome: str = Field(
+        default="",
+        max_length=300,
+        description="Concise 1-2 sentence statement of intended outcome addressing customer feedback"
+    )
+    expected_impact: str = Field(
+        default="",
+        max_length=300,
+        description="Concise 1-2 sentence statement of expected physical/chemical impact and tradeoffs"
+    )
+    revision_label: Optional[str] = Field(default=None)
+    compound: Optional[str] = Field(default="")
+    polymerization_method: Optional[str] = Field(default="Cold Emulsion Polymerization")
+    parameters: list[dict[str, Any]] = Field(default_factory=list)
+    predicted_properties: list[LLMPredictedProperty] = Field(
+        default_factory=list,
+        description="Predicted property outcomes addressing target constraints"
+    )
+    predicted_impacts: list[dict[str, Any]] = Field(default_factory=list)
+    tradeoffs: Optional[str] = Field(default=None)
+
+    @model_validator(mode="before")
+    @classmethod
+    def coerce_candidate(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if "confidence_score" in data:
+                try:
+                    data["confidence_score"] = int(round(float(data["confidence_score"])))
+                except (ValueError, TypeError):
+                    data["confidence_score"] = 75
+            if "stages" in data and isinstance(data["stages"], list):
+                coerced_stages = []
+                for s in data["stages"]:
+                    if hasattr(s, "model_dump"):
+                        coerced_stages.append(s.model_dump())
+                    elif isinstance(s, dict):
+                        coerced_stages.append(s)
+                    else:
+                        coerced_stages.append(s)
+                data["stages"] = coerced_stages
+        return data
 
 
 class LLMOptimizationSet(BaseModel):
-    optimized_recipes: list[LLMOptimizedRecipeCandidate] = Field(description="Exactly 3 distinct optimized recipe revisions", min_length=3, max_length=3)
+    optimized_recipes: list[LLMOptimizedRecipeCandidate] = Field(
+        description="Exactly 3 distinct optimized recipe revisions (no more, no less)",
+        min_length=3,
+        max_length=3
+    )

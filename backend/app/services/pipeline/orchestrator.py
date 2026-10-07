@@ -21,19 +21,47 @@ from app.models.report_metadata import ReportMetadata
 from app.models.report_file import ReportFile
 from app.services.pipeline.schemas import (
     PatentExtraction,
+    PatentSelectionCandidate,
     PatentSelectionResult,
     SearchAdequacy,
     SearchAdequacyMetrics,
+    SelectionDecision,
+    TechnicalCentrality,
+    TitleTriageClassification,
+    TargetRelationship,
 )
 from app.services.pipeline.search_service import SearchService
 from app.services.pipeline.fetcher_service import FetcherService
 from app.services.pipeline.extractor_service import ExtractorService
 from app.services.pipeline.report_service import ReportService
-from app.core.telemetry import set_current_run_id, set_current_stage, TelemetryStage
+from app.core.telemetry import set_current_run_id, set_current_stage, get_current_stage, TelemetryStage
 from app.services.llm import llm_client
 from app.services.prompts.patent_prompts import PATENT_SELECTION_PROMPT
 
 logger = logging.getLogger(__name__)
+
+
+def prefer_source_title(document_title: str, search_title: str) -> str:
+    """
+    Keep the fuller bibliographic title.
+
+    Search snippets often end in an ellipsis. A title taken from the patent
+    document is preferred when the snippet is cut, and the longer intact title
+    is preferred when both are complete.
+    """
+    document = (document_title or "").strip()
+    search = (search_title or "").strip()
+
+    def looks_cut(text: str) -> bool:
+        return text.endswith("...") or text.endswith("…")
+
+    if document and search:
+        if looks_cut(search) and not looks_cut(document):
+            return document
+        if looks_cut(document) and not looks_cut(search):
+            return search
+        return document if len(document) >= len(search) else search
+    return document or search
 
 
 async def get_background_session() -> AsyncSession:
@@ -123,6 +151,10 @@ class PipelineOrchestrator:
             "selection_reject_other": 0,
             "selection_related_retain": 0,
             "selection_keep": 0,
+            "selection_unverified": 0,
+            "selection_llm_failure": 0,
+            "selection_llm_partial_missing": 0,
+            "selection_invalid_llm_objects": 0,
             "fetch_failures": 0,
             "extraction_failures": 0,
             "reached_selection": 0,
@@ -135,20 +167,31 @@ class PipelineOrchestrator:
         variant_total = s.get("selection_reject_variant", 0)
         downstream_total = s.get("selection_reject_downstream", 0)
         related_total = s.get("selection_related_retain", 0)
+        unverified = s.get("selection_unverified", 0)
+        llm_fail = s.get("selection_llm_failure", 0)
         other = (
             s.get("selection_reject_other", 0)
             + s.get("selection_reject_medium", 0)
             + s.get("fetch_failures", 0)
             + s.get("extraction_failures", 0)
         )
+        if llm_fail and not s.get("selection_keep", 0) and unverified == 0:
+            return (
+                "SELECTION_EMPTY / LLM_VALIDATION_FAILURE: 0 patents selected because "
+                f"LLM structured-output validation failed for {llm_fail} candidate(s) "
+                "and no REVIEW/UNVERIFIED fallback survivors remained. "
+                "This is NOT a claim that patents are technically irrelevant."
+            )
         return (
-            f"Pipeline stopped: 0 patents survived the configured selection criteria "
+            f"SELECTION_EMPTY: Pipeline stopped: 0 patents survived the configured selection criteria "
             f"(this is not a claim that no related patents exist in the literature). "
             f"Of candidates that reached selection ({reached_validation}): "
             f"{variant_total} qualifier/variant mismatch, "
             f"{downstream_total} downstream-only, "
             f"{related_total} related/non-primary retained for diagnostics only, "
-            f"{other} other rejections (identity mismatch, unrelated, insufficient evidence). "
+            f"{unverified} unverified/REVIEW (LLM missing or fallback), "
+            f"{llm_fail} LLM failure markers, "
+            f"{other} other technical rejections (identity mismatch, unrelated, insufficient evidence). "
             f"Consider broadening discovery queries or reviewing identity/qualifier thresholds."
         )
 
@@ -457,7 +500,7 @@ class PipelineOrchestrator:
         return candidates
 
     @staticmethod
-    def _selection_rank_tuple(verdict) -> tuple:
+    def _selection_rank_tuple(verdict, synthesis_relevance: bool = False) -> tuple:
         """Higher is better — used after evaluating ALL candidates.
 
         Prefer direct synthesis / transformation of the target over generic
@@ -473,9 +516,9 @@ class PipelineOrchestrator:
             "PRECURSOR_OR_INTERMEDIATE": 4,
             "AMBIGUOUS": 2,
             "BASE_MATERIAL_ONLY": 1,
-            "DOWNSTREAM_APPLICATION": 0,
+            "DOWNSTREAM_APPLICATION": 3 if synthesis_relevance else 0,
             "UNRELATED": 0,
-        }.get(cls_name, 2)
+        }.get(cls_name, 3 if synthesis_relevance else 2)
         centrality = getattr(verdict, "technical_centrality", None)
         c_val = getattr(centrality, "value", centrality) if centrality is not None else "PARTIAL"
         c_score = {"CENTRAL": 4, "PARTIAL": 2, "PERIPHERAL": 1, "NONE": 0}.get(str(c_val), 2)
@@ -575,16 +618,170 @@ class PipelineOrchestrator:
                 return True
         return False
 
+    @staticmethod
+    def _text_hits_excluded_variants(text: str, strategy) -> bool:
+        """
+        Compound-agnostic check whether text explicitly hits excluded chemical
+        variants or identity exclusions from THIS run's strategy profile.
+        """
+        blob = (text or "").lower()
+        if not blob or strategy is None:
+            return False
+        for field in ("identity_exclusions", "excluded_variants"):
+            for term in getattr(strategy, field, None) or []:
+                t = str(term or "").strip().lower()
+                if len(t) >= 3 and t in blob:
+                    return True
+        return False
+
+    def _detect_synthesis_relevance(
+        self,
+        verdict,
+        *,
+        title: str = "",
+        strategy=None,
+    ) -> tuple[bool, str]:
+        """
+        Target-agnostic determination of whether patent contains actual
+        polymer synthesis, polymerization, copolymerization, latex preparation,
+        or target polymer modification/formulation evidence, vs true downstream-only
+        finished article usage where polymer is merely an ingredient.
+        """
+        cls = getattr(verdict, "classification", None)
+        cls_name = str(getattr(cls, "value", cls) or "").upper()
+        if cls_name == "UNRELATED":
+            return False, "Classification is UNRELATED"
+
+        centrality = self._norm_str_field(verdict, "technical_centrality", "PARTIAL")
+        downstream_only = bool(getattr(verdict, "downstream_only", False))
+        detected = (getattr(verdict, "detected_primary_material", None) or "").strip().lower()
+        reason = (getattr(verdict, "reason", None) or "").strip().lower()
+        evidence_list = [str(e).strip().lower() for e in (getattr(verdict, "evidence", None) or [])]
+        evidence_text = " ".join(evidence_list)
+        title_lower = (title or "").strip().lower()
+
+        # 1. Inherent synthesis classifications from LLM
+        if cls_name in {
+            "DIRECT_SYNTHESIS",
+            "TARGET_TRANSFORMATION",
+            "POLYMER_STRUCTURE",
+            "PRECURSOR_OR_INTERMEDIATE",
+        }:
+            return True, f"Invention classification is {cls_name}"
+
+        # 2. Peripheral / None centrality without direct synthesis focus is not synthesis-relevant
+        if centrality in ("PERIPHERAL", "NONE"):
+            return False, f"Target material centrality is {centrality} (peripheral/ingredient role)"
+
+        # 3. Dynamic synthesis indicators from strategy + core polymer preparation roots
+        synthesis_indicators = {
+            "polymeriz",  # polymerization, polymerizing, polymerized, copolymerization
+            "synthes",    # synthesis, synthesizing, synthesized
+            "emulsion",   # emulsion polymerization, emulsion
+            "latex",      # latex preparation, latex formulation, rubber latex, polymer latex
+            "copolymer",  # copolymer preparation, copolymerizing
+            "monomer",    # monomer feed, monomer mixture, comonomer
+            "preparation of",
+            "process for preparing",
+            "process for producing",
+            "method of preparing",
+            "method of producing",
+            "functionaliz",
+            "carboxylation",
+            "grafting",
+            "crosslink",
+        }
+        if strategy is not None:
+            for term in getattr(strategy, "synthesis_transformations", None) or []:
+                t = str(term or "").strip().lower()
+                if len(t) >= 4:
+                    synthesis_indicators.add(t)
+
+        # Check synthesis evidence in detected material, evidence quotes, and title
+        substantive_text = f"{detected} {evidence_text} {title_lower}"
+        has_synthesis_evidence = any(ind in substantive_text for ind in synthesis_indicators)
+
+        # If not found in substantive text, check positive mentions in reason (excluding negative phrases)
+        if not has_synthesis_evidence:
+            reason_clean = reason
+            for neg in (
+                "not synthesis", "unrelated to", "not about", "no synthesis",
+                "not the primary synthesis", "not polymer synthesis",
+            ):
+                reason_clean = reason_clean.replace(neg, "")
+            has_synthesis_evidence = any(ind in reason_clean for ind in synthesis_indicators)
+
+        # 4. Finished-article downstream indicators (merely an ingredient/article)
+        article_terms = {
+            "glove", "dipping", "dip former", "dip-forming", "dip-molded",
+            "tire", "pneumatic tire", "tread", "carcass",
+            "charging roller", "charging member",
+            "shoe sole", "footwear",
+            "finished article", "consumer product", "medical device",
+        }
+        if strategy is not None:
+            for term in getattr(strategy, "downstream_terms", None) or []:
+                t = str(term or "").strip().lower()
+                if len(t) >= 4:
+                    article_terms.add(t)
+
+        detected_article = any(art in detected for art in article_terms)
+        reason_ingredient_only = any(
+            phrase in reason
+            for phrase in (
+                "only mentions", "merely mentions", "merely used", "only a component",
+                "component in a downstream", "not about", "not the primary synthesis",
+                "purchased ingredient", "commercially available", "end-use article",
+            )
+        )
+
+        if downstream_only and (detected_article or reason_ingredient_only):
+            return False, "Target material is used only as an ingredient in a finished application"
+
+        if has_synthesis_evidence and centrality == "CENTRAL" and not reason_ingredient_only:
+            return True, "Target material is central and synthesis/latex/polymer preparation evidence is present"
+
+        if has_synthesis_evidence and not downstream_only and not detected_article:
+            return True, "Technical evidence indicates polymer preparation or synthesis"
+
+        return False, "No target material preparation or synthesis evidence identified"
+
     def _compute_primary_eligibility(
         self, verdict, relationship: str, *, llm_decision: str, strategy=None, title: str = ""
     ) -> tuple[bool, str, str]:
         """
         Authoritative primary eligibility.
         Separates material identity from qualifier UNKNOWN vs MISMATCH.
-        Returns (eligible, effective_relationship, variant_match_norm).
+        Decouples DOWNSTREAM_ADJACENT from blanket rejection when target material
+        is central and synthesis/preparation evidence exists.
+        Returns PrimaryEligibilityResult(eligible, effective_relationship, variant_match_norm).
         """
+        class _EligibilityTuple(tuple):
+            eligible: bool
+            effective_relationship: str
+            variant_match: str
+            is_synthesis_relevant: bool
+            reason: str
+
+            def __new__(
+                cls,
+                eligible: bool,
+                effective_relationship: str,
+                variant_match: str,
+                is_synthesis_relevant: bool = False,
+                reason: str = "",
+            ):
+                inst = super().__new__(cls, (eligible, effective_relationship, variant_match))
+                inst.eligible = eligible
+                inst.effective_relationship = effective_relationship
+                inst.variant_match = variant_match
+                inst.is_synthesis_relevant = is_synthesis_relevant
+                inst.reason = reason
+                return inst
+
         material_identity = self._norm_str_field(verdict, "material_identity", "UNKNOWN")
         variant_match = self._norm_str_field(verdict, "variant_match", "UNKNOWN")
+        target_match = self._norm_str_field(verdict, "target_match", "UNKNOWN")
         centrality = self._norm_str_field(verdict, "technical_centrality", "PARTIAL")
         downstream_only = bool(getattr(verdict, "downstream_only", False))
         variant_mismatch = bool(getattr(verdict, "variant_mismatch", False)) or variant_match == "MISMATCH"
@@ -602,26 +799,17 @@ class PipelineOrchestrator:
             "AMBIGUOUS",
         }
 
-        # RELATED is never primary (preserve anti-contamination).
-        if relationship == "RELATED_TARGET":
-            return False, relationship, variant_match
+        # Dynamic synthesis relevance check
+        is_synth_rel, synth_reason = self._detect_synthesis_relevance(
+            verdict, title=title, strategy=strategy
+        )
 
-        # Finished-product / ingredient uses are never primary.
-        if (
-            relationship == "DOWNSTREAM_ADJACENT"
-            or downstream_only
-            or cls_name == "DOWNSTREAM_APPLICATION"
-        ):
-            return False, "DOWNSTREAM_ADJACENT", variant_match
-
-        # Strategy downstream cues (from THIS run's profile) catch mislabeled article patents.
-        # Direct synthesis/polymerization of the base material is exempt.
-        if cls_name not in {"DIRECT_SYNTHESIS", "POLYMER_STRUCTURE"} and self._text_hits_strategy_downstream(
-            f"{detected} {title}", strategy
-        ):
-            return False, "DOWNSTREAM_ADJACENT", variant_match
+        # Dynamic check for excluded chemical variants in detected/title text
+        if self._text_hits_excluded_variants(f"{detected} {title}", strategy):
+            variant_mismatch = True
 
         effective_rel = relationship
+
         # Soft-correct REJECTED → PRIMARY when base material MATCH and synthesis-focused.
         if (
             material_identity == "MATCH"
@@ -648,30 +836,116 @@ class PipelineOrchestrator:
             and synthesis_focus
             and centrality in ("CENTRAL", "PARTIAL")
             and not variant_mismatch
-            and relationship not in ("RELATED_TARGET", "DOWNSTREAM_ADJACENT")
+            and relationship not in ("RELATED_TARGET",)
             and self._detected_aligns_with_base_material(detected, strategy)
         ):
             material_identity = "MATCH"
-            if effective_rel == "REJECTED":
+            if effective_rel in ("REJECTED", "DOWNSTREAM_ADJACENT"):
                 effective_rel = "PRIMARY_TARGET"
 
-        about_target = material_identity == "MATCH" and effective_rel == "PRIMARY_TARGET"
-        if not about_target:
-            return False, effective_rel, variant_match
+        # CASE 1: Material identity mismatch or UNRELATED classification -> REJECT
+        if material_identity == "MISMATCH" or cls_name == "UNRELATED":
+            return _EligibilityTuple(
+                False, effective_rel, variant_match, False, "Material identity is MISMATCH or UNRELATED for requested target"
+            )
 
-        if medium_mismatch:
-            return False, effective_rel, variant_match
+        # CASE 2: Qualifier / variant mismatch -> REJECT
         if variant_mismatch:
-            return False, effective_rel, variant_match
-        if centrality not in ("CENTRAL", "PARTIAL"):
-            return False, effective_rel, variant_match
+            return _EligibilityTuple(
+                False, effective_rel, variant_match, False, "Qualifier / variant is MISMATCH or excluded for requested target"
+            )
 
-        # Soft-KEEP LLM REJECT only when identity already MATCH after soft-corrects.
-        if decision != "KEEP" and material_identity != "MATCH":
-            return False, effective_rel, variant_match
+        # CASE 3: Target match mismatch -> REJECT
+        if target_match == "MISMATCH":
+            return _EligibilityTuple(
+                False, effective_rel, variant_match, False, "Target match overall is MISMATCH"
+            )
 
-        # MATCH or UNKNOWN qualifier → eligible. Never treat UNKNOWN as MISMATCH.
-        return True, "PRIMARY_TARGET", variant_match
+        # Medium mismatch -> REJECT
+        if medium_mismatch:
+            return _EligibilityTuple(
+                False, effective_rel, variant_match, False, "Polymerization medium mismatch"
+            )
+
+        # RELATED is never primary (preserve anti-contamination)
+        if relationship == "RELATED_TARGET" or effective_rel == "RELATED_TARGET":
+            return _EligibilityTuple(
+                False, "RELATED_TARGET", variant_match, is_synth_rel, "Classified as RELATED_TARGET (retained separately)"
+            )
+
+        # CASE 6: Centrality NONE without synthesis evidence -> REJECT
+        if centrality == "NONE" and not is_synth_rel:
+            return _EligibilityTuple(
+                False, effective_rel, variant_match, False, "Technical centrality is NONE and no synthesis evidence present"
+            )
+
+        # Downstream framing check:
+        is_downstream_framed = (
+            relationship == "DOWNSTREAM_ADJACENT"
+            or effective_rel == "DOWNSTREAM_ADJACENT"
+            or cls_name == "DOWNSTREAM_APPLICATION"
+            or downstream_only
+        )
+
+        if is_downstream_framed:
+            # CASE 4 & CASE 8: Target material is CENTRAL, material MATCH, qualifier MATCH/UNKNOWN,
+            # and actual synthesis/polymerization/preparation/latex evidence exists.
+            # If candidate was KEEP by LLM or has direct synthesis focus, retain it as PRIMARY_TARGET.
+            if (
+                material_identity == "MATCH"
+                and centrality == "CENTRAL"
+                and is_synth_rel
+                and not variant_mismatch
+                and (decision == "KEEP" or cls_name in {"DIRECT_SYNTHESIS", "TARGET_TRANSFORMATION"})
+            ):
+                reason_msg = (
+                    "Target material is central and synthesis/preparation evidence is present; "
+                    "DOWNSTREAM_ADJACENT classification alone does not exclude this patent."
+                )
+                return _EligibilityTuple(True, "PRIMARY_TARGET", variant_match, True, reason_msg)
+
+            # CASE 5: Peripheral centrality, or true finished product article, or rejected by LLM -> REJECT as DOWNSTREAM_ONLY
+            reason_msg = (
+                "Target material is used only as an ingredient/component in a downstream "
+                "application and no target-polymer preparation evidence is present."
+            )
+            return _EligibilityTuple(False, "DOWNSTREAM_ADJACENT", variant_match, False, reason_msg)
+
+        # Strategy downstream cues (from THIS run's profile) catch mislabeled article patents
+        if not is_synth_rel and self._text_hits_strategy_downstream(f"{detected} {title}", strategy):
+            return _EligibilityTuple(
+                False, "DOWNSTREAM_ADJACENT", variant_match, False, "Hit strategy downstream article keywords without synthesis evidence"
+            )
+
+        # CASE 7: Primary target with synthesis/preparation focus
+        if material_identity == "MATCH" and effective_rel == "PRIMARY_TARGET":
+            if centrality in ("CENTRAL", "PARTIAL") and is_synth_rel and decision == "KEEP":
+                return _EligibilityTuple(
+                    True, "PRIMARY_TARGET", variant_match, True, "Target material matches and synthesis/preparation focus confirmed"
+                )
+            if decision == "KEEP" and centrality in ("CENTRAL", "PARTIAL"):
+                return _EligibilityTuple(
+                    True, "PRIMARY_TARGET", variant_match, is_synth_rel, "Target material matches and LLM selected KEEP"
+                )
+
+        # Soft-KEEP LLM REJECT only when identity already MATCH after soft-corrects AND synthesis_focus is True
+        if decision != "KEEP":
+            if material_identity == "MATCH" and synthesis_focus and centrality in ("CENTRAL", "PARTIAL") and not variant_mismatch:
+                return _EligibilityTuple(
+                    True, "PRIMARY_TARGET", variant_match, is_synth_rel, "Soft-KEEP: Base material matches with synthesis focus"
+                )
+            return _EligibilityTuple(
+                False, effective_rel, variant_match, False, "Candidate rejected by LLM without direct target synthesis evidence"
+            )
+
+        if material_identity == "MATCH" and centrality in ("CENTRAL", "PARTIAL") and not variant_mismatch:
+            return _EligibilityTuple(
+                True, "PRIMARY_TARGET", variant_match, is_synth_rel, "Base material matches with eligible qualifier"
+            )
+
+        return _EligibilityTuple(
+            False, effective_rel, variant_match, False, "Insufficient target material evidence for primary selection"
+        )
 
     def _candidate_evidence_packet(self, c: dict) -> dict:
         return {
@@ -694,8 +968,350 @@ class PipelineOrchestrator:
         raw = getattr(verdict, "target_relationship", None)
         if raw is None:
             decision = getattr(verdict.final_decision, "value", str(verdict.final_decision))
-            return "PRIMARY_TARGET" if decision == "KEEP" else "REJECTED"
+            if decision == "KEEP":
+                return "PRIMARY_TARGET"
+            if decision == "REVIEW":
+                return "PRIMARY_TARGET"
+            return "REJECTED"
         return getattr(raw, "value", str(raw)).upper()
+
+    _SELECTION_REQUIRED_FIELDS = (
+        "patent_number",
+        "classification",
+        "variant_mismatch",
+        "polymerization_medium_mismatch",
+        "final_decision",
+        "confidence",
+        "reason",
+    )
+
+    @classmethod
+    def _missing_selection_fields(cls, obj: dict) -> list[str]:
+        missing = []
+        for f in cls._SELECTION_REQUIRED_FIELDS:
+            if f not in obj or obj.get(f) is None:
+                missing.append(f)
+            elif f == "reason" and not str(obj.get(f) or "").strip():
+                missing.append(f)
+        return missing
+
+    @classmethod
+    def _salvage_selection_candidates(
+        cls,
+        raw_text: str | None,
+        expected_numbers: set[str],
+    ) -> tuple[list[PatentSelectionCandidate], list[str], list[str]]:
+        """
+        Parse raw Gemini JSON and keep only candidates that fully validate.
+        Returns (valid_candidates, invalid_patent_notes, missing_field_names_seen).
+        """
+        valid: list[PatentSelectionCandidate] = []
+        invalid_notes: list[str] = []
+        missing_fields_seen: list[str] = []
+        if not raw_text:
+            return valid, invalid_notes, missing_fields_seen
+        try:
+            data = json.loads(raw_text)
+        except json.JSONDecodeError as e:
+            invalid_notes.append(f"malformed_json:{e}")
+            return valid, invalid_notes, missing_fields_seen
+
+        items = data.get("candidates") if isinstance(data, dict) else None
+        if not isinstance(items, list):
+            invalid_notes.append("missing_candidates_array")
+            return valid, invalid_notes, missing_fields_seen
+
+        seen: set[str] = set()
+        for item in items:
+            if not isinstance(item, dict):
+                invalid_notes.append("non_object_candidate")
+                continue
+            pnum = str(item.get("patent_number") or "").strip()
+            if not pnum:
+                invalid_notes.append("missing_patent_number")
+                continue
+            if pnum not in expected_numbers:
+                invalid_notes.append(f"unknown_patent:{pnum}")
+                continue
+            if pnum in seen:
+                invalid_notes.append(f"duplicate_patent:{pnum}")
+                continue
+            missing = cls._missing_selection_fields(item)
+            if missing:
+                missing_fields_seen.extend(missing)
+                invalid_notes.append(f"incomplete:{pnum}:missing={missing}")
+                continue
+            try:
+                cand = PatentSelectionCandidate.model_validate(item)
+            except Exception as ve:
+                invalid_notes.append(f"validation:{pnum}:{ve}")
+                continue
+            seen.add(pnum)
+            valid.append(cand)
+        # Deduplicate missing field names while preserving order
+        uniq_missing: list[str] = []
+        for f in missing_fields_seen:
+            if f not in uniq_missing:
+                uniq_missing.append(f)
+        return valid, invalid_notes, uniq_missing
+
+    def _deterministic_review_verdict(
+        self,
+        cand: dict,
+        strategy,
+        *,
+        reason_prefix: str = "LLM verdict unavailable",
+    ) -> PatentSelectionCandidate:
+        """
+        Application fallback when Gemini provides no usable verdict.
+        Never pretends to be an LLM KEEP/REJECT with high confidence.
+        Only hard-reject when evidence clearly shows excluded variant or
+        clearly unrelated / downstream-only finished article.
+        """
+        title = (cand.get("title") or "").lower()
+        snippet = (cand.get("snippet") or "").lower()
+        abstract = (cand.get("abstract") or "").lower()
+        blob = f"{title} {snippet} {abstract}"
+
+        # Clear excluded-variant mismatch → technical REJECT
+        for excl in getattr(strategy, "excluded_variants", None) or []:
+            term = str(excl or "").strip().lower()
+            if len(term) >= 3 and term in blob:
+                return PatentSelectionCandidate(
+                    patent_number=cand.get("patent_number", ""),
+                    classification=TitleTriageClassification.UNRELATED,
+                    variant_mismatch=True,
+                    polymerization_medium_mismatch=False,
+                    final_decision=SelectionDecision.REJECT,
+                    confidence=0.0,
+                    reason=(
+                        f"{reason_prefix}; deterministic REJECT: excluded variant "
+                        f"evidence ({excl!r}) in title/snippet/abstract"
+                    ),
+                    technical_centrality=TechnicalCentrality.NONE,
+                    target_relationship=TargetRelationship.REJECTED,
+                    material_identity="MISMATCH",
+                    variant_match="MISMATCH",
+                    rejection_category="QUALIFIER_MISMATCH",
+                    evidence_strength=0.0,
+                )
+
+        # Clear finished-article downstream cues with no synthesis language → REJECT
+        synthesis_cues = any(
+            tok in blob
+            for tok in (
+                "polymeriz", "synthesis", "preparation", "preparing",
+                "copolymer", "emulsion", "latex", "manufactur",
+            )
+        )
+        downstream_hit = self._text_hits_strategy_downstream(blob, strategy)
+        if downstream_hit and not synthesis_cues:
+            return PatentSelectionCandidate(
+                patent_number=cand.get("patent_number", ""),
+                classification=TitleTriageClassification.DOWNSTREAM_APPLICATION,
+                variant_mismatch=False,
+                polymerization_medium_mismatch=False,
+                final_decision=SelectionDecision.REJECT,
+                confidence=0.0,
+                reason=(
+                    f"{reason_prefix}; deterministic REJECT: downstream-only indicators "
+                    "without synthesis/polymerization evidence"
+                ),
+                technical_centrality=TechnicalCentrality.PERIPHERAL,
+                target_relationship=TargetRelationship.DOWNSTREAM_ADJACENT,
+                downstream_only=True,
+                rejection_category="DOWNSTREAM_ONLY",
+                evidence_strength=0.0,
+            )
+
+        # Base-material token overlap → REVIEW (unverified, not technical reject)
+        base_hit = False
+        for term in getattr(strategy, "base_material", None) or []:
+            t = str(term or "").strip().lower()
+            if len(t) >= 2 and t in blob:
+                base_hit = True
+                break
+        compound = str(getattr(strategy, "original_input", "") or "").lower()
+        if not base_hit and compound:
+            for tok in re.findall(r"[a-z0-9]{3,}", compound):
+                if tok in blob:
+                    base_hit = True
+                    break
+
+        return PatentSelectionCandidate(
+            patent_number=cand.get("patent_number", ""),
+            classification=(
+                TitleTriageClassification.AMBIGUOUS
+                if base_hit
+                else TitleTriageClassification.AMBIGUOUS
+            ),
+            variant_mismatch=False,
+            polymerization_medium_mismatch=False,
+            final_decision=SelectionDecision.REVIEW,
+            confidence=0.0,
+            reason=(
+                f"{reason_prefix}; marked REVIEW/UNVERIFIED pending human or later review "
+                f"(base_material_evidence={'yes' if base_hit else 'weak'})"
+            ),
+            technical_centrality=(
+                TechnicalCentrality.PARTIAL if base_hit else TechnicalCentrality.PERIPHERAL
+            ),
+            target_relationship=TargetRelationship.PRIMARY_TARGET,
+            material_identity="UNKNOWN",
+            variant_match="UNKNOWN",
+            medium_match="NOT_APPLICABLE",
+            rejection_category="INSUFFICIENT_TARGET_EVIDENCE",
+            evidence_strength=0.0,
+            evidence=[],
+        )
+
+    async def _call_selection_llm_with_repair(
+        self,
+        prompt: str,
+        batch: list,
+        *,
+        batch_index: int,
+    ) -> tuple[list[PatentSelectionCandidate], dict]:
+        """
+        Call Gemini for a selection batch. On validation failure: salvage + one repair retry.
+        Never treats validation failure as mass technical REJECT.
+        """
+        expected = {c.get("patent_number", "") for c in batch if c.get("patent_number")}
+        meta = {
+            "gemini_candidates": 0,
+            "schema_validation": "FAIL",
+            "retry_validation": None,
+            "missing_fields": [],
+            "invalid_notes": [],
+            "salvaged": 0,
+            "llm_call_failed": False,
+        }
+
+        result, _, usage = await llm_client.generate_structured(
+            prompt=prompt,
+            system_prompt=(
+                "You are a JSON generator. Return ONLY valid JSON matching the "
+                "PatentSelectionResult schema. Do not omit required fields. "
+                "Do not include markdown blocks."
+            ),
+            schema=PatentSelectionResult,
+            temperature=0.1,
+        )
+
+        valid: list[PatentSelectionCandidate] = []
+        if result and getattr(result, "candidates", None):
+            # Filter to expected numbers; drop unknowns/duplicates
+            seen: set[str] = set()
+            for cand in result.candidates:
+                pnum = cand.patent_number
+                if pnum not in expected:
+                    meta["invalid_notes"].append(f"unknown_patent:{pnum}")
+                    continue
+                if pnum in seen:
+                    meta["invalid_notes"].append(f"duplicate_patent:{pnum}")
+                    continue
+                seen.add(pnum)
+                valid.append(cand)
+            meta["gemini_candidates"] = len(result.candidates)
+            meta["schema_validation"] = "PASS"
+            meta["salvaged"] = len(valid)
+            return valid, meta
+
+        # Validation failed or empty — attempt salvage from raw response
+        raw_text = (usage or {}).get("raw_response_text")
+        validation_error = (usage or {}).get("validation_error") or "empty_or_invalid_response"
+        logger.warning(
+            "[LLM PATENT SELECTION] Schema validation: FAIL | batch=%d | error=%s",
+            batch_index,
+            str(validation_error)[:500],
+        )
+        salvaged, notes, missing_fields = self._salvage_selection_candidates(raw_text, expected)
+        meta["invalid_notes"].extend(notes)
+        meta["missing_fields"] = missing_fields
+        meta["salvaged"] = len(salvaged)
+        if salvaged:
+            logger.info(
+                "[LLM PATENT SELECTION] Salvaged %d/%d candidates from partial response",
+                len(salvaged),
+                len(expected),
+            )
+            valid = list(salvaged)
+
+        still_missing = expected - {c.patent_number for c in valid}
+        if not still_missing:
+            meta["schema_validation"] = "PARTIAL_SALVAGE_COMPLETE"
+            return valid, meta
+
+        # Repair retry for missing / incomplete candidates
+        logger.info(
+            "[LLM PATENT SELECTION] Retrying structured response... missing_fields=%s "
+            "still_missing_patents=%d",
+            missing_fields or self._SELECTION_REQUIRED_FIELDS,
+            len(still_missing),
+        )
+        missing_list = ", ".join(missing_fields) if missing_fields else ", ".join(
+            self._SELECTION_REQUIRED_FIELDS
+        )
+        still_json = json.dumps(sorted(still_missing))
+        repair_prompt = (
+            prompt
+            + "\n\nREPAIR INSTRUCTION:\n"
+            "The previous response failed schema validation or omitted required fields / patents.\n"
+            f"Missing or invalid fields observed: {missing_list}.\n"
+            f"Patents that still need a COMPLETE object: {still_json}.\n"
+            "Return a complete PatentSelectionResult JSON with a 'candidates' array containing "
+            "exactly one COMPLETE object for EACH listed patent_number.\n"
+            "Every object MUST include: patent_number, classification, variant_mismatch, "
+            "polymerization_medium_mismatch, final_decision, confidence, reason "
+            "(and the other documented fields).\n"
+            "Do not omit any field. Do not invent patent numbers."
+        )
+        try:
+            retry_result, _, retry_usage = await llm_client.generate_structured(
+                prompt=repair_prompt,
+                system_prompt=(
+                    "You are a JSON generator repairing an incomplete PatentSelectionResult. "
+                    "Do not omit required fields. No markdown."
+                ),
+                schema=PatentSelectionResult,
+                temperature=0.1,
+            )
+        except Exception as e:
+            logger.error("[LLM PATENT SELECTION] Repair call failed: %s", e)
+            meta["retry_validation"] = "FAIL"
+            meta["llm_call_failed"] = True
+            return valid, meta
+
+        if retry_result and getattr(retry_result, "candidates", None):
+            meta["retry_validation"] = "PASS"
+            have = {c.patent_number for c in valid}
+            for cand in retry_result.candidates:
+                if cand.patent_number in still_missing and cand.patent_number not in have:
+                    valid.append(cand)
+                    have.add(cand.patent_number)
+            meta["gemini_candidates"] = max(
+                meta["gemini_candidates"], len(retry_result.candidates)
+            )
+        else:
+            meta["retry_validation"] = "FAIL"
+            raw2 = (retry_usage or {}).get("raw_response_text")
+            salvaged2, notes2, missing2 = self._salvage_selection_candidates(raw2, still_missing)
+            meta["invalid_notes"].extend(notes2)
+            if missing2:
+                meta["missing_fields"] = list(
+                    dict.fromkeys(meta["missing_fields"] + missing2)
+                )
+            have = {c.patent_number for c in valid}
+            for cand in salvaged2:
+                if cand.patent_number not in have:
+                    valid.append(cand)
+                    have.add(cand.patent_number)
+            logger.warning(
+                "[LLM PATENT SELECTION] Retry validation: FAIL | salvaged_after_retry=%d",
+                len(salvaged2),
+            )
+
+        return valid, meta
 
     async def _select_patents_via_llm(
         self,
@@ -706,7 +1322,7 @@ class PipelineOrchestrator:
         batch_size: int = 50,
         max_keep: int = 10,
     ) -> list:
-        """Evidence-aware selection via batched LLM — authoritative PRIMARY KEEP/REJECT."""
+        """Evidence-aware selection via batched LLM — authoritative PRIMARY KEEP/REJECT/REVIEW."""
         if not hasattr(self, "_filter_stats"):
             self._reset_filter_stats()
         self._related_candidates = []
@@ -747,7 +1363,15 @@ class PipelineOrchestrator:
             candidates_json="{candidates_json}",
         )
 
+        logger.info(
+            "[LLM PATENT SELECTION] Input candidates: %d",
+            len(candidates),
+        )
+
         selection_by_number: dict = {}
+        total_gemini_returned = 0
+        any_validation_fail = False
+
         for i in range(0, len(candidates), batch_size):
             batch = candidates[i : i + batch_size]
             batch_json = json.dumps(
@@ -756,43 +1380,79 @@ class PipelineOrchestrator:
             )
             prompt = prompt_template.replace("{candidates_json}", batch_json)
             try:
-                result, _, _ = await llm_client.generate_structured(
-                    prompt=prompt,
-                    system_prompt="You are a JSON generator. Do not include markdown blocks.",
-                    schema=PatentSelectionResult,
-                    temperature=0.1,
+                valid, meta = await self._call_selection_llm_with_repair(
+                    prompt, batch, batch_index=i
                 )
-                if result and getattr(result, "candidates", None):
-                    for cand in result.candidates:
-                        selection_by_number[cand.patent_number] = cand
+                total_gemini_returned += meta.get("gemini_candidates", 0) or len(valid)
+                if meta.get("schema_validation") == "FAIL" or meta.get("retry_validation") == "FAIL":
+                    any_validation_fail = True
+                if meta.get("invalid_notes"):
+                    self._filter_stats["selection_invalid_llm_objects"] += len(
+                        meta["invalid_notes"]
+                    )
+                    logger.warning(
+                        "[LLM PATENT SELECTION] Invalid candidates: %s",
+                        meta["invalid_notes"][:20],
+                    )
+                if meta.get("missing_fields"):
+                    logger.warning(
+                        "[LLM PATENT SELECTION] Missing fields: %s",
+                        meta["missing_fields"],
+                    )
+                for cand in valid:
+                    selection_by_number[cand.patent_number] = cand
             except Exception as e:
+                any_validation_fail = True
                 logger.error(
                     "[LLM PATENT SELECTION] Failed for batch %d-%d: %s",
                     i,
                     i + len(batch),
                     str(e),
                 )
+                self._filter_stats["selection_llm_failure"] += len(batch)
+
+        logger.info(
+            "[LLM PATENT SELECTION] Gemini response candidates: %d | "
+            "mapped_valid_verdicts: %d | schema_had_failures: %s",
+            total_gemini_returned,
+            len(selection_by_number),
+            any_validation_fail,
+        )
+
+        # Fill gaps with deterministic REVIEW / clear-mismatch REJECT — never silent REJECT-as-NO_VERDICT
+        for cand in candidates:
+            pnum = cand.get("patent_number", "")
+            if pnum and pnum not in selection_by_number:
+                self._filter_stats["selection_llm_partial_missing"] += 1
+                selection_by_number[pnum] = self._deterministic_review_verdict(
+                    cand,
+                    strategy,
+                    reason_prefix="No usable LLM verdict after validation/repair",
+                )
+                fb = selection_by_number[pnum]
+                fb_dec = getattr(fb.final_decision, "value", str(fb.final_decision))
+                logger.info(
+                    "[LLM PATENT SELECTION] %s → deterministic fallback decision=%s "
+                    "(LLM missing/invalid — not counted as NO_VERDICT silent REJECT)",
+                    pnum,
+                    fb_dec,
+                )
 
         # Evaluate EVERY candidate first — do not early-break on max_keep.
         kept_pairs: list[tuple] = []  # (rank_tuple, candidate_dict)
         related_pairs: list[tuple] = []
+        review_pairs: list[tuple] = []
 
         for cand in candidates:
             self._filter_stats["reached_selection"] += 1
             pnum = cand.get("patent_number", "")
             verdict = selection_by_number.get(pnum)
             if verdict is None:
-                self._filter_stats["selection_reject_other"] += 1
-                logger.info(
-                    "[PATENT SELECTION] %s | decision=REJECT | classification=NO_VERDICT | "
-                    "confidence=0 | technical_centrality=NONE | target_match=UNKNOWN | "
-                    "target_relationship=REJECTED | detected_primary_material= | "
-                    "medium_match=UNKNOWN | downstream_only=False | primary_selection=REJECT | "
-                    "related_retention=NO | sources=%s | reason=No LLM verdict returned",
-                    pnum,
-                    ",".join(cand.get("selection_evidence_sources") or ["title", "snippet"]),
+                # Should not happen after fallback fill — belt and suspenders
+                verdict = self._deterministic_review_verdict(
+                    cand, strategy, reason_prefix="Internal gap: missing verdict map entry"
                 )
-                continue
+                selection_by_number[pnum] = verdict
 
             cls_name = getattr(verdict.classification, "value", str(verdict.classification))
             llm_decision = getattr(verdict.final_decision, "value", str(verdict.final_decision))
@@ -807,28 +1467,83 @@ class PipelineOrchestrator:
             variant_mismatch = bool(verdict.variant_mismatch) or variant_match == "MISMATCH"
             medium_mismatch = bool(verdict.polymerization_medium_mismatch)
 
-            primary_keep, effective_rel, variant_match = self._compute_primary_eligibility(
+            # REVIEW / UNVERIFIED path — not a technical rejection
+            if llm_decision == "REVIEW":
+                self._filter_stats["selection_unverified"] += 1
+                if "No usable LLM" in (verdict.reason or "") or "LLM verdict unavailable" in (
+                    verdict.reason or ""
+                ):
+                    self._filter_stats["selection_llm_failure"] += 1
+                cand["selection_classification"] = verdict.classification
+                cand["selection_variant_mismatch"] = variant_mismatch
+                cand["selection_medium_mismatch"] = medium_mismatch
+                cand["selection_decision"] = "REVIEW"
+                cand["selection_reason"] = verdict.reason
+                cand["selection_confidence"] = 0.0
+                cand["selection_technical_centrality"] = centrality_s
+                cand["selection_target_match"] = getattr(verdict, "target_match", "unknown")
+                cand["selection_variant_match"] = variant_match
+                cand["selection_medium_match"] = getattr(verdict, "medium_match", "not_applicable")
+                cand["selection_downstream_only"] = bool(getattr(verdict, "downstream_only", False))
+                cand["selection_evidence"] = list(getattr(verdict, "evidence", None) or [])
+                cand["selection_evidence_strength"] = 0.0
+                cand["selection_target_relationship"] = "PRIMARY_TARGET"
+                cand["selection_material_identity"] = material_identity
+                cand["selection_detected_primary_material"] = detected_material
+                cand["selection_retain_as_related"] = False
+                cand["selection_rejection_category"] = "LLM_UNVERIFIED"
+                cand["triage_classification"] = verdict.classification
+                cand["ft_category"] = cls_name
+                logger.info(
+                    "[PATENT SELECTION] %s | decision=REVIEW | classification=%s | "
+                    "confidence=0 | technical_centrality=%s | target_match=UNKNOWN | "
+                    "target_relationship=PRIMARY_TARGET | reason=%s | "
+                    "NOTE=not counted as technical REJECT",
+                    pnum,
+                    cls_name,
+                    centrality_s,
+                    verdict.reason,
+                )
+                review_pairs.append((self._selection_rank_tuple(verdict), cand))
+                continue
+
+            eligibility = self._compute_primary_eligibility(
                 verdict,
                 relationship,
                 llm_decision=llm_decision,
                 strategy=strategy,
                 title=cand.get("title") or "",
             )
+            primary_keep = eligibility.eligible
+            effective_rel = eligibility.effective_relationship
+            variant_match = eligibility.variant_match
+            is_synth_rel = getattr(eligibility, "is_synthesis_relevant", False)
+            select_reason = getattr(eligibility, "reason", "")
+
             if primary_keep and llm_decision != "KEEP":
                 logger.info(
                     "[PATENT SELECTION] Soft-KEEP %s: material identity eligible with "
-                    "variant_match=%s (LLM had final_decision=%s)",
+                    "variant_match=%s (LLM had final_decision=%s) | reason=%s",
                     pnum,
                     variant_match,
                     llm_decision,
+                    select_reason,
                 )
-            if (not primary_keep) and llm_decision == "KEEP" and effective_rel != "PRIMARY_TARGET":
+            elif primary_keep and relationship == "DOWNSTREAM_ADJACENT":
+                logger.info(
+                    "[PATENT SELECTION] Downstream-KEEP %s: target material central and "
+                    "synthesis/preparation evidence present | reason=%s",
+                    pnum,
+                    select_reason,
+                )
+            elif (not primary_keep) and llm_decision == "KEEP":
                 logger.warning(
                     "[PATENT SELECTION] Demoting %s from KEEP: target_relationship=%s "
-                    "material_identity=%s",
+                    "material_identity=%s | reason=%s",
                     pnum,
                     effective_rel,
                     material_identity,
+                    select_reason,
                 )
 
             rejection_category = ""
@@ -850,6 +1565,8 @@ class PipelineOrchestrator:
             cand["selection_medium_mismatch"] = medium_mismatch
             cand["selection_decision"] = "KEEP" if primary_keep else "REJECT"
             cand["selection_reason"] = verdict.reason
+            cand["selection_decision_reason"] = select_reason
+            cand["selection_synthesis_relevance"] = is_synth_rel
             cand["selection_confidence"] = verdict.confidence
             cand["selection_technical_centrality"] = centrality_s
             cand["selection_target_match"] = getattr(verdict, "target_match", "unknown")
@@ -874,10 +1591,10 @@ class PipelineOrchestrator:
                 "Target relationship: %s | Technical centrality: %s | "
                 "Qualifier/variant match: %s | Target match: %s | "
                 "invention_focus=%s | Primary selection: %s | Related retention: %s | "
-                "rejection_category=%s | decision=%s | classification=%s | "
-                "confidence=%.2f | material_identity_confidence=%.2f | "
-                "medium_match=%s | downstream_only=%s | "
-                "sources=%s | reason=%s",
+                "synthesis_relevance=%s | rejection_category=%s | decision=%s | "
+                "classification=%s | confidence=%.2f | material_identity_confidence=%.2f | "
+                "medium_match=%s | downstream_only=%s | sources=%s | "
+                "selection_reason=%s | reason=%s",
                 pnum,
                 run.compound_name,
                 detected_material or "unknown",
@@ -889,6 +1606,7 @@ class PipelineOrchestrator:
                 cls_name,
                 "KEEP" if primary_keep else "REJECT",
                 "YES" if (not primary_keep and retain_related) else "NO",
+                "YES" if is_synth_rel else "NO",
                 rejection_category or "-",
                 cand["selection_decision"],
                 cls_name,
@@ -897,12 +1615,13 @@ class PipelineOrchestrator:
                 cand["selection_medium_match"],
                 cand["selection_downstream_only"],
                 ",".join(cand.get("selection_evidence_sources") or ["title", "snippet"]),
+                select_reason,
                 verdict.reason,
             )
 
             if primary_keep:
                 self._filter_stats["selection_keep"] += 1
-                kept_pairs.append((self._selection_rank_tuple(verdict), cand))
+                kept_pairs.append((self._selection_rank_tuple(verdict, synthesis_relevance=is_synth_rel), cand))
                 continue
 
             if retain_related and effective_rel == "RELATED_TARGET":
@@ -918,7 +1637,6 @@ class PipelineOrchestrator:
                 self._filter_stats["selection_reject_medium"] += 1
             else:
                 self._filter_stats["selection_reject_other"] += 1
-                # Track finer categories without material-specific names.
                 key = f"reject_{rejection_category.lower()}" if rejection_category else "reject_other"
                 self._filter_stats[key] = self._filter_stats.get(key, 0) + 1
 
@@ -930,14 +1648,44 @@ class PipelineOrchestrator:
         # Cap related separately — never pad primary with related.
         self._related_candidates = [c for _, c in related_pairs[:max_keep]]
 
+        # If no KEEP survived but REVIEW/UNVERIFIED exist, promote them so LLM failure
+        # does not empty the pipeline (SELECTION_EMPTY from validation alone).
+        review_pairs.sort(key=lambda x: x[0], reverse=True)
+        if not selected and review_pairs:
+            selected = [c for _, c in review_pairs[:max_keep]]
+            logger.warning(
+                "[LLM PATENT SELECTION] No KEEP verdicts; promoting %d REVIEW/UNVERIFIED "
+                "candidates so LLM failure does not mass-reject the pool",
+                len(selected),
+            )
+
+        technical_rejects = (
+            self._filter_stats["selection_reject_variant"]
+            + self._filter_stats["selection_reject_downstream"]
+            + self._filter_stats["selection_reject_medium"]
+            + self._filter_stats["selection_reject_other"]
+        )
+        logger.info(
+            "[LLM PATENT SELECTION] Valid verdicts: %d | Unverified: %d | "
+            "Technical rejects: %d | Kept: %d | Related: %d",
+            len(selection_by_number) - self._filter_stats["selection_unverified"],
+            self._filter_stats["selection_unverified"],
+            technical_rejects,
+            self._filter_stats["selection_keep"],
+            len(self._related_candidates),
+        )
+
         logger.info(
             "[PATENT SELECTION SUMMARY] entered=%d keep_before_cap=%d keep_after_cap=%d "
-            "related_retained=%d reject_variant=%d reject_downstream=%d reject_medium=%d "
-            "reject_other=%d max_keep=%d | category_counts=%s",
+            "related_retained=%d unverified=%d llm_failure=%d reject_variant=%d "
+            "reject_downstream=%d reject_medium=%d reject_other=%d max_keep=%d | "
+            "category_counts=%s",
             self._filter_stats["reached_selection"],
             self._filter_stats["selection_keep"],
             len(selected),
             len(self._related_candidates),
+            self._filter_stats["selection_unverified"],
+            self._filter_stats["selection_llm_failure"],
             self._filter_stats["selection_reject_variant"],
             self._filter_stats["selection_reject_downstream"],
             self._filter_stats["selection_reject_medium"],
@@ -961,11 +1709,17 @@ class PipelineOrchestrator:
         """Fail loudly (log + drop) if a non-PRIMARY patent leaked into the primary list."""
         clean = []
         for cand in selected_candidates:
+            # REVIEW/UNVERIFIED survivors are allowed through when LLM failed —
+            # they are not technical PRIMARY claims but must not be discarded here.
+            if (cand.get("selection_decision") or "").upper() == "REVIEW":
+                clean.append(cand)
+                continue
             rel = (cand.get("selection_target_relationship") or "PRIMARY_TARGET").upper()
             pnum = cand.get("patent_number", "")
             vm = str(cand.get("selection_variant_match") or "UNKNOWN").upper()
             cls = str(cand.get("ft_category") or cand.get("selection_classification") or "").upper()
-            if "DOWNSTREAM_APPLICATION" in cls or cand.get("selection_downstream_only"):
+            synth_rel = bool(cand.get("selection_synthesis_relevance", False))
+            if ("DOWNSTREAM_APPLICATION" in cls or cand.get("selection_downstream_only")) and not synth_rel:
                 logger.error(
                     "[INTEGRITY] Dropping %s from primary manifest: downstream/ingredient focus",
                     pnum,
@@ -1067,8 +1821,9 @@ class PipelineOrchestrator:
                 parsed_patent.metadata["assignee"] = (
                     (parsed_patent.metadata.get("assignee") or "").strip() or cand_assignee
                 )
-            if candidate.get("title") and not (parsed_patent.title or "").strip():
-                parsed_patent.title = candidate["title"]
+            parsed_patent.title = prefer_source_title(
+                parsed_patent.title, candidate.get("title") or ""
+            )
 
             logger.info(
                 "[FETCH SUCCESS] patent number: %s | URL: %s | assignee=%s",
@@ -1087,7 +1842,9 @@ class PipelineOrchestrator:
                 continue
 
             ext.metadata.patent_number = candidate["patent_number"]
-            ext.metadata.patent_title = candidate["title"]
+            ext.metadata.patent_title = prefer_source_title(
+                parsed_patent.title, candidate.get("title") or ""
+            )
             # Never let empty LLM/placeholder overwrite authoritative assignee
             authoritative_assignee = (
                 cand_assignee
@@ -1127,6 +1884,18 @@ class PipelineOrchestrator:
 
             try:
                 # ── Step 1 & 2: Strategy & Search
+                logger.info("[PIPELINE] RUN START | run_id=%s compound=%r", self.run_id, run.compound_name)
+                logger.info(
+                    "[PIPELINE] INPUT VALIDATED | compound=%r jurisdictions=%s publication_filter=%s competitors=%s websites=%s attribute_constraint=%s polymerization_medium=%s",
+                    run.compound_name,
+                    run.jurisdictions,
+                    run.publication_filter,
+                    run.competitors,
+                    run.mentioned_websites,
+                    getattr(run, "attribute_constraint", None),
+                    getattr(run, "polymerization_medium", None) or "any",
+                )
+
                 set_current_stage(TelemetryStage.QUERY_EXPANSION)
                 await self._update_status(session, run, RunStatus.SEARCHING)
                 
@@ -1144,19 +1913,31 @@ class PipelineOrchestrator:
                 )
                 
                 logger.info("[LLM CALL 1] QUERY_EXPANSION")
-                strategy = await self.search_service.generate_strategy(
-                    compound_name=run.compound_name,
-                    competitors=run.competitors,
-                    websites=run.mentioned_websites,
-                    jurisdictions=run.jurisdictions,
-                    publication_filter=run.publication_filter,
-                    attribute_constraint=getattr(run, "attribute_constraint", None),
-                    polymerization_medium=getattr(run, "polymerization_medium", None) or "any",
+                logger.info("[PIPELINE] QUERY_EXPANSION START")
+                from app.services.pipeline.search_service import SearchPreparationError
+
+                try:
+                    strategy = await self.search_service.generate_strategy(
+                        compound_name=run.compound_name,
+                        competitors=run.competitors,
+                        websites=run.mentioned_websites,
+                        jurisdictions=run.jurisdictions,
+                        publication_filter=run.publication_filter,
+                        attribute_constraint=getattr(run, "attribute_constraint", None),
+                        polymerization_medium=getattr(run, "polymerization_medium", None) or "any",
+                    )
+                except SearchPreparationError as prep_err:
+                    logger.error("[SEARCH_PREPARATION_FAILURE] %s", prep_err)
+                    raise
+
+                logger.info(
+                    "[PIPELINE] QUERY_EXPANSION END | queries_generated=%d",
+                    len(strategy.search_queries or []),
                 )
                 logger.info("[QUERY_EXPANSION] Target compound: %s", run.compound_name)
                 logger.info("[QUERY_EXPANSION] Number of generated queries: %d", len(strategy.search_queries))
                 logger.info("[QUERY_EXPANSION] All 15 queries: %s", strategy.search_queries)
-                
+
                 search_queries = list(strategy.search_queries)
                 if run.competitors:
                     for comp in run.competitors:
@@ -1164,7 +1945,7 @@ class PipelineOrchestrator:
                 if run.mentioned_websites:
                     for site in run.mentioned_websites:
                         search_queries.append(f'"{run.compound_name}" site:{site}')
-                        
+
                 # Deduplicate queries while preserving order
                 unique_queries = []
                 seen_q = set()
@@ -1174,21 +1955,40 @@ class PipelineOrchestrator:
                         unique_queries.append(q)
                         seen_q.add(q_str)
                 search_queries = unique_queries
-                
+
+                if not search_queries:
+                    raise SearchPreparationError(
+                        "SEARCH_PREPARATION_FAILURE: zero queries after strategy assembly; "
+                        "Serper was not called. This is not a patent-availability failure."
+                    )
+
                 set_current_stage(TelemetryStage.PATENT_SEARCH)
+                logger.info("[PIPELINE] SEARCH START | queries_count=%d", len(search_queries))
+                from app.core.telemetry import heartbeat
+                heartbeat(progress="General patent search")
                 patent_candidates = await self.search_service.search_patents(search_queries)
+                logger.info("[PIPELINE] SEARCH END | candidates_found=%d", len(patent_candidates))
                 logger.info("[ORCHESTRATOR] Raw results: %d", len(patent_candidates))
+                logger.info(
+                    "[SEARCH] queries_sent_to_serper=%d candidates_returned=%d",
+                    len(search_queries),
+                    len(patent_candidates),
+                )
 
                 # Track executed query strings for adaptive expansion dedup
                 _executed_query_strings: set[str] = {
                     (q.query if hasattr(q, "query") else str(q)).strip().lower()
                     for q in search_queries
                 }
-                
+
                 if not patent_candidates:
-                    raise Exception("No patents found for the given compound.")
+                    raise Exception(
+                        "SEARCH_RETURNED_ZERO_RESULTS: No patents found for the given compound "
+                        f"after executing {len(search_queries)} search queries."
+                    )
                     
                 # ── Apply Hard Filters (Jurisdiction & Date)
+                logger.info("[PIPELINE] FILTER START | raw_candidates=%d", len(patent_candidates))
                 filtered_candidates = []
                 jurisdictions_filter = [j.upper() for j in run.jurisdictions] if run.jurisdictions else []
                 min_year = None
@@ -1231,6 +2031,8 @@ class PipelineOrchestrator:
                 removed_by_pub_dedup = len(patent_candidates) - len(dedup_candidates)
                 
                 # Family Deduplication First
+                from app.core.telemetry import heartbeat
+                heartbeat(progress="Deduplication")
                 set_current_stage(TelemetryStage.FAMILY_DEDUPLICATION)
                 family_groups = {}
                 for cand in dedup_candidates:
@@ -1488,6 +2290,10 @@ class PipelineOrchestrator:
                     )
 
                 logger.info(
+                    "[PIPELINE] FILTER END | candidates_remaining=%d",
+                    len(family_deduped),
+                )
+                logger.info(
                     "[SEARCH ADEQUACY] Final verdict after %d round(s): adequacy=%s | "
                     "candidates=%d | direct_material=%d | synthesis=%d | unrelated_rate=%.2f",
                     _search_round,
@@ -1507,6 +2313,10 @@ class PipelineOrchestrator:
                 self._reset_filter_stats()
                 set_current_stage(TelemetryStage.PATENT_RANKING)
                 await self._update_status(session, run, RunStatus.FILTERING)
+                logger.info(
+                    "[PIPELINE] RANK START | candidates_to_rank=%d",
+                    len(family_deduped),
+                )
 
                 logger.info(
                     "[LLM PATENT SELECTION] Starting selection for %d candidates...",
@@ -1531,6 +2341,11 @@ class PipelineOrchestrator:
                     len(related_candidates),
                     related_manifest,
                 )
+                logger.info(
+                    "[PIPELINE] RANK END | selected_patents=%d related_patents=%d",
+                    len(selected_candidates),
+                    len(related_candidates),
+                )
 
                 if not selected_candidates:
                     raise Exception(
@@ -1538,6 +2353,46 @@ class PipelineOrchestrator:
                             reached_validation=self._filter_stats["reached_selection"],
                         )
                     )
+
+                if run.competitors:
+                    from app.core.config import settings as app_settings
+                    from app.core.telemetry import heartbeat
+                    from app.services.pipeline.assignee_search import discover_assignee_patents
+
+                    material_terms = list(getattr(strategy, "base_material", None) or [])
+                    if run.compound_name not in material_terms:
+                        material_terms.insert(0, run.compound_name)
+                    try:
+                        assignee_result = await discover_assignee_patents(
+                            self.search_service.search_patents,
+                            list(run.competitors),
+                            compound_name=run.compound_name,
+                            material_terms=material_terms,
+                            jurisdictions=jurisdictions_filter,
+                            publication_filter=run.publication_filter,
+                            selected_candidates=selected_candidates,
+                            single_max=app_settings.ASSIGNEE_MAX_PATENTS_WHEN_SINGLE,
+                            progress=lambda message: heartbeat(progress=message),
+                            evidence_fn=self.fetcher_service.fetch_selection_evidence,
+                            document_budget=app_settings.ASSIGNEE_DOCUMENT_CHECKS,
+                        )
+                        selected_candidates.extend(assignee_result.added)
+                        selected_manifest = [
+                            c.get("patent_number") for c in selected_candidates if c.get("patent_number")
+                        ]
+                        logger.info(
+                            "[ASSIGNEE SEARCH] added=%d notes=%s combined_limit=%d general_kept=%d",
+                            len(assignee_result.added),
+                            assignee_result.notes,
+                            len(selected_candidates),
+                            len(selected_manifest) - len(assignee_result.added),
+                        )
+                    except Exception as assignee_exc:
+                        logger.error(
+                            "[ASSIGNEE SEARCH] unavailable (%s); general selection unchanged",
+                            type(assignee_exc).__name__,
+                        )
+                        heartbeat(progress="Assignee search unavailable")
 
                 for i, candidate in enumerate(selected_candidates):
                     logger.info(
@@ -1552,8 +2407,12 @@ class PipelineOrchestrator:
                     )
 
                 # ── Fetch + Extract ONLY selected candidates ──
+                from app.core.telemetry import heartbeat
+                heartbeat(progress="Document retrieval")
                 set_current_stage(TelemetryStage.PATENT_EXTRACTION)
                 await self._update_status(session, run, RunStatus.EXTRACTING)
+                logger.info("[PIPELINE] EXTRACTION START | patents_to_extract=%d", len(selected_candidates))
+                heartbeat(progress="Evidence extraction")
 
                 extractions, parsed_patents_map = await self._fetch_and_extract_selected(
                     selected_candidates, strategy
@@ -1567,6 +2426,7 @@ class PipelineOrchestrator:
                 parsed_patents_map = {
                     k: v for k, v in parsed_patents_map.items() if k in selected_manifest
                 }
+                logger.info("[PIPELINE] EXTRACTION END | extracted_count=%d", len(extractions))
 
                 if len(extractions) == 0:
                     raise Exception(
@@ -1578,6 +2438,9 @@ class PipelineOrchestrator:
                 # ── Step 5: Generate Report & Export
                 set_current_stage(TelemetryStage.REPORT_GENERATION)
                 await self._update_status(session, run, RunStatus.GENERATING)
+                logger.info("[PIPELINE] REPORT GENERATION START | manifest_count=%d", len(selected_manifest))
+                from app.core.telemetry import heartbeat
+                heartbeat(progress="Report generation")
                 
                 # Truncate context size to strictly stay below 200k tokens (approx 800k chars)
                 MAX_REPORT_CHARS = 750000 
@@ -1601,11 +2464,16 @@ class PipelineOrchestrator:
                 evidence_service = ReportEvidenceService()
                 
                 report_evidence_list = []
+                candidate_by_number = {
+                    c.get("patent_number"): c for c in selected_candidates if c.get("patent_number")
+                }
                 for ext in extractions:
                     parsed_patent = parsed_patents_map.get(ext.metadata.patent_number)
+                    source_candidate = candidate_by_number.get(ext.metadata.patent_number) or {}
                     ev = evidence_service.build_compact_evidence(
                         ext,
-                        discovery_source="NORMAL",
+                        discovery_source=source_candidate.get("discovery_source") or "NORMAL",
+                        competitor_name=source_candidate.get("competitor_name"),
                         relevance_tier="PRIMARY",
                         relevance_score=100.0,
                         parsed_patent=parsed_patent
@@ -1622,6 +2490,19 @@ class PipelineOrchestrator:
                     research_profile=profile_json,
                     attribute_constraint=getattr(run, "attribute_constraint", None),
                 )
+                extracted_numbers = {
+                    getattr(ext.metadata, "patent_number", None) for ext in extractions
+                }
+                omitted = [pn for pn in selected_manifest if pn not in extracted_numbers]
+                if omitted and report is not None and hasattr(report, "conclusion"):
+                    disclosure = (
+                        "Selected publications omitted from extracted evidence: "
+                        + ", ".join(omitted)
+                        + "."
+                    )
+                    report.conclusion = ((report.conclusion or "").rstrip() + "\n\n" + disclosure).strip()
+                    logger.info("[REPORT] Disclosed omitted publications: %s", omitted)
+
                 # Authoritative primary manifest only — never inject related/secondary patents.
                 if hasattr(report, "secondary_patents"):
                     report.secondary_patents = []
@@ -1720,7 +2601,9 @@ class PipelineOrchestrator:
                 ))
 
                 # ── Finalize
+                logger.info("[PIPELINE] REPORT GENERATION END | report_id=%s", meta.id)
                 await self._update_status(session, run, RunStatus.COMPLETED)
+                logger.info("[PIPELINE] RUN COMPLETED | run_id=%s report_id=%s", self.run_id, meta.id)
                 
                 evidence_tokens = (usage or {}).get("input_tokens", 0) if usage else 0
                 logger.info("[PIPELINE SUMMARY]\n\n"
@@ -1805,6 +2688,8 @@ class PipelineOrchestrator:
 
             except Exception as e:
                 import traceback
+                current_stage = getattr(get_current_stage(), 'value', 'UNKNOWN')
+                logger.error("[PIPELINE] RUN FAILED | run_id=%s stage=%s error=%s", self.run_id, current_stage, e)
                 
                 if type(e).__name__ == "ProviderExhaustedException":
                     logger.error("Pipeline failure due to LLM provider exhaustion: %s", e)

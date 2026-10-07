@@ -14,6 +14,21 @@ from app.services.llm.gemini_provider import GeminiProvider
 from app.services.llm.openai_provider import OpenAIProvider
 from app.services.llm.openai_compatible_provider import OpenAICompatibleProvider
 
+# Settings may select only these providers. Others stay implemented for review
+# and are not advertised or used as automatic fallbacks.
+SELECTABLE_PROVIDER_IDS = ("gemini", "openai")
+
+
+def fallback_provider_ids(preferred: str, fallback: str | None, enable_fallback: bool) -> list[str]:
+    """Primary, then one fallback. Groq and other non-selectable ids are omitted."""
+    chain = [preferred]
+    if not enable_fallback or not fallback or fallback == preferred:
+        return chain
+    if fallback in SELECTABLE_PROVIDER_IDS:
+        chain.append(fallback)
+    return chain
+
+
 # Provider definitions
 # These are the default models and base URLs for the supported providers.
 PROVIDER_DEFINITIONS = {

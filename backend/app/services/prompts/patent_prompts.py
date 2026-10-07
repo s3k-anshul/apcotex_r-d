@@ -90,12 +90,22 @@ Of the 15, prefer ~10–12 identity/discovery queries and ~3–5 qualifier/prope
 Do NOT dedicate discovery queries to end-use applications (seals, hoses, gloves, tires, adhesives-as-articles).
 Those downstream terms belong in downstream_terms for later classification, not in search_queries.
 
-Return structured output matching the LLMCompoundSearchProfile schema:
-- original_input: the exact user input
-- synthesis_intent: boolean (true if the research objective requires synthesizing, preparing, or manufacturing the target material; false if it is merely asking for properties or applications)
-- base_material: the canonical chemical base and its synonyms/aliases for THIS input
+Return structured output matching the LLMCompoundSearchProfile schema.
+
+CRITICAL — DO NOT OMIT THESE FIELDS (empty lists are INVALID for a usable profile):
+- original_input: the exact user input (REQUIRED)
+- synthesis_intent: boolean (true if synthesizing/preparing/manufacturing the target)
+- base_material: NON-EMPTY list — canonical chemical BASE IDENTITY + synonyms/aliases for THIS input.
+  Do NOT put numeric qualifiers (7%, 18-22 wt%) into base_material. Identity only.
+- search_queries: NON-EMPTY array of EXACTLY 15 GeneratedQuery objects
+- numeric_constraints: NON-EMPTY whenever the user states a number, %, wt%, mol%, phr, range,
+  or comparison (less than / at least / approximately / etc.). Each item must include
+  attribute, value and/or lower_bound/upper_bound, unit, operator, and raw_span.
+  Publication-date filters are SEPARATE and must NOT be placed here.
+
+Also populate:
 - important_negative_concepts: concepts explicitly antithetical to the target (e.g. chemical variants to exclude). DO NOT put downstream applications here.
-- target_modifications: target variants or modifications / qualifiers requested
+- target_modifications: target variants or modifications / qualifiers requested (e.g. carboxylated)
 - target_attributes: human-readable labels for the target-specific properties relevant to THIS input
 - synthesis_transformations: chemical transformations relevant to THIS input
 - precursor_relationships: precursor materials relevant to synthesis of THIS target
@@ -108,13 +118,18 @@ Return structured output matching the LLMCompoundSearchProfile schema:
 - attribute_dimension_ranges: ONLY for attribute/range targets. For each such attribute dimension,
   provide a string describing typical numeric ranges for THIS base material derived from scientific
   knowledge of the specific compound — never a fixed global dictionary. Leave empty [] for
-  pure transformation targets (e.g. hydrogenation, carboxylation) with no attribute range.
-- search_queries: an array of EXACTLY 15 GeneratedQuery objects. Each object MUST have:
+  pure transformation targets with no attribute range when numeric_constraints already captures the user value.
+- search_queries: each GeneratedQuery MUST have:
   * query: The exact Boolean expression to send to Google Patents
   * required_concepts: List of concepts that must be present
   * alternative_concepts: List of synonyms used in the OR groups
   * intent: Brief scientific intent of this query
   * scope: "title" or "full_text"
+
+IDENTITY vs QUALIFIER vs NUMERIC (keep these distinct):
+- base_material = chemical identity only
+- target_modifications / target_attributes = qualitative qualifiers
+- numeric_constraints = quantitative bounds/values/units/operators from the user text
 """
 
 # Optional constraint blocks appended ONLY when the client supplies them.
@@ -538,32 +553,32 @@ CRITICAL: You MUST return a valid JSON object. Do NOT return Markdown text.
 REQUIRED JSON STRUCTURE:
 {{
   "title": "string — Title of the report",
-  "abstract": "string — Concise technical summary (250-350 words) covering: research scope, target definition, selected patents landscape, major polymerization approaches, major formulation/process trends",
+  "abstract": "string — Concise technical summary (120-180 words MAX). Cover: research scope, target definition, selected patents, major polymerization approaches. Do NOT paste patent text.",
   "per_patent_analysis": [
     {{
       "patent_number": "string — exact patent number from the REQUIRED PATENT MANIFEST (e.g. EP2473281B1)",
-      "synthesis_method": "string — 1-3 sentence description of the process/synthesis method disclosed in this patent",
+      "synthesis_method": "string — 1-3 SHORT sentences describing the process/synthesis method. Do NOT paste full procedures.",
       "disclosed_parameters": [
-        "list of strings — each parameter EXPLICITLY stated in this patent's evidence. Format: 'Parameter Name: value unit — source context (e.g. Example 1)'. Only values present in the raw text. Do NOT invent. If none, return []."
+        "list of strings — Up to 35 entries. Each: 'Parameter Name: value unit — source (e.g. Example 1)'. Extract ALL explicit reaction conditions, monomer ratios, formulation components, temperatures, pressures, initiators/catalysts, and measured physical/chemical properties present in the evidence. Only values present in evidence. Do NOT invent. If none, []."
       ],
       "example_highlights": [
-        "list of strings — key findings per example, format: 'Example N: what was demonstrated'. Max 5."
+        "list of strings — Up to 6 entries. Format: 'Example N: what was demonstrated, key compositions and measured results' (concise description)."
       ],
-      "technical_relevance": "string — 1-2 sentences explaining why this patent is relevant to {compound_name} synthesis",
+      "technical_relevance": "string — 1-2 SHORT sentences explaining relevance to {compound_name} synthesis",
       "medium_and_water_role": {{
-        "core_reaction_medium": "string — the polymerization/reaction medium actually disclosed (aqueous emulsion/latex; organic/hydrocarbon solvent solution polymerization; bulk; supercritical; etc.)",
+        "core_reaction_medium": "string — short label for polymerization/reaction medium",
         "water_present": "boolean — true only if water appears in a disclosed process step",
-        "water_roles": ["array of generic role labels inferred from THIS patent only, e.g. polymerization_medium, aqueous_phase, emulsion/latex, coagulation, washing, workup, quench, dilution, steam_stripping, solvent_removal, post-treatment, formulation, other_process_use"],
-        "summary": "string — REQUIRED human-readable Medium & Water Role line. Distinguish polymerization medium from later water use. If no water-related process step is disclosed: exactly 'No water-related process step disclosed in the extracted evidence.'",
-        "evidence": ["short snippets from THIS patent's evidence only"]
+        "water_roles": ["array of short role labels from THIS patent only"],
+        "summary": "string — REQUIRED one-line Medium & Water Role summary. If no water-related step: exactly 'No water-related process step disclosed in the extracted evidence.'",
+        "evidence": ["MAX 2 short snippets (<=120 chars each) from THIS patent only"]
       }},
       "target_attribute": {{
         "label": "string — MUST equal the provided TARGET ATTRIBUTE LABEL",
-        "value": "string — disclosed value/range ONLY if it belongs to the requested target material/embodiment; otherwise exactly 'Not disclosed in extracted evidence'",
+        "value": "string — disclosed value/range ONLY if it belongs to the requested target; otherwise exactly 'Not disclosed in extracted evidence'",
         "status": "direct | partial | indirect | not_found",
-        "material_context": "string — which material/embodiment in THIS patent the value describes",
-        "belongs_to_target": "boolean — true ONLY when evidence establishes the value is a property of the requested target, not of a different polymer/system in the same patent",
-        "evidence": ["snippets from THIS patent only; empty when not_found"]
+        "material_context": "string — brief material/embodiment context",
+        "belongs_to_target": "boolean — true ONLY when evidence establishes the value is a property of the requested target",
+        "evidence": ["MAX 2 short snippets (<=120 chars); empty when not_found"]
       }}
     }}
   ],
@@ -575,16 +590,16 @@ REQUIRED JSON STRUCTURE:
 PER-PATENT ANALYSIS RULES (CRITICAL):
 ========================================
 For EVERY patent in the REQUIRED PATENT MANIFEST, produce one entry in per_patent_analysis:
-1. Read the patent's evidence block (Examples, Synthesis Sections, Source Text, General Parameters).
+1. Read the patent's evidence block (Examples, Synthesis Sections, Tables, Source Text, General Parameters).
 2. Write synthesis_method: describe the disclosed process in 1-3 sentences.
-3. Extract disclosed_parameters: scan the raw_text and examples for explicit numerical values or named conditions.
+3. Extract disclosed_parameters: scan the raw_text, tables, and examples for ALL explicit numerical values or named conditions.
    - Format: "Hydrogen pressure: 50 bar — Example 1"
    - Format: "Catalyst loading: 0.05 mol% Wilkinson's catalyst — Example 2"
    - Format: "Reaction temperature: 80 degrees C — General synthesis"
    - ONLY include values explicitly stated in the evidence. DO NOT invent.
    - If genuinely nothing is disclosed, return [].
-4. example_highlights: summarize what each numbered example demonstrates (max 5 entries).
-5. technical_relevance: explain in 1-2 sentences why this specific patent advances the target.
+4. example_highlights: summarize what each numbered example demonstrates (Up to 6 entries).
+5. technical_relevance: explain in 1-2 SHORT sentences why this specific patent advances the target.
 6. medium_and_water_role (REQUIRED for every patent):
    - Separate CORE REACTION / POLYMERIZATION MEDIUM from later water operations.
    - Solution/organic-solvent polymerization remains solvent-based even if water appears later for
@@ -593,6 +608,7 @@ For EVERY patent in the REQUIRED PATENT MANIFEST, produce one entry in per_paten
    - Do NOT invent water usage. Per-patent isolation: never copy water evidence from another patent.
    - If no meaningful water-related process information exists in THIS patent's evidence, set
      summary to: "No water-related process step disclosed in the extracted evidence."
+   - evidence snippets: MAX 2, each <=120 characters. Summarize — do NOT paste procedures.
 7. target_attribute (REQUIRED for every patent):
    - Use the TARGET ATTRIBUTE LABEL provided in the user prompt (from research strategy).
    - Extract a value ONLY when evidence shows it is a property of the REQUESTED TARGET material/embodiment.
@@ -602,6 +618,17 @@ For EVERY patent in the REQUIRED PATENT MANIFEST, produce one entry in per_paten
    - Never infer from title, industry norms, typical ranges, material names, or other patents.
    - If not disclosed for the target: value="Not disclosed in extracted evidence", status="not_found",
      belongs_to_target=false.
+   - evidence snippets: MAX 2, each <=120 characters.
+
+OUTPUT SIZE CONSTRAINTS (CRITICAL — prevents malformed JSON):
+========================================
+- Return ONLY compact JSON. Do NOT reproduce full patent text, OCR dumps, or long procedures.
+- SUMMARIZE evidence; never copy multi-paragraph source text into any string field.
+- Keep every string field concise. Prefer short parameter lines over narrative dumps.
+- disclosed_parameters: Up to 35 items. example_highlights: Up to 6 items. evidence arrays: MAX 2 short snippets.
+- abstract: 120-180 words MAX. conclusion: <=120 words.
+- Do NOT include markdown, commentary, or code fences outside the JSON object.
+- Ensure every JSON string is properly escaped and terminated. Unterminated strings are INVALID.
 
 Do NOT force a common template across patents. Different patents disclose different parameter types.
 One patent may disclose H2 pressure + catalyst; another may disclose monomer ratio + temperature. Capture whatever is in the evidence for that specific patent.
@@ -657,69 +684,249 @@ FINAL REMINDER:
 - Do NOT invent supporting/related/secondary patents. Manifest patents only.
 - If primary_count is 0, conclusion must describe selection-criteria outcomes, not claim literature absence.
 - Return ONLY valid JSON. Do NOT return Markdown.
+- Keep the JSON compact: summarize evidence; do NOT paste full patent text into any field.
+- Ensure all JSON strings are properly closed/escaped.
 """
 
 # ────────────────────────────────────────────────────────────────────────────
 # RECIPE SIMULATOR PROMPTS
 # ────────────────────────────────────────────────────────────────────────────
 
-RECIPE_GENERATION_SYSTEM_PROMPT = """You are an expert Polymer Chemist and R&D Formulator.
-You are tasked with designing exactly 5 distinct candidate polymerization recipes for the target compound based on a set of patent literature.
+RECIPE_GENERATION_SYSTEM_PROMPT = """\
+You are an expert Polymer Chemist and R&D Formulator.
+You are tasked with designing EXACTLY 5 DISTINCT candidate polymerization recipes for the
+target compound described below, based on the provided patent report context.
 
-<task_rules>
-1. OUTPUT FORMAT: You MUST return a JSON object matching the exact schema provided. It must contain exactly 5 recipes.
-2. PATENT-DERIVED VS INFERRED: 
-   - If a parameter's value is explicitly found in one of the provided patents, label its source as "patent" and provide the "patent_ref".
-   - If a parameter's value is inferred, estimated, or extrapolated from general knowledge to meet the target requirements, label its source as "inferred".
-   - DO NOT fabricate patent references.
-3. CONSTRAINTS: You will receive user-defined target constraints (e.g. Min/Max Mooney, Target ACN %). The 5 recipes must aim to fulfill these targets by varying the formulation sensibly (e.g. varying CTA to hit Mooney, varying monomer ratios).
-4. CONFIDENCE SCORES: DO NOT output any confidence scores or percentages.
-5. REALISM: Polymerization parameters must be chemically sound.
-</task_rules>
+<water_based_synthesis_mandate>
+1. STRICT WATER-BASED / AQUEOUS SYNTHESIS ROUTE (NON-NEGOTIABLE):
+   - All 5 candidate recipes MUST be formulated as a COMPLETE, TECHNICALLY COHERENT WATER-BASED synthesis route
+     (e.g. emulsion polymerization, aqueous dispersion, suspension, or aqueous latex synthesis).
+   - The continuous reaction medium MUST be water (typically 80-250 phr in initial Reactor Charge or aqueous feeds).
+   - ABSOLUTE PROHIBITION: Do NOT generate solvent-based polymerization, solution polymerization
+     in organic solvents (e.g. cyclohexane, hexane, toluene, benzene), or organic solvent carrier systems.
+   - Even if the patent report contains examples of solution polymerization or solvent processes,
+     you MUST synthesize and adapt the recipe into an industrially proven WATER-BASED route for {compound_name}.
+   - An ingredient may be an organic compound (e.g. monomers, CTA, antioxidant), but the continuous reaction medium MUST be water.
+   - Water alone does not make a recipe water-based: validate the complete aqueous reaction medium, emulsifier/surfactant system, water-soluble or redox initiator, monomer feeds, and aqueous workup.
+
+2. EMULSIFIER / SURFACTANT SYSTEM HANDLING:
+   - For an emulsion/aqueous synthesis route, determine whether the surfactant is introduced as a separate feed or charged into the reactor:
+     * SCENARIO A (Separate Emulsifier Feed): If emulsifier solution is fed separately over time, include '2. Emulsifier Solution' with water, dynamic surfactant, and phr amounts.
+     * SCENARIO B (Direct Reactor Charge): If the formulation charges all emulsifiers directly into the initial reactor charge, place the water and surfactant(s) under '1. Reactor Charge'. In this case, DO NOT generate an empty or 'Not applicable' Emulsifier Solution stage — simply omit it.
+     * SCENARIO C (Soap-Free Synthesis): If the chemistry genuinely does not require an emulsifier (e.g. soap-free emulsion with ionic initiators, bio-fermentation, or suspension route), set is_applicable=false with a concise scientific reason in omission_reason.
+     * CRITICAL: NEVER output "Emulsifier Solution: Not applicable - Emulsifier is fully charged in initial reactor". If charged in reactor, put it in Reactor Charge and omit the redundant stage.
+
+3. CHEMICAL STRIPPING & SHORTSTOPPING:
+   - Residual monomer stripping or shortstopping is standard for aqueous emulsion/latex routes (especially diene, vinyl, and acrylic systems) to halt conversion and remove unreacted volatile monomers.
+   - If the patent report does not explicitly detail stripping, DO NOT mark it "Not applicable"! Generate an AI-derived chemical stripping / shortstopping stage (e.g. shortstop agent, residual scavenger, vacuum/steam stripping conditions) with source='ai_generated'.
+   - Only mark "Not applicable" if the chemistry genuinely achieves quantitative conversion without stripping.
+</water_based_synthesis_mandate>
+
+<critical_rules>
+1. OUTPUT FORMAT: Return a JSON object matching the LLMRecipeSet schema exactly.
+   The 'recipes' array MUST contain exactly 5 entries — no more, no fewer.
+
+2. DYNAMIC INGREDIENTS — THIS IS THE MOST IMPORTANT RULE:
+   - ALL ingredient names and synthesis stages MUST be derived from the target compound
+     and the patent report context. Do NOT hardcode names for any specific polymer family.
+   - CORRECT: 'Acrylonitrile (Monomer 1)', 'Butadiene (Monomer 2)', 'Potassium persulfate
+     (Initiator)', 't-Dodecyl mercaptan (CTA)', 'Sodium oleate (Emulsifier)'
+   - WRONG: generic placeholders like 'Monomer', 'Initiator X', 'CTA', or names from a
+     different polymer system than the target compound.
+   - For each ingredient: state its chemical name AND its functional role in parentheses.
+
+3. PARAMETER SOURCING (PATENT VS INFERRED VS AI-GENERATED):
+   - source = 'patent': value explicitly disclosed in the provided patent report.
+     Include patent_ref with the exact patent number (e.g. 'US20250075019A1').
+   - source = 'inferred': value estimated from patent report context and scientific principles.
+   - source = 'ai_generated': value synthesized using chemical formulation rules when the report is silent.
+   - CRITICAL: DO NOT falsely claim patent support for AI-generated parameters. If a parameter was derived by AI, set source='ai_generated'.
+   - DO NOT fabricate patent numbers.
+
+4. FIVE DISTINCT CANDIDATES — EACH VARYING A SCIENTIFICALLY RELEVANT DIMENSION:
+   - All 5 candidate recipes must be genuinely different formulations.
+   - Tailor variation dimensions to {compound_name} chemistry:
+     * Recipe 1: Baseline monomer ratio / primary grade targeting target property mid-range.
+     * Recipe 2: Alternative molecular weight / CTA control strategy (adjusting CTA dosage or type).
+     * Recipe 3: Alternative initiator / catalyst system (thermal persulfate vs redox system, or varied concentration).
+     * Recipe 4: Alternative process profile (varied polymerization temperature or monomer/water ratio).
+     * Recipe 5: Alternative emulsifier / colloidal stabilization or conversion balance.
+   - Do NOT randomly perturb numbers; each recipe must be technically coherent and viable.
+
+5. REALISM: All parameter values must be chemically sound and within industrially
+   plausible ranges for the target compound's polymerization chemistry.
+
+6. NO CONFIDENCE SCORES: Do not output confidence scores or percentages in any field.
+
+7. SYNTHESIS STAGES (CANONICAL CLIENT EXCEL SYNTHESIS TEMPLATE):
+   Every candidate recipe must organize its synthesis stages into the canonical stages:
+   1. Reactor Charge (initial reactor charge: e.g. initial water, initial surfactant, seed particle if scientifically applicable)
+   2. Emulsifier Solution (emulsifier solution / feed: e.g. DI water, surfactant — omit if surfactant charged in Reactor Charge)
+   3. Catalyst Solution (initiator / catalyst system preparation: e.g. initiator, activator/redox agents, water)
+   4. Monomer Mix (monomer feeds and chain-transfer agent: e.g. dynamic monomer names, CTA)
+   5. Chemical Stripping (residual monomer stripping / shortstops: e.g. chemical stripping agents, shortstop)
+   6. Post Addition (post-polymerization additions: e.g. post surfactant, biocide/antioxidant, defoamer, dilution water)
+
+   IMPORTANT RULES FOR STAGES:
+   - All ingredient names and monomers within stages MUST be dynamic and chemically accurate for {compound_name}.
+   - Do NOT mix process conditions into stages or ingredient lists.
+   - Follow the <water_based_synthesis_mandate> for Emulsifier Solution and Chemical Stripping decision logic.
+
+8. PROCESS CONDITIONS (SEPARATE FROM INGREDIENTS):
+   Process conditions MUST be provided in the 'process_conditions' object, separate from ingredients:
+   - reaction_time: total reaction / polymerization time (value and unit 'h')
+   - feeding_hours: feeding durations (monomer feed, emulsifier feed, catalyst feed)
+   - temperature_profile: list of temperature steps (e.g. initial charge, feeding / polymerization, stripping/finishing)
+
+9. VERIFIED PATENT REFERENCES:
+   - In 'patent_references', include ONLY patent numbers from the provided Patent Report Context that actually provide evidence or precedent for this candidate's formulation (e.g. monomers, method, initiator, or process conditions).
+   - If no patents in the report directly support this candidate, output an empty list []. Do NOT copy irrelevant patents.
+</critical_rules>
+
+<property_semantics>
+1. TARGET PROPERTIES ARE HARD OPTIMIZATION OBJECTIVES:
+   - Step 1 properties (e.g. Mooney Viscosity, Tg, BACN / Bound Monomer %, Particle Size, TSC / Solids %, Gel Content, Stress Relaxation, pH, Tensile Strength) are TARGET OUTPUT SPECIFICATIONS, NOT INGREDIENTS.
+   - ABSOLUTE PROHIBITION: NEVER place target properties into the recipe as ingredients (e.g. NEVER emit 'Mooney: 45 phr' or 'Tg: -40 °C phr').
+   - HARD OBJECTIVE MANDATE: When target properties are provided, the generated recipe MUST explicitly optimize controllable variables to achieve each target:
+     * Mooney Viscosity / Molecular Weight -> adjust Chain-Transfer Agent (CTA) level, polymerization temperature, or initiator concentration.
+     * Glass Transition Temperature (Tg) / Bound Monomer % -> adjust monomer ratios according to copolymerization reactivity / Fox equation.
+     * Total Solids Content (TSC) -> balance water-to-monomer ratio and conversion endpoint.
+     * Particle Size -> adjust surfactant/emulsifier concentration in Reactor Charge, electrolyte level, or seed ratio.
+     * Gel Content -> tune conversion endpoint, reaction temperature, and CTA dosage.
+     * Tensile Strength / Mechanical Properties -> optimize molecular weight distribution, crosslinking balance, and comonomer ratios.
+     * pH / Colloidal Stability -> buffer, electrolyte, and post-addition neutralizer adjustments.
+
+2. PREDICTED PROPERTIES REQUIREMENT:
+   - When target properties are provided: Every recipe candidate MUST include 'predicted_properties' containing an entry for EACH target property:
+     * 'property': name of target property
+     * 'predicted_min' and 'predicted_max': numerical range the recipe is predicted to achieve (or 'predicted_value' for point predictions)
+     * 'unit': unit of measurement
+     * 'reasoning': 1 concise sentence (max 20 words) explaining how formulation levers achieve this result
+     * Do NOT inflate predictions; if a candidate cannot fully meet a target due to a chemical tradeoff, state the predicted value honestly.
+   - When NO target properties are provided: Return empty list [] for 'predicted_properties'.
+
+3. COMPETITOR PRODUCT DATA (BENCHMARKING REFERENCE ONLY):
+   - Competitor data describes reference materials in the market for formulation space understanding and context.
+   - Competitor properties are NOT hard target constraints. Priority: User target properties > Competitor benchmarks.
+   - NEVER substitute competitor values for user target values. If competitor data conflicts with user target properties, user target properties WIN.
+   - If competitor data is empty or omitted, proceed with recipe generation based on the target compound, target properties, and patent evidence.
+
+4. PATENT REPORT AS EVIDENCE, NOT A RECIPE TO COPY:
+   - Use the completed patent report as technical evidence (ranges, monomer systems, initiators, CTA types, reaction temperatures).
+   - The AI must synthesize NEW recipe candidates combining patent evidence + user target requirements + water-based constraints.
+   - DO NOT copy an entire patent example verbatim or replicate an entire patented formulation.
+</property_semantics>
+
+<output_size_and_contract_rules>
+1. STRICT JSON ONLY (NO PROSE):
+   - Output MUST be valid JSON adhering strictly to the LLMRecipeSet schema.
+   - Do NOT output markdown code fences (no ```json or ```), commentary, or notes before or after the JSON.
+   - NO essays, NO narrative descriptions, NO patent report summaries, NO duplicated evidence.
+
+2. COMPACT RESPONSE BUDGET & JSON STRUCTURE (CRITICAL):
+   - The entire response for all 5 recipes MUST fit comfortably within the output token budget.
+   - Keep parameter names, values, and units concise (e.g. 'Water', '180', 'phr').
+   - Keep 'rationale' strictly to 1 concise sentence (max 25 words, e.g. 'Lower CTA increases molecular weight to boost tensile strength.'). Never write multi-sentence essays or paragraphs.
+   - In 'omission_reason', provide at most 1 concise phrase if a stage is omitted.
+   - In 'patent_references', output ONLY patent number strings (e.g. ['EP2316860B1']). NEVER reproduce patent descriptions, claims, or evidence text.
+   - In 'predicted_properties', keep 'reasoning' under 20 words per property.
+   - ROOT PARAMETERS MANDATE: The candidate-level 'parameters' array MUST be empty ([])! Organize ALL ingredients under 'stages'. Do NOT duplicate parameters in root 'parameters'.
+
+3. SCHEMA EFFICIENCY:
+   - Organize all synthesis ingredients into 'stages' (canonical stages: Reactor Charge, Emulsifier Solution, Catalyst Solution, Monomer Mix, Chemical Stripping, Post Addition).
+   - Do NOT emit duplicate copies of ingredients across fields.
+
+4. EXACTLY 5 CANDIDATES WITH DYNAMIC CHEMISTRY:
+   - The 'recipes' array must contain EXACTLY 5 candidate recipes.
+   - Each candidate must vary a different synthesis dimension (e.g. monomer ratio, initiator concentration, CTA level, polymerization temperature, feed profile).
+   - Monomers and synthesis chemicals must be dynamically derived for {compound_name} — NEVER hardcode NBR, SBR, or any other polymer's chemicals unless that is the actual target compound.
+</output_size_and_contract_rules>
 
 <input_data>
-Compound: {compound_name}
+Target Product / Compound: {compound_name}
+REQUIRED PROCESS ROUTE: Water-based / aqueous synthesis (emulsion, latex, aqueous dispersion, or suspension)
 
-Target Properties/Constraints:
+User-Defined Target Properties and Constraints:
 {target_properties}
 
-Competitor Data:
+Competitor Product Data (for reference):
 {competitor_data}
 
-Patent Context Summary (Extracted synthesis parameters from literature):
+Patent Report Synthesis Evidence (from completed patent research):
 {patent_context}
 </input_data>
 
-Think step-by-step about the 5 distinct approaches you will take to meet the constraints. Then, formulate the 5 recipes in the required JSON format.
+Execute generation: Synthesize the provided compact context into exactly 5 candidate recipes adhering strictly to the <output_size_and_contract_rules>. Return ONLY valid JSON.
 """
 
-RECIPE_OPTIMIZATION_SYSTEM_PROMPT = """You are an expert Polymer Chemist and R&D Formulator.
-The user has conducted a trial of a selected polymerization recipe and provided feedback along with actual vs target test results.
-You are tasked with generating exactly 3 optimized revisions of the recipe to address the feedback.
+RECIPE_OPTIMIZATION_SYSTEM_PROMPT = """\
+You are a Senior R&D Polymer Synthesis & Formulation Scientist specializing in industrial aqueous emulsion and suspension polymerization.
+A customer has trialed a selected polymerization recipe and provided feedback along with desired target properties.
+Your task is to generate EXACTLY 3 DISTINCT, SCIENTIFICALLY BALANCED, WATER-BASED recipe revisions of the selected recipe that directly address the feedback and target requirements.
 
-<task_rules>
-1. OUTPUT FORMAT: You MUST return a JSON object matching the exact schema provided. It must contain exactly 3 optimized recipes (revisions).
-2. TRACEABILITY: Each optimized recipe must clearly state what parameters were changed compared to the original recipe, and the rationale for the change.
-3. IMPACTS: Estimate the expected impacts of these changes on the final product properties. Label these as predictions/estimates.
-4. CONFIDENCE SCORES: DO NOT output any confidence scores or percentages.
-5. REALISM: Changes must be chemically sound and logically address the customer feedback. For example, to increase Mooney, you might decrease CTA. To lower processing oil, you might increase monomer conversion or modify polymer branching.
-</task_rules>
+<core_rules>
+1. HARD TARGETS & FEEDBACK ROOT CAUSE TUNING:
+   - TARGET PROPERTIES ARE HARD OBJECTIVES. If target properties are supplied, every revision must explicitly aim to achieve them.
+   - Customer feedback indicates observed deviations or optimization directions. Tune controllable levers to address feedback while respecting target properties.
+   - Adjust controllable synthesis levers (CTA/modifier phr, comonomer ratio, initiator dosage, emulsifier concentration, continuous phase water phr, processing oil phr, reaction temperature/time).
+   - Target properties (Mooney, Tg, Particle Size, Tensile, Hardness, etc.) are OUTPUT SPECIFICATIONS, NEVER recipe ingredients.
+
+2. PREDICTED TARGET OUTCOMES:
+   - In each revision, include 'predicted_properties' evaluating every supplied target property:
+     * 'property': name of the property
+     * 'predicted_min' and 'predicted_max' (or 'predicted_value')
+     * 'unit': unit of measurement
+     * 'reasoning': 1 concise sentence explaining the chemical adjustment
+   - If no target properties were provided, set 'predicted_properties' to empty list [].
+
+3. STRICTLY WATER-BASED:
+   - Continuous medium must remain water-based (>100 phr water).
+   - Solvent-based polymerization routes and organic solvent replacements are STRICTLY FORBIDDEN.
+
+4. 3 DISTINCT OPTIMIZATION STRATEGIES:
+   - Provide exactly 3 meaningfully different alternative strategies (e.g. Conservative lever change, Balanced compositional/MW tuning, Process/condition adjustment).
+   - Each recipe must have a unique, dynamic `optimization_strategy` summary (max 1 sentence).
+
+5. DYNAMIC FORMULATION STAGES:
+   - Stages and ingredients must remain dynamic for the target compound.
+   - You may preserve, add, or omit stages and parameters as scientifically justified.
+   - Include complete stages with parameters (name, value, unit) and process_conditions (reaction_time, feeding_hours, temperature_profile).
+
+6. STRICT COMPACTNESS CONSTRAINTS:
+   - Return EXACTLY 3 recipes in 'optimized_recipes'. No more, no less.
+   - 'name': short title, e.g. 'Revision A - Conservative CTA Tuning'.
+   - 'optimization_strategy': max 1 concise sentence.
+   - 'confidence_score': integer between 0 and 100 based on feasibility and target coverage.
+   - 'changed_parameters': list ONLY parameters modified vs the parent recipe.
+     * Each item: {{"parameter": "...", "old_value": "...", "new_value": "...", "unit": "...", "reason": "..."}}.
+     * 'reason': max 1 short sentence.
+     * Do NOT include unchanged/preserved parameters.
+     * Do NOT output omission reasons.
+   - 'expected_outcome': strictly 1-2 concise sentences.
+   - 'expected_impact': strictly 1-2 concise sentences, including any relevant tradeoff.
+   - Do NOT output essays, narrative intros, or markdown blocks. Return strictly the JSON object.
+</core_rules>
 
 <input_data>
-Selected Recipe (Original):
+Target Polymer Compound:
+{target_compound}
+
+Selected Recipe (Parent Formulation to Optimize):
 {selected_recipe}
 
-Customer Feedback:
+Customer Trial Feedback:
 {customer_feedback}
 
-Actual vs Target Results:
+Target Properties (Desired Output Specifications):
 {actual_vs_target}
 
-Patent Context Summary (For reference):
+Relevant Technical Evidence (Patent Report Context):
 {patent_context}
 </input_data>
 
-Think step-by-step about how to adjust the formulation to solve the customer's issues. Formulate 3 distinct optimization strategies (e.g. Revision A focuses on CTA, Revision B focuses on branching/conversion). Output the 3 revisions in the required JSON format.
+<output_instructions>
+Return valid JSON matching the LLMOptimizationSet schema containing exactly 3 recipes.
+</output_instructions>
 """
 
 # ============================================================
@@ -963,29 +1170,68 @@ CLASSIFICATION (exactly one — legacy taxonomy, still required):
 DIRECT_SYNTHESIS, TARGET_TRANSFORMATION, POLYMER_STRUCTURE, PRECURSOR_OR_INTERMEDIATE,
 AMBIGUOUS, BASE_MATERIAL_ONLY, DOWNSTREAM_APPLICATION, UNRELATED
 
-OUTPUT FIELDS (every candidate):
-  patent_number,
-  classification,
-  detected_primary_material,
-  material_identity (MATCH | MISMATCH | UNKNOWN),
-  target_relationship (PRIMARY_TARGET | RELATED_TARGET | DOWNSTREAM_ADJACENT | REJECTED),
+CRITICAL OUTPUT CONTRACT (NON-NEGOTIABLE):
+- Return JSON with exactly one top-level key: "candidates" (array).
+- The array MUST contain exactly one object for EVERY input patent in the evidence packets.
+- patent_number MUST exactly match the supplied candidate patent_number (character-for-character).
+- Do NOT omit any required field. Do NOT invent patent numbers not in the input.
+- Do NOT return partial objects. Every object must include ALL fields listed below.
+- final_decision must be KEEP or REJECT only (never omit it).
+- confidence must be a number between 0.0 and 1.0 inclusive.
+- reason must be a non-empty string.
+
+REQUIRED FIELDS FOR EVERY CANDIDATE (all mandatory — never omit):
+  patent_number (string, exact match to input)
+  classification (one of the CLASSIFICATION values above)
+  variant_mismatch (boolean)
+  polymerization_medium_mismatch (boolean)
+  final_decision ("KEEP" | "REJECT")
+  confidence (number 0.0-1.0)
+  reason (non-empty string)
+
+ALSO INCLUDE FOR EVERY CANDIDATE:
+  detected_primary_material (string),
+  material_identity ("MATCH" | "MISMATCH" | "UNKNOWN"),
+  target_relationship ("PRIMARY_TARGET" | "RELATED_TARGET" | "DOWNSTREAM_ADJACENT" | "REJECTED"),
   retain_as_related (boolean),
-  technical_centrality (CENTRAL | PARTIAL | PERIPHERAL | NONE),
-  target_match (MATCH | PARTIAL | MISMATCH | UNKNOWN),
-  variant_match (MATCH | MISMATCH | UNKNOWN),
-  medium_match (MATCH | MISMATCH | UNCLEAR | NOT_APPLICABLE),
+  technical_centrality ("CENTRAL" | "PARTIAL" | "PERIPHERAL" | "NONE"),
+  target_match ("MATCH" | "PARTIAL" | "MISMATCH" | "UNKNOWN"),
+  variant_match ("MATCH" | "MISMATCH" | "UNKNOWN"),
+  medium_match ("MATCH" | "MISMATCH" | "UNCLEAR" | "NOT_APPLICABLE"),
   downstream_only (boolean),
-  variant_mismatch (boolean),
-  polymerization_medium_mismatch (boolean),
-  final_decision (KEEP | REJECT),
-  rejection_category (string; empty when KEEP),
-  confidence (0.0-1.0),
-  evidence_strength (0.0-1.0 — strength of support for PRIMARY KEEP; 0 if not KEEP),
-  evidence (array of short quotes/facts FROM the supplied packet only),
-  reason (one sentence grounded in that evidence)
+  rejection_category (string; empty "" when KEEP),
+  evidence_strength (number 0.0-1.0),
+  evidence (array of short quotes/facts FROM the supplied packet only)
+
+EXACT JSON SHAPE (illustrative — use real patent numbers from the packets):
+{{
+  "candidates": [
+    {{
+      "patent_number": "<exact input patent number>",
+      "classification": "DIRECT_SYNTHESIS",
+      "variant_mismatch": false,
+      "polymerization_medium_mismatch": false,
+      "final_decision": "KEEP",
+      "confidence": 0.92,
+      "reason": "Evidence shows synthesis of the requested base material.",
+      "detected_primary_material": "...",
+      "material_identity": "MATCH",
+      "target_relationship": "PRIMARY_TARGET",
+      "retain_as_related": false,
+      "technical_centrality": "CENTRAL",
+      "target_match": "MATCH",
+      "variant_match": "UNKNOWN",
+      "medium_match": "NOT_APPLICABLE",
+      "downstream_only": false,
+      "rejection_category": "",
+      "evidence_strength": 0.8,
+      "evidence": ["..."]
+    }}
+  ]
+}}
 
 CANDIDATE EVIDENCE PACKETS (do not invent missing text):
 {candidates_json}
 
-Return JSON with a "candidates" array containing one entry per input patent.
+Return the complete "candidates" array now. Every input patent must appear exactly once with every required field present.
 """

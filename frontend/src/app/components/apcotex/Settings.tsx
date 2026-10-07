@@ -10,7 +10,6 @@ import {
   Settings as SettingsIcon 
 } from 'lucide-react';
 import { UserManagement } from './UserManagement';
-import { PasswordInput } from './PasswordInput';
 
 export const SettingsPage: React.FC = () => {
   const { user } = useAuth();
@@ -43,9 +42,7 @@ export const SettingsPage: React.FC = () => {
       setIsSaving(true);
       setError(null);
       setSuccessMsg(null);
-      const selectedInfo = settings?.providers.find(p => p.id === selectedProvider);
-      const apiKey = selectedInfo?.apiKeyInput;
-      await settingsApi.updateLLMProvider(selectedProvider, apiKey);
+      await settingsApi.updateLLMProvider(selectedProvider);
       setSuccessMsg('Provider configuration saved successfully.');
       await fetchSettings(); // Refresh status
     } catch (err: any) {
@@ -176,26 +173,8 @@ export const SettingsPage: React.FC = () => {
 
                 <div className="sm:col-span-2">
                   <dt className="text-sm font-medium text-gray-500">API Key</dt>
-                  <dd className="mt-1">
-                    <PasswordInput
-                      placeholder="sk-..."
-                      className="block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border"
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        setSettings(prev => {
-                          if (!prev) return prev;
-                          return {
-                            ...prev,
-                            providers: prev.providers.map(p => 
-                              p.id === selectedProviderInfo.id 
-                                ? { ...p, apiKeyInput: val } 
-                                : p
-                            )
-                          };
-                        });
-                      }}
-                    />
-                    <p className="mt-1 text-xs text-gray-500">Enter your key here to save it to the server's .env file.</p>
+                  <dd className="mt-1 text-sm text-gray-700">
+                    Keys stay in the server environment. This page only selects the primary provider.
                   </dd>
                 </div>
 

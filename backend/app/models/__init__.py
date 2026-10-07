@@ -22,6 +22,7 @@ from app.models.recipe_cycle import RecipeCycle, RecipeCycleStatus
 from app.models.recipe_candidate import RecipeCandidate
 from app.models.customer_trial import CustomerTrial, TrialStatus
 from app.models.optimized_recipe_candidate import OptimizedRecipeCandidate
+from app.models.saved_recipe import SavedRecipe, SavedRecipeStatus
 
 __all__ = [
     "User",
@@ -49,4 +50,6 @@ __all__ = [
     "CustomerTrial",
     "TrialStatus",
     "OptimizedRecipeCandidate",
+    "SavedRecipe",
+    "SavedRecipeStatus",
 ]
