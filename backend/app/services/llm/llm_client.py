@@ -390,6 +390,7 @@ class DynamicLLMClient:
                         **err_usage,
                         "invalid_response_error": str(e)[:2000],
                         "finish_reason": finish_reason,
+                        "is_truncated": getattr(e, "is_truncated", False) or err_usage.get("is_truncated", False),
                         "response_length": len(raw_text) if raw_text else 0,
                     }
                     if raw_text:

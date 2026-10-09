@@ -13,6 +13,8 @@ import {
   X,
   Download,
   Columns3,
+  AlertCircle,
+  FileText,
 } from "lucide-react";
 // Removed PatentResearchReport import
 import type { PatentRecipeStep } from "./recipeSimulatorPatentData";
@@ -42,6 +44,7 @@ import {
   type SpecRowTemplate,
   convertToEditableRecipe,
   editableRecipeToRecipeData,
+  getRecipeDisplayName,
 } from "./recipeSimulatorDemoData";
 import { buildRecipeComparisonModel } from "./RecipeComparison/recipeComparisonModel";
 import { exportRecipeComparisonToExcel } from "./RecipeComparison/recipeExcelExporter";
@@ -51,7 +54,7 @@ import { useProperties } from "../../contexts/PropertyContext";
 import { CustomerFeedbackProvider, useCustomerFeedbackProperties } from "../../contexts/CustomerFeedbackContext";
 import { usePatentResearch } from "../../contexts/PatentResearchContext";
 import { useRecipe } from "../../contexts/RecipeContext";
-import { createSavedRecipesBatch } from "../../services/researchApi";
+import { createSavedRecipesBatch, downloadRecipesPdf } from "../../services/researchApi";
 
 const BLUE = "#1F5FA8";
 const TEAL = "#1FB7B5";
@@ -1108,6 +1111,8 @@ function PolymerizationRecipeCard({
 }) {
   const [modalMode, setModalMode] = useState<"view" | "edit" | null>(null);
   const [showPredictions, setShowPredictions] = useState(false);
+  const [showAllProps, setShowAllProps] = useState(false);
+  const [showAllModalProps, setShowAllModalProps] = useState(false);
   const hasStages = Array.isArray(recipe.stages) && recipe.stages.length > 0;
 
   const targetFit = recipe.targetFit ?? recipe.targetAnalysis?.target_fit_score;
@@ -1116,7 +1121,81 @@ function PolymerizationRecipeCard({
   const hasTargets = targetsTotal !== null && targetsTotal !== undefined && targetsTotal > 0;
   const allTargetsMet = hasTargets && targetsMet === targetsTotal;
   const hasViolations = hasTargets && targetsMet !== null && targetsMet < targetsTotal;
-  const targetProps = recipe.targetAnalysis?.properties || recipe.raw_data?.predicted_properties || [];
+  
+  const rawTargetProps = recipe.targetAnalysis?.properties || recipe.raw_data?.predicted_properties || [];
+
+  const isPropRelevant = (p: any) => {
+    // 1. Explicit target objective defined by user (has target, target_min, or target_max)
+    const hasUserTarget = (
+      (p.target_value !== undefined && p.target_value !== null && String(p.target_value).trim() !== "") ||
+      (p.target !== undefined && p.target !== null && String(p.target).trim() !== "") ||
+      (p.target_min !== undefined && p.target_min !== null && String(p.target_min).trim() !== "") ||
+      (p.target_max !== undefined && p.target_max !== null && String(p.target_max).trim() !== "")
+    );
+    if (hasUserTarget && p.target_display !== "Not specified (unconstrained)") {
+      return true;
+    }
+
+    // 2. Evaluated target status from backend that is not UNKNOWN
+    const isTargetStatus = p.target_status && p.target_status !== "UNKNOWN" && p.target_status !== "EXPERIMENTAL_VALIDATION_REQUIRED";
+    const isStatus = p.status && p.status !== "UNKNOWN" && p.status !== "EXPERIMENTAL_VALIDATION_REQUIRED";
+    if (isTargetStatus || isStatus) {
+      return true;
+    }
+
+    // 3. Explicit active target flag
+    if (p.is_active_target === true || p.is_target === true) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const relevantProps = rawTargetProps.filter(isPropRelevant);
+  const activeProps = relevantProps.length > 0 ? relevantProps : rawTargetProps.slice(0, 5);
+  const targetProps = showAllProps ? rawTargetProps : activeProps;
+  const modalTargetProps = showAllModalProps ? rawTargetProps : activeProps;
+  const hasHiddenProps = rawTargetProps.length > activeProps.length;
+
+  const catSys = recipe.raw_data?.catalyst_system || (recipe as any).catalyst_system || (recipe.process_conditions as any)?.catalyst_system;
+  const actSys = recipe.raw_data?.activator_system || (recipe as any).activator_system || (recipe.process_conditions as any)?.activator_system;
+  const coagSys = recipe.raw_data?.coagulation_system || (recipe as any).coagulation_system || (recipe.process_conditions as any)?.coagulation_system;
+  const processTypeDisplay = recipe.raw_data?.process_type || (recipe.process_conditions as any)?.process_type || (recipe as any).process_type || "Batch";
+  const compoundDisplay = recipe.raw_data?.compound || (recipe as any).compound || getRecipeDisplayName(recipe);
+
+  // Reaction operating temperature vs user target constraint range
+  let opTemp: string | null = null;
+  if (recipe.process_conditions?.temperature_profile && recipe.process_conditions.temperature_profile.length > 0) {
+    const mainStep = recipe.process_conditions.temperature_profile.find((s: any) =>
+      s.stage && (s.stage.toLowerCase().includes("poly") || s.stage.toLowerCase().includes("feed") || s.stage.toLowerCase().includes("main"))
+    ) || recipe.process_conditions.temperature_profile[0];
+    if (mainStep && mainStep.value) {
+      opTemp = `${mainStep.value} ${mainStep.unit || '°C'}`;
+    }
+  } else if ((recipe.process_conditions as any)?.operating_temperature) {
+    opTemp = String((recipe.process_conditions as any).operating_temperature);
+  } else if ((recipe.process_conditions as any)?.reaction_temperature) {
+    opTemp = String((recipe.process_conditions as any).reaction_temperature);
+  }
+
+  let targetTrDisplay: string | null = null;
+  if (recipe.raw_data?.temperature_range) {
+    const tr = recipe.raw_data.temperature_range;
+    if (typeof tr === 'object' && tr.min !== undefined && tr.max !== undefined) {
+      targetTrDisplay = `${tr.min}–${tr.max} ${tr.unit || '°C'}`;
+    } else if (tr) {
+      targetTrDisplay = String(tr);
+    }
+  }
+
+  let tempRangeDisplay: string | null = null;
+  if (opTemp && targetTrDisplay && !targetTrDisplay.includes(opTemp)) {
+    tempRangeDisplay = `${opTemp} (Target Range: ${targetTrDisplay})`;
+  } else if (opTemp) {
+    tempRangeDisplay = opTemp;
+  } else if (targetTrDisplay) {
+    tempRangeDisplay = `Target Range: ${targetTrDisplay}`;
+  }
 
   return (
     <div
@@ -1148,7 +1227,7 @@ function PolymerizationRecipeCard({
       >
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <span style={{ fontSize: "1.0625rem", fontWeight: 700, color: BLUE }}>
-            {recipe.name}
+            {getRecipeDisplayName(recipe)}
           </span>
           {selected && (
             <span
@@ -1241,6 +1320,51 @@ function PolymerizationRecipeCard({
       )}
 
       <div style={{ padding: "16px 20px", display: "flex", flexDirection: "column", gap: 14 }}>
+        {/* Core Recipe Identity & Process Attributes Bar (Sections 4, 9, 10, 18) */}
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+          <span
+            style={{
+              background: "rgba(31,95,168,0.08)",
+              color: BLUE,
+              border: `1px solid rgba(31,95,168,0.25)`,
+              padding: "4px 12px",
+              borderRadius: 16,
+              fontSize: "0.75rem",
+              fontWeight: 700,
+            }}
+          >
+            Target Polymer: {compoundDisplay}
+          </span>
+          <span
+            style={{
+              background: "rgba(79,70,229,0.08)",
+              color: "#4338CA",
+              border: `1px solid rgba(79,70,229,0.25)`,
+              padding: "4px 12px",
+              borderRadius: 16,
+              fontSize: "0.75rem",
+              fontWeight: 700,
+            }}
+          >
+            Process Type: {processTypeDisplay}
+          </span>
+          {tempRangeDisplay && (
+            <span
+              style={{
+                background: "rgba(245,158,11,0.08)",
+                color: "#B45309",
+                border: `1px solid rgba(245,158,11,0.25)`,
+                padding: "4px 12px",
+                borderRadius: 16,
+                fontSize: "0.75rem",
+                fontWeight: 700,
+              }}
+            >
+              Reaction Temp: {tempRangeDisplay}
+            </span>
+          )}
+        </div>
+
         {/* 6 Canonical Stages displayed cleanly across a responsive grid */}
         {hasStages ? (
           <div
@@ -1341,6 +1465,121 @@ function PolymerizationRecipeCard({
           </div>
         )}
 
+        {/* Catalyst, Activator & Coagulation Systems (Phase 1 Enhancements) */}
+        {(catSys || actSys || coagSys) && (
+          <div
+            style={{
+              background: "rgba(31,95,168,0.03)",
+              border: `1px solid ${BORDER}`,
+              borderRadius: 6,
+              padding: "12px 14px",
+              fontSize: "0.75rem",
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: 14,
+            }}
+          >
+            {/* Catalyst System */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              <div style={{ fontWeight: 700, color: BLUE, fontSize: "0.8125rem", borderBottom: "1px solid #E2E8F0", paddingBottom: 3 }}>
+                Catalyst System
+              </div>
+              {catSys?.primary_catalyst ? (
+                <>
+                  <div style={{ color: "#1E293B" }}>
+                    <strong>Primary Catalyst:</strong> {catSys.primary_catalyst}
+                    {catSys.primary_dosage_phr !== undefined && catSys.primary_dosage_phr !== null && ` (${catSys.primary_dosage_phr} phr)`}
+                  </div>
+                  {Array.isArray(catSys.alternatives) && catSys.alternatives.length > 0 ? (
+                    <div style={{ color: "#4B5563", marginTop: 2 }}>
+                      <strong>Alternatives:</strong>
+                      <ul style={{ margin: "2px 0 0 0", paddingLeft: 16 }}>
+                        {catSys.alternatives.map((alt: any, aIdx: number) => (
+                          <li key={aIdx}>
+                            {alt.catalyst || alt.name}
+                            {alt.dosage_phr !== undefined && alt.dosage_phr !== null && ` (${alt.dosage_phr} phr)`}
+                            {alt.notes ? ` — ${alt.notes}` : ""}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <div style={{ color: "#64748B", fontStyle: "italic", fontSize: "0.7rem" }}>
+                      No validated alternative identified
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div style={{ color: "#64748B", fontStyle: "italic" }}>
+                  Standard redox catalyst system
+                </div>
+              )}
+            </div>
+
+            {/* Activator System */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              <div style={{ fontWeight: 700, color: TEAL, fontSize: "0.8125rem", borderBottom: "1px solid #E2E8F0", paddingBottom: 3 }}>
+                Activator System
+              </div>
+              {actSys && actSys.applicable !== false && (actSys.activator_name || actSys.activator) ? (
+                <>
+                  <div style={{ color: "#1E293B" }}>
+                    <strong>Activator:</strong> {actSys.activator_name || actSys.activator}
+                    {actSys.dosage_phr !== undefined && actSys.dosage_phr !== null && ` (${actSys.dosage_phr} phr)`}
+                  </div>
+                  {actSys.stage && (
+                    <div style={{ color: "#4B5563" }}>
+                      <strong>Stage:</strong> {actSys.stage}
+                    </div>
+                  )}
+                  {Array.isArray(actSys.alternatives) && actSys.alternatives.length > 0 && (
+                    <div style={{ color: "#4B5563", marginTop: 2 }}>
+                      <strong>Alternatives:</strong>
+                      <ul style={{ margin: "2px 0 0 0", paddingLeft: 16 }}>
+                        {actSys.alternatives.map((alt: any, aIdx: number) => (
+                          <li key={aIdx}>
+                            {alt.activator || alt.name}
+                            {alt.dosage_phr !== undefined && alt.dosage_phr !== null && ` (${alt.dosage_phr} phr)`}
+                            {alt.notes ? ` — ${alt.notes}` : ""}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div style={{ color: "#64748B", fontStyle: "italic" }}>
+                  Not applicable / Not required
+                </div>
+              )}
+            </div>
+
+            {/* Coagulation System */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              <div style={{ fontWeight: 700, color: "#7C3AED", fontSize: "0.8125rem", borderBottom: "1px solid #E2E8F0", paddingBottom: 3 }}>
+                Coagulation System
+              </div>
+              {coagSys && coagSys.applicable !== false && (coagSys.coagulant || coagSys.name) ? (
+                <>
+                  <div style={{ color: "#1E293B" }}>
+                    <strong>Coagulant:</strong> {coagSys.coagulant || coagSys.name}
+                    {coagSys.dosage_phr !== undefined && coagSys.dosage_phr !== null && ` (${coagSys.dosage_phr} phr)`}
+                  </div>
+                  {(coagSys.process_conditions || coagSys.notes) && (
+                    <div style={{ color: "#4B5563" }}>
+                      <strong>Conditions:</strong> {coagSys.process_conditions || coagSys.notes}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div style={{ color: "#64748B", fontStyle: "italic" }}>
+                  Not applicable / Not required
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Target Properties & Prediction Analysis Section */}
         {targetProps && targetProps.length > 0 && (
           <div
@@ -1402,19 +1641,39 @@ function PolymerizationRecipeCard({
                     {targetProps.map((p: any, pIdx: number) => {
                       const propName = p.name || p.property || `Property ${pIdx + 1}`;
                       const unitStr = p.unit ? ` ${p.unit}` : "";
-                      const meets = p.status === "MEETS_TARGET" || p.meets_target === true;
+                      const isUnknown = p.status === "UNKNOWN" || p.target_status === "UNKNOWN" || p.status === "EXPERIMENTAL_VALIDATION_REQUIRED";
+                      const meets = !isUnknown && (
+                        p.status === "MEETS_TARGET" ||
+                        p.status === "MEETS TARGET" ||
+                        p.status === "WITHIN_RANGE" ||
+                        p.status === "TARGET_MET" ||
+                        p.target_status === "MEETS TARGET" ||
+                        p.target_status === "WITHIN RANGE" ||
+                        p.target_status === "TARGET MET" ||
+                        p.meets_target === true
+                      );
 
                       let targetStr = "Objective";
+                      const hasTargetPoint = (p.target_value !== undefined && p.target_value !== null && String(p.target_value).trim() !== "") || (p.target !== undefined && p.target !== null && String(p.target).trim() !== "");
+                      const ptVal = p.target_value !== undefined && p.target_value !== null ? p.target_value : p.target;
+
+                      let rangeVal = "";
                       if (p.target_min !== undefined && p.target_max !== undefined && p.target_min !== null && p.target_max !== null) {
-                        targetStr = `${p.target_min}–${p.target_max}${unitStr}`;
+                        rangeVal = `${p.target_min}–${p.target_max}${unitStr}`;
+                      } else if (p.range) {
+                        rangeVal = `${p.range}${unitStr}`;
                       } else if (p.target_min !== undefined && p.target_min !== null) {
-                        targetStr = `≥ ${p.target_min}${unitStr}`;
+                        rangeVal = `≥ ${p.target_min}${unitStr}`;
                       } else if (p.target_max !== undefined && p.target_max !== null) {
-                        targetStr = `≤ ${p.target_max}${unitStr}`;
-                      } else if (p.target_value !== undefined && p.target_value !== null) {
-                        targetStr = `${p.target_value}${unitStr}`;
-                      } else if (p.target !== undefined && p.target !== null) {
-                        targetStr = `${p.target}${unitStr}`;
+                        rangeVal = `≤ ${p.target_max}${unitStr}`;
+                      }
+
+                      if (hasTargetPoint && rangeVal) {
+                        targetStr = `Target: ${ptVal}${unitStr} (Range: ${rangeVal})`;
+                      } else if (hasTargetPoint) {
+                        targetStr = `Target: ${ptVal}${unitStr}`;
+                      } else if (rangeVal) {
+                        targetStr = rangeVal;
                       }
 
                       let predStr = "N/A";
@@ -1422,25 +1681,57 @@ function PolymerizationRecipeCard({
                         predStr = `${p.predicted_min}–${p.predicted_max}${unitStr}`;
                       } else if (p.predicted_value !== undefined && p.predicted_value !== null) {
                         predStr = `${p.predicted_value}${unitStr}`;
+                      } else if (p.predicted_display) {
+                        predStr = p.predicted_display;
+                      }
+
+                      let statusBadgeText = "OUTSIDE TARGET";
+                      let statusBg = "rgba(239,68,68,0.12)";
+                      let statusColor = "#DC2626";
+
+                      if (isUnknown) {
+                        statusBadgeText = "UNKNOWN";
+                        statusBg = "rgba(107,114,128,0.12)";
+                        statusColor = "#4B5563";
+                      } else if (meets) {
+                        if (p.status === "WITHIN_RANGE" || p.target_status === "WITHIN RANGE") {
+                          statusBadgeText = "WITHIN RANGE";
+                        } else if (p.status === "TARGET_MET" || p.target_status === "TARGET MET") {
+                          statusBadgeText = "TARGET MET";
+                        } else {
+                          statusBadgeText = "MEETS TARGET";
+                        }
+                        statusBg = "rgba(16,185,129,0.12)";
+                        statusColor = "#059669";
+                      } else {
+                        if (p.status === "OUTSIDE_RANGE" || p.target_status === "OUTSIDE RANGE") {
+                          statusBadgeText = "OUTSIDE RANGE";
+                        } else if (p.status === "TARGET_NOT_MET" || p.target_status === "TARGET NOT MET") {
+                          statusBadgeText = "TARGET NOT MET";
+                        } else {
+                          statusBadgeText = "OUTSIDE TARGET";
+                        }
+                        statusBg = "rgba(239,68,68,0.12)";
+                        statusColor = "#DC2626";
                       }
 
                       return (
                         <tr key={pIdx} style={{ borderTop: `1px solid ${BORDER}` }}>
                           <td style={{ padding: "6px 8px", fontWeight: 600, color: TEXT }}>{propName}</td>
                           <td style={{ padding: "6px 8px", textAlign: "center", color: BLUE, fontWeight: 600 }}>{targetStr}</td>
-                          <td style={{ padding: "6px 8px", textAlign: "center", fontWeight: 700, color: meets ? "#059669" : "#DC2626" }}>{predStr}</td>
+                          <td style={{ padding: "6px 8px", textAlign: "center", fontWeight: 700, color: isUnknown ? "#4B5563" : (meets ? "#059669" : "#DC2626") }}>{predStr}</td>
                           <td style={{ padding: "6px 8px", textAlign: "center" }}>
                             <span
                               style={{
-                                background: meets ? "rgba(16,185,129,0.12)" : "rgba(239,68,68,0.12)",
-                                color: meets ? "#059669" : "#DC2626",
+                                background: statusBg,
+                                color: statusColor,
                                 padding: "2px 8px",
                                 borderRadius: 10,
                                 fontWeight: 700,
                                 fontSize: "0.7rem",
                               }}
                             >
-                              {meets ? "PASS" : "NOT MET"}
+                              {statusBadgeText}
                             </span>
                           </td>
                           <td style={{ padding: "6px 8px", color: "#4B5563" }}>{p.reasoning || "Tuned via stoichiometric recipe levers."}</td>
@@ -1543,7 +1834,7 @@ function PolymerizationRecipeCard({
           <div style={{ backgroundColor: 'white', borderRadius: 8, padding: '24px', maxWidth: '850px', width: '100%', maxHeight: '90vh', overflowY: 'auto', position: 'relative' }}>
             <button onClick={() => setModalMode(null)} style={{ position: 'absolute', top: 16, right: 16, background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.5rem', lineHeight: 1 }}>&times;</button>
             <h3 style={{ margin: "0 0 16px 0", color: BLUE, fontSize: "1.125rem", fontWeight: 700 }}>
-              {recipe.name} — {modalMode === "edit" ? "Edit Recipe" : "Full Recipe Details"}
+              {getRecipeDisplayName(recipe)} — {modalMode === "edit" ? "Edit Recipe" : "Full Recipe Details"}
             </h3>
 
             {modalMode === "edit" ? (
@@ -1565,6 +1856,39 @@ function PolymerizationRecipeCard({
             ) : (
               /* Structured Procedural View Modal (No Source or Patent Citation column) */
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {/* Dedicated Optimization Strategy & Chemical Differentiation Banner */}
+                <div
+                  style={{
+                    background: "rgba(31,95,168,0.04)",
+                    border: `1px solid rgba(31,95,168,0.2)`,
+                    borderRadius: 8,
+                    padding: "14px 18px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 8,
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+                    <span style={{ fontSize: "0.875rem", fontWeight: 700, color: BLUE }}>
+                      Optimization Strategy: {recipe.raw_data?.variation_dimension || (recipe.fullName?.includes("-") ? recipe.fullName.split("-")[1].trim() : (recipe.name?.includes("-") ? recipe.name.split("-")[1].trim() : "Stoichiometric Optimization"))}
+                    </span>
+                    {recipe.confidenceAnalysis && (
+                      <span style={{ fontSize: "0.75rem", color: TEAL, fontWeight: 700, background: "rgba(31,183,181,0.1)", padding: "2px 8px", borderRadius: 12 }}>
+                        Recommendation Confidence: {recipe.confidence}%
+                      </span>
+                    )}
+                  </div>
+                  {(recipe.raw_data?.rationale || recipe.raw_data?.ai_reasoning || recipe.raw_data?.notes) && (
+                    <div style={{ fontSize: "0.8125rem", color: "#334155", lineHeight: 1.5 }}>
+                      <strong>Chemical Rationale & AI Reasoning:</strong> {recipe.raw_data.rationale || recipe.raw_data.ai_reasoning || recipe.raw_data.notes}
+                    </div>
+                  )}
+                  {recipe.patentSupport && recipe.patentSupport !== "No direct patent support identified in the selected report." && (
+                    <div style={{ fontSize: "0.75rem", color: "#64748B" }}>
+                      <strong>Patent Prior Art Support:</strong> {recipe.patentSupport}
+                    </div>
+                  )}
+                </div>
                 {hasStages ? (
                   <>
                     {recipe.stages.map((stage, sIdx) => (
@@ -1706,6 +2030,253 @@ function PolymerizationRecipeCard({
                         </div>
                       </div>
                     )}
+
+                    {/* Catalyst, Activator & Coagulation Systems in View Modal */}
+                    {(catSys || actSys || coagSys) && (
+                      <div
+                        style={{
+                          background: "#FFFFFF",
+                          border: `1px solid ${BORDER}`,
+                          borderRadius: 8,
+                          padding: "14px 18px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            marginBottom: 10,
+                            paddingBottom: 6,
+                            borderBottom: "1.5px solid #F1F5F9",
+                          }}
+                        >
+                          <span style={{ fontSize: "0.9375rem", fontWeight: 700, color: BLUE }}>
+                            Catalyst, Activator & Coagulation Systems
+                          </span>
+                        </div>
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14 }}>
+                          {/* Catalyst */}
+                          <div style={{ padding: "8px 12px", background: "#F8FAFC", borderRadius: 6, fontSize: "0.8125rem" }}>
+                            <div style={{ fontWeight: 700, color: BLUE, marginBottom: 4 }}>Catalyst System</div>
+                            {catSys?.primary_catalyst ? (
+                              <>
+                                <div style={{ color: "#1E293B" }}>
+                                  <strong>Primary:</strong> {catSys.primary_catalyst}
+                                  {catSys.primary_dosage_phr !== undefined && catSys.primary_dosage_phr !== null && ` (${catSys.primary_dosage_phr} phr)`}
+                                </div>
+                                {Array.isArray(catSys.alternatives) && catSys.alternatives.length > 0 ? (
+                                  <div style={{ marginTop: 4, color: "#4B5563" }}>
+                                    <strong>Alternatives:</strong>
+                                    <ul style={{ margin: "2px 0 0 0", paddingLeft: 16 }}>
+                                      {catSys.alternatives.map((alt: any, aIdx: number) => (
+                                        <li key={aIdx}>
+                                          {alt.catalyst || alt.name}
+                                          {alt.dosage_phr !== undefined && alt.dosage_phr !== null && ` (${alt.dosage_phr} phr)`}
+                                          {alt.notes ? ` — ${alt.notes}` : ""}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ) : (
+                                  <div style={{ color: "#64748B", fontStyle: "italic", fontSize: "0.75rem", marginTop: 2 }}>
+                                    No validated alternative identified
+                                  </div>
+                                )}
+                              </>
+                            ) : (
+                              <div style={{ color: "#64748B", fontStyle: "italic" }}>Standard redox catalyst system</div>
+                            )}
+                          </div>
+
+                          {/* Activator */}
+                          <div style={{ padding: "8px 12px", background: "#F8FAFC", borderRadius: 6, fontSize: "0.8125rem" }}>
+                            <div style={{ fontWeight: 700, color: TEAL, marginBottom: 4 }}>Activator System</div>
+                            {actSys && actSys.applicable !== false && (actSys.activator_name || actSys.activator) ? (
+                              <>
+                                <div style={{ color: "#1E293B" }}>
+                                  <strong>Activator:</strong> {actSys.activator_name || actSys.activator}
+                                  {actSys.dosage_phr !== undefined && actSys.dosage_phr !== null && ` (${actSys.dosage_phr} phr)`}
+                                </div>
+                                {actSys.stage && (
+                                  <div style={{ color: "#4B5563" }}><strong>Stage:</strong> {actSys.stage}</div>
+                                )}
+                                {Array.isArray(actSys.alternatives) && actSys.alternatives.length > 0 && (
+                                  <div style={{ marginTop: 4, color: "#4B5563" }}>
+                                    <strong>Alternatives:</strong>
+                                    <ul style={{ margin: "2px 0 0 0", paddingLeft: 16 }}>
+                                      {actSys.alternatives.map((alt: any, aIdx: number) => (
+                                        <li key={aIdx}>
+                                          {alt.activator || alt.name}
+                                          {alt.dosage_phr !== undefined && alt.dosage_phr !== null && ` (${alt.dosage_phr} phr)`}
+                                          {alt.notes ? ` — ${alt.notes}` : ""}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                              </>
+                            ) : (
+                              <div style={{ color: "#64748B", fontStyle: "italic" }}>Not applicable / Not required</div>
+                            )}
+                          </div>
+
+                          {/* Coagulation */}
+                          <div style={{ padding: "8px 12px", background: "#F8FAFC", borderRadius: 6, fontSize: "0.8125rem" }}>
+                            <div style={{ fontWeight: 700, color: "#7C3AED", marginBottom: 4 }}>Coagulation System</div>
+                            {coagSys && coagSys.applicable !== false && (coagSys.coagulant || coagSys.name) ? (
+                              <>
+                                <div style={{ color: "#1E293B" }}>
+                                  <strong>Coagulant:</strong> {coagSys.coagulant || coagSys.name}
+                                  {coagSys.dosage_phr !== undefined && coagSys.dosage_phr !== null && ` (${coagSys.dosage_phr} phr)`}
+                                </div>
+                                {(coagSys.process_conditions || coagSys.notes) && (
+                                  <div style={{ color: "#4B5563" }}><strong>Conditions:</strong> {coagSys.process_conditions || coagSys.notes}</div>
+                                )}
+                              </>
+                            ) : (
+                              <div style={{ color: "#64748B", fontStyle: "italic" }}>Not applicable / Not required</div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Target Properties in View Modal */}
+                    {targetProps && targetProps.length > 0 && (
+                      <div
+                        style={{
+                          background: "#FFFFFF",
+                          border: `1px solid ${BORDER}`,
+                          borderRadius: 8,
+                          padding: "14px 18px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            marginBottom: 10,
+                            paddingBottom: 6,
+                            borderBottom: "1.5px solid #F1F5F9",
+                          }}
+                        >
+                          <span style={{ fontSize: "0.9375rem", fontWeight: 700, color: BLUE }}>
+                            Target Polymer Properties & Model Predictions
+                          </span>
+                        </div>
+                        <div style={{ overflowX: "auto" }}>
+                          <table style={{ borderCollapse: "collapse", width: "100%", fontSize: "0.75rem" }}>
+                            <thead>
+                              <tr style={{ background: "rgba(31,95,168,0.06)", color: BLUE }}>
+                                <th style={{ padding: "6px 8px", textAlign: "left" }}>Property</th>
+                                <th style={{ padding: "6px 8px", textAlign: "center" }}>Target Objective</th>
+                                <th style={{ padding: "6px 8px", textAlign: "center" }}>Model Prediction</th>
+                                <th style={{ padding: "6px 8px", textAlign: "center" }}>Status</th>
+                                <th style={{ padding: "6px 8px", textAlign: "left" }}>Chemical Levers & Rationale</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {targetProps.map((p: any, pIdx: number) => {
+                                const propName = p.name || p.property || `Property ${pIdx + 1}`;
+                                const unitStr = p.unit ? ` ${p.unit}` : "";
+                                const isUnknown = p.status === "UNKNOWN" || p.target_status === "UNKNOWN" || p.status === "EXPERIMENTAL_VALIDATION_REQUIRED";
+                                const meets = !isUnknown && (
+                                  p.status === "MEETS_TARGET" ||
+                                  p.status === "MEETS TARGET" ||
+                                  p.status === "WITHIN_RANGE" ||
+                                  p.status === "TARGET_MET" ||
+                                  p.target_status === "MEETS TARGET" ||
+                                  p.target_status === "WITHIN RANGE" ||
+                                  p.target_status === "TARGET MET" ||
+                                  p.meets_target === true
+                                );
+
+                                let targetStr = "Objective";
+                                const hasTargetPoint = (p.target_value !== undefined && p.target_value !== null && String(p.target_value).trim() !== "") || (p.target !== undefined && p.target !== null && String(p.target).trim() !== "");
+                                const ptVal = p.target_value !== undefined && p.target_value !== null ? p.target_value : p.target;
+
+                                let rangeVal = "";
+                                if (p.target_min !== undefined && p.target_max !== undefined && p.target_min !== null && p.target_max !== null) {
+                                  rangeVal = `${p.target_min}–${p.target_max}${unitStr}`;
+                                } else if (p.range) {
+                                  rangeVal = `${p.range}${unitStr}`;
+                                } else if (p.target_min !== undefined && p.target_min !== null) {
+                                  rangeVal = `≥ ${p.target_min}${unitStr}`;
+                                } else if (p.target_max !== undefined && p.target_max !== null) {
+                                  rangeVal = `≤ ${p.target_max}${unitStr}`;
+                                }
+
+                                if (hasTargetPoint && rangeVal) {
+                                  targetStr = `Target: ${ptVal}${unitStr} (Range: ${rangeVal})`;
+                                } else if (hasTargetPoint) {
+                                  targetStr = `Target: ${ptVal}${unitStr}`;
+                                } else if (rangeVal) {
+                                  targetStr = rangeVal;
+                                }
+
+                                let predStr = "N/A";
+                                if (p.predicted_min !== undefined && p.predicted_max !== undefined && p.predicted_min !== null && p.predicted_max !== null) {
+                                  predStr = `${p.predicted_min}–${p.predicted_max}${unitStr}`;
+                                } else if (p.predicted_value !== undefined && p.predicted_value !== null) {
+                                  predStr = `${p.predicted_value}${unitStr}`;
+                                } else if (p.predicted_display) {
+                                  predStr = p.predicted_display;
+                                }
+
+                                let statusBadgeText = "OUTSIDE TARGET";
+                                let statusBg = "rgba(239,68,68,0.12)";
+                                let statusColor = "#DC2626";
+
+                                if (isUnknown) {
+                                  statusBadgeText = "UNKNOWN";
+                                  statusBg = "rgba(107,114,128,0.12)";
+                                  statusColor = "#4B5563";
+                                } else if (meets) {
+                                  if (p.status === "WITHIN_RANGE" || p.target_status === "WITHIN RANGE") {
+                                    statusBadgeText = "WITHIN RANGE";
+                                  } else if (p.status === "TARGET_MET" || p.target_status === "TARGET MET") {
+                                    statusBadgeText = "TARGET MET";
+                                  } else {
+                                    statusBadgeText = "MEETS TARGET";
+                                  }
+                                  statusBg = "rgba(16,185,129,0.12)";
+                                  statusColor = "#059669";
+                                } else {
+                                  if (p.status === "OUTSIDE_RANGE" || p.target_status === "OUTSIDE RANGE") {
+                                    statusBadgeText = "OUTSIDE RANGE";
+                                  } else if (p.status === "TARGET_NOT_MET" || p.target_status === "TARGET NOT MET") {
+                                    statusBadgeText = "TARGET NOT MET";
+                                  } else {
+                                    statusBadgeText = "OUTSIDE TARGET";
+                                  }
+                                  statusBg = "rgba(239,68,68,0.12)";
+                                  statusColor = "#DC2626";
+                                }
+
+                                return (
+                                  <tr key={pIdx} style={{ borderTop: `1px solid ${BORDER}` }}>
+                                    <td style={{ padding: "6px 8px", fontWeight: 600, color: TEXT }}>{propName}</td>
+                                    <td style={{ padding: "6px 8px", textAlign: "center", color: BLUE, fontWeight: 600 }}>{targetStr}</td>
+                                    <td style={{ padding: "6px 8px", textAlign: "center", fontWeight: 700, color: isUnknown ? "#4B5563" : (meets ? "#059669" : "#DC2626") }}>{predStr}</td>
+                                    <td style={{ padding: "6px 8px", textAlign: "center" }}>
+                                      <span
+                                        style={{
+                                          background: statusBg,
+                                          color: statusColor,
+                                          padding: "2px 8px",
+                                          borderRadius: 10,
+                                          fontWeight: 700,
+                                          fontSize: "0.7rem",
+                                        }}
+                                      >
+                                        {statusBadgeText}
+                                      </span>
+                                    </td>
+                                    <td style={{ padding: "6px 8px", color: "#4B5563" }}>{p.reasoning || "Tuned via stoichiometric recipe levers."}</td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )}
                   </>
                 ) : (
                   <div style={{ ...card, padding: 16 }}>
@@ -1816,6 +2387,26 @@ export function Step1TargetSpec({
     setStep1Inputs({ targetProduct: val });
   };
 
+  const processType = step1Inputs.processType || 'No Preference';
+  const setProcessType = (val: 'Batch' | 'Continuous' | 'No Preference') => {
+    setStep1Inputs({ processType: val });
+  };
+
+  const temperatureMin = step1Inputs.temperatureMin || '';
+  const setTemperatureMin = (val: string) => {
+    setStep1Inputs({ temperatureMin: val });
+  };
+
+  const temperatureMax = step1Inputs.temperatureMax || '';
+  const setTemperatureMax = (val: string) => {
+    setStep1Inputs({ temperatureMax: val });
+  };
+
+  const temperatureUnit = step1Inputs.temperatureUnit || '°C';
+  const setTemperatureUnit = (val: string) => {
+    setStep1Inputs({ temperatureUnit: val });
+  };
+
   const patentValues = useMemo(() => {
     return buildPatentColumnValues(patentResearchReport, properties);
   }, [patentResearchReport, properties]);
@@ -1878,6 +2469,9 @@ export function Step1TargetSpec({
     snap !== null &&
     snap.reportId === researchState.researchRunId &&
     snap.targetProduct === (targetProduct.trim() || researchState.compoundName || '').trim() &&
+    snap.processType === (step1Inputs.processType || 'No Preference') &&
+    snap.temperatureMin === (step1Inputs.temperatureMin || '') &&
+    snap.temperatureMax === (step1Inputs.temperatureMax || '') &&
     snap.desiredJson === JSON.stringify(desired) &&
     snap.competitorValuesJson === JSON.stringify(competitorValues)
   );
@@ -1901,18 +2495,32 @@ export function Step1TargetSpec({
         })
         .filter(c => Object.keys(c.values).length > 0 || c.name.trim() !== "Unknown Competitor");
 
-      // Convert desired (Record<feature, {min,max}>) + properties list into target_properties
-      const targetProperties = properties.map(p => ({
-        id: p.id,
-        feature: p.feature,
-        unit: p.unit || '',
-        min: desired[p.feature]?.min ?? '',
-        max: desired[p.feature]?.max ?? '',
-        category: (p as any).category || '',
-        dataType: (p as any).dataType || 'number',
-      })).filter(p => p.feature);
+      // Convert desired (Record<feature, {min,max,target}>) + properties list into target_properties
+      const targetProperties = properties.map(p => {
+        const d = desired[p.feature] || { min: '', max: '', target: '' };
+        return {
+          id: p.id,
+          feature: p.feature,
+          unit: p.unit || '',
+          min: d.min ?? '',
+          max: d.max ?? '',
+          target: d.target ?? '',
+          range: (d.min || d.max) ? `${d.min || ''}–${d.max || ''}` : '',
+          category: (p as any).category || '',
+          dataType: (p as any).dataType || 'number',
+        };
+      }).filter(p => p.feature);
 
       const activeTargetProduct = targetProduct.trim() || researchState.compoundName || 'Unknown Product';
+
+      let tempRangePayload: any = undefined;
+      if (temperatureMin || temperatureMax) {
+        tempRangePayload = {
+          min: temperatureMin ? Number(temperatureMin) : undefined,
+          max: temperatureMax ? Number(temperatureMax) : undefined,
+          unit: temperatureUnit,
+        };
+      }
 
       // Pass created cycle id directly to generateRecipes to avoid stale closures
       const newCycleId = await createCycle({
@@ -1920,12 +2528,17 @@ export function Step1TargetSpec({
         target_product: activeTargetProduct,
         target_properties: targetProperties,
         competitor_data: formattedCompetitorData,
+        process_type: processType,
+        temperature_range: tempRangePayload,
       });
       await generateRecipes(newCycleId);
 
       // Record snapshot of inputs used for this generation
       setGenerationSnapshot({
         targetProduct: activeTargetProduct,
+        processType,
+        temperatureMin: temperatureMin || '',
+        temperatureMax: temperatureMax || '',
         desiredJson: JSON.stringify(desired),
         competitorValuesJson: JSON.stringify(competitorValues),
         reportId: researchState.researchRunId,
@@ -1985,37 +2598,148 @@ export function Step1TargetSpec({
 
   return (
     <div>
-      {/* Target Product input — compound name sent to the LLM context */}
-      <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
-        <label
-          htmlFor="target-product-input"
-          style={{ fontSize: '0.875rem', fontWeight: 600, color: TEXT, whiteSpace: 'nowrap' }}
-        >
-          Target Product:
-        </label>
-        <input
-          id="target-product-input"
-          type="text"
-          value={targetProduct}
-          onChange={e => setTargetProduct(e.target.value)}
-          placeholder={researchState.compoundName || 'e.g. Low ACN NBR, SBR, XSBR…'}
-          style={{
-            flex: 1,
-            maxWidth: 360,
-            border: `1px solid ${BORDER}`,
-            borderRadius: 6,
-            padding: '6px 10px',
-            fontSize: '0.875rem',
-            color: TEXT,
-            outline: 'none',
-            fontFamily: 'inherit',
-          }}
-        />
-        {hasAssociatedReport && researchState.compoundName && (
-          <span style={{ fontSize: '0.75rem', color: '#6B7280' }}>
-            Report: <strong style={{ color: BLUE }}>{researchState.compoundName}</strong>
+      {/* Target Product, Process Type, and Reaction Temperature Range Controls (Sections 4, 9, 10, 11) */}
+      <div
+        style={{
+          marginBottom: 16,
+          padding: "12px 16px",
+          background: "white",
+          border: `1px solid ${BORDER}`,
+          borderRadius: 8,
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          gap: 18,
+          boxShadow: "0 1px 3px rgba(31,95,168,0.04)",
+        }}
+      >
+        {/* Target Product */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 260, flex: "1 1 260px" }}>
+          <label
+            htmlFor="target-product-input"
+            style={{ fontSize: '0.8125rem', fontWeight: 700, color: BLUE, whiteSpace: 'nowrap' }}
+          >
+            Target Product:
+          </label>
+          <input
+            id="target-product-input"
+            type="text"
+            value={targetProduct}
+            onChange={e => setTargetProduct(e.target.value)}
+            placeholder={researchState.compoundName || 'e.g. 7% carboxylated NBR, SBR, HNBR…'}
+            style={{
+              flex: 1,
+              border: `1px solid ${BORDER}`,
+              borderRadius: 6,
+              padding: '6px 10px',
+              fontSize: '0.8125rem',
+              color: TEXT,
+              fontWeight: 600,
+              outline: 'none',
+              fontFamily: 'inherit',
+            }}
+          />
+          {hasAssociatedReport && researchState.compoundName && (
+            <span style={{ fontSize: '0.75rem', color: '#6B7280', whiteSpace: 'nowrap' }}>
+              Report: <strong style={{ color: BLUE }}>{researchState.compoundName}</strong>
+            </span>
+          )}
+        </div>
+
+        {/* Process Type */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <label
+            htmlFor="process-type-select"
+            style={{ fontSize: '0.8125rem', fontWeight: 700, color: BLUE, whiteSpace: 'nowrap' }}
+          >
+            Process Type:
+          </label>
+          <select
+            id="process-type-select"
+            value={processType}
+            onChange={e => setProcessType(e.target.value as 'Batch' | 'Continuous' | 'No Preference')}
+            style={{
+              border: `1px solid ${BORDER}`,
+              borderRadius: 6,
+              padding: '6px 10px',
+              fontSize: '0.8125rem',
+              color: TEXT,
+              fontWeight: 600,
+              background: 'white',
+              cursor: 'pointer',
+              outline: 'none',
+            }}
+          >
+            <option value="No Preference">No Preference</option>
+            <option value="Batch">Batch</option>
+            <option value="Continuous">Continuous</option>
+          </select>
+        </div>
+
+        {/* Dynamic Reaction Temperature Range */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <label
+            style={{ fontSize: '0.8125rem', fontWeight: 700, color: BLUE, whiteSpace: 'nowrap' }}
+          >
+            Reaction Temp Range:
+          </label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <input
+              id="temp-min-input"
+              type="text"
+              value={temperatureMin}
+              onChange={e => setTemperatureMin(e.target.value)}
+              placeholder="Min"
+              style={{
+                width: 50,
+                border: `1px solid ${BORDER}`,
+                borderRadius: 6,
+                padding: '6px 4px',
+                fontSize: '0.8125rem',
+                textAlign: 'center',
+                outline: 'none',
+              }}
+            />
+            <span style={{ color: '#9CA3AF', fontSize: '0.8125rem' }}>–</span>
+            <input
+              id="temp-max-input"
+              type="text"
+              value={temperatureMax}
+              onChange={e => setTemperatureMax(e.target.value)}
+              placeholder="Max"
+              style={{
+                width: 50,
+                border: `1px solid ${BORDER}`,
+                borderRadius: 6,
+                padding: '6px 4px',
+                fontSize: '0.8125rem',
+                textAlign: 'center',
+                outline: 'none',
+              }}
+            />
+            <select
+              id="temp-unit-select"
+              value={temperatureUnit}
+              onChange={e => setTemperatureUnit(e.target.value)}
+              style={{
+                border: `1px solid ${BORDER}`,
+                borderRadius: 6,
+                padding: '6px 6px',
+                fontSize: '0.8125rem',
+                color: TEXT,
+                background: 'white',
+                outline: 'none',
+              }}
+            >
+              <option value="°C">°C</option>
+              <option value="°F">°F</option>
+              <option value="K">K</option>
+            </select>
+          </div>
+          <span style={{ fontSize: '0.7rem', color: '#9CA3AF', whiteSpace: 'nowrap' }}>
+            (Optional constraint)
           </span>
-        )}
+        </div>
       </div>
       <div style={{ overflowX: "auto" }}>
         <div style={{ ...card, overflow: "hidden", minWidth: "fit-content" }}>
@@ -2235,9 +2959,10 @@ export function Step1TargetSpec({
                     background: "rgba(31,183,181,0.08)",
                     borderLeft: `2px solid ${TEAL}`,
                     color: TEAL,
+                    textAlign: "center",
                   }}
                 >
-                  Min / Max
+                  Range (Min – Max) & Target
                 </th>
               </tr>
             </thead>
@@ -2342,7 +3067,7 @@ export function Step1TargetSpec({
                   <td style={{ ...patentCell, borderRight: `1px solid ${BORDER}` }} />
                   <td
                     style={{
-                      padding: "4px 8px",
+                      padding: "6px 8px",
                       background: "rgba(31,183,181,0.05)",
                       borderLeft: `2px solid ${TEAL}`,
                     }}
@@ -2350,58 +3075,90 @@ export function Step1TargetSpec({
                     <div
                       style={{
                         display: "flex",
-                        gap: 8,
+                        gap: 6,
                         alignItems: "center",
                         justifyContent: "center",
+                        flexWrap: "nowrap",
                       }}
                     >
-                      <input
-                        type="text"
-                        value={desired[row.feature]?.min || ""}
-                        onChange={(e) =>
-                          setDesired((prev) => ({
-                            ...prev,
-                            [row.feature]: {
-                              ...prev[row.feature],
-                              min: e.target.value,
-                            },
-                          }))
-                        }
-                        placeholder="Min"
-                        style={{
-                          width: 100,
-                          border: "1px solid #E5E7EB",
-                          borderRadius: 4,
-                          padding: "6px 8px",
-                          fontSize: "0.75rem",
-                          textAlign: "center",
-                        }}
-                      />
-                      <span style={{ color: "#9CA3AF", fontSize: "0.75rem" }}>
-                        –
-                      </span>
-                      <input
-                        type="text"
-                        value={desired[row.feature]?.max || ""}
-                        onChange={(e) =>
-                          setDesired((prev) => ({
-                            ...prev,
-                            [row.feature]: {
-                              ...prev[row.feature],
-                              max: e.target.value,
-                            },
-                          }))
-                        }
-                        placeholder="Max"
-                        style={{
-                          width: 100,
-                          border: "1px solid #E5E7EB",
-                          borderRadius: 4,
-                          padding: "6px 8px",
-                          fontSize: "0.75rem",
-                          textAlign: "center",
-                        }}
-                      />
+                      {/* Dynamic Range inputs (Section 5) */}
+                      <div style={{ display: "flex", alignItems: "center", gap: 3 }}>
+                        <span style={{ fontSize: "0.6875rem", color: "#64748B", fontWeight: 600 }}>Range:</span>
+                        <input
+                          type="text"
+                          value={desired[row.feature]?.min || ""}
+                          onChange={(e) =>
+                            setDesired((prev) => ({
+                              ...prev,
+                              [row.feature]: {
+                                ...prev[row.feature],
+                                min: e.target.value,
+                              },
+                            }))
+                          }
+                          placeholder="Min"
+                          style={{
+                            width: 44,
+                            border: "1px solid #E5E7EB",
+                            borderRadius: 4,
+                            padding: "4px 3px",
+                            fontSize: "0.75rem",
+                            textAlign: "center",
+                          }}
+                        />
+                        <span style={{ color: "#9CA3AF", fontSize: "0.75rem" }}>–</span>
+                        <input
+                          type="text"
+                          value={desired[row.feature]?.max || ""}
+                          onChange={(e) =>
+                            setDesired((prev) => ({
+                              ...prev,
+                              [row.feature]: {
+                                ...prev[row.feature],
+                                max: e.target.value,
+                              },
+                            }))
+                          }
+                          placeholder="Max"
+                          style={{
+                            width: 44,
+                            border: "1px solid #E5E7EB",
+                            borderRadius: 4,
+                            padding: "4px 3px",
+                            fontSize: "0.75rem",
+                            textAlign: "center",
+                          }}
+                        />
+                      </div>
+                      {/* Dynamic Target Point input (Section 5, 6) */}
+                      <div style={{ display: "flex", alignItems: "center", gap: 3 }}>
+                        <span style={{ fontSize: "0.6875rem", color: TEAL, fontWeight: 700 }}>Target:</span>
+                        <input
+                          type="text"
+                          value={desired[row.feature]?.target || ""}
+                          onChange={(e) =>
+                            setDesired((prev) => ({
+                              ...prev,
+                              [row.feature]: {
+                                ...prev[row.feature],
+                                target: e.target.value,
+                              },
+                            }))
+                          }
+                          placeholder="Target"
+                          style={{
+                            width: 50,
+                            border: `1.5px solid ${TEAL}`,
+                            borderRadius: 4,
+                            padding: "4px 4px",
+                            fontSize: "0.75rem",
+                            textAlign: "center",
+                            fontWeight: 600,
+                            color: BLUE,
+                            background: "white",
+                          }}
+                        />
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -4249,7 +5006,7 @@ function OptimizedRecipeCard({ recipe, selected, onSelect }: { recipe: any; sele
         }}
       >
         <h4 style={{ margin: 0, color: BLUE, fontSize: "0.9375rem", display: 'flex', alignItems: 'center', gap: 8 }}>
-          {recipe.name}
+          {getRecipeDisplayName(recipe)}
           {selected && <CheckCircle2 size={16} color={TEAL} />}
         </h4>
         <div style={{ display: 'flex', gap: 8 }}>
@@ -4263,7 +5020,7 @@ function OptimizedRecipeCard({ recipe, selected, onSelect }: { recipe: any; sele
               borderRadius: 20,
             }}
           >
-            Confidence: {recipe.confidence_score ?? recipe.evidence_coverage_score}%
+            Confidence: {recipe.confidence_score ?? recipe.confidence ?? 0}%
           </span>
           <button
             onClick={onSelect}
@@ -4392,7 +5149,7 @@ function OptimizedRecipeCard({ recipe, selected, onSelect }: { recipe: any; sele
 
       {showRecipe && baseRecipe && (
           <RecipeDetailTable
-            title={`${recipe.name} - Optimized Polymerization Recipe`}
+            title={`${getRecipeDisplayName(recipe)} - Optimized Polymerization Recipe`}
             steps={getPolymerizationRecipeSteps(recipe.recipe_data)}
           />
         )}

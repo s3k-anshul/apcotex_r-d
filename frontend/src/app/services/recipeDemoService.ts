@@ -37,7 +37,19 @@ function demoParams(overrides: Record<string, string> = {}) {
   }));
 }
 
-function buildRecipeData(rank: number, compoundName = "Demo NBR", overrides: Record<string, string> = {}) {
+function buildRecipeData(
+  rank: number,
+  compoundName = "Demo Polymer",
+  overrides: Record<string, string> = {},
+  options?: {
+    processType?: string;
+    tempRange?: { min: number; max: number; unit: string } | string;
+    catalystSystem?: any;
+    activatorSystem?: any;
+    coagulationSystem?: any;
+    targetAnalysis?: any;
+  }
+) {
   const water = overrides.Water || String(170 + rank * 5);
   const temp = overrides.Temperature || String(5 + rank * 2);
   const params = demoParams({
@@ -97,7 +109,13 @@ function buildRecipeData(rank: number, compoundName = "Demo NBR", overrides: Rec
     },
   ];
 
+  const process_type = options?.processType || "Batch";
+  const temp_range = options?.tempRange || { min: Number(temp) - 1, max: Number(temp) + 1, unit: "°C" };
+  const temp_range_str = typeof temp_range === "string" ? temp_range : `${temp_range.min}–${temp_range.max} ${temp_range.unit}`;
+
   const process_conditions = {
+    process_type,
+    temperature_range: temp_range,
     reaction_time: { value: "8", unit: "h" },
     feeding_hours: { monomer: "6", emulsifier: "4", catalyst: "2" },
     temperature_profile: [
@@ -107,8 +125,47 @@ function buildRecipeData(rank: number, compoundName = "Demo NBR", overrides: Rec
     ],
   };
 
+  const catalyst_system = options?.catalystSystem || {
+    primary_catalyst: "Potassium persulfate (KPS)",
+    primary_dosage: "0.35 phr",
+    primary_dosage_phr: 0.35,
+    alternatives: [
+      {
+        catalyst: "Ammonium persulfate",
+        dosage: "0.30 phr",
+        rationale: "Validated water-soluble thermal initiator alternative",
+      },
+    ],
+  };
+
+  const activator_system = options?.activatorSystem || {
+    applicable: true,
+    is_applicable: true,
+    name: "Sodium formaldehyde sulfoxylate (SFS)",
+    activator_name: "Sodium formaldehyde sulfoxylate (SFS)",
+    dosage: "0.10 phr",
+    dosage_phr: 0.10,
+    stage: "Catalyst Solution / Redox Activation",
+    addition_stage: "Catalyst Solution / Redox Activation",
+    alternatives: [],
+  };
+
+  const coagulation_system = options?.coagulationSystem || {
+    applicable: true,
+    is_applicable: true,
+    coagulant: "Calcium chloride",
+    coagulant_name: "Calcium chloride",
+    dosage: "2.0 phr",
+    dosage_phr: 2.0,
+    process_conditions: "Crumb isolation at 60°C",
+    notes: "Aqueous electrolyte precipitation",
+  };
+
   return {
     name: `Demo Recipe ${rank}`,
+    compound: compoundName,
+    process_type,
+    temperature_range: temp_range_str,
     bd_acn_ratio: overrides["BD/ACN Ratio"] || "74/26",
     polymerization_method: "Cold Emulsion",
     temperature: `${temp}°C`,
@@ -124,6 +181,10 @@ function buildRecipeData(rank: number, compoundName = "Demo NBR", overrides: Rec
     parameters: params,
     stages,
     process_conditions,
+    catalyst_system,
+    activator_system,
+    coagulation_system,
+    target_analysis: options?.targetAnalysis,
     patent_references: ["US20250075019A1"],
     rationale: `[DEMO] Development fixture recipe ${rank} for ${compoundName}.`,
     notes: `[DEMO] Fixture for UI workflow testing.`,
@@ -132,7 +193,7 @@ function buildRecipeData(rank: number, compoundName = "Demo NBR", overrides: Rec
 }
 
 /** Exactly 5 demo candidates matching API RecipeCandidate shape. */
-export function getDemoRecipeCandidates(compoundName = "Demo NBR") {
+export function getDemoRecipeCandidates(compoundName = "Demo Polymer") {
   return [1, 2, 3, 4, 5].map((rank) => {
     const recipe_data = buildRecipeData(rank, compoundName);
     return {
@@ -150,7 +211,7 @@ export function getDemoRecipeCandidates(compoundName = "Demo NBR") {
   });
 }
 
-export function getDemoCycle(compoundName = "Demo NBR") {
+export function getDemoCycle(compoundName = "Demo Polymer") {
   return {
     id: DEMO_CYCLE_ID,
     research_run_id: null,
@@ -166,15 +227,113 @@ export function getDemoCycle(compoundName = "Demo NBR") {
   };
 }
 
-/** Exactly 3 demo revisions for CTF development flow. */
-export function getDemoRevisedRecipes(parentName = DEMO_RECIPE_NAME) {
+/** Exactly 3 demo revisions for CTF development flow with Phase 2 technical constraints and target analysis. */
+export function getDemoRevisedRecipes(
+  parentName = DEMO_RECIPE_NAME,
+  compoundName = "Demo Polymer",
+  constraints: { processType?: string; tempRange?: any } = {},
+  targets: any[] = []
+) {
+  const pType = constraints.processType || "Batch";
+  const tRange = constraints.tempRange || { min: 8, max: 12, unit: "°C" };
+
+  // Generate demonstration evaluated properties reflecting target compliance
+  const propList = targets.length > 0 ? targets : [{ name: "Target Property", target: "45", range: "40–50", unit: "MU" }];
+
+  const evalPropsA = propList.map((t: any) => ({
+    name: t.name || t.property || "Target Property",
+    property: t.name || t.property || "Target Property",
+    unit: t.unit || "MU",
+    target_display: t.range ? `${t.target || "45"} (Range: ${t.range})` : (t.target || t.value || "45"),
+    predicted_display: "45.0",
+    predicted_value: 45.0,
+    status: "MEETS_TARGET",
+    target_status: "MEETS TARGET",
+    passed: true,
+    meets_target: true,
+    reasoning: "Adjusted formulation levers satisfy target point and range.",
+  }));
+
+  const evalPropsB = propList.map((t: any) => ({
+    name: t.name || t.property || "Target Property",
+    property: t.name || t.property || "Target Property",
+    unit: t.unit || "MU",
+    target_display: t.range ? `${t.target || "45"} (Range: ${t.range})` : (t.target || t.value || "45"),
+    predicted_display: "46.2",
+    predicted_value: 46.2,
+    status: "MEETS_TARGET",
+    target_status: "MEETS TARGET",
+    passed: true,
+    meets_target: true,
+    reasoning: "Alternative balanced initiator & CTA loading meets target within tolerance.",
+  }));
+
+  const evalPropsC = propList.map((t: any, idx: number) => ({
+    name: t.name || t.property || "Target Property",
+    property: t.name || t.property || "Target Property",
+    unit: t.unit || "MU",
+    target_display: t.range ? `${t.target || "45"} (Range: ${t.range})` : (t.target || t.value || "45"),
+    predicted_display: idx === 0 ? "54.5" : "45.0",
+    predicted_value: idx === 0 ? 54.5 : 45.0,
+    status: idx === 0 ? "OUTSIDE_TARGET" : "MEETS_TARGET",
+    target_status: idx === 0 ? "OUTSIDE TARGET" : "MEETS TARGET",
+    passed: idx !== 0,
+    meets_target: idx !== 0,
+    reasoning: idx === 0
+      ? "Higher polymerization rate tradeoff exceeds target boundary."
+      : "Maintains secondary target compliance.",
+  }));
+
+  const tAnalysisA = {
+    evaluated_properties: evalPropsA,
+    target_fit_score: 100,
+    targets_met: evalPropsA.length,
+    targets_total: evalPropsA.length,
+  };
+
+  const tAnalysisB = {
+    evaluated_properties: evalPropsB,
+    target_fit_score: 100,
+    targets_met: evalPropsB.length,
+    targets_total: evalPropsB.length,
+  };
+
+  const tAnalysisC = {
+    evaluated_properties: evalPropsC,
+    target_fit_score: Math.round(((evalPropsC.length - 1) / evalPropsC.length) * 100),
+    targets_met: evalPropsC.length - 1,
+    targets_total: evalPropsC.length,
+  };
+
+  const recipeA = buildRecipeData(1, compoundName, { Water: "190", Temperature: "8" }, {
+    processType: pType,
+    tempRange: tRange,
+    targetAnalysis: tAnalysisA,
+  });
+
+  const recipeB = buildRecipeData(2, compoundName, {
+    Water: "200",
+    "Chain Transfer Agent": "t-DDM 0.55",
+    Temperature: "12",
+  }, {
+    processType: pType,
+    tempRange: tRange,
+    targetAnalysis: tAnalysisB,
+  });
+
+  const recipeC = buildRecipeData(3, compoundName, { Temperature: "15", Conversion: "90" }, {
+    processType: pType,
+    tempRange: tRange,
+    targetAnalysis: tAnalysisC,
+  });
+
   return [
     {
       id: "00000000-demo-rev-0000-000000000001",
       trial_id: "00000000-demo-trial-0000-000000000001",
       revision_label: "A",
-      name: `${parentName} - Optimization 1`,
-      recipe_data: buildRecipeData(1, { Water: "190", Temperature: "8" }),
+      name: `${parentName} - Revision A (Conservative Adjustment)`,
+      recipe_data: recipeA,
       changed_parameters: [
         {
           parameter: "Water",
@@ -186,6 +345,11 @@ export function getDemoRevisedRecipes(parentName = DEMO_RECIPE_NAME) {
       predicted_impacts: [
         { property: "Mooney", previous_value: "45", predicted_value: "43" },
       ],
+      confidence_score: 88,
+      target_fit_score: 100,
+      targets_met: evalPropsA.length,
+      targets_total: evalPropsA.length,
+      target_analysis: tAnalysisA,
       is_selected: false,
       created_at: new Date().toISOString(),
       __demo: true,
@@ -194,12 +358,8 @@ export function getDemoRevisedRecipes(parentName = DEMO_RECIPE_NAME) {
       id: "00000000-demo-rev-0000-000000000002",
       trial_id: "00000000-demo-trial-0000-000000000001",
       revision_label: "B",
-      name: `${parentName} - Optimization 2`,
-      recipe_data: buildRecipeData(2, {
-        Water: "200",
-        "Chain Transfer Agent": "t-DDM 0.55",
-        Temperature: "12",
-      }),
+      name: `${parentName} - Revision B (Balanced Tuning)`,
+      recipe_data: recipeB,
       changed_parameters: [
         {
           parameter: "Chain Transfer Agent",
@@ -211,6 +371,11 @@ export function getDemoRevisedRecipes(parentName = DEMO_RECIPE_NAME) {
       predicted_impacts: [
         { property: "Mooney", previous_value: "40", predicted_value: "47" },
       ],
+      confidence_score: 82,
+      target_fit_score: 100,
+      targets_met: evalPropsB.length,
+      targets_total: evalPropsB.length,
+      target_analysis: tAnalysisB,
       is_selected: false,
       created_at: new Date().toISOString(),
       __demo: true,
@@ -219,8 +384,8 @@ export function getDemoRevisedRecipes(parentName = DEMO_RECIPE_NAME) {
       id: "00000000-demo-rev-0000-000000000003",
       trial_id: "00000000-demo-trial-0000-000000000001",
       revision_label: "C",
-      name: `${parentName} - Optimization 3`,
-      recipe_data: buildRecipeData(3, { Temperature: "15", Conversion: "90" }),
+      name: `${parentName} - Revision C (Outside-Target Process Variant)`,
+      recipe_data: recipeC,
       changed_parameters: [
         {
           parameter: "Temperature",
@@ -236,6 +401,11 @@ export function getDemoRevisedRecipes(parentName = DEMO_RECIPE_NAME) {
           predicted_value: "90",
         },
       ],
+      confidence_score: 62,
+      target_fit_score: tAnalysisC.target_fit_score,
+      targets_met: tAnalysisC.targets_met,
+      targets_total: tAnalysisC.targets_total,
+      target_analysis: tAnalysisC,
       is_selected: false,
       created_at: new Date().toISOString(),
       __demo: true,

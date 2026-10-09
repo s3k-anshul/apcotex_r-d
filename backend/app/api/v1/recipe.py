@@ -3,8 +3,10 @@ app/api/v1/recipe.py
 
 Recipe Simulator API endpoints.
 """
+import re
 import uuid
-from fastapi import APIRouter, Depends, status
+from typing import Any
+from fastapi import APIRouter, Depends, Response, status
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -291,4 +293,82 @@ async def select_optimized(
     svc = RecipeService(db)
     trial = await svc.select_optimized(trial_id, optimized_id, current_user)
     return SuccessResponse(data=to_customer_trial_response(trial))
+
+
+@router.post("/export/pdf")
+async def export_recipes_to_pdf(
+    payload: dict[str, Any],
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Export current recipes directly from UI state to a single structured PDF file.
+    Preserves all 5 candidate recipes in order without regenerating or querying LLM.
+    """
+    recipes = payload.get("recipes", [])
+    compound = payload.get("compound", "Polymer Formulation")
+    cycle_info = payload.get("cycle_info", {})
+    from app.services.recipe_pdf_service import RecipePdfService
+    pdf_bytes = RecipePdfService.generate_recipes_pdf(
+        recipes=recipes,
+        compound_name=compound,
+        cycle_info=cycle_info,
+    )
+    safe_compound = re.sub(r"[^a-zA-Z0-9_\-]", "_", compound)
+    filename = f"Apcotex_Recipes_{safe_compound}.pdf"
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f'attachment; filename="{filename}"',
+            "Access-Control-Expose-Headers": "Content-Disposition",
+        },
+    )
+
+
+@router.get("/cycles/{cycle_id}/export/pdf")
+async def export_cycle_recipes_to_pdf(
+    cycle_id: uuid.UUID,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Export all candidates for a persisted cycle to a structured PDF file.
+    """
+    svc = RecipeService(db)
+    cycle = await svc.get_cycle(cycle_id, current_user)
+    candidates_data = [
+        c.recipe_data if c.recipe_data else {
+            "name": c.name,
+            "display_name": c.display_name,
+            "rank": c.rank,
+            "confidence_score": c.confidence_score,
+            "target_fit_score": c.target_fit_score,
+            "targets_met": c.targets_met,
+            "targets_total": c.targets_total,
+            "predicted_properties": c.predicted_properties,
+            "patent_references": c.patent_references,
+        }
+        for c in (cycle.candidates or [])
+    ]
+    from app.services.recipe_pdf_service import RecipePdfService
+    pdf_bytes = RecipePdfService.generate_recipes_pdf(
+        recipes=candidates_data,
+        compound_name=cycle.compound_name,
+        cycle_info={
+            "target_properties": cycle.target_properties,
+            "process_type": cycle.process_type,
+            "temperature_range": cycle.temperature_range,
+        },
+    )
+    safe_compound = re.sub(r"[^a-zA-Z0-9_\-]", "_", cycle.compound_name)
+    filename = f"Apcotex_Recipes_{safe_compound}.pdf"
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f'attachment; filename="{filename}"',
+            "Access-Control-Expose-Headers": "Content-Disposition",
+        },
+    )
+
 

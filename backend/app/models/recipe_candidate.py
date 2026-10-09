@@ -53,7 +53,7 @@ class RecipeCandidate(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     )
 
     rank: Mapped[int] = mapped_column(Integer, nullable=False)  # 1–5
-    name: Mapped[str] = mapped_column(String(64), nullable=False)  # "Recipe 1" … "Recipe 5"
+    name: Mapped[str] = mapped_column(String(255), nullable=False)  # Recipe name or candidate title
 
     # Full structured recipe from LLM
     recipe_data: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)

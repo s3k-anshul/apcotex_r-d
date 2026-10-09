@@ -107,11 +107,8 @@ export function RecipeComparisonTable({ model }: { model: RecipeComparisonModel 
                     borderRight: `1px solid rgba(255,255,255,0.15)`,
                   }}
                 >
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
-                    <span style={{ fontSize: "0.75rem", opacity: 0.85, textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                      Recipe {i + 1}
-                    </span>
-                    <span style={{ fontWeight: 800, fontSize: "0.9rem" }}>{r.name}</span>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                    <span style={{ fontWeight: 800, fontSize: "0.9375rem", letterSpacing: "0.3px" }}>{r.name}</span>
                     {r.isCompliant && (
                       <span
                         style={{

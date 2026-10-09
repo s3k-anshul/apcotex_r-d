@@ -8,7 +8,11 @@ import {
 
 export interface Step1Inputs {
   targetProduct: string;
-  desired: Record<string, { min: string; max: string }>;
+  processType: 'Batch' | 'Continuous' | 'No Preference';
+  temperatureMin: string;
+  temperatureMax: string;
+  temperatureUnit: string;
+  desired: Record<string, { min: string; max: string; target?: string }>;
   competitors: { id: string; name: string }[];
   competitorValues: Record<string, Record<string, string>>;
 }
@@ -16,6 +20,9 @@ export interface Step1Inputs {
 export interface GenerationSnapshot {
   targetProduct: string;
   reportId: string | null;
+  processType: string;
+  temperatureMin: string;
+  temperatureMax: string;
   desiredJson: string;
   competitorValuesJson: string;
 }
@@ -98,6 +105,10 @@ export function RecipeProvider({ children }: { children: React.ReactNode }) {
   // Step 1 persistent inputs in memory across Step 1 <-> Step 2 navigation
   const [step1Inputs, setStep1InputsState] = useState<Step1Inputs>({
     targetProduct: '',
+    processType: 'No Preference',
+    temperatureMin: '',
+    temperatureMax: '',
+    temperatureUnit: '°C',
     desired: {},
     competitors: [{ id: 'c1', name: '' }],
     competitorValues: {},
@@ -123,6 +134,9 @@ export function RecipeProvider({ children }: { children: React.ReactNode }) {
         const snap = generationState.generationContextSnapshot;
         const isChanged =
           snap.targetProduct !== next.targetProduct.trim() ||
+          snap.processType !== next.processType ||
+          snap.temperatureMin !== next.temperatureMin ||
+          snap.temperatureMax !== next.temperatureMax ||
           snap.desiredJson !== JSON.stringify(next.desired) ||
           snap.competitorValuesJson !== JSON.stringify(next.competitorValues);
         if (isChanged !== generationState.inputsChangedSinceGeneration) {
@@ -157,6 +171,10 @@ export function RecipeProvider({ children }: { children: React.ReactNode }) {
     });
     setStep1InputsState({
       targetProduct: '',
+      processType: 'No Preference',
+      temperatureMin: '',
+      temperatureMax: '',
+      temperatureUnit: '°C',
       desired: {},
       competitors: [{ id: 'c1', name: '' }],
       competitorValues: {},
@@ -271,7 +289,7 @@ export function RecipeProvider({ children }: { children: React.ReactNode }) {
       }
       
       // Rehydrate step1Inputs from cycle data so navigating back to Step 1 or refreshing never loses target properties
-      const loadedDesired: Record<string, { min: string; max: string }> = {};
+      const loadedDesired: Record<string, { min: string; max: string; target?: string }> = {};
       if (Array.isArray(data.target_properties)) {
         data.target_properties.forEach((tp: any) => {
           const feat = tp.feature || tp.property || tp.name || tp.id;
@@ -279,9 +297,34 @@ export function RecipeProvider({ children }: { children: React.ReactNode }) {
             loadedDesired[feat] = {
               min: tp.min !== undefined && tp.min !== null ? String(tp.min) : (tp.min_value !== undefined && tp.min_value !== null ? String(tp.min_value) : ''),
               max: tp.max !== undefined && tp.max !== null ? String(tp.max) : (tp.max_value !== undefined && tp.max_value !== null ? String(tp.max_value) : ''),
+              target: tp.target !== undefined && tp.target !== null ? String(tp.target) : (tp.target_value !== undefined && tp.target_value !== null ? String(tp.target_value) : ''),
             };
           }
         });
+      }
+
+      // Rehydrate process_type and temperature_range if present
+      let loadedProcessType: 'Batch' | 'Continuous' | 'No Preference' = 'No Preference';
+      if (data.process_type) {
+        const ptLow = String(data.process_type).toLowerCase();
+        if (ptLow === 'batch') loadedProcessType = 'Batch';
+        else if (ptLow === 'continuous') loadedProcessType = 'Continuous';
+      }
+      let loadedTempMin = '';
+      let loadedTempMax = '';
+      let loadedTempUnit = '°C';
+      if (data.temperature_range) {
+        if (typeof data.temperature_range === 'object') {
+          loadedTempMin = data.temperature_range.min !== undefined && data.temperature_range.min !== null ? String(data.temperature_range.min) : '';
+          loadedTempMax = data.temperature_range.max !== undefined && data.temperature_range.max !== null ? String(data.temperature_range.max) : '';
+          loadedTempUnit = data.temperature_range.unit || '°C';
+        } else if (typeof data.temperature_range === 'string') {
+          const m = data.temperature_range.match(/(-?\d+(?:\.\d+)?)\s*(?:-|–|to)\s*(-?\d+(?:\.\d+)?)/);
+          if (m) {
+            loadedTempMin = m[1];
+            loadedTempMax = m[2];
+          }
+        }
       }
 
       // Rehydrate competitors and competitorValues if available
@@ -305,6 +348,10 @@ export function RecipeProvider({ children }: { children: React.ReactNode }) {
 
       setStep1InputsState((prev) => ({
         targetProduct: data.target_product || prev.targetProduct,
+        processType: loadedProcessType || prev.processType,
+        temperatureMin: loadedTempMin !== '' ? loadedTempMin : prev.temperatureMin,
+        temperatureMax: loadedTempMax !== '' ? loadedTempMax : prev.temperatureMax,
+        temperatureUnit: loadedTempUnit || prev.temperatureUnit,
         desired: Object.keys(loadedDesired).length > 0 ? loadedDesired : prev.desired,
         competitors: loadedCompetitors.length > 0 ? loadedCompetitors : prev.competitors,
         competitorValues: Object.keys(loadedCompValues).length > 0 ? loadedCompValues : prev.competitorValues,
@@ -315,6 +362,9 @@ export function RecipeProvider({ children }: { children: React.ReactNode }) {
         hasGeneratedRecipes: cands.length > 0,
         generationContextSnapshot: {
           targetProduct: data.target_product || '',
+          processType: loadedProcessType,
+          temperatureMin: loadedTempMin,
+          temperatureMax: loadedTempMax,
           desiredJson: JSON.stringify(loadedDesired),
           competitorValuesJson: JSON.stringify(loadedCompValues),
           reportId: data.research_run_id || null,
@@ -508,7 +558,24 @@ export function RecipeProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (err: any) {
       if (isRecipeDemoMode()) {
-        const demoRevisions = getDemoRevisedRecipes();
+        const comp =
+          (activeTrial as any)?.recipe_snapshot?.compound ||
+          (activeTrial as any)?.compound ||
+          selectedCandidate?.recipe_data?.compound ||
+          "Demo Polymer";
+        const targets = (activeTrial as any)?.target_values || [];
+        const targetsList = Array.isArray(targets)
+          ? targets
+          : Object.entries(targets).map(([k, v]) => ({ name: k, target: v }));
+        const demoRevisions = getDemoRevisedRecipes(
+          (activeTrial as any)?.recipe_snapshot?.recipe_name || "Base Recipe",
+          comp,
+          {
+            processType: (activeTrial as any)?.recipe_snapshot?.process_conditions?.process_type || "Batch",
+            tempRange: (activeTrial as any)?.recipe_snapshot?.process_conditions?.temperature_range,
+          },
+          targetsList
+        );
         setOptimizedCandidates(demoRevisions);
         const completed = { ...activeTrial, status: "COMPLETED", optimized_candidates: demoRevisions };
         trialRef.current = completed;

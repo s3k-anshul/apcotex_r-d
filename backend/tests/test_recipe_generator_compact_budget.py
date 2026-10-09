@@ -238,10 +238,11 @@ async def test_generate_recipes_dynamic_sbr(db_session, mock_user):
     assert any("Styrene" in p for p in param_names)
     assert any("Butadiene" in p for p in param_names)
 
-    # Verify confidence score is computed deterministically application-side
+    # Verify confidence score and evidence coverage are distinct deterministic metrics
     assert first_c.evidence_coverage_score is not None
     assert 0 <= first_c.evidence_coverage_score <= 100
-    assert first_c.recipe_data.get("confidence_score") == first_c.evidence_coverage_score
+    assert first_c.recipe_data.get("confidence_score") is not None
+    assert 0 <= first_c.recipe_data.get("confidence_score") <= 100
 
 
 @pytest.mark.asyncio

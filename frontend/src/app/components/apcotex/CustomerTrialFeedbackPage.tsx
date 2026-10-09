@@ -28,6 +28,7 @@ import {
 import {
   convertToEditableRecipe,
   editableRecipeToRecipeData,
+  getRecipeDisplayName,
   type EditableRecipe,
   type RecipeProperty,
   type EditableProcessConditions,
@@ -744,7 +745,7 @@ export function CustomerTrialFeedbackPage() {
                     fontWeight: 700,
                   }}
                 >
-                  {selectedRecipe.recipe_name}
+                  {getRecipeDisplayName(selectedRecipe)}
                 </h2>
                 <div
                   style={{
@@ -799,7 +800,7 @@ export function CustomerTrialFeedbackPage() {
                   {selectedRecipe.parent_recipe_name && (
                     <>
                       <span>·</span>
-                      <span>Parent: {selectedRecipe.parent_recipe_name}</span>
+                      <span>Parent: {getRecipeDisplayName({ recipe_name: selectedRecipe.parent_recipe_name })}</span>
                     </>
                   )}
                 </div>
@@ -879,7 +880,7 @@ export function CustomerTrialFeedbackPage() {
               )}
 
               <Step3CustomerTrialFeedback
-                selectedRecipeName={selectedRecipe.recipe_name}
+                selectedRecipeName={getRecipeDisplayName(selectedRecipe)}
                 submitLabel="Optimize Recipe"
                 hideBack
                 onNext={editingRevisions.length > 0 ? () => setViewStep("results") : undefined}
@@ -1004,6 +1005,42 @@ export function CustomerTrialFeedbackPage() {
                   opt?.tradeoffs ||
                   (recipe.raw_data && recipe.raw_data.tradeoffs);
 
+                const candCompound =
+                  opt?.recipe_data?.compound ||
+                  recipe.raw_data?.compound ||
+                  selectedRecipe?.recipe_data?.compound;
+                const candProcessType =
+                  opt?.recipe_data?.process_type ||
+                  opt?.recipe_data?.process_conditions?.process_type ||
+                  recipe.raw_data?.process_type ||
+                  recipe.raw_data?.process_conditions?.process_type;
+                const candTemp =
+                  opt?.recipe_data?.temperature_range ||
+                  opt?.recipe_data?.process_conditions?.temperature_range ||
+                  recipe.raw_data?.temperature_range ||
+                  recipe.raw_data?.process_conditions?.temperature_range;
+                const candTempStr = candTemp
+                  ? typeof candTemp === "object"
+                    ? `${candTemp.min}–${candTemp.max} ${candTemp.unit || "°C"}`
+                    : String(candTemp)
+                  : null;
+
+                const catalystSys =
+                  opt?.recipe_data?.catalyst_system ||
+                  recipe.raw_data?.catalyst_system;
+                const activatorSys =
+                  opt?.recipe_data?.activator_system ||
+                  recipe.raw_data?.activator_system;
+                const coagulationSys =
+                  opt?.recipe_data?.coagulation_system ||
+                  recipe.raw_data?.coagulation_system;
+
+                const evaluatedProps: any[] =
+                  opt?.recipe_data?.target_analysis?.evaluated_properties ||
+                  opt?.target_analysis?.evaluated_properties ||
+                  recipe.raw_data?.target_analysis?.evaluated_properties ||
+                  [];
+
                 return (
                   <div
                     key={recipe.id}
@@ -1028,7 +1065,7 @@ export function CustomerTrialFeedbackPage() {
                       }}
                     >
                       <div>
-                        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 6 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 6 }}>
                           <h4 style={{ margin: 0, color: BLUE, fontSize: "1.05rem", fontWeight: 700 }}>
                             {recipe.name}
                             {opt?.revision_label ? ` (${opt.revision_label})` : ""}
@@ -1049,6 +1086,51 @@ export function CustomerTrialFeedbackPage() {
                               }}
                             >
                               <CheckCircle2 size={13} color={TEAL} /> Selected
+                            </span>
+                          )}
+                          {candCompound && (
+                            <span
+                              style={{
+                                background: "rgba(31,95,168,0.08)",
+                                color: BLUE,
+                                fontWeight: 700,
+                                fontSize: "0.75rem",
+                                padding: "2px 10px",
+                                borderRadius: 12,
+                                border: `1px solid rgba(31,95,168,0.25)`,
+                              }}
+                            >
+                              Polymer: {candCompound}
+                            </span>
+                          )}
+                          {candProcessType && (
+                            <span
+                              style={{
+                                background: "rgba(107,114,128,0.1)",
+                                color: "#374151",
+                                fontWeight: 700,
+                                fontSize: "0.75rem",
+                                padding: "2px 10px",
+                                borderRadius: 12,
+                                border: `1px solid rgba(107,114,128,0.25)`,
+                              }}
+                            >
+                              Process: {candProcessType}
+                            </span>
+                          )}
+                          {candTempStr && (
+                            <span
+                              style={{
+                                background: "rgba(245,158,11,0.1)",
+                                color: "#B45309",
+                                fontWeight: 700,
+                                fontSize: "0.75rem",
+                                padding: "2px 10px",
+                                borderRadius: 12,
+                                border: `1px solid rgba(245,158,11,0.3)`,
+                              }}
+                            >
+                              Temp: {candTempStr}
                             </span>
                           )}
                           <span
@@ -1212,6 +1294,188 @@ export function CustomerTrialFeedbackPage() {
                         </div>
                       )}
                     </div>
+
+                    {/* Technical Systems: Catalyst, Activator, Coagulation */}
+                    {(catalystSys || activatorSys || coagulationSys) && (
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                          gap: 10,
+                          marginBottom: 14,
+                        }}
+                      >
+                        {catalystSys && (
+                          <div
+                            style={{
+                              background: "#F8FAFC",
+                              border: `1px solid ${BORDER}`,
+                              borderRadius: 6,
+                              padding: "10px 12px",
+                              fontSize: "0.8125rem",
+                            }}
+                          >
+                            <div style={{ fontWeight: 700, color: BLUE, fontSize: "0.75rem", marginBottom: 4, textTransform: "uppercase" }}>
+                              Catalyst / Initiator System
+                            </div>
+                            <div style={{ color: TEXT, fontWeight: 600 }}>
+                              {catalystSys.primary_catalyst || "Primary Initiator"} ({catalystSys.primary_dosage || "0.35 phr"})
+                            </div>
+                            {catalystSys.alternatives && catalystSys.alternatives.length > 0 ? (
+                              <div style={{ fontSize: "0.75rem", color: "#64748B", marginTop: 4 }}>
+                                <em>Alternatives:</em>{" "}
+                                {catalystSys.alternatives.map((a: any) => `${a.catalyst || a.name} (${a.dosage || "alt"})`).join("; ")}
+                              </div>
+                            ) : (
+                              <div style={{ fontSize: "0.75rem", color: "#94A3B8", marginTop: 4 }}>
+                                No validated alternative identified
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {activatorSys && (
+                          <div
+                            style={{
+                              background: "#F8FAFC",
+                              border: `1px solid ${BORDER}`,
+                              borderRadius: 6,
+                              padding: "10px 12px",
+                              fontSize: "0.8125rem",
+                            }}
+                          >
+                            <div style={{ fontWeight: 700, color: BLUE, fontSize: "0.75rem", marginBottom: 4, textTransform: "uppercase" }}>
+                              Activator System
+                            </div>
+                            {activatorSys.applicable ? (
+                              <>
+                                <div style={{ color: TEXT, fontWeight: 600 }}>
+                                  {activatorSys.name || activatorSys.activator_name || "Redox Activator"} ({activatorSys.dosage || "0.10 phr"})
+                                </div>
+                                <div style={{ fontSize: "0.75rem", color: "#64748B", marginTop: 4 }}>
+                                  Stage: {activatorSys.stage || activatorSys.addition_stage || "Catalyst Solution"}
+                                </div>
+                              </>
+                            ) : (
+                              <div style={{ color: "#64748B", fontStyle: "italic" }}>
+                                Not applicable / Not required
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {coagulationSys && (
+                          <div
+                            style={{
+                              background: "#F8FAFC",
+                              border: `1px solid ${BORDER}`,
+                              borderRadius: 6,
+                              padding: "10px 12px",
+                              fontSize: "0.8125rem",
+                            }}
+                          >
+                            <div style={{ fontWeight: 700, color: BLUE, fontSize: "0.75rem", marginBottom: 4, textTransform: "uppercase" }}>
+                              Coagulation System
+                            </div>
+                            {coagulationSys.applicable ? (
+                              <>
+                                <div style={{ color: TEXT, fontWeight: 600 }}>
+                                  {coagulationSys.coagulant || coagulationSys.coagulant_name || "Coagulant"} ({coagulationSys.dosage || "2.0 phr"})
+                                </div>
+                                <div style={{ fontSize: "0.75rem", color: "#64748B", marginTop: 4 }}>
+                                  Conditions: {coagulationSys.process_conditions || "Standard coagulation"}
+                                </div>
+                              </>
+                            ) : (
+                              <div style={{ color: "#64748B", fontStyle: "italic" }}>
+                                Not applicable / Not required
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Target Properties Evaluation Table */}
+                    {evaluatedProps.length > 0 && (
+                      <div style={{ marginBottom: 14 }}>
+                        <div
+                          style={{
+                            fontSize: "0.75rem",
+                            fontWeight: 700,
+                            color: BLUE,
+                            marginBottom: 8,
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          Target Properties Evaluation
+                        </div>
+                        <table
+                          style={{
+                            width: "100%",
+                            borderCollapse: "collapse",
+                            fontSize: "0.8125rem",
+                          }}
+                        >
+                          <thead>
+                            <tr style={{ background: BG }}>
+                              {["Property", "Target / Range", "Prediction", "Status", "Rationale"].map((col) => (
+                                <th
+                                  key={col}
+                                  style={{
+                                    padding: "8px 10px",
+                                    textAlign: "left",
+                                    border: `1px solid ${BORDER}`,
+                                    color: BLUE,
+                                    fontSize: "0.75rem",
+                                    fontWeight: 700,
+                                  }}
+                                >
+                                  {col}
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {evaluatedProps.map((p: any, idx: number) => {
+                              const isMet = p.passed ?? p.meets_target ?? (p.status === "MEETS_TARGET" || p.target_status === "MEETS TARGET");
+                              return (
+                                <tr key={p.property || p.name || idx}>
+                                  <td style={{ padding: "8px 10px", border: `1px solid ${BORDER}`, fontWeight: 600, color: TEXT }}>
+                                    {p.property || p.name}
+                                  </td>
+                                  <td style={{ padding: "8px 10px", border: `1px solid ${BORDER}`, color: "#374151" }}>
+                                    {p.target_display || p.target || p.target_value || "—"}
+                                  </td>
+                                  <td style={{ padding: "8px 10px", border: `1px solid ${BORDER}`, fontWeight: 600, color: TEXT }}>
+                                    {p.predicted_display || (p.predicted_value !== undefined ? String(p.predicted_value) : "—")}
+                                  </td>
+                                  <td style={{ padding: "8px 10px", border: `1px solid ${BORDER}` }}>
+                                    <span
+                                      style={{
+                                        display: "inline-block",
+                                        padding: "2px 8px",
+                                        borderRadius: 12,
+                                        fontSize: "0.72rem",
+                                        fontWeight: 700,
+                                        background: isMet ? "rgba(16,185,129,0.12)" : "rgba(239,68,68,0.12)",
+                                        color: isMet ? "#059669" : "#DC2626",
+                                        border: `1px solid ${isMet ? "rgba(16,185,129,0.3)" : "rgba(239,68,68,0.3)"}`,
+                                      }}
+                                    >
+                                      {isMet ? "MEETS TARGET" : "OUTSIDE TARGET"}
+                                    </span>
+                                  </td>
+                                  <td style={{ padding: "8px 10px", border: `1px solid ${BORDER}`, color: "#4B5563", fontSize: "0.75rem" }}>
+                                    {p.reasoning || "—"}
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
 
                     {/* Modified Parameters comparison table */}
                     {changes.length > 0 && (
@@ -1553,7 +1817,7 @@ export function CustomerTrialFeedbackPage() {
       {/* ── Parent Recipe View Modal ────────────────────────────────────────── */}
       {showParentDetailModal && selectedRecipe && (
         <DetailOverlay
-          title={`Parent Recipe: ${selectedRecipe.recipe_name} (${selectedRecipe.recipe_kind === "OPTIMIZED" ? "Optimized" : "Original"})`}
+          title={`Parent Recipe: ${getRecipeDisplayName(selectedRecipe)} (${selectedRecipe.recipe_kind === "OPTIMIZED" ? "Optimized" : "Original"})`}
           onClose={() => setShowParentDetailModal(false)}
         >
           <MetaBlock recipe={selectedRecipe} />
@@ -1633,10 +1897,40 @@ export function CustomerTrialFeedbackPage() {
             </button>
 
             <div style={{ marginBottom: 16 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 6 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 6 }}>
                 <h3 style={{ margin: 0, color: BLUE, fontSize: "1.125rem", fontWeight: 700 }}>
                   {activeEdit.name}
                 </h3>
+                {(activeOpt?.recipe_data?.compound || activeEdit.raw_data?.compound || selectedRecipe?.recipe_data?.compound) && (
+                  <span
+                    style={{
+                      background: "rgba(31,95,168,0.08)",
+                      color: BLUE,
+                      fontWeight: 700,
+                      fontSize: "0.75rem",
+                      padding: "2px 10px",
+                      borderRadius: 12,
+                      border: `1px solid rgba(31,95,168,0.25)`,
+                    }}
+                  >
+                    Polymer: {activeOpt?.recipe_data?.compound || activeEdit.raw_data?.compound || selectedRecipe?.recipe_data?.compound}
+                  </span>
+                )}
+                {(activeOpt?.recipe_data?.process_type || activeOpt?.recipe_data?.process_conditions?.process_type || activeEdit.raw_data?.process_type) && (
+                  <span
+                    style={{
+                      background: "rgba(107,114,128,0.1)",
+                      color: "#374151",
+                      fontWeight: 700,
+                      fontSize: "0.75rem",
+                      padding: "2px 10px",
+                      borderRadius: 12,
+                      border: `1px solid rgba(107,114,128,0.25)`,
+                    }}
+                  >
+                    Process: {activeOpt?.recipe_data?.process_type || activeOpt?.recipe_data?.process_conditions?.process_type || activeEdit.raw_data?.process_type}
+                  </span>
+                )}
                 <span
                   style={{
                     background: "rgba(31,95,168,0.1)",
@@ -1713,6 +2007,153 @@ export function CustomerTrialFeedbackPage() {
                 </div>
               )}
             </div>
+
+            {/* Technical Systems: Catalyst, Activator, Coagulation */}
+            {(() => {
+              const catSys = activeOpt?.recipe_data?.catalyst_system || activeEdit.raw_data?.catalyst_system;
+              const actSys = activeOpt?.recipe_data?.activator_system || activeEdit.raw_data?.activator_system;
+              const coagSys = activeOpt?.recipe_data?.coagulation_system || activeEdit.raw_data?.coagulation_system;
+              if (!catSys && !actSys && !coagSys) return null;
+              return (
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                    gap: 10,
+                    marginBottom: 16,
+                  }}
+                >
+                  {catSys && (
+                    <div style={{ background: "#F8FAFC", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "10px 12px", fontSize: "0.8125rem" }}>
+                      <div style={{ fontWeight: 700, color: BLUE, fontSize: "0.75rem", marginBottom: 4, textTransform: "uppercase" }}>
+                        Catalyst / Initiator System
+                      </div>
+                      <div style={{ color: TEXT, fontWeight: 600 }}>
+                        {catSys.primary_catalyst || "Primary Initiator"} ({catSys.primary_dosage || "0.35 phr"})
+                      </div>
+                      {catSys.alternatives && catSys.alternatives.length > 0 ? (
+                        <div style={{ fontSize: "0.75rem", color: "#64748B", marginTop: 4 }}>
+                          <em>Alternatives:</em> {catSys.alternatives.map((a: any) => `${a.catalyst || a.name} (${a.dosage || "alt"})`).join("; ")}
+                        </div>
+                      ) : (
+                        <div style={{ fontSize: "0.75rem", color: "#94A3B8", marginTop: 4 }}>
+                          No validated alternative identified
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {actSys && (
+                    <div style={{ background: "#F8FAFC", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "10px 12px", fontSize: "0.8125rem" }}>
+                      <div style={{ fontWeight: 700, color: BLUE, fontSize: "0.75rem", marginBottom: 4, textTransform: "uppercase" }}>
+                        Activator System
+                      </div>
+                      {actSys.applicable ? (
+                        <>
+                          <div style={{ color: TEXT, fontWeight: 600 }}>
+                            {actSys.name || actSys.activator_name || "Redox Activator"} ({actSys.dosage || "0.10 phr"})
+                          </div>
+                          <div style={{ fontSize: "0.75rem", color: "#64748B", marginTop: 4 }}>
+                            Stage: {actSys.stage || actSys.addition_stage || "Catalyst Solution"}
+                          </div>
+                        </>
+                      ) : (
+                        <div style={{ color: "#64748B", fontStyle: "italic" }}>
+                          Not applicable / Not required
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {coagSys && (
+                    <div style={{ background: "#F8FAFC", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "10px 12px", fontSize: "0.8125rem" }}>
+                      <div style={{ fontWeight: 700, color: BLUE, fontSize: "0.75rem", marginBottom: 4, textTransform: "uppercase" }}>
+                        Coagulation System
+                      </div>
+                      {coagSys.applicable ? (
+                        <>
+                          <div style={{ color: TEXT, fontWeight: 600 }}>
+                            {coagSys.coagulant || coagSys.coagulant_name || "Coagulant"} ({coagSys.dosage || "2.0 phr"})
+                          </div>
+                          <div style={{ fontSize: "0.75rem", color: "#64748B", marginTop: 4 }}>
+                            Conditions: {coagSys.process_conditions || "Standard coagulation"}
+                          </div>
+                        </>
+                      ) : (
+                        <div style={{ color: "#64748B", fontStyle: "italic" }}>
+                          Not applicable / Not required
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* Target Properties Evaluation Table in View Modal */}
+            {(() => {
+              const evalProps =
+                activeOpt?.recipe_data?.target_analysis?.evaluated_properties ||
+                activeOpt?.target_analysis?.evaluated_properties ||
+                activeEdit.raw_data?.target_analysis?.evaluated_properties ||
+                [];
+              if (!evalProps.length) return null;
+              return (
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: "0.75rem", fontWeight: 700, color: BLUE, marginBottom: 8, textTransform: "uppercase" }}>
+                    Target Properties Evaluation
+                  </div>
+                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.8125rem" }}>
+                    <thead>
+                      <tr style={{ background: BG }}>
+                        {["Property", "Target / Range", "Prediction", "Status", "Rationale"].map((col) => (
+                          <th key={col} style={{ padding: "7px 10px", textAlign: "left", border: `1px solid ${BORDER}`, color: BLUE, fontSize: "0.75rem", fontWeight: 700 }}>
+                            {col}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {evalProps.map((p: any, idx: number) => {
+                        const isMet = p.passed ?? p.meets_target ?? (p.status === "MEETS_TARGET" || p.target_status === "MEETS TARGET");
+                        return (
+                          <tr key={p.property || p.name || idx}>
+                            <td style={{ padding: "7px 10px", border: `1px solid ${BORDER}`, fontWeight: 600, color: TEXT }}>
+                              {p.property || p.name}
+                            </td>
+                            <td style={{ padding: "7px 10px", border: `1px solid ${BORDER}`, color: "#374151" }}>
+                              {p.target_display || p.target || p.target_value || "—"}
+                            </td>
+                            <td style={{ padding: "7px 10px", border: `1px solid ${BORDER}`, fontWeight: 600, color: TEXT }}>
+                              {p.predicted_display || (p.predicted_value !== undefined ? String(p.predicted_value) : "—")}
+                            </td>
+                            <td style={{ padding: "7px 10px", border: `1px solid ${BORDER}` }}>
+                              <span
+                                style={{
+                                  display: "inline-block",
+                                  padding: "2px 8px",
+                                  borderRadius: 12,
+                                  fontSize: "0.72rem",
+                                  fontWeight: 700,
+                                  background: isMet ? "rgba(16,185,129,0.12)" : "rgba(239,68,68,0.12)",
+                                  color: isMet ? "#059669" : "#DC2626",
+                                  border: `1px solid ${isMet ? "rgba(16,185,129,0.3)" : "rgba(239,68,68,0.3)"}`,
+                                }}
+                              >
+                                {isMet ? "MEETS TARGET" : "OUTSIDE TARGET"}
+                              </span>
+                            </td>
+                            <td style={{ padding: "7px 10px", border: `1px solid ${BORDER}`, color: "#4B5563", fontSize: "0.75rem" }}>
+                              {p.reasoning || "—"}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              );
+            })()}
 
             {/* Changed Parameters Table */}
             {activeOpt?.changed_parameters && activeOpt.changed_parameters.length > 0 && (

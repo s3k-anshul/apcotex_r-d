@@ -76,17 +76,19 @@ def normalize_gemini_schema(schema: Dict[str, Any]) -> Dict[str, Any]:
 
     resolved_schema = resolve(schema_copy)
 
-    def remove_additional_properties(node: Any) -> Any:
+    def remove_unsupported_gemini_keywords(node: Any) -> Any:
         if isinstance(node, dict):
             node.pop("additionalProperties", None)
+            node.pop("minItems", None)
+            node.pop("maxItems", None)
             for key in list(node.keys()):
-                node[key] = remove_additional_properties(node[key])
+                node[key] = remove_unsupported_gemini_keywords(node[key])
         elif isinstance(node, list):
             for idx, item in enumerate(node):
-                node[idx] = remove_additional_properties(item)
+                node[idx] = remove_unsupported_gemini_keywords(item)
         return node
 
-    resolved_schema = remove_additional_properties(resolved_schema)
+    resolved_schema = remove_unsupported_gemini_keywords(resolved_schema)
 
     def remove_required_selective(node: Any, path: str = "", inside_report: bool = False) -> Any:
         if isinstance(node, dict):

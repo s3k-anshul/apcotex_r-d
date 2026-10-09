@@ -6,7 +6,7 @@
  * target predictions, and process conditions across currently generated recipes.
  * Zero hardcoding of property or stage names. Missing values receive "—".
  */
-import type { EditableRecipe } from "../recipeSimulatorDemoData";
+import { getRecipeDisplayName, type EditableRecipe } from "../recipeSimulatorDemoData";
 
 export interface ComparisonRecipeHeader {
   id: string;
@@ -29,7 +29,7 @@ export interface ComparisonTargetPropertyRow {
   target: string;
   unit: string;
   predictions: (string | number)[];
-  statuses: ("PASS" | "NOT MET" | "—")[];
+  statuses: ("PASS" | "NOT MET" | "UNKNOWN" | "—")[];
 }
 
 export interface ComparisonParameterRow {
@@ -149,7 +149,7 @@ export function buildRecipeComparisonModel(
 
     return {
       id: r.id || `recipe-${idx + 1}`,
-      name: r.name || `Candidate ${idx + 1}`,
+      name: getRecipeDisplayName(r),
       rank: r.rank || idx + 1,
       confidence: r.confidence ?? 0,
       targetFit: r.targetFit ?? null,
@@ -163,7 +163,7 @@ export function buildRecipeComparisonModel(
   const overviewRows: ComparisonOverviewRow[] = [
     {
       label: "Recipe Name",
-      values: recipes.map((r, i) => r.name || `Recipe ${i + 1}`),
+      values: recipes.map((r) => getRecipeDisplayName(r)),
     },
     {
       label: "Target Fit",
@@ -279,7 +279,11 @@ export function buildRecipeComparisonModel(
               ? `${matched.predicted_value} ${matched.unit || targetInfo.unit}`.trim()
               : "—");
           predictions.push(valDisplay);
-          statuses.push(matched.passed ? "PASS" : "NOT MET");
+          if (matched.status === "UNKNOWN" || matched.target_status === "UNKNOWN") {
+            statuses.push("UNKNOWN");
+          } else {
+            statuses.push(matched.passed ? "PASS" : "NOT MET");
+          }
         } else {
           // Check raw_data.predicted_properties fallback
           const rawPreds = recipe.raw_data?.predicted_properties || [];

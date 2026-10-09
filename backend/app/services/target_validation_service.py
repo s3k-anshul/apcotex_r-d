@@ -60,31 +60,79 @@ class NormalizedTargetProperty:
     min_value: Optional[float] = None
     max_value: Optional[float] = None
     target_value: Optional[float] = None
-    constraint_type: str = "range"  # "range" | "min" | "max" | "exact"
+    constraint_type: str = "range"  # "range" | "min" | "max" | "exact" | "qualitative"
     tolerance: float = 0.5          # absolute tolerance for exact target
     source: str = "target_polymer"
+    raw_target_str: Optional[str] = None
+    current_value: Optional[str] = None
+    direction: Optional[str] = None
+    feedback_relevance: Optional[str] = None
+    conflict_with_range: bool = False
     raw_dict: dict[str, Any] = field(default_factory=dict)
 
     @property
     def is_active(self) -> bool:
-        """Returns True if at least one constraint boundary is populated."""
+        """Returns True if at least one constraint boundary or target description is populated."""
         return (
             self.min_value is not None
             or self.max_value is not None
             or self.target_value is not None
+            or bool(self.raw_target_str and self.raw_target_str.strip() and self.raw_target_str.strip().lower() not in ("none", "null", "n/a", "-", ""))
         )
+
+    @property
+    def target_min(self) -> Optional[float]:
+        return self.min_value
+
+    @property
+    def target_max(self) -> Optional[float]:
+        return self.max_value
+
+    @property
+    def qualitative(self) -> bool:
+        return self.constraint_type == "qualitative"
 
     def display_target(self) -> str:
         u = f" {self.unit}".rstrip() if self.unit else ""
-        if self.constraint_type == "range":
+        if self.min_value is not None and self.max_value is not None and self.target_value is not None:
+            if self.conflict_with_range:
+                return f"Target: {self.target_value}{u} [Conflicts with range {self.min_value}–{self.max_value}{u}]"
+            return f"Target: {self.target_value}{u} (Range: {self.min_value}–{self.max_value}{u})"
+        if self.constraint_type == "range" and self.min_value is not None and self.max_value is not None:
             return f"{self.min_value}–{self.max_value}{u}"
-        elif self.constraint_type == "min":
+        elif self.constraint_type == "min" and self.min_value is not None:
             return f"≥ {self.min_value}{u}"
-        elif self.constraint_type == "max":
+        elif self.constraint_type == "max" and self.max_value is not None:
             return f"≤ {self.max_value}{u}"
-        elif self.constraint_type == "exact":
+        elif self.constraint_type == "exact" and self.target_value is not None:
             return f"{self.target_value}{u}"
+        elif self.raw_target_str:
+            return f"{self.raw_target_str}{u}"
         return "N/A"
+
+
+class StatusString(str):
+    """
+    String representation of target status supporting:
+    - 'MEETS_TARGET', 'WITHIN_RANGE', 'TARGET_MET'
+    - 'NOT_MET', 'OUTSIDE_TARGET', 'OUTSIDE_RANGE', 'TARGET_NOT_MET'
+    - 'UNKNOWN'
+    for 100% backward and forward compatibility across frontend and backend.
+    """
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, (str, StatusString)):
+            s_self = str(self).replace(" ", "_").upper()
+            s_other = str(other).replace(" ", "_").upper()
+            if s_self in ("NOT_MET", "OUTSIDE_TARGET", "OUTSIDE_RANGE", "TARGET_NOT_MET") and s_other in ("NOT_MET", "OUTSIDE_TARGET", "OUTSIDE_RANGE", "TARGET_NOT_MET"):
+                return True
+            if s_self in ("MEETS_TARGET", "WITHIN_RANGE", "TARGET_MET") and s_other in ("MEETS_TARGET", "WITHIN_RANGE", "TARGET_MET"):
+                return True
+            if s_self == "UNKNOWN" and s_other == "UNKNOWN":
+                return True
+        return super().__eq__(other)
+
+    def __hash__(self) -> int:
+        return super().__hash__()
 
 
 class PropertyEvaluationResult(dict):
@@ -224,13 +272,23 @@ class TargetValidationService:
             constraint_type = "range"
             tolerance = 0.5
 
+            # If range was explicitly provided as a combined string (e.g. range="20-25"), parse it
+            if min_v is None and max_v is None and d.get("range"):
+                p_min, p_max, p_tgt, p_type, p_unit = parse_target_value_string(d.get("range"))
+                if p_min is not None and p_max is not None:
+                    min_v = p_min
+                    max_v = p_max
+                    if not unit and p_unit:
+                        unit = p_unit
+
             # If min and max were not explicitly provided as distinct numeric values, parse target string
             if min_v is None and max_v is None and raw_target_str is not None:
                 p_min, p_max, p_tgt, p_type, p_unit = parse_target_value_string(raw_target_str)
                 if p_min is not None or p_max is not None or p_tgt is not None:
                     min_v = p_min
                     max_v = p_max
-                    target_v = p_tgt
+                    if p_tgt is not None:
+                        target_v = p_tgt
                     constraint_type = p_type
                     if not unit and p_unit:
                         unit = p_unit
@@ -251,10 +309,10 @@ class TargetValidationService:
                 constraint_type = "min"
             elif max_v is not None and min_v is None and target_v is None:
                 constraint_type = "max"
-            elif target_v is not None and min_v is None and max_v is None:
-                constraint_type = "exact"
-            elif min_v is not None and max_v is not None:
-                constraint_type = "range"
+            elif min_v is None and max_v is None and target_v is None and raw_target_str is not None:
+                str_raw = str(raw_target_str).strip()
+                if str_raw and str_raw.lower() not in ("none", "null", "n/a", "-", ""):
+                    constraint_type = "qualitative"
 
             # Compute scientifically justified tolerance for exact target (2.5% or min 0.5 units)
             if constraint_type == "exact" and target_v is not None:
@@ -273,6 +331,10 @@ class TargetValidationService:
                 constraint_type=constraint_type,
                 tolerance=tolerance,
                 source=str(d.get("source") or "target_polymer"),
+                raw_target_str=str(raw_target_str) if raw_target_str is not None else None,
+                current_value=str(d.get("current_value") or d.get("actual") or d.get("actual_value") or "") or None,
+                direction=str(d.get("direction") or "") or None,
+                feedback_relevance=str(d.get("feedback_relevance") or "") or None,
                 raw_dict=d,
             )
 
@@ -282,16 +344,160 @@ class TargetValidationService:
         return normalized
 
     @classmethod
+    def format_optimization_targets_table(
+        cls,
+        normalized_targets: list[NormalizedTargetProperty],
+        actual_values: dict[str, Any] | None = None,
+        source_recipe_data: dict[str, Any] | None = None,
+        customer_feedback: str = "",
+    ) -> str:
+        """
+        Builds a rich, normalized, compact markdown table of all user-supplied target properties.
+        Guarantees EVERY populated target property enters the LLM reasoning context without being dropped.
+        For >15 properties, groups logically into scientific clusters (Cure/Rheology, Mechanical, Aging, etc.)
+        while preserving all properties.
+        """
+        if not normalized_targets:
+            return "No explicit quantitative target properties supplied. Optimize formulation scientifically based on customer feedback."
+
+        actual_map = {}
+        if isinstance(actual_values, dict):
+            for k, v in actual_values.items():
+                if v is not None and str(v).strip() != "":
+                    actual_map[re.sub(r"[^a-zA-Z0-9]", "", str(k).lower())] = str(v).strip()
+
+        source_preds = {}
+        if isinstance(source_recipe_data, dict):
+            for sp in source_recipe_data.get("predicted_properties") or []:
+                if isinstance(sp, dict):
+                    sp_name = sp.get("property") or sp.get("name") or ""
+                    sp_val = sp.get("predicted_value") or sp.get("predicted_display") or ""
+                    sp_u = sp.get("unit") or ""
+                    if sp_name and sp_val:
+                        source_preds[re.sub(r"[^a-zA-Z0-9]", "", str(sp_name).lower())] = f"{sp_val} {sp_u}".strip()
+
+        feedback_lower = str(customer_feedback or "").lower()
+
+        rows = []
+        for idx, t in enumerate(normalized_targets, start=1):
+            clean_name = re.sub(r"[^a-zA-Z0-9]", "", t.name.lower())
+            
+            # 1. Resolve Current / Observed Value
+            cur_val = t.current_value
+            if not cur_val and clean_name in actual_map:
+                cur_val = actual_map[clean_name]
+            if not cur_val and clean_name in source_preds:
+                cur_val = f"{source_preds[clean_name]} (baseline)"
+            if not cur_val:
+                cur_val = "Not trialed / baseline"
+
+            # 2. Determine Optimization Direction
+            direction = t.direction
+            if not direction:
+                num_cur = extract_float(cur_val)
+                if num_cur is not None:
+                    if t.constraint_type == "min" and t.min_value is not None:
+                        direction = f"Increase to ≥ {t.min_value}" if num_cur < t.min_value else f"Maintain ≥ {t.min_value} (cur: {num_cur})"
+                    elif t.constraint_type == "max" and t.max_value is not None:
+                        direction = f"Decrease to ≤ {t.max_value}" if num_cur > t.max_value else f"Maintain ≤ {t.max_value} (cur: {num_cur})"
+                    elif t.constraint_type == "exact" and t.target_value is not None:
+                        if num_cur < t.target_value - t.tolerance:
+                            direction = f"Increase toward {t.target_value}"
+                        elif num_cur > t.target_value + t.tolerance:
+                            direction = f"Decrease toward {t.target_value}"
+                        else:
+                            direction = f"Maintain at {t.target_value}"
+                    elif t.constraint_type == "range" and t.min_value is not None and t.max_value is not None:
+                        if num_cur < t.min_value:
+                            direction = f"Increase into range ({t.min_value}–{t.max_value})"
+                        elif num_cur > t.max_value:
+                            direction = f"Decrease into range ({t.min_value}–{t.max_value})"
+                        else:
+                            direction = f"Maintain within range ({t.min_value}–{t.max_value})"
+                if not direction:
+                    direction = f"Align with target ({t.display_target()})"
+
+            # 3. Determine Customer Feedback Relevance
+            relevance = t.feedback_relevance
+            if not relevance:
+                t_words = [w for w in re.sub(r"[^a-zA-Z0-9]", " ", t.name.lower()).split() if len(w) >= 3]
+                if any(w in feedback_lower for w in t_words):
+                    relevance = "Direct customer observation / priority"
+                else:
+                    relevance = "Target specification constraint"
+
+            rows.append({
+                "idx": idx,
+                "property": t,
+                "name": t.name,
+                "unit": t.unit or "—",
+                "target_display": t.display_target(),
+                "cur_val": cur_val,
+                "direction": direction,
+                "relevance": relevance,
+            })
+
+        def _classify_property(prop_name: str) -> str:
+            pl = prop_name.lower()
+            if any(k in pl for k in ("ts1", "ts2", "t10", "t50", "t90", "mh", "ml", "cure", "scorch", "rheo")):
+                return "Cure & Rheology Kinetics"
+            elif any(k in pl for k in ("tensile", "elongation", "modulus", "tear", "hardness", "shore", "strength")):
+                return "Mechanical & Physical Properties"
+            elif any(k in pl for k in ("compression", "set", "abrasion", "aging", "heat", "flex", "fatigue", "resilience")):
+                return "Dynamic & Aging Durability"
+            elif any(k in pl for k in ("swell", "oil", "irm", "isooctane", "fuel", "solvent", "chemical", "water absorption")):
+                return "Chemical & Fluid Resistance"
+            elif any(k in pl for k in ("processing oil", "oil phr", "solid", "tsc", "ph", "viscosity", "mooney")):
+                return "Polymer Processing & Viscosity"
+            return "Additional & Custom Specifications"
+
+        if len(rows) <= 15:
+            table_lines = [
+                "| # | Property Name | Unit | Target / Specification | Current / Observed Value | Target Direction | Feedback Relevance |",
+                "|---|---|---|---|---|---|---|",
+            ]
+            for r in rows:
+                table_lines.append(
+                    f"| {r['idx']} | {r['name']} | {r['unit']} | {r['target_display']} | {r['cur_val']} | {r['direction']} | {r['relevance']} |"
+                )
+            return "\n".join(table_lines)
+        else:
+            clusters: dict[str, list[dict]] = {}
+            for r in rows:
+                c_name = _classify_property(r["name"])
+                clusters.setdefault(c_name, []).append(r)
+
+            grouped_lines = [
+                f"TOTAL SUPPLIED TARGET PROPERTIES: {len(rows)} (ALL MUST BE ANALYZED WITHOUT EXCEPTION)",
+                ""
+            ]
+            for c_title, c_rows in clusters.items():
+                grouped_lines.append(f"### {c_title} ({len(c_rows)} properties)")
+                grouped_lines.append(
+                    "| # | Property Name | Unit | Target / Specification | Current / Observed Value | Target Direction | Feedback Relevance |"
+                )
+                grouped_lines.append("|---|---|---|---|---|---|---|")
+                for r in c_rows:
+                    grouped_lines.append(
+                        f"| {r['idx']} | {r['name']} | {r['unit']} | {r['target_display']} | {r['cur_val']} | {r['direction']} | {r['relevance']} |"
+                    )
+                grouped_lines.append("")
+
+            return "\n".join(grouped_lines).strip()
+
+    @classmethod
     def match_prediction_for_target(
         cls,
         target: NormalizedTargetProperty | str | dict,
         predicted_properties: list[dict[str, Any]],
         recipe_params: list[dict[str, Any]] | None = None,
         rationale: str = "",
+        target_impacts: list[dict[str, Any]] | None = None,
     ) -> Optional[dict[str, Any]]:
         """
         Find the predicted property item matching a given target property.
-        Matches by normalized token overlap and synonyms (e.g. Mooney, ACN, Solids).
+        Matches by normalized token overlap and synonyms (e.g. Mooney, ACN, Solids),
+        or by inspecting target_impact deltas.
         """
         if isinstance(target, str):
             raw_name = target
@@ -307,19 +513,50 @@ class TargetValidationService:
         best_match = None
         best_score = 0.0
 
-        for p in predicted_properties:
+        # Prioritize candidate target_impacts deltas over inherited predicted_properties
+        if target_impacts:
+            for ti in target_impacts:
+                if not isinstance(ti, dict):
+                    continue
+                ti_name = str(ti.get("property") or ti.get("name") or "").strip()
+                ti_clean = re.sub(r"[^a-zA-Z0-9]", " ", ti_name.lower()).strip()
+                ti_tokens = set(ti_clean.split())
+                if ti_clean == target_name_clean or (target_tokens and ti_tokens and (ti_tokens == target_tokens or target_tokens.issubset(ti_tokens))):
+                    ti_val = extract_float(ti.get("predicted_value") or ti.get("value"))
+                    if ti_val is None:
+                        ti_val = extract_float(ti.get("expected_effect") or ti.get("effect") or ti.get("reason"))
+                    t_unit = target.unit if hasattr(target, "unit") else ""
+                    return {
+                        "property": raw_name,
+                        "predicted_value": ti_val,
+                        "unit": ti.get("unit") or t_unit,
+                        "status": ti.get("status") or "MEETS_TARGET",
+                        "reasoning": str(ti.get("expected_effect") or ti.get("effect") or ti.get("reason") or "Assessed in target impact deltas."),
+                    }
+
+        for p in (predicted_properties or []):
             if not isinstance(p, dict):
                 continue
             p_name = str(p.get("property") or p.get("name") or "").strip()
             p_clean = re.sub(r"[^a-zA-Z0-9]", " ", p_name.lower()).strip()
             p_tokens = set(p_clean.split())
 
+            # Direct string match (case-insensitive)
+            if p_name.strip().lower() == raw_name.strip().lower():
+                res = dict(p)
+                res["property"] = raw_name
+                res["name"] = raw_name
+                return res
+
+            # Clean alphanumeric match
+            if target_name_clean and target_name_clean == p_clean:
+                res = dict(p)
+                res["property"] = raw_name
+                res["name"] = raw_name
+                return res
+
             if not p_tokens or not target_tokens:
                 continue
-
-            # Exact string match
-            if target_name_clean == p_clean:
-                return p
 
             # Token overlap score
             overlap = len(target_tokens.intersection(p_tokens))
@@ -347,19 +584,43 @@ class TargetValidationService:
                 best_match = p
 
         if best_match:
-            return best_match
+            res = dict(best_match)
+            res["property"] = raw_name
+            res["name"] = raw_name
+            return res
 
-        # Fallback: check if recipe parameters disclose a value for this target
+        # Fallback 1: check target_impacts array if provided
+        if target_impacts:
+            for ti in target_impacts:
+                if not isinstance(ti, dict):
+                    continue
+                ti_name = str(ti.get("property") or ti.get("name") or "").strip()
+                ti_clean = re.sub(r"[^a-zA-Z0-9]", " ", ti_name.lower()).strip()
+                if ti_clean == target_name_clean or (target_tokens and set(ti_clean.split()) == target_tokens):
+                    ti_val = extract_float(ti.get("predicted_value") or ti.get("value"))
+                    if ti_val is None:
+                        ti_val = extract_float(ti.get("expected_effect") or ti.get("effect") or ti.get("reason"))
+                    t_unit = target.unit if hasattr(target, "unit") else ""
+                    return {
+                        "property": raw_name,
+                        "predicted_value": ti_val,
+                        "unit": t_unit,
+                        "status": ti.get("status") or "MEETS_TARGET",
+                        "reasoning": str(ti.get("expected_effect") or ti.get("effect") or ti.get("reason") or "Assessed in target impact deltas."),
+                    }
+
+        # Fallback 2: check if recipe parameters disclose a value for this target
         if recipe_params:
             for param in recipe_params:
                 pname = str(param.get("name", "")).lower()
                 if any(t in pname for t in target_tokens if len(t) >= 3):
                     val = extract_float(param.get("value"))
                     if val is not None:
+                        t_unit = target.unit if hasattr(target, "unit") else ""
                         return {
-                            "property": target.name,
+                            "property": raw_name,
                             "predicted_value": val,
-                            "unit": param.get("unit") or target.unit,
+                            "unit": param.get("unit") or t_unit,
                             "status": "MEETS_TARGET",
                             "reasoning": f"Synthesized from recipe parameter {param.get('name')}.",
                         }
@@ -376,6 +637,31 @@ class TargetValidationService:
         Deterministically evaluates a single predicted property against its target constraint.
         Does NOT trust Gemini's 'status' field! Independent mathematical verification.
         """
+        if target.constraint_type == "qualitative":
+            passed = bool(prediction and (prediction.get("status") in ("MEETS_TARGET", "MEETS TARGET") or prediction.get("passed")))
+            pred_disp = str(prediction.get("predicted_value") or prediction.get("predicted_display") or prediction.get("reasoning") or "Qualitative alignment") if prediction else "Not quantitatively predictable"
+            return PropertyEvaluationResult({
+                "name": target.name,
+                "property": target.name,
+                "unit": target.unit,
+                "constraint_type": target.constraint_type,
+                "target_display": target.display_target(),
+                "target_min": None,
+                "target_max": None,
+                "target_value": None,
+                "predicted_value": None,
+                "predicted_min": None,
+                "predicted_max": None,
+                "predicted_display": pred_disp,
+                "status": StatusString("MEETS_TARGET" if passed else "OUTSIDE_TARGET"),
+                "target_status": "MEETS TARGET" if passed else "OUTSIDE TARGET",
+                "passed": passed,
+                "meets_target": passed,
+                "margin_score": 1.0 if passed else 0.0,
+                "violation_distance": 0.0 if passed else 1.0,
+                "reasoning": str(prediction.get("reasoning") or "") if prediction else "Qualitative property retained in optimization context; deterministic numerical calculation unavailable.",
+            })
+
         if not prediction:
             return PropertyEvaluationResult({
                 "name": target.name,
@@ -389,12 +675,14 @@ class TargetValidationService:
                 "predicted_value": None,
                 "predicted_min": None,
                 "predicted_max": None,
-                "predicted_display": "Not predicted",
-                "status": "NOT_MET",
+                "predicted_display": "Not quantitatively predictable",
+                "status": StatusString("UNKNOWN"),
+                "target_status": "UNKNOWN",
                 "passed": False,
+                "meets_target": False,
                 "margin_score": 0.0,
                 "violation_distance": 1.0,
-                "reasoning": "Model did not provide a predicted outcome for this target property.",
+                "reasoning": "Experimental validation required; model did not quantitatively infer this property from synthesis levers.",
             })
 
         pred_val = extract_float(prediction.get("predicted_value"))
@@ -436,6 +724,8 @@ class TargetValidationService:
         if effective_val is None and pred_min is None and pred_max is None:
             passed = False
             violation_distance = 1.0
+            status_str = StatusString("UNKNOWN")
+            target_status = "UNKNOWN"
         elif target.constraint_type == "range":
             t_min = target.min_value if target.min_value is not None else 0.0
             t_max = target.max_value if target.max_value is not None else 100.0
@@ -449,7 +739,7 @@ class TargetValidationService:
                 if passed:
                     # Margin measures how nicely centered the range sits
                     pred_center = (pred_min + pred_max) / 2.0
-                    target_center = (t_min + t_max) / 2.0
+                    target_center = target.target_value if target.target_value is not None else ((t_min + t_max) / 2.0)
                     center_offset = abs(pred_center - target_center) / (span / 2.0)
                     margin_score = max(0.2, min(1.0, 1.0 - (center_offset * 0.5)))
                 else:
@@ -461,7 +751,7 @@ class TargetValidationService:
                 eps = max(0.05, span * 0.01)
                 passed = (t_min - eps <= effective_val <= t_max + eps)
                 if passed:
-                    target_center = (t_min + t_max) / 2.0
+                    target_center = target.target_value if target.target_value is not None else ((t_min + t_max) / 2.0)
                     center_offset = abs(effective_val - target_center) / (span / 2.0)
                     margin_score = max(0.3, min(1.0, 1.0 - (center_offset * 0.6)))
                 else:
@@ -469,6 +759,9 @@ class TargetValidationService:
                         violation_distance = t_min - effective_val
                     else:
                         violation_distance = effective_val - t_max
+
+            status_str = StatusString("WITHIN_RANGE" if passed else "OUTSIDE_RANGE")
+            target_status = StatusString("WITHIN RANGE" if passed else "OUTSIDE RANGE")
 
         elif target.constraint_type == "min":
             t_min = target.min_value if target.min_value is not None else 0.0
@@ -482,6 +775,8 @@ class TargetValidationService:
                     margin_score = min(1.0, max(0.5, 0.5 + (surplus / scale) * 0.5))
                 else:
                     violation_distance = max(0.0, t_min - val_to_check)
+            status_str = StatusString("WITHIN_RANGE" if passed else "OUTSIDE_RANGE")
+            target_status = StatusString("WITHIN RANGE" if passed else "OUTSIDE RANGE")
 
         elif target.constraint_type == "max":
             t_max = target.max_value if target.max_value is not None else 100.0
@@ -495,6 +790,8 @@ class TargetValidationService:
                     margin_score = min(1.0, max(0.5, 0.5 + (under / scale) * 0.5))
                 else:
                     violation_distance = max(0.0, val_to_check - t_max)
+            status_str = StatusString("WITHIN_RANGE" if passed else "OUTSIDE_RANGE")
+            target_status = StatusString("WITHIN RANGE" if passed else "OUTSIDE RANGE")
 
         elif target.constraint_type == "exact":
             t_val = target.target_value if target.target_value is not None else 0.0
@@ -507,8 +804,11 @@ class TargetValidationService:
                     margin_score = max(0.4, 1.0 - (diff / max(tol, 1e-4)) * 0.6)
                 else:
                     violation_distance = diff
-
-        status_str = "MEETS_TARGET" if passed else "NOT_MET"
+            status_str = StatusString("TARGET_MET" if passed else "TARGET_NOT_MET")
+            target_status = StatusString("TARGET MET" if passed else "TARGET NOT MET")
+        else: # qualitative
+            status_str = StatusString("TARGET_MET" if passed else "TARGET_NOT_MET")
+            target_status = StatusString("TARGET MET" if passed else "TARGET NOT MET")
 
         return PropertyEvaluationResult({
             "name": target.name,
@@ -524,7 +824,10 @@ class TargetValidationService:
             "predicted_max": pred_max,
             "predicted_display": pred_display,
             "status": status_str,
+            "target_status": target_status,
             "passed": passed,
+            "meets_target": passed,
+            "margin": round(effective_val - target.target_value, 3) if (effective_val is not None and target.target_value is not None) else None,
             "margin_score": round(margin_score, 3),
             "violation_distance": round(violation_distance, 3),
             "reasoning": reasoning or (
@@ -541,6 +844,7 @@ class TargetValidationService:
         normalized_targets: list[NormalizedTargetProperty],
         patent_context: dict[str, Any] | None = None,
         competitor_data: list[dict[str, Any]] | None = None,
+        all_user_properties: list[dict[str, Any] | Any] | None = None,
     ) -> tuple[dict[str, Any], dict[str, Any], int]:
         """
         Comprehensive evaluation of a single recipe candidate:
@@ -558,6 +862,7 @@ class TargetValidationService:
                     params.extend(s.get("parameters", []))
 
         rationale = str(recipe.get("rationale") or "")
+        target_impacts = recipe.get("target_impact") or recipe.get("predicted_impacts") or []
         evaluated_properties = []
         targets_met = 0
         total_targets = len(normalized_targets)
@@ -568,11 +873,108 @@ class TargetValidationService:
                 predicted_properties=raw_predictions,
                 recipe_params=params,
                 rationale=rationale,
+                target_impacts=target_impacts,
             )
             eval_result = cls.evaluate_property_prediction(target, matched_pred)
             evaluated_properties.append(eval_result)
             if eval_result["passed"]:
                 targets_met += 1
+
+        # Guarantee every user-specified property (active AND unconstrained) is explicitly represented
+        if evaluated_properties or all_user_properties:
+            eval_names = {re.sub(r"[^a-zA-Z0-9]", "", ep["name"].lower()) for ep in evaluated_properties}
+            enriched_predictions = []
+            for ep in evaluated_properties:
+                enriched_predictions.append({
+                    "property": ep["name"],
+                    "name": ep["name"],
+                    "unit": ep["unit"],
+                    "predicted_value": ep["predicted_value"],
+                    "predicted_min": ep["predicted_min"],
+                    "predicted_max": ep["predicted_max"],
+                    "predicted_display": ep.get("predicted_display"),
+                    "target_display": ep.get("target_display"),
+                    "status": str(ep["status"]),
+                    "target_status": str(ep["target_status"]),
+                    "passed": bool(ep["passed"]),
+                    "meets_target": bool(ep.get("meets_target", ep["passed"])),
+                    "reasoning": str(ep["reasoning"]),
+                })
+            # Also explicitly represent any inactive/blank property rows provided by the user
+            if all_user_properties:
+                for u_prop in all_user_properties:
+                    if hasattr(u_prop, "model_dump"):
+                        up_dict = u_prop.model_dump(exclude_none=False)
+                    elif isinstance(u_prop, dict):
+                        up_dict = u_prop
+                    else:
+                        continue
+                    p_name = str(up_dict.get("feature") or up_dict.get("name") or up_dict.get("property") or up_dict.get("id") or "").strip()
+                    if not p_name:
+                        continue
+                    clean_p = re.sub(r"[^a-zA-Z0-9]", "", p_name.lower())
+                    if clean_p not in eval_names:
+                        eval_names.add(clean_p)
+                        p_unit = str(up_dict.get("unit") or "").strip()
+                        matched_raw = None
+                        for rp in raw_predictions:
+                            if isinstance(rp, dict):
+                                rp_name = str(rp.get("property") or rp.get("name") or "")
+                                if re.sub(r"[^a-zA-Z0-9]", "", rp_name.lower()) == clean_p:
+                                    matched_raw = rp
+                                    break
+                        if matched_raw:
+                            pred_val = extract_float(matched_raw.get("predicted_value"))
+                            pred_disp = str(matched_raw.get("predicted_display") or f"{pred_val} {p_unit}".strip() if pred_val is not None else "—")
+                            reason = str(matched_raw.get("reasoning") or "Predicted from chemical formulation context.")
+                        else:
+                            pred_val = None
+                            pred_disp = "—"
+                            reason = "Unconstrained property row from user input; not modeled as an active optimization target."
+                        enriched_predictions.append({
+                            "property": p_name,
+                            "name": p_name,
+                            "unit": p_unit,
+                            "predicted_value": pred_val,
+                            "predicted_min": None,
+                            "predicted_max": None,
+                            "predicted_display": pred_disp,
+                            "target_display": "Not specified (unconstrained)",
+                            "status": "UNKNOWN",
+                            "target_status": "UNKNOWN",
+                            "passed": False,
+                            "meets_target": False,
+                            "reasoning": reason,
+                        })
+                        evaluated_properties.append(PropertyEvaluationResult({
+                            "name": p_name,
+                            "property": p_name,
+                            "unit": p_unit,
+                            "constraint_type": "none",
+                            "target_display": "Not specified (unconstrained)",
+                            "target_min": None,
+                            "target_max": None,
+                            "target_value": None,
+                            "predicted_value": pred_val,
+                            "predicted_min": None,
+                            "predicted_max": None,
+                            "predicted_display": pred_disp,
+                            "status": StatusString("UNKNOWN"),
+                            "target_status": StatusString("UNKNOWN"),
+                            "passed": False,
+                            "meets_target": False,
+                            "margin": None,
+                            "margin_score": 0.0,
+                            "violation_distance": 0.0,
+                            "reasoning": reason,
+                        }))
+            # Preserve any existing predictions not part of the active evaluated targets
+            for raw_p in raw_predictions:
+                if isinstance(raw_p, dict):
+                    raw_p_name = str(raw_p.get("name") or raw_p.get("property") or "")
+                    if re.sub(r"[^a-zA-Z0-9]", "", raw_p_name.lower()) not in eval_names:
+                        enriched_predictions.append(raw_p)
+            recipe["predicted_properties"] = enriched_predictions
 
         # ── 1. Target Fit Score Calculation ──────────────────────────────────────
         if total_targets == 0:
@@ -690,7 +1092,7 @@ class TargetValidationService:
                 + (WEIGHT_NO_TARGET_FEASIBILITY * feasibility_score)
                 + (WEIGHT_NO_TARGET_PLAUSIBILITY * 80.0)
             )
-            confidence_score = max(50, min(94, int(round(raw_confidence))))
+            confidence_score = max(50, min(95, int(round(raw_confidence))))
             confidence_explanation = (
                 f"Calculated from patent support ({len(verified_patents)} citations), "
                 f"aqueous process feasibility, and synthesis completeness with no explicit target properties provided (General Mode)."
@@ -704,6 +1106,7 @@ class TargetValidationService:
             "targets_total": total_targets,
             "target_violation_count": total_targets - targets_met,
             "properties": evaluated_properties,
+            "evaluated_properties": evaluated_properties,
             "violations": [p for p in evaluated_properties if not p["passed"]],
         }
 
@@ -740,6 +1143,7 @@ class TargetValidationService:
             targets_total = t_analysis.get("targets_total") or 0
             all_met = (targets_met == targets_total) if targets_total > 0 else True
             fit = t_analysis.get("target_fit_score") or 0
+            margin = t_analysis.get("target_margin_score") or 0.0
             conf = c_analysis.get("score") or cand.get("confidence_score") or 0
             evid = c_analysis.get("evidence_support") or 0
 
@@ -747,6 +1151,7 @@ class TargetValidationService:
                 1 if all_met else 0,
                 targets_met,
                 fit,
+                margin,
                 conf,
                 evid,
             )
@@ -755,6 +1160,7 @@ class TargetValidationService:
         # Update rank numbers
         for idx, c in enumerate(ranked):
             c["rank"] = idx + 1
+            c["display_name"] = f"Recipe {idx + 1}"
             if not c.get("name") or c.get("name").startswith("Recipe "):
                 dim = c.get("variation_dimension", "").split(".")[0].strip()
                 if dim:

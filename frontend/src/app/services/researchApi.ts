@@ -155,6 +155,38 @@ export async function downloadFile(id: string, format: 'pdf' | 'docx', filename:
   window.URL.revokeObjectURL(url);
 }
 
+export async function downloadRecipesPdf(
+  recipes: any[],
+  compoundName: string,
+  cycleInfo?: any
+) {
+  const res = await authFetch('/recipe/export/pdf', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      recipes,
+      compound: compoundName,
+      cycle_info: cycleInfo || {},
+    }),
+  });
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`Failed to download PDF: ${errText || res.statusText}`);
+  }
+
+  const blob = await res.blob();
+  const url = window.URL.createObjectURL(blob);
+  const safeCompound = compoundName.replace(/[^a-zA-Z0-9_-]/g, '_');
+  const filename = `Apcotex_Recipes_${safeCompound}.pdf`;
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+}
+
 // ── Recipe Simulator API ──────────────────────────────────────────────────
 
 export async function createRecipeCycle(payload: any) {

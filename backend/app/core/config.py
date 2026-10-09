@@ -60,6 +60,9 @@ class Settings(BaseSettings):
     # 16384 provides a safe upper bound accommodating Gemini 2.5/3.x thinking tokens (~2.5k-4k) alongside
     # the structured response while preventing truncation and avoiding runaway 65k token generation.
     RECIPE_MAX_OUTPUT_TOKENS: int = 24576
+    RECIPE_PLAN_MAX_OUTPUT_TOKENS: int = 4096
+    RECIPE_CANDIDATE_MAX_OUTPUT_TOKENS: int = 8192
+    RECIPE_OPTIMIZATION_MAX_OUTPUT_TOKENS: int = 20480
     # Query expansion output token budget (Gemini 3.5 thinking tokens + profile schema)
     # 8192 prevents unbounded runaway loops producing infinite repeating characters.
     QUERY_EXPANSION_MAX_OUTPUT_TOKENS: int = 8192

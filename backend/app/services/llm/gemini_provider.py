@@ -217,12 +217,30 @@ class GeminiProvider(BaseLLMProvider):
                     schema.__name__,
                     max_out,
                 )
-            elif schema.__name__ == "LLMOptimizationSet":
+            elif schema.__name__ in ("LLMOptimizationSet", "LLMAdditionalOptimizationCandidates"):
                 from app.core.config import settings as _settings
-                max_out = int(getattr(_settings, "RECIPE_OPTIMIZATION_MAX_OUTPUT_TOKENS", 10240) or 10240)
+                max_out = int(getattr(_settings, "RECIPE_OPTIMIZATION_MAX_OUTPUT_TOKENS", 65536) or 65536)
                 config_kwargs["max_output_tokens"] = max_out
                 logger.info(
                     "[Gemini] %s max_output_tokens=%d (customer trial optimization budget)",
+                    schema.__name__,
+                    max_out,
+                )
+            elif schema.__name__ in ("LLMRecipeCandidate", "LLMSingleRecipe"):
+                from app.core.config import settings as _settings
+                max_out = int(getattr(_settings, "RECIPE_CANDIDATE_MAX_OUTPUT_TOKENS", 8192) or 8192)
+                config_kwargs["max_output_tokens"] = max_out
+                logger.info(
+                    "[Gemini] %s max_output_tokens=%d (bounded single recipe candidate budget)",
+                    schema.__name__,
+                    max_out,
+                )
+            elif schema.__name__ == "LLMRecipePlan":
+                from app.core.config import settings as _settings
+                max_out = int(getattr(_settings, "RECIPE_PLAN_MAX_OUTPUT_TOKENS", 4096) or 4096)
+                config_kwargs["max_output_tokens"] = max_out
+                logger.info(
+                    "[Gemini] %s max_output_tokens=%d (compact recipe plan budget)",
                     schema.__name__,
                     max_out,
                 )
@@ -319,6 +337,25 @@ class GeminiProvider(BaseLLMProvider):
             usage["finish_reason"] = finish_reason
             usage["response_length"] = len(response.text)
 
+            # Check finish reason before JSON parsing (Section 4 requirement)
+            is_max_tokens = str(finish_reason).lower() in ("finishreason.max_tokens", "max_tokens")
+            if is_max_tokens:
+                logger.warning(
+                    "GEMINI_RESPONSE_TRUNCATED_MAX_TOKENS: Output length %d truncated due to finish_reason=%s",
+                    len(response.text),
+                    finish_reason,
+                )
+                err = LLMInvalidResponseError(
+                    f"RESPONSE_TRUNCATED_MAX_TOKENS: Output exceeded token limit (finish_reason={finish_reason}, length={len(response.text)})",
+                    provider="gemini",
+                    model=self.model_name,
+                )
+                err.raw_response_text = response.text  # type: ignore[attr-defined]
+                err.finish_reason = finish_reason  # type: ignore[attr-defined]
+                err.is_truncated = True  # type: ignore[attr-defined]
+                err._failed_usage = usage  # type: ignore[attr-defined]
+                raise err
+
             # Try to parse as JSON to get keys
             try:
                 import json
@@ -355,6 +392,7 @@ class GeminiProvider(BaseLLMProvider):
                 )
                 err.raw_response_text = response.text  # type: ignore[attr-defined]
                 err.finish_reason = finish_reason  # type: ignore[attr-defined]
+                err.is_truncated = is_max_tokens  # type: ignore[attr-defined]
                 err._failed_usage = usage  # type: ignore[attr-defined]
                 raise err
 

@@ -62,11 +62,33 @@ export const CANONICAL_STAGE_NAMES = [
   "Post Addition",
 ];
 
+export function getRecipeDisplayName(recipe: any): string {
+  if (!recipe) return "Recipe";
+  if (recipe.display_name && /^Recipe\s+\d+$/i.test(String(recipe.display_name).trim())) {
+    return String(recipe.display_name).trim();
+  }
+  if (recipe.recipe_data?.display_name && /^Recipe\s+\d+$/i.test(String(recipe.recipe_data.display_name).trim())) {
+    return String(recipe.recipe_data.display_name).trim();
+  }
+  if (typeof recipe.rank === "number" && recipe.rank >= 1 && recipe.rank <= 20) {
+    return `Recipe ${recipe.rank}`;
+  }
+  const nameStr = String(recipe.name || recipe.recipe_name || recipe.displayName || "");
+  const match = nameStr.match(/Recipe\s*(\d+)/i);
+  if (match) {
+    return `Recipe ${match[1]}`;
+  }
+  return nameStr || "Recipe";
+}
+
 export interface EditableRecipe {
   id: string;
   name: string;
+  display_name?: string;
+  fullName?: string;
   rank: number;
   confidence: number;
+  evidenceCoverage?: number;
   patentSupport: string;
   topPick?: boolean;
   properties: RecipeProperty[];
@@ -145,12 +167,18 @@ export function convertToEditableRecipe(recipe: any): EditableRecipe {
   const targetFit = recipe.target_fit_score ?? ta?.target_fit_score ?? null;
   const targetsMet = recipe.targets_met ?? ta?.targets_met ?? null;
   const targetsTotal = recipe.targets_total ?? ta?.targets_total ?? null;
+  const displayName = getRecipeDisplayName(recipe);
+  const confScore = recipe.confidence_score ?? recipeData.confidence_score ?? ca?.score ?? 0;
+  const evidScore = recipe.evidence_coverage_score ?? recipeData.evidence_coverage_score ?? 0;
 
   return {
     id: recipe.id,
-    name: recipe.name,
+    name: displayName,
+    display_name: displayName,
+    fullName: recipe.name || displayName,
     rank: recipe.rank,
-    confidence: recipe.confidence_score ?? recipe.evidence_coverage_score ?? recipeData.confidence_score ?? 0,
+    confidence: confScore,
+    evidenceCoverage: evidScore,
     targetFit: targetFit,
     targetsMet: targetsMet,
     targetsTotal: targetsTotal,
